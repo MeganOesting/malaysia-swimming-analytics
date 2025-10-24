@@ -696,56 +696,56 @@ export default function Home() {
         <table style={{ borderCollapse: 'collapse', width: '100%', marginTop: '12px', tableLayout: 'fixed', fontSize: '0.9em' }}>
           <thead>
             <tr>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Gender</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '10ch', maxWidth: '10ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Event</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '20ch', maxWidth: '20ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Name</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Team</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '3ch', maxWidth: '3ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Age</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Meet</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '7ch', maxWidth: '7ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Time</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>AQUA</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '4ch', maxWidth: '4ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Place</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '6.5ch', maxWidth: '6.5ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>On Track Target Time</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '8ch', maxWidth: '8ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>On Track AQUA</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '7ch', maxWidth: '7ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Track Gap</th>
-              <th style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Age Points</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Gender</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '10ch', maxWidth: '10ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Event</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '20ch', maxWidth: '20ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Name</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Team</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '3ch', maxWidth: '3ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Age</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Meet</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '7ch', maxWidth: '7ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Time</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>AQUA</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '4ch', maxWidth: '4ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Place</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '6.5ch', maxWidth: '6.5ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>On Track Target Time</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '8ch', maxWidth: '8ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>On Track AQUA</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '7ch', maxWidth: '7ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Track Gap</th>
+              <th style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', background: '#f5f5f5', width: '6ch', maxWidth: '6ch', whiteSpace: 'normal', wordWrap: 'break-word' }}>Age Points</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={13} style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>
+                <td colSpan={13} style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>
                   Loading results...
                 </td>
               </tr>
             ) : error ? (
               <tr>
-                <td colSpan={13} style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center', color: '#cc0000' }}>
+                <td colSpan={13} style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center', color: '#cc0000' }}>
                   Error loading data: {error}
                 </td>
               </tr>
             ) : results.length === 0 ? (
               <tr>
-                <td colSpan={13} style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>
+                <td colSpan={13} style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>
                   No data yet.
                 </td>
               </tr>
             ) : (
               results.map((result, index) => (
                 <tr key={index}>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>{result.gender}</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>{result.distance}m {result.stroke}</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={result.name}>{result.name}</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>-</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>{result.age}</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>{result.meet}</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{result.time}</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>{result.aqua_points}</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>{result.place}</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'right' }}>-</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>-</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>-</td>
-                  <td style={{ border: '1px solid #ccc', padding: '4px 6px', textAlign: 'center' }}>-</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.gender}</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.distance}m {result.stroke}</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={result.name}>{result.name}</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>-</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.age}</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.meet}</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{result.time}</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.aqua_points}</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.place}</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'right' }}>-</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>-</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>-</td>
+                  <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>-</td>
                 </tr>
               ))
             )}
@@ -767,6 +767,10 @@ export default function Home() {
               <a href="/ltad" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '28px', padding: '4px 10px', borderRadius: '8px', background: '#cc0000', color: '#fff', textDecoration: 'none' }}>
                 <span style={{ fontWeight: '800', letterSpacing: '0.3px', fontSize: '0.9rem', color: '#fff', lineHeight: '1.05' }}>LTAD</span>
                 <span style={{ color: '#fff', fontSize: '0.68rem', lineHeight: '1.05', textAlign: 'center', whiteSpace: 'nowrap' }}>Long Term Athletic Development</span>
+              </a>
+              <a href="/aqua" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '28px', padding: '4px 10px', borderRadius: '8px', background: '#cc0000', color: '#fff', textDecoration: 'none' }}>
+                <span style={{ fontWeight: '800', letterSpacing: '0.3px', fontSize: '0.9rem', color: '#fff', lineHeight: '1.05' }}>AQUA</span>
+                <span style={{ color: '#fff', fontSize: '0.68rem', lineHeight: '1.05', textAlign: 'center', whiteSpace: 'nowrap' }}>World Aquatics Points</span>
               </a>
             </div>
           </div>

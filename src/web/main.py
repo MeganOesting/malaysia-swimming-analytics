@@ -78,11 +78,6 @@ async def create_meet(meet_data: dict, current_user: dict = Depends(get_current_
     # TODO: Implement meet creation
     return {"message": "Meet creation not yet implemented"}
 
-@app.get("/api/meets")
-async def get_meets():
-    """Get list of meets"""
-    # TODO: Implement meet retrieval
-    return {"meets": []}
 
 # Simple results endpoints for first commit
 @app.get("/api/results/simple")
