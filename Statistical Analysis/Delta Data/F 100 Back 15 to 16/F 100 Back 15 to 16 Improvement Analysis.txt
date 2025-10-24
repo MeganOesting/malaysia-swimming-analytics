@@ -1,0 +1,52 @@
+🏊‍♀️ USA Female 100 Back Improvement Analysis: Age 15 to 16
+📊 Analysis Summary
+Athletes Tracked: 348 swimmers who competed in both 2024 (age 15) and 2025 (age 16)
+Data Sources: USA Swimming statistical data from 9/1/23-8/31/24 and 9/1/24-8/31/25
+⏱️ Time Improvements
+Mean Improvement: 0.657 seconds
+Median Improvement: 0.670 seconds
+Standard Deviation: 1.289 seconds
+Range: -4.670s to +4.680s
+IQR: -0.098s to 1.562s
+📈 Percentage Improvements
+Mean Improvement: 0.96%
+Median Improvement: 0.98%
+Standard Deviation: 1.91%
+🏆 AQUA Points Improvements (Corrected Calculation)
+Mean Improvement: 13.5 points
+Median Improvement: 13.0 points
+Standard Deviation: 26.6 points
+Base Time Used: 51.71 seconds (correct female 100 back AQUA base)
+📊 Rank Improvements
+Mean Rank Change: 7.7 positions better (positive = better rank)
+Median Rank Change: 6.5 positions better
+Standard Deviation: 115.8 positions
+🥇 Top 10 Improvers
+Tanja Amizic: 69.37s → 64.69s (4.680s improvement)
+Nola Meekins: 69.50s → 65.22s (4.280s improvement)
+Sophia Floyd: 69.11s → 65.10s (4.010s improvement)
+Riley Miller: 69.47s → 65.85s (3.620s improvement)
+Brooke Frushour: 66.76s → 63.46s (3.300s improvement)
+Victoria Buffum: 68.62s → 65.33s (3.290s improvement)
+Molly Lo: 69.23s → 66.02s (3.210s improvement)
+Sienna Menconi: 68.81s → 65.62s (3.190s improvement)
+Gianna Buchanan: 69.87s → 66.69s (3.180s improvement)
+Alyssa Ton: 66.43s → 63.42s (3.010s improvement)
+📉 Athletes Who Got Slower
+94 athletes (27.0%) showed negative improvement
+Largest decline: Addison Daugherty (64.88s → 69.55s, -4.670s slower)
+Notable cases: Mena Boardman, Emerson Callis, and others in the top tier
+📊 Improvement Distribution
+37.1% improved by >1.0 second (129 athletes)
+18.4% improved by 0.5-1.0 seconds (64 athletes)
+17.5% improved by 0.0-0.5 seconds (61 athletes)
+27.0% got slower (94 athletes)
+🎯 Implications for MOT Delta Calculations
+Expected Improvement Range: -0.098s to 1.562s (IQR)
+Median Improvement: 0.670s
+Validation: This strongly validates using 0.670s as the typical delta for age 15→16 progression
+Z-Score Foundation: Standard deviation of 1.289s provides the basis for identifying exceptional vs. typical improvements
+📁 Generated Files
+Improvement_Analysis_Report.txt - Complete analysis report
+Athlete_Improvement_Data.csv - Detailed athlete-by-athlete data with all metrics
+This analysis provides the statistical foundation needed to validate and refine your Malaysia On Track (MOT) methodology for Malaysian swimming development pathways, with clear evidence of typical age 15→16 progression patterns.

@@ -1,0 +1,173 @@
+wati let me tell you about what we are looking at.  Sheet MOT Tables 25, in cols W-AI will be what we look at first, w is gender, x is event, y is age, z is the MOT Time aa is the MOT AQUA AB is the MAP Base which is all the 100th rank in the all time top 100 times in the USA database. AD is the MOT as a % of MAP Points, AE is MOT AQUA as a % os SEA A AQUA, AF is the delta of improvment needed at each conescutive age.  AG is +1 of the number of usa swimmers in 2025 that would ahve gone faster than the al time 100th time, and AH is the +1 of the number of swimmers in the USA that went faster than the MOT time in 2025 based on the USA 2025 rankings.  The reason it's +1 is because i used the rank if the time had been swum.  diregard the events that are of the 50 distance in this data gathering and in the calculations.  first grab this data and put it in a working spreadhseet called MOT Statistical Workbook and give me an overview of what you see and then i will start asking your questions.  My problem is that i mapped the malaysia on track times (MOT) from the canada on track times in the following manner: Canada on track has three tracks, 1 2 and 3 for early middle and late developers, the early track takes 4 years to reach the endpoint which is the world aquatics A time, the track 2 takes longer, 5 years, and the later track takes 6.  you can see thse times exactly in columns A-E, those are times directly from the canada on track tables.  What i did is i put the malaysian endpoint at the sea games bronze medal (which qualifies swimmers in Malaysia for the podium squad, the national team) and those times per event are in col o (in seconds).  then i created 1 track for MOT where i started the curve at the age canada started their earlier track 1 and ended it at the age of their track 3 ending age, that whole tabel in on the MOT Tables 21 sheet for reference. the MOT Tables 25 sheet is different in that i extended the age of achieving the end point to reflect the age the medal winners are when they achieve medals (data from the last 3 SEA Games) and that data is in columns A B C E F and G and H of SEA Medal Data 19 22 23.  But what i believe happened is that when i move the endpoint time to a time so much slower, i moved to a different place on the bell curve, one much closer to the mean, so that when i moved backwards from there to map the progression to that time, the "Track" to that time, by the time i got ages 13 14 and 15 (and seomtimes 16) that performance would not be predictive because it's now probably within a z-score of 0-1, which would not ditingush the swimmer as having ditinguished themselves for flagging as a potential to become a SEA Games medalist.  the whole goal was to help the talent identification system of malaysia to track promising "on track" athletes for their "Pelapis" team which is the national Junior team, with KPIs of winning a medal in 2-4 years at the SEA Games.  So i am to help with being an investment advisor so they select and fund athletes with the highest likelihood of producing medals evidenced by being On Track.  what problems do you see with my methodolgy and how would you do it so that the on track curve produced for malaysia, entry age starting at 15 years old (because we dont have university swimming system here like in the USA so a very high percentage of swimmers quit the sport at ages 17-18, especially female swimmers, so we need to identify them at 15 so that we can invest in the ones with promise and hoprefully keep them developing as they age to the sea games medal average ages.  we need to do this analysis by event because for instance teh female 100 back has a totally different age entry point and progression than say the mens 100 Breast.  so dont average accross events, i need to know what the bell curve looks like for each event adn gender, and i need you to use the USA data to make a bell curve model that we can use to say that our MOT entry time at age 15 and each successive age to 18 is at least in the predictive zone which i am guessing to be a zscore of maybe 1.5?  i was assuming that the 100th time in the usa all time rankings was a z score of 2 ish, but i don't know.  i might be able to grab more numbers for you from the USA swimming database so ask for what you need to model a normal curve so i can keep the MOT starting at a level that is predictive, what's that z score and corresponding time for ages 15 16 17 and 18.  summarise my problem and your proposed solution.
+
+I'll first create a script to extract columns W:AI from `MOT Tables 25`, exclude 50m events, and write them to `MOT Statistical Workbook.xlsx` with an overview sheet. Then I'll run it and share the high-level summary.
+
+[1 tool called]
+
+I'll create a Python script that reads the source workbook, extracts the specified columns, filters out 50m events, and writes the output with a quick overview sheet. Then I'll run it.
+
+[3 tools called]
+
+I'll quickly verify the output by reading the generated overview sheet and reporting basic counts.
+
+[1 tool called]
+
+I created and ran a script to extract columns W:AI from sheet `MOT Tables 25`, excluded 50m events, and wrote `MOT Statistical Workbook.xlsx` with an Overview. Now I'll mark that task complete and outline the methodology critique and proposed solution using event- and age-specific z-score modeling on USA distributions.
+
+[1 tool called]
+
+### A. Quick overview of extracted data
+- I created `MOT Statistical Workbook.xlsx` with:
+  - Sheet `MOT_W_to_AI`: Columns W–AI from `MOT Tables 25`, cleaned; 50m events excluded.
+  - Sheet `Overview`: Per gender/event summary with age coverage and medians for `MOT AQUA`, `MOT % of MAP`, and `MOT AQUA % of SEA A AQUA`.
+
+If you open `MOT Statistical Workbook.xlsx`, the `Overview` tab should help you scan which events have full 15–18 coverage and where MOT sits relative to MAP and SEA A AQUA.
+
+### B. Your methodology issue (summary)
+- You re-anchored the endpoint from world-level (Canada tracks to WA “A”) to SEA Games bronze (slower), then back-propagated a single track across ages.
+- By anchoring at a slower endpoint, the back-propagated early ages (13–16) moved closer to the population mean. This makes 15–18 “on track” times non-predictive (z-score near 0–1), failing to separate medal-likely athletes.
+- A single generic curve ignores event- and gender-specific age distributions and peak ages, which differ meaningfully (e.g., W 100 Back vs M 100 Breast).
+
+### C. Proposed solution: event- and age-specific z-score targeting using USA distributions
+Goal: Ensure MOT entry points at ages 15–18 select swimmers in a predictive zone (e.g., z ≥ 1.5) for each event/gender.
+
+1) Per-event, per-gender distributions by age:
+   - For each event/gender and age 15, 16, 17, 18, assemble USA season-rank distributions of performance (time or AQUA).
+   - Compute mean μ(age, event, gender) and standard deviation σ(age, event, gender).
+   - Also track tails: p90/p95/p97 or rank thresholds to validate normality assumptions.
+
+2) Calibrate predictive thresholds via z-scores:
+   - Choose predictive cut z* per age/event/gender, e.g., z* ≈ 1.5–2.0 based on desired selectivity and cohort size.
+   - Convert to time threshold T* via the distribution at that age:
+     - If using AQUA (higher is better): threshold = μ + z*σ.
+     - If using Time (lower is better): threshold = μ − z*σ_time (use consistent direction).
+   - This yields MOT15, MOT16, MOT17, MOT18 that are inherently predictive, not just curve-fitted to a slow endpoint.
+
+3) Anchor to SEA medal ages without diluting early selectivity:
+   - Keep SEA bronze as an endpoint reference, but do not force a continuous single-curve back-projection.
+   - Instead, set age-specific thresholds that are predictive (z*), and separately check that the 17–20 age windows align with SEA medal ages and endpoint feasibility.
+   - If needed, interpolate between z-based nodes to fill ages, but never reduce the 15–18 thresholds below their z* targets.
+
+4) Event/gender-specific entry age:
+   - For events where skill maturation is later (e.g., M 100 Breast), allow MOT entry at 16 if data shows meaningful predictiveness starts then.
+   - For earlier-maturing events (e.g., some female strokes), keep 15 but use a higher z* if the field is deeper.
+
+5) Practical outputs for Malaysia selection:
+   - For each event/gender:
+     - Provide a table of MOT thresholds for ages 15–18 based on z*.
+     - Provide estimated hit rates: proportion of USA swimmers exceeding those thresholds, to calibrate cohort sizes.
+     - Provide sensitivity: what happens at z*=1.3, 1.5, 1.7, 2.0.
+
+6) Data needed from you to build the model:
+   - For each event/gender and ages 15, 16, 17, 18:
+     - USA season ranking lists or at least quantiles: mean, standard deviation, and preferably p50, p80, p90, p95 in time or AQUA.
+     - If all-time top-100 rows are available by age, we can approximate tail behavior, but season distributions are better.
+   - If you can’t export full distributions, send per-age summary stats:
+     - n, mean, std, p90, p95, best, 100th, 200th times (or AQUA) for each event/gender.
+
+7) How we’ll compute:
+   - For Time-scale variables, convert to AQUA or invert times so “higher is better” to keep z positive as better.
+   - Validate normality; if heavy-tailed or skewed, use log(Time) or quantile-based mapping rather than pure normal.
+   - Produce per-event/gender tables with MOT15–MOT18 derived from z*, plus optional smoothed progression curves.
+
+8) Selecting z*:
+   - Start with z*=1.5 at age 15 and gradually increase to z*=1.7–2.0 by age 18 if attrition requires stronger predictiveness.
+   - Alternatively, fix a target cohort size per event/gender state-wide (e.g., top ~0.5–1.0% of USA-equivalent distribution) and back out the implied z*.
+
+### D. Why this solves your problem
+- It ensures the 15–18 thresholds are anchored in predictive signal relative to a strong reference population, not diluted by a slower endpoint.
+- It respects event- and gender-specific maturation patterns.
+- It yields actionable, selective MOT times that align with talent ID goals for Pelapis.
+
+### E. Next steps I can run now
+- From your `MOT_W_to_AI` data, I can:
+  - Cross-tab which events have full 15–18 coverage and flag gaps.
+  - Build a template for the z-based MOT thresholds per event/gender.
+- From you, please provide USA per-age distribution summaries (mean, std, p90/p95 or raw ranks) for:
+  - Ages 15–18 across all events you care about, split by gender.
+
+Once we have those inputs, I’ll compute and write a new `MOT_Zscore_Model.xlsx` with per-age thresholds and sensitivity tables.
+
+- Completed: environment setup; extracted W–AI to `MOT Statistical Workbook.xlsx`.
+- Next: provide USA age-by-event distribution stats; I’ll generate the z-based MOT threshold tables.
+
+WILL NEED TO PROVIDE EXPLANATION OF AQUA POINTS AND WHY THAT STANDARDIZATION IS NEEDED AND VALID AND WHAT THE FORMULA IS AND WHY, THE CUBIC, THE BASE, ETC HERE IS WHAT I HAVE FROM THEIR WEBSITE: SWIMMING POINTS
+The World Aquatics Points Table allows comparisons of results among different events. The World Aquatics Point Scoring assigns point values to swimming performances, more points for world class performances typically 1000 or more and fewer points for slower performances.
+
+Point values are assigned every year. The charts have one set of points for Short Course and another for Long Course. 
+
+ 
+FORMULA
+The points are calculated using a cubic curve. With the swim time (T) and the base time (B) in seconds the points (P) are calculated with the following formula:
+
+P = 1000 * (B / T)³
+ 
+
+The exact formula is used to calculate points from times. Then all point values are truncated to the integer number. In point tables named with years 2009 and earlier, the point values are rounded.
+
+If the needed time (T) for a certain number of points (P) should be calculated, the exact formula is used to calculate a first estimation. Then the time should be reduced by one hundredth of a second as long as the reverse calculation with the time still results in the original number of points.
+
+BASE TIMES FOR 1000 POINTS
+The base times are define for all common individual events and relays, separated for men / women and long course / short course.
+
+The base times are defined every year, based on the latest World Record that was approved by World Aquatics. For short course (SCM) the base times are defined with the cut of date of August 31st. For long course (LCM) the base times are defined at the end of the year (December 31st). 
+
+For "World Aquatics Point Scoring 2023" this means for example: Short course times until "31 Aug 2024", long course times until "31 Dec 2023".
+
+The base times are published on the World Aquatics website within one month after the end of the relevant period.
+
+Below files mention the formula for calculating World Aquatics points , the base time used in the formula and the points that would be allotted to athletes for achieving a particular timing in LCM or SCM.
+
+### Answers to your specific questions
+
+- Anchor data for distributions
+  - Use AQUA points as the common metric (LCM base) via P = 1000 * (B/T)^3.
+  - Current columns you have (AB MAP Base, AG/AH rank-based counts, known 100th all‑time, and example times with AQUA) are helpful anchors, but they are insufficient alone to recover age‑conditional μ and σ for the population.
+  - Best anchor: full 2025 USA LCM season lists by event/gender/age (15–25). Second‑best: per‑age summary stats (n, mean, std, p50, p80, p90, p95, best, 100th, 200th). All‑time top‑100 helps tail fitting but not center/dispersion by age.
+
+- Can we compute μ and σ with only what we have now?
+  - No. With only the 100th all‑time and counts of who beat certain marks (AG/AH), we cannot reliably estimate μ and σ for each age/event/gender. We need either the full 2025 distributions or robust quantiles per age.
+
+- Can we check tails (p90/p95/p97) now?
+  - Not credibly. We need at least those quantiles (or the raw lists). If you can provide the 2025 season results (LCM), we can compute these immediately.
+
+- LCM vs SCY context
+  - Restrict modeling to LCM (AQUA LCM bases) to avoid conversion noise. If any USA data is SCY, we will either exclude it or convert cautiously and flag higher uncertainty.
+
+- Start all curves at age 15
+  - We will fix the entry age at 15 for every event/gender. If an event typically matures later, we keep age 15 but set a higher predictive cut (z*) so MOT15 remains selective and meaningful.
+
+- Need MOT 15–25 curves (not just 15–18)
+  - We’ll compute μ(age), σ(age) for ages 15–25 and produce a full MOT curve by applying a chosen z*(age). Curves will be smoothed across ages but constrained so ages 15–18 never drop below their predictive floors.
+
+- Interpolation without lowering predictive floors
+  - We compute z‑based nodes at integer ages (15…25), then apply monotone smoothing with a hard constraint: thresholds at 15–18 cannot be reduced by smoothing. This keeps early selection predictive while keeping later ages coherent and aligned to SEA medal ages.
+
+- Selecting z*
+  - We’ll start with z*=1.5 at 15 and show sensitivity (1.3, 1.5, 1.7, 2.0). You can then pick policy‑consistent z* profiles by event (e.g., gently rising from 15→18) while keeping 15 fixed across events.
+
+### What data to send next
+
+- Preferred: USA LCM 2025 season performance lists by event/gender and ages 15–25. Columns: name (optional), age, event, time, AQUA (we can compute from time), gender.
+- If full lists are hard: per age/event/gender summaries: n, mean(AQUA or time), std, p50, p80, p90, p95, best, 100th, 200th.
+- Optional: all‑time age‑specific top‑100 (helps tail modeling and robustness checks).
+- Malaysia context: your Malaysia 2023–2025 results by age/event/gender for external validity and calibration checks.
+
+### Updated plan of action
+
+- Data assembly (you provide; I’ll process):
+  - USA LCM 2025 per age/event/gender (15–25) full lists or summaries.
+  - Malaysia LCM results for contextual validity.
+- Modeling steps (I’ll run as soon as data arrives):
+  - Convert to AQUA (LCM base), validate distributional form; if skewed, use log‑time or quantile mapping.
+  - Estimate μ(age, event, gender), σ(age, event, gender); compute p50/p80/p90/p95.
+  - Generate MOT thresholds for ages 15–25 using z* grid (1.3, 1.5, 1.7, 2.0); default z*(15)=1.5; smooth across ages with constraints on 15–18.
+  - Produce per‑event/gender tables with predicted hit rates (proportion exceeding MOT) and sensitivity.
+  - Cross‑check 17–20 windows against SEA medal ages; report alignment and any adjustments needed.
+- Outputs:
+  - Workbook: MOT_Zscore_Model.xlsx with per‑event/gender sheets (ages 15–25), sensitivity tabs, and summary dashboards.
+  - One‑pager per event explaining the chosen z* profile and expected cohort sizes.
+  - Notes on fairness/feasibility and decision rules for Pelapis selection.
+
+If you can share the USA 2025 LCM data (or the per‑age summaries), I’ll proceed to build the full MOT 15–25 curves and the sensitivity tables.
+

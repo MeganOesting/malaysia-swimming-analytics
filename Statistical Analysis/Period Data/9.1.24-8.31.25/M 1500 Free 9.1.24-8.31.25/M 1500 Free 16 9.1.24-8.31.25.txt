@@ -1,0 +1,501 @@
+Rank	Swim Time	Name	Foreign	Age	Event	LSC	Team	Meet	Time Standard
+1	15:06.04	Colin Jacobs		16	1500 FR LCM	FL	Unattached	2025 TYR Summer Championships	2025 Winter US Open (LCM)
+2	15:20.93	Ellis Crisci		16	1500 FR LCM	MV	Tsunami Swim Team of K.C.	2025 Toyota National Championships	2025 Winter US Open (LCM)
+3	15:22.39	Juan Vallmitjana	Yes	16	1500 FR LCM	FG	South Florida Aquatic Club	European Aquatics Junior Swimming Championships 2025	2025 Winter US Open (LCM)
+4	15:37.62	Jackson Irwin		16	1500 FR LCM	FL	Sarasota Tsunami Swim Team	2025 Speedo Junior National Championships	2025 Winter US Open (LCM)
+5	15:47.28	Nicholas Liberty		16	1500 FR LCM	PV	Rockville Montgomery Swim Club	2025 Speedo Junior National Championships	2025 Winter US Open (LCM)
+6	15:47.36	James Darcy		16	1500 FR LCM	MR	Long Island Aquatic Club	2025 MR LIAC Long Course May Time Trial	2025 Winter US Open (LCM)
+7	15:49.38	Liam Drake		16	1500 FR LCM	NC	Raleigh Swimming Association	2025 Speedo Junior National Championships	2025 Winter US Open (LCM)
+8	15:51.65	William Shoesmith		16	1500 FR LCM	FL	Bolles School Sharks	2025 Speedo Junior National Championships	2025 Winter Juniors (SCY)
+9	15:52.35	Santi Alzate		16	1500 FR LCM	NC	SwimMAC Carolina	2025 NC SwimMAC Novant Invitational	2025 Summer Juniors (LCM)
+10	15:56.86	Ewan Dalrymple		16	1500 FR LCM	SC	Columbia Swimming	2025 Speedo Junior National Championships	2025 Winter Juniors (SCY)
+11	16:01.87	Colt Chaires		16	1500 FR LCM	NC	North Carolina Aquatic Club	2025 NC EAC Independence Invitational	2025 Summer Juniors (LCM)
+12	16:03.46	Gregory Ospina		16	1500 FR LCM	PC	Pleasanton Seahawks	2025 PC SCSC George Haines International Meet	2025 Summer Juniors (LCM)
+13	16:03.47	Eric Chen		16	1500 FR LCM	CA	Irvine Novaquatics	2025 Futures Championships - Sacramento	2025 Summer Juniors (LCM)
+14	16:03.61	Trevor Donley		16	1500 FR LCM	PV	Rockville Montgomery Swim Club	2025 PV LC Open Championships	2025 Summer Juniors (LCM)
+15	16:04.08	Johnny Macko		16	1500 FR LCM	MR	Long Island Aquatic Club	2025 SE NCSA Summer Swimming Championships	2025 Summer Juniors (LCM)
+16	16:04.52	Collier Stanton		16	1500 FR LCM	GA	Gwinnett Aquatics	2025 Speedo Junior National Championships	2025 Winter Juniors (SCY)
+17	16:06.10	Josiah Jacobson		16	1500 FR LCM	NM	Roadrunners of Albuquerque Aquatic Club	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	2025 Winter Juniors (SCY)
+18	16:07.35	Andrew Maksymowski		16	1500 FR LCM	CA	Unattached	2025 CA MVN Fran Crippen Memorial Swim Meet of Champions	2025 Winter Juniors (SCY)
+19	16:08.05	Ryan Huang		16	1500 FR LCM	PC	Alto Swim Club	2025 PC Speedo Sectionals - Novato	2025 Winter Juniors (SCY)
+20	16:08.20	Cole Nelson		16	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA LC Senior Champs	2025 Winter Juniors (SCY)
+21	16:08.57	Nicolas Kokidko		16	1500 FR LCM	FG	Metro Aquatic Club of Miami	2025 FG LCM Senior Championships	2025 Winter Juniors (SCY)
+22	16:09.19	Grant O'Mara		16	1500 FR LCM	CA	Irvine Novaquatics	2025 Speedo Junior National Championships	2025 Winter Juniors (SCY)
+23	16:09.60	Austin Bruford	Yes	16	1500 FR LCM	IN	Carmel Swim Club	2025 IN ISI Senior LC Champs	2025 Winter Juniors (SCY)
+24	16:09.63	Hampton Stuecker		16	1500 FR LCM	KY	Lakeside Swim Team	2025 SE NAC Summer Sizzler	2025 Winter Juniors (SCY)
+25	16:09.69	Riley Poirier		16	1500 FR LCM	MD	Eagle Swim Team Inc.	2025 Futures Championships - Greensboro	2025 Winter Juniors (SCY)
+26	16:11.25	Quinn Caputo		16	1500 FR LCM	PV	Nation's Capital Swim Club	2025 Futures Championships - Greensboro	2025 Winter Juniors (SCY)
+27	16:11.37	Marshall Smith		16	1500 FR LCM	CA	TSM Aquatics	2025 CA NOVA Speedo 29th Annual Grand Challenge	2025 Winter Juniors (SCY)
+28	16:11.55	Ashton Joswiak		16	1500 FR LCM	AZ	Scottsdale Aquatic Club	2025 AZ AZSI LC Senior State Championship @NEP	2025 Winter Juniors (SCY)
+29	16:11.84	Charlie Cali		16	1500 FR LCM	IL	Chicago Wolfpack Aquatic Club	2025 SE NCSA Summer Swimming Championships	2025 Winter Juniors (SCY)
+30	16:11.90	Gavin Buckley		16	1500 FR LCM	MR	Long Island Aquatic Club	2025 NJ TYR LC Winter Invitational	2025 Winter Juniors (SCY)
+31	16:12.53	Aadin Terrazas		16	1500 FR LCM	WI	Ozaukee Aquatics	2025 MN UOFM CZ North Speedo Sectionals	2025 Winter Juniors (SCY)
+32	16:12.66	Caden Askren		16	1500 FR LCM	IN	Fishers Area Swimming Tigers	2025 OH CZ Speedo Sectional East	2025 Winter Juniors (SCY)
+33	16:14.19	Zac Clark		16	1500 FR LCM	AZ	Phoenix Swim Club	2025 OR SPEEDO SECTIONALS - MT HOOD	2025 Winter Juniors (SCY)
+34	16:14.67	Chase Kendall		16	1500 FR LCM	FL	SwimRise Aquatics	2025 Futures Championships - Ocala	2025 Winter Juniors (SCY)
+35	16:14.84	Andrew Vet		16	1500 FR LCM	CA	La Mirada Armada	2025 CA NOVA Speedo 29th Annual Grand Challenge	2025 Futures (LCM)
+36	16:14.89	Banks Anderson		16	1500 FR LCM	MV	Ad Astra Area Aquatics	2025 Futures Championships - Ocala	AAAA
+37	16:16.59	Eli Kishish		16	1500 FR LCM	MN	Edina Swim Club	2025 SE NCSA Summer Swimming Championships	AAAA
+38	16:18.03	Kevin Foley		16	1500 FR LCM	AZ	Gold Medal Swim Club	2025 SI CA/NV Speedo Summer Sectionals	2025 Futures (LCM)
+39	16:20.73	Sam Koenigsberg		16	1500 FR LCM	MR	Empire Swimming	2025 FL ISCA Summer Senior Blast	AAAA
+40	16:20.79	Kyle Burk		16	1500 FR LCM	MA	Kennett & Jennersville Area YMCA	2025 FL YMCA National Long Course Swimming Championships	AAAA
+41	16:21.37	Alex Barone		16	1500 FR LCM	NE	Charles River Aquatics	2025 NC EAC Independence Invitational	2025 Futures (LCM)
+42	16:22.48	Alex Allocco		16	1500 FR LCM	MN	Edina Swim Club	2025 MN AQJT Summer Spectacular Invite	2025 Futures (LCM)
+43	16:23.35	Nathaniel Washburn		16	1500 FR LCM	NT	Iron Horse Aquatics	2025 NT MTRO American Long Course MEET FULL	AAAA
+44	16:24.35	Michael Powell		16	1500 FR LCM	PC	Ladera Oaks	2025 PC DACA Long Course CBA+	2025 Futures (LCM)
+45	16:24.58	Cullen McGraw		16	1500 FR LCM	MA	Chambersburg Chargers	2025 FL YMCA National Long Course Swimming Championships	AAAA
+46	16:25.68	Kaden Hung		16	1500 FR LCM	MI	Plymouth-Canton Cruisers	2025 IN Central Zone Speedo Sectional 2025	2025 Futures (LCM)
+47	16:26.41	Max Stewart		16	1500 FR LCM	CA	Unattached	2025 CA MVN Fran Crippen Memorial Swim Meet of Champions	2025 Futures (LCM)
+48	16:26.92	Julian Lozano		16	1500 FR LCM	FG	Gulliver Swim Club	2025 Futures Championships - Ocala	AAAA
+49	16:27.38	Charles Song		16	1500 FR LCM	NE	Amherst Tritons Swim Team	2025 Futures Championships - Ocala	AAAA
+50	16:28.28	Corbin Bye		16	1500 FR LCM	OR	Corvallis Aquatic Team	2025 Futures Championships - Sacramento	AAAA
+51	16:28.36	Vincent Gookin		16	1500 FR LCM	MR	Asphalt Green Unified Aquatics	2025 Futures Championships - Greensboro	AAAA
+52	16:28.58	Owen Jones		16	1500 FR LCM	SN	Unattached	2025 TYR Pro Swim Series - Sacramento	2025 Futures (LCM)
+53	16:29.01	Lysander Mihaly		16	1500 FR LCM	NC	North Carolina Aquatic Club	2025 SE NCSA Summer Swimming Championships	AAAA
+54	16:29.20	George Groves		16	1500 FR LCM	GA	Aiken-Augusta Swim League	2025 NC SwimMAC Novant Invitational	2025 Futures (LCM)
+55	16:29.58	Porter Mulgrew		16	1500 FR LCM	NE	YMCA of the North Shore	2025 Futures Championships - Madison	AAAA
+56	16:30.05	Mason Shirley		16	1500 FR LCM	NT	Texas Ford Aquatics	2025 Futures Championships - Justin	AAAA
+57	16:30.64	Christopher Wang		16	1500 FR LCM	PC	Pleasanton Seahawks	2025 PC OAPB Long Course Senior Open	2025 Futures (LCM)
+58	16:31.22	Mark Khokhlov		16	1500 FR LCM	AZ	Gold Medal Swim Club	2025 SI CA/NV Speedo Summer Sectionals	2025 Futures (LCM)
+59	16:31.63	Wyatt Sylvester		16	1500 FR LCM	VA	757 Swim	2025 VA LC Senior Champs	2025 Futures (LCM)
+60	16:32.10	Colton Carter		16	1500 FR LCM	GA	SwimAtlanta	2025 Futures Championships - Ocala	AAAA
+61	16:32.26	Wesley Mooney		16	1500 FR LCM	IA	Des Moines Swimming Federation	2025 Futures Championships - Madison	AAAA
+62	16:33.22	Zaki Ibrahim		16	1500 FR LCM	SE	Excel Aquatics	2025 SE XCEL May Open	2025 Futures (LCM)
+63	16:33.53	Grayson Rudich		16	1500 FR LCM	WI	Ozaukee Aquatics	2025 WI PX3-WEST 13 &O LC STATE CHAMPIONSHIP	AAAA
+64	16:33.66	Charlie Camplin		16	1500 FR LCM	NC	Marlins Of Raleigh	2025 NC SwimMAC Martha McKee Charlotte Open	2025 Futures (LCM)
+65	16:34.22	Andrew Clift		16	1500 FR LCM	NT	Mansfield Aquatic Club	2025 SE NCSA Summer Swimming Championships	AAAA
+66	16:34.37	Brady Gallagher		16	1500 FR LCM	MA	Upper Main Line YMCA	2025 FL YMCA National Long Course Swimming Championships	AAAA
+67	16:34.54	Braden Mendoza		16	1500 FR LCM	GA	Chattahoochee Gold Swim Club	2025 Futures Championships - Ocala	AAAA
+68	16:34.71	Liam Condon		16	1500 FR LCM	MI	OLY Swimming	2025 SE NCSA Summer Swimming Championships	AAAA
+69	16:34.92	Ben Battaglia		16	1500 FR LCM	NI	Victor Swim Club	2025 NI Eastern Zone Senior Championships	AAAA
+70	16:35.29	Keiran Benson	Yes	16	1500 FR LCM	IN	Carmel Swim Club	2025 IN Central Zone Speedo Sectional 2025	2025 Futures (LCM)
+71	16:35.51	Dixon Hamilton Hamilton		16	1500 FR LCM	SE	Tennessee Aquatics	2025 SE TNAQ Senior Summer Showdown	AAAA
+72	16:35.56	Dmitriy Oranskiy		16	1500 FR LCM	PC	Unattached	2025 PC PLS Long Course Senior Open	2025 Futures (LCM)
+73	16:36.32	Alen Cindric		16	1500 FR LCM	NC	TAC Titans	2025 Futures Championships - Greensboro	AAA
+74	16:37.20	Jonathon Packard		16	1500 FR LCM	CT	Greenwich YWCA Dolphins Swm Tm	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	2025 Futures (LCM)
+75	16:37.58	Deren Akselioglu		16	1500 FR LCM	PV	Rockville Montgomery Swim Club	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	2025 Futures (LCM)
+76	16:37.83	Doug Sims		16	1500 FR LCM	PV	Nation's Capital Swim Club	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	2025 Futures (LCM)
+77	16:38.02	Jacob Wajnberg		16	1500 FR LCM	GA	Dynamo Swim Club	2025 GA Bulldog Glam Slam	2025 Futures (LCM)
+78	16:38.25	Carson Phifer		16	1500 FR LCM	CA	Sandpipers Of Nevada	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+79	16:38.82	Inyoung Kim		16	1500 FR LCM	CA	Unattached	2025 CA MVN Fran Crippen Memorial Swim Meet of Champions	2025 Futures (LCM)
+80	16:39.35	Andrew Morton		16	1500 FR LCM	MA	Jersey Wahoos	2025 MA MASI LC Senior Championships CC	AAA
+81	16:39.53	Gavin Willyerd		16	1500 FR LCM	AZ	Mesa Aquatics Club	2025 AZ FAST Mayflower Invite	AAA
+82	16:39.87	Aiden Moran		16	1500 FR LCM	NI	Clarence Swim Club	2025 NI Eastern Zone Senior Championships	AAA
+83	16:40.67	Max Halpern		16	1500 FR LCM	NC	North Carolina Aquatic Club	2025 SE NCSA Summer Swimming Championships	AAA
+84	16:40.87	Kevin Lee		16	1500 FR LCM	PV	Rockville Montgomery Swim Club	2025 PV LC Open Championships	AAA
+85	16:41.48	Carter Stiles		16	1500 FR LCM	CC	B-Town Brazadas Swim Club	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+86	16:41.67	Kevin Son		16	1500 FR LCM	NJ	Scarlet Aquatics	2025 CA Los Angeles Invite	AAA
+87	16:41.98	Zane Schuman		16	1500 FR LCM	PC	AC Swim Club	2025 Futures Championships - Sacramento	AAA
+88	16:42.63	Jack McCrae		16	1500 FR LCM	NC	SwimMAC Carolina	2025 IN Central Zone Speedo Sectional 2025	AAA
+89	16:42.69	Rhett Walker		16	1500 FR LCM	MD	Naval Academy Aquatic Club	2025 FL ISCA Summer Senior Blast	AAA
+90	16:43.03	Thomas Lathrop		16	1500 FR LCM	OHO	Greater Toledo Aquatic Club	2025 OH CZ Speedo Sectional East	AAA
+91	16:43.16	Strader Franzese		16	1500 FR LCM	FL	Saint Petersburg Aquatics	2025 FL Trials Fund Raiser	AAA
+92	16:43.21	Nathan Qiu		16	1500 FR LCM	CA	Irvine Novaquatics	2025 Futures Championships - Sacramento	AAA
+93	16:43.39	Rajko Radakovic		16	1500 FR LCM	FL	Saint Petersburg Aquatics	2025 Futures Championships - Ocala	AAA
+94	16:43.79	Owen Bennett		16	1500 FR LCM	IE	Unattached	2025 OR SPEEDO SECTIONALS - MT HOOD	AAA
+95	16:44.21	Augustus Friedel		16	1500 FR LCM	NT	COR Swimming	2025 SE NCSA Summer Swimming Championships	AAA
+96	16:44.34	Leo Tran		16	1500 FR LCM	NE	Bluefish Swim Club	2025 NE SAC May Madness	AAA
+97	16:44.72	Cinco Perez		16	1500 FR LCM	AM	Team Pittsburgh Elite Aquatics	2025 LE Busbey 25	AAA
+98	16:44.74	JASON SUGIHARA		16	1500 FR LCM	AZ	Swim Neptune	2025 CA RMDA Road to LA28 - LCM	AAA
+99	16:44.78	Garreth Thomas		16	1500 FR LCM	IN	Westfield Aquatics	2025 IN ISI Senior LC Champs	AAA
+100	16:44.95	Daniel Stowell		16	1500 FR LCM	VA	Old Dominion Aquatic Club	2025 VA LC Senior Champs	AAA
+101	16:44.96	John Eodice		16	1500 FR LCM	NJ	Greater Somerset County YMCA Storm	2025 NJ JAC Long Course Invitational	AAA
+102	16:44.98	Kaden Wong		16	1500 FR LCM	PC	Pleasanton Seahawks	2025 CC Super League Championships	AAA
+103	16:45.25	Caden Cho		16	1500 FR LCM	NJ	Scarlet Aquatics	2025 IN Central Zone Speedo Sectional 2025	AAA
+104	16:45.45	Lucas Kim		16	1500 FR LCM	PV	Rockville Montgomery Swim Club	2025 PV LC Open Championships	AAA
+105	16:46.11	Max Seibold		16	1500 FR LCM	CO	CAC Boulder Riptide	2025 SI CA/NV Speedo Summer Sectionals	AAA
+106	16:46.17	Allen Gyang		16	1500 FR LCM	CA	Sandpipers Of Nevada	2025 CA SAND John Sullivan Firecracker Invite	AAA
+107	16:46.24	Jayden Phan		16	1500 FR LCM	ST	Longhorn Aquatics	2025 ST TXLA Speedo Southern Zone LC Sectionals	AAA
+108	16:46.89	Nicholas Kirby		16	1500 FR LCM	FL	Gulf Coast Swim Team	2025 FL Mark McCaw Summer Invitational	AAA
+109	16:48.08	Ryley Clough		16	1500 FR LCM	PN	Seattle Metropolitan Aquatic Club	2025 PN 13&O Long Course Championships	AAA
+110	16:48.93	Carson West		16	1500 FR LCM	NC	SwimMAC Carolina	2025 IN Central Zone Speedo Sectional 2025	AAA
+111	16:49.12	Wyatt Stauffer		16	1500 FR LCM	SE	City of Mobile Swim Association	2025 SE Southeastern Summer LC Championships	AAA
+112	16:49.43	Lee Ryan		16	1500 FR LCM	KY	Lakeside Swim Team	2025 IN FRST Summer Slam Classic	AAA
+113	16:49.83	Charlie McKinney		16	1500 FR LCM	IL	Palatine Park Dist Swim Team	2025 IL Illinois Swimming Summer Senior Championships	AAA
+114	16:49.87	Josef Florek		16	1500 FR LCM	FL	Gulf Coast Swim Team	2025 FL Summer Senior Championships	AAA
+115	16:50.32	Bennett Mestrits		16	1500 FR LCM	IL	FMC Aquatic	2025 IL Illinois Swimming Summer Senior Championships	AAA
+116	16:50.35	Marcus Zhan		16	1500 FR LCM	AM	Team Pittsburgh Elite Aquatics	2025 AM LC Age Group Champs	AAA
+117	16:50.80	Ian Letson		16	1500 FR LCM	PN	Bainbridge Island Swim Club	2025 PN 13&O Long Course Championships	AAA
+118	16:50.86	Tim Sardak		16	1500 FR LCM	IL	Barrington Swim Club	2025 IL Illinois Swimming Summer Senior Championships	AAA
+119	16:52.26	Braeden Renken		16	1500 FR LCM	SI	Pacific Swim	2025 SI CA/NV Speedo Summer Sectionals	AAA
+120	16:52.36	Sebastian Hendrawan		16	1500 FR LCM	NJ	Wyckoff YMCA	2025 FL YMCA National Long Course Swimming Championships	AAA
+121	16:52.50	Wyatt Macdonald		16	1500 FR LCM	PC	Pleasanton Seahawks	2025 PC SCSC George Haines International Meet	AAA
+122	16:53.18	Alex Gonzalez		16	1500 FR LCM	FL	Gator Swim Club	2025 FL FAST May Invitational	AAA
+123	16:53.43	Noah Stern		16	1500 FR LCM	MR	Long Island Express	2025 NI Eastern Zone Senior Championships	AAA
+124	16:53.92	Levi Gomez		16	1500 FR LCM	AZ	Phoenix Swim Club	2025 OR SPEEDO SECTIONALS - MT HOOD	AAA
+125	16:54.20	Sarp Dilber		16	1500 FR LCM	PV	The Fish	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	AAA
+126	16:54.30	Ben Liang		16	1500 FR LCM	ST	Longhorn Aquatics	2025 ST TXLA 11&O End of School Splash	AAA
+127	16:54.53	Arthur Romero Rabello		16	1500 FR LCM	FL	Montverde Aquatic Club	2025 FL Summer Senior Championships	AAA
+128	16:54.57	Luke Finn		16	1500 FR LCM	NJ	YMCA of the Jersey Shore	2025 FL YMCA National Long Course Swimming Championships	AAA
+129	16:54.93	Preston Chan		16	1500 FR LCM	MR	Long Island Aquatic Club	2025 MR TYR Senior Met Summer Championships	AAA
+130	16:54.97	Gray Reiger		16	1500 FR LCM	SC	YMCA of Upper Palmetto Rays	2025 FL YMCA National Long Course Swimming Championships	AAA
+131	16:55.61	Luke Abney		16	1500 FR LCM	PV	Machine Aquatics	2025 VA NCAP Elite Qualifier	AAA
+132	16:55.98	Dominic Faenza		16	1500 FR LCM	MA	Parkland Swimming Club	2025 FL ISCA Summer Senior Blast	AAA
+133	16:56.49	Owen Gjertsen		16	1500 FR LCM	MR	Westchester Aquatic Club	2025 MR TYR Senior Met Summer Championships	AAA
+134	16:56.67	Stuart Wineman		16	1500 FR LCM	CA	Santa Maria Swim Club	2025 CC TYR GO Challenge	AAA
+135	16:57.01	Mason Bridges		16	1500 FR LCM	IN	Center Grove Aquatic Club	2025 IN CGAC Mid Summer Spectacular	AAA
+136	16:57.25	William Domokos-Murphy		16	1500 FR LCM	FG	Saint Andrew's Aquatics	2025 FG Jesse Vassallo Swimming Invitational	AAA
+137	16:58.01	Henry Mura		16	1500 FR LCM	OZ	CSP Tideriders	2025 SE NCSA Summer Swimming Championships	AAA
+138	16:58.64	Matthew Swett		16	1500 FR LCM	NC	Team Charlotte Swimming	2025 NC EAC Independence Invitational	AAA
+139	16:58.71	Isaac Yeung		16	1500 FR LCM	PN	Bellevue Club Swim Team	2025 PN 13&O Long Course Championships	AAA
+140	16:58.80	Vinny Basil		16	1500 FR LCM	CA	Sandpipers Of Nevada	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+141	16:59.27	Matthew Barnicle		16	1500 FR LCM	NJ	Greater Somerset County YMCA Storm	2025 FL YMCA National Long Course Swimming Championships	AAA
+142	16:59.34	Hudson Rice		16	1500 FR LCM	VA	Lynchburg YMCA Swim Team	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	AAA
+143	16:59.53	John Albornoz		16	1500 FR LCM	FG	Swim Coral Springs	2025 FG LCM Senior Championships	AAA
+144	16:59.55	Van Nguyen		16	1500 FR LCM	LA	Crawfish Aquatics	2025 LA Senior LC State Championships	AAA
+145	17:00.11	Frank Edwards		16	1500 FR LCM	GA	Summit Family YMCA Titans	2025 FL YMCA National Long Course Swimming Championships	AAA
+146	17:00.12	Michael Mamola		16	1500 FR LCM	AZ	Scottsdale Aquatic Club	2025 IE SWAT Summer Solstice	AAA
+147	17:00.48	Patrick Dunn		16	1500 FR LCM	AZ	Scottsdale Aquatic Club	2025 AZ MAC Narwhal Invite	AAA
+148	17:01.01	Alex Harrell		16	1500 FR LCM	IN	Carmel Swim Club	2025 IN ISI Senior LC Champs	AAA
+149	17:01.71	Ben Tungate		16	1500 FR LCM	VA	Cavalier Aquatics/Piedmont Family YMCA	2025 Futures Championships - Greensboro	AAA
+150	17:01.98	Matt Schomaker		16	1500 FR LCM	OHO	Powel Crosley, Jr. YMCA	2025 FL YMCA National Long Course Swimming Championships	AAA
+151	17:02.08	Diego Romero Flores		16	1500 FR LCM	AR	Razorback Aquatic Club Aquahawgs	2025 AR Long Course Championships	AAA
+152	17:02.17	Dillon Brigman		16	1500 FR LCM	FL	Bolles School Sharks	2025 TYR Pro Swim Series - Fort Lauderdale	AAA
+153	17:02.34	Ben Gotro		16	1500 FR LCM	MA	Upper Main Line YMCA	2025 FL YMCA National Long Course Swimming Championships	AAA
+154	17:02.68	Koen Anderson		16	1500 FR LCM	NI	Victor Swim Club	2025 NI LC Eastern Zone Sectionals	AAA
+155	17:02.75	John Luisetti		16	1500 FR LCM	SN	Northern Sierra Swimming	2025 PC Speedo Sectionals - Novato	AAA
+156	17:02.90	James Gannon		16	1500 FR LCM	PC	Neptune Swimming	2025 SN Summer Sanders LCM Meet	AAA
+156	17:02.90	William Rees		16	1500 FR LCM	MA	York YMCA	2025 MD NBAC SPRING LONG COURSE INVITATIONAL MEET	AAA
+158	17:03.08	Auggie Kimmel		16	1500 FR LCM	GU	HTX Swims	2025 MS Southern Zone Senior Championship Meet	AAA
+159	17:03.21	Roman Drews		16	1500 FR LCM	PV	Rockville Montgomery Swim Club	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	AAA
+160	17:03.68	Jay Huang		16	1500 FR LCM	IL	NASA Wildcat Aquatics	2025 IL Illinois Swimming Summer Senior Championships	AAA
+161	17:04.14	Jackson Hartzler		16	1500 FR LCM	GU	Cypress Fairbanks Swim Club	2025 GU Fleet Distance Challenge	AAA
+162	17:04.21	Tristan Curb		16	1500 FR LCM	PV	Nation's Capital Swim Club	2025 PV LC Open Championships	AAA
+163	17:04.46	Sam Gao		16	1500 FR LCM	CA	Sandpipers Of Nevada	2025 CA SAND Cinco de Mayo	AAA
+164	17:04.53	Toby Swanson		16	1500 FR LCM	CA	FAST Swim Team	2025 CA FAST Jon Urbanchek Open Invite	AAA
+165	17:04.55	Henry Carlisle		16	1500 FR LCM	FL	South Lake Aquatics Club	2025 FG Southern Zone South Sectional Championships	AAA
+166	17:04.67	Reid Stellatella		16	1500 FR LCM	NJ	Scarlet Aquatics	2025 NJ TYR LC Winter Invitational	AAA
+167	17:04.70	Gabe Hernandez		16	1500 FR LCM	WI	Southwest Aquatic Team	2025 WI PX3-WEST 13 &O LC STATE CHAMPIONSHIP	AAA
+168	17:04.91	Matthew Leach		16	1500 FR LCM	CO	Highlands Ranch Aquatics	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+169	17:05.22	Drew White		16	1500 FR LCM	NC	Raleigh Swimming Association	2025 NC NCS LC Senior Championships	AAA
+170	17:05.36	Kieran McWilliams		16	1500 FR LCM	NC	Team Charlotte Swimming	2025 NC NCS LC Senior Championships	AAA
+171	17:05.50	Keegan Brown		16	1500 FR LCM	OZ	CSP Tideriders	2025 MV Region VIII Speedo Summer Sectionals	AAA
+172	17:05.88	Sawyer Hill		16	1500 FR LCM	IE	Spokane Waves Aquatic Team	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+173	17:06.06	Holden Herman		16	1500 FR LCM	MD	Meadowbrook Swim Team	2025 MD SPEEDO MARYLAND LONG COURSE CHAMPIONSHIP MEET	AAA
+174	17:06.07	Carson Kreis		16	1500 FR LCM	KY	Lakeside Swim Team	2025 KY Swimming Long Course Championship	AAA
+175	17:06.10	Maksim Nazarov		16	1500 FR LCM	CA	Sandpipers Of Nevada	2025 CA SAND Cinco de Mayo	AAA
+176	17:06.12	Joel Roycik		16	1500 FR LCM	FL	Highlander Aquatic Club	2025 FL Summer Senior Championships	AAA
+177	17:06.19	Nathaniel Kern		16	1500 FR LCM	NJ	Scarlet Aquatics	2025 NI Eastern Zone Senior Championships	AAA
+178	17:06.22	Victor Pan		16	1500 FR LCM	MR	Long Island Aquatic Club	2025 MR LIAC Speedo LI Challenge Invitational	AAA
+179	17:06.65	Harrison Tater		16	1500 FR LCM	ST	Waterloo Swimming	2025 ST ASC Cinco de Mayo	AAA
+180	17:07.09	Nathan Kennedy		16	1500 FR LCM	MS	Sunkist Swim Team	2025 MS Long Course State Championship	AAA
+181	17:07.34	James Cosgrove		16	1500 FR LCM	MR	Condors Swim Club	2025 FL ISCA Summer Senior Blast	AAA
+182	17:07.65	Dominik Irons		16	1500 FR LCM	AZ	Phoenix Swim Club	2025 AZ PSC Summer Invite	AAA
+183	17:07.95	Yusuf Kurbetdinov	Yes	16	1500 FR LCM	NJ	X-Cel Swimming	2025 NI Eastern Zone Senior Championships	AAA
+184	17:07.99	Hagen Lee		16	1500 FR LCM	IN	Fishers Area Swimming Tigers	2025 IN ISI Senior LC Champs	AAA
+184	17:07.99	Harrison Bae		16	1500 FR LCM	UT	Park City Swimming	2025 MN UOFM CZ North Speedo Sectionals	AAA
+186	17:08.43	Alex Muldowney		16	1500 FR LCM	MA	Upper Main Line YMCA	2025 FL YMCA National Long Course Swimming Championships	AAA
+187	17:08.58	Henry Van Peteghem		16	1500 FR LCM	GA	SwimAtlanta	2025 GA Long Couse Senior State Championships	AAA
+188	17:08.61	Jacob Epoca		16	1500 FR LCM	MA	Hershey Aquatic Club	2025 MA MASI LC Senior Championships CC	AAA
+189	17:08.80	Lucas Tang		16	1500 FR LCM	CA	Aquazot Swim Club	2025 CA NOVA Speedo 29th Annual Grand Challenge	AAA
+190	17:09.64	Jonah Corbitt		16	1500 FR LCM	GA	Tidal Wave Swimming	2025 GA Long Couse Senior State Championships	AAA
+191	17:09.71	Jack Miceli		16	1500 FR LCM	PV	Nation's Capital Swim Club	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	AAA
+192	17:09.82	Kaleb Lemke		16	1500 FR LCM	NE	Amherst Tritons Swim Team	2025 NE CS Senior Championships	AAA
+193	17:09.94	Edmund Bui		16	1500 FR LCM	CA	Orange County Gold	2025 CA SCS/BREA Summer Age Group Championships	AAA
+194	17:10.05	Noah Pickett		16	1500 FR LCM	AM	Steel City Aquatics	2025 LE Holtrey25	AAA
+195	17:10.14	Christopher Jeong		16	1500 FR LCM	FL	Gator Swim Club	2025 FL FAST May Invitational	AAA
+196	17:10.25	Denali Cutbush-Taylor		16	1500 FR LCM	NC	North Carolina Aquatic Club	2025 NC EAC Independence Invitational	AAA
+197	17:10.27	Owen Sarbak		16	1500 FR LCM	LE	Peninsula Wave Riders Swimming	2025 LE Holtrey25	AAA
+198	17:10.47	Matthew DeMoss		16	1500 FR LCM	NC	Marlins Of Raleigh	2025 NC NCS LC Senior Championships	AAA
+199	17:10.55	Luca Ignatescu		16	1500 FR LCM	OR	Tualatin Hills Swim Club	2025 OR Howard Jones Open	AAA
+200	17:10.68	Nathan Deeney		16	1500 FR LCM	MA	Phoenixville YMCA	2025 FL YMCA National Long Course Swimming Championships	AAA
+201	17:10.70	Nate Gonzalez		16	1500 FR LCM	NJ	Hamilton Y Aquatic Club	2025 FL YMCA National Long Course Time Trials	AAA
+202	17:10.81	Jake Levesque		16	1500 FR LCM	NC	Marlins Of Raleigh	2025 NC NCS LC Senior Championships	AAA
+203	17:10.96	August Heller		16	1500 FR LCM	ST	Whitecaps of Westlake	2025 ST AAAA South Texas Long Course Senior Championship	AAA
+204	17:11.07	Luke Biddle		16	1500 FR LCM	HI	Kamehameha Swim Club	2025 Futures Championships - Sacramento	AAA
+205	17:11.47	Dylan Anderson		16	1500 FR LCM	NC	TAC Titans	2025 NC NCS LC Senior Championships	AAA
+206	17:11.52	Aidan Arthurs		16	1500 FR LCM	MI	OLY Swimming	2025 OH CZ Speedo Sectional East	AAA
+207	17:11.92	Harper Moorhead		16	1500 FR LCM	PV	Machine Aquatics	2025 PV LC Open Championships	AAA
+208	17:12.08	Connor Smith		16	1500 FR LCM	FL	Berkeley Aquatics	2025 FL Summer Senior Championships	AAA
+209	17:12.13	Trenton Reimer		16	1500 FR LCM	CA	SOCAL Aquatics Association	2025 CA Los Angeles Invite	AAA
+210	17:12.63	Parker Sloan		16	1500 FR LCM	NT	COR Swimming	2025 NT IRON Senior Qualifier	AAA
+211	17:12.91	Sean Tracy		16	1500 FR LCM	CO	North Jeffco Swim Team	2025 OR SPEEDO SECTIONALS - MT HOOD	AAA
+212	17:13.20	Kohl Hanes		16	1500 FR LCM	MD	Naval Academy Aquatic Club	2025 VA SRVA Summer Invitational	AAA
+213	17:13.45	Parker Hebert		16	1500 FR LCM	GA	Chattahoochee Gold Swim Club	2025 SE GPAC Tom Lalor Invitational	AAA
+214	17:13.78	Maks Lisiewski		16	1500 FR LCM	MD	North Baltimore Aquatic Club	2025 MD NBAC MID SUMMER CLASSIC MEET	AAA
+215	17:14.18	Alex Zendegui		16	1500 FR LCM	FL	Tampa Elite Aquatics	2025 FG Southern Zone South Sectional Championships	AAA
+216	17:14.74	Liam Harty		16	1500 FR LCM	MR	Long Island Express	2025 MR TYR Senior Met Summer Championships	AAA
+217	17:14.79	Diego Lara		16	1500 FR LCM	CO	Aces Swim Club	2025 CO Zone 2 VMAC Meet	AAA
+218	17:14.92	Carter Schultz		16	1500 FR LCM	IN	Irish Aquatics	2025 IN ELK Summer Bash Invitational	AAA
+219	17:15.01	River Hawkins		16	1500 FR LCM	CO	Univ of Denver Hilltoppers	2025 OR SPEEDO SECTIONALS - MT HOOD	AAA
+220	17:15.19	Chase Wadley		16	1500 FR LCM	ST	Aquatex Swim Team	2025 ST AAAA George Block Invite	AAA
+221	17:15.44	Kanyon Michaelis		16	1500 FR LCM	NT	COR Swimming	2025 NT IRON Senior Qualifier	AAA
+222	17:15.46	Alejandro Safa		16	1500 FR LCM	CA	Beach Cities Swimming	2025 SI CA/NV Speedo Summer Sectionals	AAA
+223	17:15.84	Matthew Schleicher		16	1500 FR LCM	CO	Front Range Barracudas	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+224	17:15.96	Zachary Trenczer		16	1500 FR LCM	MR	Condors Swim Club	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	AAA
+225	17:16.59	Gus Constantine		16	1500 FR LCM	MR	Badger Swim Club,Inc.	2025 MR TYR Senior Met Summer Championships	AAA
+226	17:16.69	Tj Veach		16	1500 FR LCM	IL	Academy Bullets Swim Club	2025 SE NAC Summer Sizzler	AAA
+227	17:16.70	Jack Ackerman		16	1500 FR LCM	CT	Farmington Valley YMCA Tsunamis	2025 FL YMCA National Long Course Swimming Championships	AAA
+228	17:16.74	Liam Doty		16	1500 FR LCM	CA	Sandpipers Of Nevada	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+229	17:16.96	Joe Klepar		16	1500 FR LCM	NC	SwimMAC Carolina	2025 SE TNAQ Senior Summer Showdown	AAA
+230	17:17.33	Lucas Marrazzo	Yes	16	1500 FR LCM	NJ	Scarlet Aquatics	2025 NJ 2025 LC Gold Championships	AAA
+231	17:17.53	Luke Petric		16	1500 FR LCM	NT	Lakeside Aquatic Club	2025 NT MAC Senior May Meet	AAA
+231	17:17.53	Matthew Tripsa		16	1500 FR LCM	NC	SwimMAC Carolina	2025 NC GSA Eastern Invitational	AAA
+233	17:17.88	Dylan Glanville		16	1500 FR LCM	PC	Alto Swim Club	2025 PC Speedo Sectionals - Novato	AAA
+234	17:18.00	Charles Shoemaker		16	1500 FR LCM	FL	Sarasota Tsunami Swim Team	2025 FG Swim Fort Lauderdale Speedo Summer Classic	AAA
+235	17:18.01	Andy Beahan		16	1500 FR LCM	CA	Pleasant Valley Swim Team	2025 CA BUEN Memorial Day	AAA
+236	17:18.04	Sam Holl		16	1500 FR LCM	IN	Carmel Swim Club	2025 IN Central Zone Speedo Sectional 2025	AAA
+237	17:18.17	Talan Denison		16	1500 FR LCM	AZ	Scottsdale Aquatic Club	2025 OR SPEEDO SECTIONALS - MT HOOD	AAA
+238	17:18.23	Logan Gansen		16	1500 FR LCM	CO	North Jeffco Swim Team	2025 OR SPEEDO SECTIONALS - MT HOOD	AAA
+239	17:18.41	Nathaniel Beeney		16	1500 FR LCM	GA	Gwinnett Aquatics	2025 NC SwimMAC Novant Invitational	AAA
+240	17:18.97	Daniel Jones		16	1500 FR LCM	IN	Fort Wayne Swim Team	2025 IN ISI Senior LC Champs	AAA
+241	17:19.49	Alex Burnside		16	1500 FR LCM	PC	Santa Clara Swim Club	2025 PC Summer Far Western Championships	AAA
+242	17:19.56	Yury Kuzmenko		16	1500 FR LCM	PC	Valley Splash	2025 PC VS Long Course CBA+	AAA
+243	17:19.62	Grant Dwyer		16	1500 FR LCM	NE	YMCA of the North Shore	2025 NE YNS LCM Prelims/Finals Meet	AAA
+244	17:19.96	Elijah Peng		16	1500 FR LCM	AZ	Arizona Aquatic Club	2025 AZ AZSI LC Senior State Championship @NEP	AAA
+245	17:20.20	Ethan Chinea		16	1500 FR LCM	MR	Long Island Express	2025 MR SSC Summer Mad Dash Invitational	AAA
+246	17:20.29	Avery Snyder		16	1500 FR LCM	VA	Lynchburg YMCA Swim Team	2025 VA LC Senior Champs	AAA
+247	17:20.32	Rolland Mease		16	1500 FR LCM	CO	Maverick Aquatics	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+248	17:20.45	Ryan Sykes		16	1500 FR LCM	MR	Badger Swim Club,Inc.	2025 MR LIAC Summertime Classic Invitational	AAA
+249	17:20.53	Gabe Schwabe		16	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA LC Senior Champs	AAA
+250	17:20.64	Andrew Kissel		16	1500 FR LCM	PV	Rockville Montgomery Swim Club	2025 PV LC Distance Meet	AAA
+251	17:21.52	Tucker Martine		16	1500 FR LCM	NT	Tyler Rose Aquatic Club	2025 NT IRON Senior Qualifier	AAA
+252	17:21.67	Bryce Himmelheber		16	1500 FR LCM	NJ	Hamilton Y Aquatic Club	2025 FL YMCA National Long Course Swimming Championships	AAA
+253	17:22.37	Jordan Cobb		16	1500 FR LCM	SE	Madison Swimming Association	2025 SE Southeastern Summer LC Championships	AAA
+254	17:22.40	Kyle Fionte		16	1500 FR LCM	GA	Dynamo Swim Club	2025 GA Long Couse Senior State Championships	AAA
+255	17:22.43	Will Van Zee		16	1500 FR LCM	IA	Waukee Waves	2025 IA DSMY TRUDY HANCOCK MEMORIAL INVITATIONAL	AAA
+256	17:22.63	Ryan Rim		16	1500 FR LCM	PC	Alto Swim Club	2025 PC Speedo Sectionals - Novato	AAA
+257	17:22.93	William Skelton		16	1500 FR LCM	MS	Mississippi Makos Swim Team	2025 MS Long Course State Championship	AAA
+258	17:22.97	Brendan Lee-Nguyen		16	1500 FR LCM	CA	Trident Swim Club	2025 CA SCS/RAA Sumer Age Group Championships	AAA
+259	17:23.20	Matthieu Fresco		16	1500 FR LCM	CA	Porter Valley Polar Bears	2025 CA Los Angeles Invite	AAA
+260	17:24.02	Justin Delp		16	1500 FR LCM	MA	Methacton Aquatic Club	2025 MA MASI LC Senior Championships CC	AA
+261	17:24.89	Steven Stasiulaitis		16	1500 FR LCM	NJ	Greater Somerset County YMCA Storm	2025 NJ Jeffrey S. Mace Memorial Summer Sizzle XXXIII	AA
+262	17:25.41	Jordy Robinson		16	1500 FR LCM	MA	South Jersey Aquatic Club	2025 MA MASI LC Senior Championships CC	AA
+263	17:26.16	Amir Tasker		16	1500 FR LCM	MA	Chambersburg Chargers	2025 MA Chargers Mid Season Long Course Invitational	AA
+264	17:26.29	Will Shearin		16	1500 FR LCM	NC	New Wave Swim Team	2025 FL RAFC Last Splash Invitational	AA
+265	17:26.39	Carter Cripe		16	1500 FR LCM	OK	Trident Aquatics Club	2025 OK 11-over State Championships	AA
+266	17:26.65	Max Kelty		16	1500 FR LCM	NC	Hickory Foundation YMCA Seahorse Swim Team	2025 FL ISCA Summer Senior Blast	AA
+267	17:26.74	Brayden Hale		16	1500 FR LCM	CT	Cheshire Y Sea Dog Swim Club	2025 CT CDOG June Distance Meet	AA
+268	17:26.80	Ethan Peyton		16	1500 FR LCM	OHO	Mason Manta Rays	2025 KY LAK 97th Annual Ohio Valley Champs	AA
+269	17:27.46	Kees Dehart		16	1500 FR LCM	IA	Dubuque Area Swimmin' Hurricanes	2025 IA IASI Long Course Championships	AA
+270	17:27.54	Silas Zaitzew		16	1500 FR LCM	CO	CAC Boulder Riptide	2025 CO CSI Long Course Open	AA
+271	17:27.59	Quinn Kauffold		16	1500 FR LCM	IL	Fox Valley YMCA Aqua Force	2025 IL Illinois Swimming Summer Senior Championships	AA
+272	17:27.64	Nicholas Marmolejo		16	1500 FR LCM	FG	Sunrise Swimming	2025 FG LCM Senior Championships	AA
+273	17:27.74	Grant Garrison		16	1500 FR LCM	MN	Rochester Swim Club	2025 MN AQJT Summer Spectacular Invite	AA
+274	17:27.96	Brody Schvaneveldt		16	1500 FR LCM	UT	Wasatch Front Fish Market	2025 UT LC Senior Championships	AA
+275	17:28.54	Chance Harberts		16	1500 FR LCM	CO	Colorado Springs Area Swimming	2025 MS Southern Zone Senior Championship Meet	AA
+276	17:28.71	Anderson Baird		16	1500 FR LCM	AD	Sharks Swim Club	2025 AD AD Long Course Championships	AA
+277	17:28.94	Paxton Heltz		16	1500 FR LCM	LA	Crawfish Aquatics	2025 LA Senior LC State Championships	AA
+278	17:29.23	Jonathan Renninger		16	1500 FR LCM	PN	King Aquatic Club	2025 PN KING Spring Derby	AA
+279	17:29.82	Kavon Clarke		16	1500 FR LCM	FG	Swim Fort Lauderdale	2025 FG LCM Senior Championships	AA
+280	17:30.37	Angelo Cabral		16	1500 FR LCM	CO	North Jeffco Swim Team	2025 OR SPEEDO SECTIONALS - MT HOOD	AA
+281	17:30.42	Ian Ryan		16	1500 FR LCM	MA	Ridley Area YMCA Stingrays	2025 FL YMCA National Long Course Swimming Championships	AA
+282	17:30.96	Amias Hollister Ivanich		16	1500 FR LCM	AZ	Swim Neptune	2025 OR SPEEDO SECTIONALS - MT HOOD	AA
+283	17:31.12	Quinn Bennet		16	1500 FR LCM	IL	Barrington Swim Club	2025 WI PX3 JULY MID-WEEK MILE	AA
+284	17:31.65	Isaiah Winko		16	1500 FR LCM	IN	Pike Township Swim Club	2025 IN ISI Senior LC Champs	AA
+285	17:32.04	Colin Yang		16	1500 FR LCM	OR	Lake Oswego Swim Club	2025 OR SPEEDO SECTIONALS - MT HOOD	AA
+286	17:32.89	Larson Custer		16	1500 FR LCM	MI	Royal Swimming	2025 MI ULTRA State Championship	AA
+287	17:32.95	Reece Dombkowski		16	1500 FR LCM	IN	Fort Wayne Swim Team	2025 IN ISI Senior LC Champs	AA
+288	17:33.17	John Fradet		16	1500 FR LCM	CA	Las Vegas Swim Club	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+289	17:33.19	Tony Spiewak		16	1500 FR LCM	MI	OLY Swimming	2025 OH CZ Speedo Sectional East	AA
+290	17:33.31	Grant Wilton		16	1500 FR LCM	NT	COR Swimming	2025 NT MTRO American Long Course MEET FULL	AA
+291	17:33.36	Akay Say		16	1500 FR LCM	NJ	Scarlet Aquatics	2025 NJ TYR LC Winter Invitational	AA
+292	17:33.48	Dean Tucker		16	1500 FR LCM	PN	Valley Aquatics	2025 PN 13&O Long Course Championships	AA
+293	17:34.09	Mark Cecco		16	1500 FR LCM	NM	Charger Aquatics	2025 AZ PSC Summer Invite	AA
+294	17:34.14	Julian Adu		16	1500 FR LCM	CT	Cheshire Y Sea Dog Swim Club	2025 CT CDOG June Distance Meet	AA
+295	17:34.29	Jack Ablondi		16	1500 FR LCM	NE	Executive Swim Club	2025 NE CS Senior Championships	AA
+296	17:34.51	Walter Bahr		16	1500 FR LCM	GU	Texas Elite Swim Team	2025 MS Southern Zone Senior Championship Meet	AA
+297	17:34.55	Xavier Fish		16	1500 FR LCM	VA	SMAC	2025 VA LC Senior Champs	AA
+298	17:35.01	Dylan Winthal		16	1500 FR LCM	NJ	Scarlet Aquatics	2025 NJ TYR LC Winter Invitational	AA
+299	17:35.02	Evan VanVelzor		16	1500 FR LCM	CT	Wilton Y Wahoos Swim Club	2025 CT WYW LC Distance	AA
+300	17:35.82	Preston Springer		16	1500 FR LCM	NT	Iron Horse Aquatics	2025 NT IRON Senior Qualifier	AA
+301	17:35.94	Jackson Ross		16	1500 FR LCM	AM	Allegheny North Swim Club	2025 AM LC Age Group Champs	AA
+302	17:36.15	Thomas Chamberlain		16	1500 FR LCM	UT	South Davis Aquatics Team	2025 UT SUSA Sizzlin Summer Invite	AA
+303	17:36.88	Landen Tran		16	1500 FR LCM	AZ	Swim Neptune	2025 OR SPEEDO SECTIONALS - MT HOOD	AA
+304	17:37.24	Alex Roy		16	1500 FR LCM	KY	Triton Swimming	2025 KY Swimming Long Course Championship	AA
+305	17:38.27	Nathan Greenberg		16	1500 FR LCM	LE	Blazing Barracudas	2025 LE LC Champs 25	AA
+306	17:38.64	Cameron Kitching	Yes	16	1500 FR LCM	GU	Sharks Swim Club	2025 GU FCST Summer Splash	AA
+307	17:38.66	Zeke Rasmussen		16	1500 FR LCM	CA	Sandpipers Of Nevada	2025 CA SAND Cinco de Mayo	AA
+308	17:39.02	Graham Woodruff		16	1500 FR LCM	VA	Lynchburg YMCA Swim Team	2025 VA LC Senior Champs	AA
+309	17:39.14	Peter Cassidy		16	1500 FR LCM	NC	Aquatic Team Of Mecklenburg	2025 NC SwimMAC Novant Invitational	AA
+310	17:39.63	Aiden Lee		16	1500 FR LCM	NC	Mecklenburg Swim Association	2025 SC TG Dash & Splash	AA
+310	17:39.63	Gavin Charcalla		16	1500 FR LCM	SC	YMCA of Upper Palmetto Rays	2025 SE AUB Richard Quick Invitational	AA
+312	17:39.66	Taewon Yim		16	1500 FR LCM	PC	De Anza Cupertino Aquatics	2025 PC DACA Long Course CBA+	AA
+312	17:39.66	Fischer Dunnihoo		16	1500 FR LCM	NT	Tyler Rose Aquatic Club	2025 NT IRON Senior Qualifier	AA
+314	17:39.84	Cole Lewis		16	1500 FR LCM	MD	Bayside Aquatics	2025 MD SPEEDO MARYLAND LONG COURSE CHAMPIONSHIP MEET	AA
+315	17:39.89	Myles Cooper		16	1500 FR LCM	MR	Badger Swim Club,Inc.	2025 MR TYR Senior Met Summer Championships	AA
+316	17:39.90	Colin Lehan		16	1500 FR LCM	MA	Hershey Aquatic Club	2025 MA MASI LC Senior Championships CC	AA
+317	17:40.18	Ryder Eagen		16	1500 FR LCM	GA	Cumming Waves	2025 GA Edwin C. Cuttino Invite	AA
+318	17:40.43	Orin Meyer		16	1500 FR LCM	CO	Pueblo Swim Club	2025 CO COSA Long Course Open	AA
+319	17:40.73	Ted Yuan		16	1500 FR LCM	IL	Fox Valley Swim Team	2025 IL Illinois Swimming Summer Senior Championships	AA
+320	17:40.84	Merrick Blackman		16	1500 FR LCM	SE	Life Time Southeast	2025 SE BSL Jack Barnacastle Invitational	AA
+321	17:40.89	Sam Jacobs		16	1500 FR LCM	WI	Ozaukee Aquatics	2025 WI PX3-WEST 13 &O LC STATE CHAMPIONSHIP	AA
+322	17:41.13	Adam Sobczak		16	1500 FR LCM	GU	Sienna Premier Aquatics	2025 GU LC Senior Championships	AA
+323	17:41.33	JJ Slough		16	1500 FR LCM	CO	Foothills Swim Team	2025 OR SPEEDO SECTIONALS - MT HOOD	AA
+324	17:41.81	Alex Kirin		16	1500 FR LCM	MR	Long Island Aquatic Club	2025 NI Eastern Zone Senior Championships	AA
+325	17:41.94	Lucas Barnes		16	1500 FR LCM	IN	Crown Point Swim Club	2025 IN ISC Summer Invite	AA
+326	17:42.24	Duncan Skogerson		16	1500 FR LCM	MR	Condors Swim Club	2025 FL ISCA Summer Senior Blast	AA
+327	17:42.36	Nick Clegg		16	1500 FR LCM	MA	Suburban Seahawks Club	2025 MA MASI LC Senior Championships CC	AA
+328	17:42.70	George Marshall		16	1500 FR LCM	LE	Firestone Akron Swim Team	2025 LE Holtrey25	AA
+329	17:43.01	Neil Kelly		16	1500 FR LCM	CT	Ridgefield Aquatic Club	2025 CT Senior Championships	AA
+330	17:43.47	Daniel Bartelt		16	1500 FR LCM	IA	Black Hawk Area Swim Team	2025 IA IASI Long Course Championships	AA
+331	17:43.82	Paulo Basola		16	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA LC Senior Champs	AA
+332	17:43.92	Kyle Jesmanowicz		16	1500 FR LCM	WI	Waukesha Express Swim Team	2025 WI PX3-WEST 13 &O LC STATE CHAMPIONSHIP	AA
+333	17:43.93	Graham Sutherland		16	1500 FR LCM	PC	Ladera Oaks	2025 PC DACA Long Course CBA+	AA
+334	17:43.99	Brady Winbigler		16	1500 FR LCM	MI	Pointe Aquatics	2025 OH CZ Speedo Sectional East	AA
+335	17:44.25	Vincent Velazquez		16	1500 FR LCM	CA	Santa Maria Swim Club	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+336	17:44.82	Terry Gould		16	1500 FR LCM	NJ	Fanwood-Scotch Plains YMCA	2025 FL YMCA National Long Course Swimming Championships	AA
+337	17:45.03	Matthew Ives		16	1500 FR LCM	FG	YMCA of South Florida	2025 FG LCM Senior Championships	AA
+338	17:45.31	Max Ziegler		16	1500 FR LCM	SR	Boise Swim Club	2025 SR LCM Summer Championships	AA
+339	17:45.96	Bryce Lowe		16	1500 FR LCM	IN	Carmel Swim Club	2025 IN BBSC Summer Splash	AA
+340	17:46.32	Jamey Solt		16	1500 FR LCM	MN	Aquajets Swim Team	2025 MN AQJT Summer Spectacular Invite	AA
+341	17:46.47	Jake Abney		16	1500 FR LCM	PV	Machine Aquatics	2025 PV LC Open Championships	AA
+342	17:46.48	Patrick O'Connor		16	1500 FR LCM	IL	Academy Bullets Swim Club	2025 WI PX3 MAY MID-WEEK MILE	AA
+343	17:46.72	Seth Russell		16	1500 FR LCM	IN	Franklin Regional Swim Team	2025 IN ISI Senior LC Champs	AA
+344	17:46.73	Nicholas Peng		16	1500 FR LCM	OR	Tualatin Hills Swim Club	2025 OR Howard Jones Open	AA
+345	17:46.82	William Cruz		16	1500 FR LCM	CT	ZEUS Swim Team	2025 FL ISCA Summer Senior Blast	AA
+346	17:46.84	Benjamin Spiegler		16	1500 FR LCM	NC	SwimMAC Carolina	2025 NC SwimMAC Novant Invitational	AA
+347	17:46.91	Kevin Young		16	1500 FR LCM	AM	Grove City YMCA	2025 AM LC Age Group Champs	AA
+348	17:46.98	Derek Shang		16	1500 FR LCM	PC	Alto Swim Club	2025 Alto Endless Summer Block Party	AA
+349	17:47.12	Isaiah Ayers		16	1500 FR LCM	ND	West Fargo Flyers Swim Club	2025 SD Aberdeen Summer High Point Swim Meet	AA
+350	17:47.36	Stingray Sanchez		16	1500 FR LCM	CT	Wilton Y Wahoos Swim Club	2025 CT Senior Championships	AA
+351	17:47.58	Carter Godlove		16	1500 FR LCM	PV	The Fish	2025 PV FISH June LC Invitational	AA
+352	17:47.64	Zach Poulin		16	1500 FR LCM	NT	Tyler Rose Aquatic Club	2025 NT IRON Senior Qualifier	AA
+353	17:47.66	Camden Barry		16	1500 FR LCM	OZ	FAST	2025 OZ Independence Celebration	AA
+354	17:47.71	Luke Allman		16	1500 FR LCM	MD	Arena Club Aquatics	2025 NC GSA Eastern Invitational	AA
+355	17:48.28	Andrew Davis		16	1500 FR LCM	IE	Spokane Sea Serpents	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+356	17:48.36	Logan Eaton-Strong		16	1500 FR LCM	IL	McGaw YMCA Swim Team	2025 IN IL YMCA LC State Championship	AA
+357	17:48.57	Tommy Chern		16	1500 FR LCM	PN	Seattle Metropolitan Aquatic Club	2025 PN 13&O Long Course Championships	AA
+358	17:48.94	Brady Beauch		16	1500 FR LCM	MI	Michigan Lakeshore Aquatics	2025 IN IA Summer Spectacular	AA
+359	17:49.11	Derique Garcia		16	1500 FR LCM	NM	BEAST	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+360	17:49.70	Joshua Naas		16	1500 FR LCM	IN	Noblesville Swim Club	2025 IN NOB Enchanted Forest	AA
+361	17:50.56	Colt Kipp		16	1500 FR LCM	NT	Lakeside Aquatic Club	2025 NT MAC Senior May Meet	AA
+362	17:50.61	Alex Swetckie		16	1500 FR LCM	SC	South Carolina Swim Club	2025 SC GAME South Carolina Long Course Senior LSC Championship	AA
+363	17:50.79	Tommy Sites		16	1500 FR LCM	WT	City Of Midland Swim Team	2025 WT COM Conoco Phillips West Texas Invite	AA
+364	17:51.03	Josh Mullin	Yes	16	1500 FR LCM	MA	Jersey Wahoos	2025 MA MASI LC Senior Championships CC	AA
+365	17:51.13	Jacob Reeder		16	1500 FR LCM	MD	Naval Academy Aquatic Club	2025 VA SRVA Summer Invitational	AA
+366	17:51.31	AJ Mugno		16	1500 FR LCM	MR	Empire Swimming	2025 NC EAC Independence Invitational	AA
+367	17:51.45	Wil Rivera		16	1500 FR LCM	CC	Fresno Dolphins Swim Team	2025 CC TYR GO Challenge	AA
+368	17:51.64	Parker Shoesmith		16	1500 FR LCM	OK	Bartlesville Splash Club	2025 OK BVSC Stars of Summer	AA
+369	17:52.24	Connor Licht		16	1500 FR LCM	NC	Raleigh Swimming Association	2025 NC NCS LC Senior Championships	AA
+370	17:52.42	Sullivan Scharf		16	1500 FR LCM	NE	Westbrook Seals	2025 ME Maine Long Course Championships	AA
+371	17:52.50	Freddie Fox		16	1500 FR LCM	FL	Sarasota Sharks	2025 FL Summer Senior Championships	AA
+372	17:52.57	Sean Luk	Yes	16	1500 FR LCM	CA	TSM Aquatics	2025 CA CITI Summer Sizzler	AA
+373	17:53.15	Bobby Holter		16	1500 FR LCM	MI	Rapids Area Y Swimmers	2025 MI Summer Solstice Open Invitational	AA
+374	17:53.32	Chris Mathe		16	1500 FR LCM	NJ	Wyckoff YMCA	2025 NJ July Heat Wave	AA
+375	17:53.44	Soren Carlson		16	1500 FR LCM	NM	Charger Aquatics	2025 AZ PSC Summer Invite	AA
+376	17:53.46	Santiago Castro		16	1500 FR LCM	IN	Fishers Area Swimming Tigers	2025 IN FAST Last Chance Splash	AA
+377	17:54.08	Benjamin Jaggers		16	1500 FR LCM	ST	Waterloo Swimming	2025 ST ASC Cinco de Mayo	AA
+378	17:54.37	Sam Sasaki		16	1500 FR LCM	CO	Loveland Swim Club	2025 NT MTRO American Long Course MEET FULL	AA
+379	17:54.48	Court Barrett		16	1500 FR LCM	MD	Severna Park Stingrays	2025 MD RAC Abby Seeger Memorial SwimMeet	AA
+380	17:54.95	Hunter Sternberg		16	1500 FR LCM	PN	Issaquah Swim Team	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+381	17:55.18	Zane Cherry		16	1500 FR LCM	ST	Longhorn Aquatics	2025 ST TXLA 11&O End of School Splash	AA
+382	17:55.80	Carter Dumont		16	1500 FR LCM	FL	T2 Aquatics	2025 FL Mark McCaw Summer Invitational	AA
+383	17:55.82	Aiden Longworth		16	1500 FR LCM	CA	Sandpipers Of Nevada	2025 CA SAND Cinco de Mayo	AA
+384	17:56.07	Matthew Luenberger		16	1500 FR LCM	PC	Palo Alto Stanford Aquatics	2025 PC BAC Long Course CBA+	AA
+385	17:56.10	Zac Ng		16	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA LC Senior Champs	AA
+386	17:56.34	Adam Habib		16	1500 FR LCM	AZ	Aquabear Swim Club	2025 AZ AZSI LC Senior State Championship @NEP	AA
+387	17:56.50	Auggy Newberry		16	1500 FR LCM	OHO	Powel Crosley, Jr. YMCA	2025 OH PCY Spring LC Invitational	AA
+388	17:56.80	SAM QUENTIN	Yes	16	1500 FR LCM	FG	Ransom Everglades Aquatic Club	2025 FG Jesse Vassallo Swimming Invitational	AA
+389	17:57.03	Tanner Nelson		16	1500 FR LCM	IE	Spokane Waves Aquatic Team	2025 IE Long Course Championships	AA
+390	17:57.18	Desmond Ortega		16	1500 FR LCM	IA	Central Iowa Aquatics	2025 IA RIP H2Opener	AA
+391	17:57.45	Dylan Fujita		16	1500 FR LCM	PC	Alto Swim Club	2025 PC Speedo Sectionals - Novato	AA
+392	17:57.46	Eli Hazlet		16	1500 FR LCM	HI	Lahaina Swim Club	2025 HI 2025 Hawaiian Swimming Age Group LCM Championship	AA
+393	17:57.71	Jacob Angel		16	1500 FR LCM	CA	Santa Barbara Swim Club	2025 CA Los Angeles Invite	AA
+394	17:57.75	Caleb McCoy		16	1500 FR LCM	IN	Fishers Area Swimming Tigers	2025 IN ISI Senior LC Champs	AA
+395	17:58.53	Grey Duncan		16	1500 FR LCM	NC	Marlins Of Raleigh	2025 NC NCAC Meet on the Hill	AA
+396	17:58.65	Aaron Williams		16	1500 FR LCM	GU	Magnolia Aquatic Club	2025 GU LC Senior Championships	AA
+397	17:58.70	Shane Kelley		16	1500 FR LCM	IN	Brownsburg Swim Club	2025 IN ISI Senior LC Champs	AA
+398	17:59.02	Connor Shives		16	1500 FR LCM	MA	York YMCA	2025 MD NBAC MID SUMMER CLASSIC MEET	AA
+399	17:59.26	Luke Sosnowski		16	1500 FR LCM	MI	Farmington Family Y Stingrays	2025 MI ULTRA State Championship	AA
+400	17:59.29	Anthony Ferranola		16	1500 FR LCM	MR	Sachem Swim Club	2025 MR SSC A-May-Zing Races Invitational	AA
+401	17:59.39	Dane Erickson		16	1500 FR LCM	SD	Sioux Falls Swim Team	2025 SD State Long Course Meet	AA
+402	17:59.97	Mark Seidling		16	1500 FR LCM	ND	Mandan Marlins Swim Club	2025 ND ND LC State Championships	AA
+403	17:59.98	Shlok Chowdhury		16	1500 FR LCM	AZ	Arizona Aquatic Club	2025 AZ FAST Mayflower Invite	AA
+404	18:00.36	Taevin Kim		16	1500 FR LCM	GU	Cypress Fairbanks Swim Club	2025 GU Fleet Distance Challenge	AA
+405	18:00.66	Ben Chazan		16	1500 FR LCM	MA	Jersey Wahoos	2025 MA MASI LC Senior Championships CC	AA
+406	18:00.86	Tristan Ma		16	1500 FR LCM	AZ	Arizona Aquatic Club	2025 AZ FAST Mayflower Invite	AA
+407	18:00.99	Brayden Bundy		16	1500 FR LCM	NM	Charger Aquatics	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+408	18:01.10	Milo Littenberg		16	1500 FR LCM	SE	Madison Swimming Association	2025 SE HSA June Invitational	AA
+409	18:01.23	Miles Bratman		16	1500 FR LCM	PN	Excel Swim Club	2025 PN 13&O Long Course Championships	AA
+410	18:01.31	Andrew Deng		16	1500 FR LCM	PN	King Aquatic Club	2025 PN SMAC Summer Classic Invitational	AA
+411	18:01.33	Peter Wittnebel		16	1500 FR LCM	IA	Linn-Mar Swim Team	2025 IA BLST SUMMER SIZZLER	AA
+412	18:01.35	Wesley Campbell		16	1500 FR LCM	SE	Memphis Tiger Swimming	2025 IN Indy Summer Cup	AA
+413	18:01.73	Bodhi Comerford		16	1500 FR LCM	CO	Highlands Ranch Aquatics	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+414	18:01.80	Knox Neff		16	1500 FR LCM	SE	Ensworth Aquatics	2025 SE AUB Richard Quick Invitational	AA
+415	18:02.58	Schuyler Wright		16	1500 FR LCM	PN	King Aquatic Club	2025 PN KING Spring Derby	AA
+416	18:02.84	Towa Murdock		16	1500 FR LCM	CA	Rose Bowl Aquatics	2025 CA SCS/BREA Summer Age Group Championships	AA
+417	18:03.13	Grant Hewett		16	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA LC Senior Champs	AA
+418	18:03.25	Mason Benefield		16	1500 FR LCM	IN	Warriors Swim Club	2025 IN CGAC Mid Summer Spectacular	AA
+419	18:03.32	Carson Muenchow		16	1500 FR LCM	ST	Alamo Area Aquatic Association	2025 ST AAAA "BB" and Faster Alamo Mile	AA
+420	18:03.44	Kaden Stinson		16	1500 FR LCM	CA	Riverside Aquatics Association	2025 CA SCS/RAA Sumer Age Group Championships	AA
+421	18:03.50	Andrew Varanese		16	1500 FR LCM	LE	Great Lakes Sailfish Swimming	2025 LE Holtrey25	AA
+422	18:03.79	Brandon Lin		16	1500 FR LCM	HI	Swim Kauai Aquatics	2025 CA SBSC Semana Nautica	AA
+423	18:03.88	Clark Young		16	1500 FR LCM	MV	Wichita Swim Club	2025 AR NWAA Memorial Classic	AA
+424	18:04.38	Tom Wrenholt		16	1500 FR LCM	PN	Seattle Metropolitan Aquatic Club	2025 PN IST Sockeye Springtime Madness	AA
+425	18:05.03	Phoenix Vaonakis		16	1500 FR LCM	PV	Rockville Montgomery Swim Club	2025 PV LC Distance Meet	AA
+426	18:05.19	Dylan Johnson		16	1500 FR LCM	MA	Pennsylvania Aquatic Club	2025 MA Chargers Mid Season Long Course Invitational	AA
+427	18:05.34	Grey McKelvey		16	1500 FR LCM	AM	Team Pittsburgh Elite Aquatics	2025 NI Eastern Zone Senior Championships	AA
+428	18:05.56	Ryan Moscarella		16	1500 FR LCM	NJ	Scarlet Aquatics	2025 NJ 2025 LC Gold Championships	AA
+429	18:05.77	Elan Tamez		16	1500 FR LCM	CO	Fort Collins Area Swim Team	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+430	18:05.78	Noah Ditmer		16	1500 FR LCM	GA	Summit Family YMCA Titans	2025 FL YMCA National Long Course Swimming Championships	AA
+431	18:06.41	Simeon Sikirica		16	1500 FR LCM	MA	Upper Main Line YMCA	2025 MA LAC Longing For Summer	AA
+432	18:07.25	Mateus Luevano		16	1500 FR LCM	CA	La Mirada Armada	2025 CA SCS/BREA Summer Age Group Championships	AA
+433	18:07.60	Brennan Smith		16	1500 FR LCM	MA	Emmaus Aquatic Club	2025 MA MASI LC Senior Championships CC	AA
+434	18:07.75	Ryan Cha		16	1500 FR LCM	CA	Porter Valley Polar Bears	2025 CA SCS/BREA Summer Age Group Championships	AA
+435	18:08.11	Ben Richert		16	1500 FR LCM	LA	Crawfish Aquatics	2025 LA Senior LC State Championships	AA
+436	18:08.21	Derek Johnson		16	1500 FR LCM	GU	Swim Streamline at Northampton	2025 GU LC Senior Championships	AA
+437	18:08.40	Andrew Stolz		16	1500 FR LCM	CO	North Jeffco Swim Team	2025 CO CSI Long Course Open	AA
+438	18:08.96	Powell Jacob		16	1500 FR LCM	OR	Mount Hood Aquatics	2025 OR Seth Dawson	AA
+439	18:09.20	Braeden Grabow		16	1500 FR LCM	NT	Tyler Rose Aquatic Club	2025 NT IRON Senior Qualifier	AA
+440	18:09.42	Brady Harris		16	1500 FR LCM	ST	Alamo Area Aquatic Association	2025 ST AAAA "BB" and Faster Alamo Mile	AA
+441	18:09.46	Conor Lilley		16	1500 FR LCM	SE	Barracuda Swim Club of Northeast Tennessee	2025 NC EAC Independence Invitational	AA
+442	18:10.18	Adrian Yang		16	1500 FR LCM	GU	First Colony Swim Team, Inc.	2025 GU FCST Summer Splash	AA
+443	18:10.73	Nathan Blackwood		16	1500 FR LCM	WI	Waukesha Express Swim Team	2025 WI LAKE WESTERN GREAT LAKES OPEN INVITATIONAL	AA
+444	18:10.78	Corbin Bradwell		16	1500 FR LCM	MV	COOL Swim Team	2025 MV Region VIII Speedo Summer Sectionals	AA
+445	18:10.80	Matthew McGinnis		16	1500 FR LCM	PN	Valley Aquatics	2025 PN SMAC Summer Classic Invitational	AA
+446	18:10.81	Wiliam Kucmierczyk		16	1500 FR LCM	NJ	Scarlet Aquatics	2025 NJ Summer Luau	AA
+447	18:11.08	Arbor Kimdon		16	1500 FR LCM	OR	Corvallis Aquatic Team	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+448	18:11.30	Zane Imonen		16	1500 FR LCM	HI	Kona Aquatics Club, Inc.	2025 HI Senior Summer Championships (LCM)	A
+449	18:11.44	Max Wesemann		16	1500 FR LCM	UT	West Valley Aquatic Seawolves	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	A
+450	18:11.59	Aidan Nottingham		16	1500 FR LCM	CT	Cheshire Y Sea Dog Swim Club	2025 CT Senior Championships	A
+451	18:12.03	Frankie Thomas		16	1500 FR LCM	CA	Alpha Aquatics	2025 CA SGAC March LCM	A
+452	18:12.46	Austin McCoy		16	1500 FR LCM	CO	Aces Swim Club	2025 CO CSI Senior LC State Championships	A
+453	18:12.54	Joshua Zifcak		16	1500 FR LCM	AZ	Swim Neptune	2025 AZ AZSI LC Senior State Championship @NEP	A
+454	18:12.70	Ethan Hankinson		16	1500 FR LCM	AM	Steel City Aquatics	2025 AM LC Age Group Champs	A
+455	18:13.13	Jesse Wu		16	1500 FR LCM	AZ	Arizona Aquatic Club	2025 AZ FAST Mayflower Invite	A
+456	18:13.23	Nate Fink		16	1500 FR LCM	MD	Ocean Pines Swim Team	2025 PV FISH June LC Invitational	A
+457	18:13.71	Liam Sheridan		16	1500 FR LCM	SE	Bartlett Extreme Swim Team	2025 SE Southeastern Summer LC Championships	A
+457	18:13.71	Ben Wrenholt		16	1500 FR LCM	PN	Seattle Metropolitan Aquatic Club	2025 PN SMAC Summer Classic Invitational	A
+459	18:13.95	Charlie Kidder		16	1500 FR LCM	KY	Kentucky Aquatics	2025 KY CLPR 24th Annual David Webb Meet	A
+460	18:14.24	Tyler Shelnutt		16	1500 FR LCM	IN	Flashes Aquatics	2025 IN ISI Senior LC Champs	A
+461	18:14.61	Alex Powell		16	1500 FR LCM	PC	Ladera Oaks	2025 PC DACA Long Course CBA+	A
+462	18:14.62	Nathan Kessler		16	1500 FR LCM	IL	Team Millennium	2025 IL Illinois Swimming Summer Senior Championships	A
+463	18:14.80	James Gilkey		16	1500 FR LCM	MN	Rochester Swim Club	2025 SD Ready for Long Course Meet	A
+464	18:15.15	Luke Tartaglione		16	1500 FR LCM	GA	Dynamo Swim Club	2025 GA Long Couse Senior State Championships	A
+465	18:15.20	Landon Sinn		16	1500 FR LCM	ST	Alamo Area Aquatic Association	2025 ST AAAA "BB" and Faster Alamo Mile	A
+466	18:15.22	Yejun Lee	Yes	16	1500 FR LCM	CA	FAST Swim Team	2025 CA FAST Jon Urbanchek Open Invite	A
+467	18:15.31	Hamish McKenzie	Yes	16	1500 FR LCM	MW	Greater Nebraska Swim Team	2025 MW Midwestern 13 & O Long Course Champs	A
+468	18:16.44	Luke Parker		16	1500 FR LCM	PC	Unattached	2025 PC NVST Long Course CBA+ Summer Plunge	A
+469	18:16.52	Colin Pierce		16	1500 FR LCM	MA	Jersey Wahoos	2025 NJ TYR LC Winter Invitational	A
+470	18:17.10	Landon Henderson		16	1500 FR LCM	GU	Swim Streamline at Northampton	2025 GU LC Senior Championships	A
+471	18:17.55	Tyson Book		16	1500 FR LCM	MD	North Baltimore Aquatic Club	2025 MD SPEEDO MARYLAND LONG COURSE CHAMPIONSHIP MEET	A
+472	18:17.70	Cal Farrell		16	1500 FR LCM	MR	Condors Swim Club	2025 MR Condors June Summer Solstice Invitational	A
+473	18:17.74	Grady Clark		16	1500 FR LCM	SE	Huntsville Swim Association	2025 SE Southeastern Summer LC Championships	A
+474	18:17.92	Sean Splonskowski		16	1500 FR LCM	AD	Clifton Park-Halfmoon Piranhas	2025 AD AD Long Course Championships	A
+475	18:18.74	Isaac Ramirez		16	1500 FR LCM	IN	Pacesetter Aquatics	2025 IN ISI Senior LC Champs	A
+476	18:19.08	Darius Damian		16	1500 FR LCM	PV	Machine Aquatics	2025 VA MACH LC Spring Invitational	A
+477	18:19.56	Marcus Young		16	1500 FR LCM	PV	The Fish	2025 PV LC Open Championships	A
+478	18:20.09	Evan Perlovich		16	1500 FR LCM	CA	Los Angeles Swim Club	2025 CA CANY 15th Annual Red, White & Blue Memorial Day meet	A
+479	18:20.18	Oliver Parkinson		16	1500 FR LCM	SE	Madison Swimming Association	2025 SE HSA June Invitational	A
+480	18:20.28	Cole Harclerode		16	1500 FR LCM	NC	Marlins Of Raleigh	2025 SC TG Dash & Splash	A
+480	18:20.28	Andrew Blauer		16	1500 FR LCM	WI	Pleasant Prairie Patriots Swim Team	2025 WI PX3 JULY MID-WEEK MILE	A
+482	18:20.62	Jake Walker		16	1500 FR LCM	NC	Marlins Of Raleigh	2025 NC NCAC Meet on the Hill	A
+483	18:20.63	Elliott Austin-Bowen		16	1500 FR LCM	GA	Athens Bulldog Swim Club	2025 SC TG Dash & Splash	A
+484	18:20.74	Tyler Stich		16	1500 FR LCM	WI	Elmbrook Swim Club	2025 FG Swim Fort Lauderdale Speedo Summer Classic	A
+485	18:21.39	Sawyer Ivy		16	1500 FR LCM	GA	SwimAtlanta	2025 GA Long Couse Senior State Championships	A
+486	18:21.44	Everson Connors		16	1500 FR LCM	MT	Helena Lions Swim Team	2025 MT Swimming Long Course State Championship	A
+487	18:21.70	Asher Maurice		16	1500 FR LCM	GA	Dynamo Swim Club	2025 SE HSA June Invitational	A
+488	18:21.87	Rocco Khan		16	1500 FR LCM	PN	Bellingham Bay Swim Team	2025 PN 13&O Long Course Championships	A
+489	18:22.54	Connor Muran		16	1500 FR LCM	OZ	Parkway Swim Club	2025 MV CSC Summer Invitational	A
+490	18:22.73	Hugo Mickus		16	1500 FR LCM	AM	Fox Chapel Killer Whales	2025 AM LC Age Group Champs	A
+491	18:24.22	Rohan Parker		16	1500 FR LCM	CA	FAST Swim Team	2025 CA GWSC Orange Committee B Min.	A
+492	18:24.35	Daniel Kim		16	1500 FR LCM	MR	Phoenix Aquatic Club USA LLC	2025 MR LIAC Summertime Classic Invitational	A
+493	18:24.49	Joe Sievenpiper		16	1500 FR LCM	VA	HVA Current	2025 VA LC Senior Champs	A
+494	18:24.58	Winlon Knowles		16	1500 FR LCM	GA	Dynamo Swim Club	2025 SE HSA June Invitational	A
+495	18:24.89	Isaac Bockman		16	1500 FR LCM	PV	The Fish	2025 PV FISH June LC Invitational	A
+496	18:25.39	Drew Leibold		16	1500 FR LCM	IA	Davenport Metro Swim Team	2025 IA BLST SUMMER SIZZLER	A
+497	18:25.58	Jaxson Mania		16	1500 FR LCM	CO	Fort Collins Area Swim Team	2025 CO CSI Senior LC State Championships	A
+498	18:26.27	Patrick Grinsell		16	1500 FR LCM	VA	SwimRVA	2025 VA SRVA Summer Invitational	A
+499	18:26.49	Hussnain Anwar		16	1500 FR LCM	MR	APEX Swim Club	2025 NE SUN Summer Solstice Prelim/Final	A
+500	18:26.74	Calvin Hitt		16	1500 FR LCM	NC	Unattached	2025 XXXVIII Carifta Aquatic Championships - Trinidad	A

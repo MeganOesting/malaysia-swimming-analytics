@@ -1,0 +1,350 @@
+### How this can become a PhD in Educational Measurement
+
+- A defensible dissertation could center on designing, validating, and implementing a measurement framework that:
+  - Creates regionally-relevant performance scales (Malaysia Age Points).
+  - Sets event- and age-specific “On Track” standards predictive of SEA Games podium outcomes.
+  - Builds and validates an evaluation rubric for talent identification and investment decisions (Pelapis).
+- This is squarely Educational Measurement: construct definition, test design, standard setting, reliability, validity evidence, fairness, and consequential impact.
+
+### A possible dissertation structure (3–4-study model)
+
+- Study 1 — Construct definition and scale design (Malaysia Age Points)
+  - Define the construct: age- and event-adjusted swimming performance.
+  - Build the scale: calibrate MAP using AQUA/USA distributions; verify monotonicity, interpretability, and invariance across age, gender, events.
+  - Evidence: internal structure (factor/scale coherence), relations to other variables (AQUA, ranks), fairness (DIF across groups), reliability (precision/SEM across ability range).
+
+- Study 2 — Regional standard setting for On Track benchmarks
+  - Problem: endpoint moves from world A to SEA bronze; naive back-mapping reduces predictiveness at ages 15–18.
+  - Method: event/gender/age-specific z-based targets on reference distributions; standard-setting methods (Angoff/Bookmark variants) adapted to continuous performance metrics; sensitivity analyses for different selectivity levels.
+  - Evidence: predictive validity (probability of future SEA podium/selection), external relations (national rankings), consequential validity (selection yield/cost trade-offs).
+
+- Study 3 — Evaluation rubric development for TI decisions
+  - Instrument: a decision rubric combining performance, progression, resilience, training context, etc.
+  - Methods: instrument design; rater training; reliability via Generalizability Theory and/or Many-Facet Rasch Measurement (MFRM) for raters×events×age.
+  - Evidence: inter-rater reliability, dimensionality, fairness (rater severity bias), decision consistency.
+
+- Study 4 — Longitudinal and causal-inference evaluation
+  - Model retention and progression (ages 15–18) and outcomes (SEA podium/qualifying).
+  - Methods: multilevel longitudinal models, survival/attrition models, Bayesian hierarchical updates; policy simulation of funding scenarios.
+  - Evidence: incremental validity (rubric + On Track improves prediction vs performance alone); robustness across cohorts.
+
+### Core validity framework to satisfy a PhD defense
+
+- Adopt Kane’s argument-based validation (or Messick’s unified validity) and the Standards for Educational and Psychological Testing (AERA/APA/NCME).
+- Required lines of evidence:
+  - Test content: expert alignment of MAP/On Track definitions with the talent construct.
+  - Response process: how coaches/analysts interpret and use the rubric and thresholds.
+  - Internal structure: dimensionality, invariance (age, gender, event), scale properties.
+  - Relations to other variables: concurrent/predictive validity (national results, SEA outcomes).
+  - Consequences: intended vs unintended impacts (equity, resource allocation, retention).
+- Fairness and accessibility: DIF/DBF checks by gender, state/club context; transparent accommodations for less-resourced contexts.
+
+### Methods toolbox that fits Educational Measurement
+
+- Scale design: item/score transformations, log-time or AQUA scaling, standard errors across range.
+- Standard setting: Bookmark on ordered exemplars, Angoff on performance descriptors, policy-driven cut-score optimization with uncertainty.
+- Reliability: Cronbach (if composite), G-Theory for multi-facet decisions, MFRM for rater/event/age facets.
+- Validity statistics: correlation, ROC/PR curves, decision consistency/inconsistency, calibration plots, uplift modeling.
+- Longitudinal: mixed-effects growth models; survival analysis for dropout; Bayesian updating for small samples.
+- Fairness: DIF/MIMIC/IRT, subgroup sensitivity, distributional equity analyses.
+
+### Data and design requirements
+
+- Datasets:
+  - Historical Malaysian performances by event/gender/age; SEA Games medal ages/times.
+  - USA distributions (by age/event/gender) to norm z-based thresholds.
+  - Pelapis selection/funding records and outcomes for predictive checks.
+  - Rater rubric scores with multiple raters/events for G/MFRM.
+- Design:
+  - Pre-register analysis plan; hold-out and temporal validation; sensitivity and uncertainty quantification.
+  - Expert panels for content validity and standard setting.
+  - Pilot and field tests for the rubric; rater training protocol.
+
+### Ethics and governance
+
+- IRB/ethics approval, consent where applicable, de-identification, secure storage.
+- Bias mitigation plans; transparent reporting of trade-offs (false positives/negatives).
+- Stakeholder review (national federation, coaches) to assess consequences.
+
+### What dissertations generally need for a successful defense
+
+- A clear problem statement and theoretical framework grounded in measurement science.
+- Original contribution: new scale, adapted standard-setting for continuous sport metrics, validated rubric, and a validated predictive selection system for a regional context.
+- Rigorous methodology with appropriate validity evidence and reliability analyses.
+- Transparent limitations, uncertainty, and reproducibility (code, data-sharing plan).
+- Practical and theoretical implications, plus a path for future research and policy translation.
+
+### Deliverables you’d produce
+
+- Malaysia Age Points technical manual (construct, methods, reliability, validity).
+- On Track standard-setting report per event/gender with policy-ready thresholds.
+- Evaluation rubric manual (training, scoring, reliability, fairness).
+- Longitudinal validation report with predictive performance, calibration, and simulation of funding strategies.
+- Reproducible code and a de-identified data appendix.
+
+- In short: frame your current work as the design, validation, and implementation of a measurement system for talent identification. Anchor it in recognized validity frameworks, produce multi-study evidence, and demonstrate predictive, fair, and consequentially positive decisions for Malaysia’s pathway.
+
+
+My prompt and answer from Cursor (also feed in to chatgpt my slide show to explain as well)
+wati let me tell you about what we are looking at.  Sheet MOT Tables 25, in cols W-AI will be what we look at first, w is gender, x is event, y is age, z is the MOT Time aa is the MOT AQUA AB is the MAP Base which is all the 100th rank in the all time top 100 times in the USA database. AD is the MOT as a % of MAP Points, AE is MOT AQUA as a % os SEA A AQUA, AF is the delta of improvment needed at each conescutive age.  AG is +1 of the number of usa swimmers in 2025 that would ahve gone faster than the al time 100th time, and AH is the +1 of the number of swimmers in the USA that went faster than the MOT time in 2025 based on the USA 2025 rankings.  The reason it's +1 is because i used the rank if the time had been swum.  diregard the events that are of the 50 distance in this data gathering and in the calculations.  first grab this data and put it in a working spreadhseet called MOT Statistical Workbook and give me an overview of what you see and then i will start asking your questions.  My problem is that i mapped the malaysia on track times (MOT) from the canada on track times in the following manner: Canada on track has three tracks, 1 2 and 3 for early middle and late developers, the early track takes 4 years to reach the endpoint which is the world aquatics A time, the track 2 takes longer, 5 years, and the later track takes 6.  you can see thse times exactly in columns A-E, those are times directly from the canada on track tables.  What i did is i put the malaysian endpoint at the sea games bronze medal (which qualifies swimmers in Malaysia for the podium squad, the national team) and those times per event are in col o (in seconds).  then i created 1 track for MOT where i started the curve at the age canada started their earlier track 1 and ended it at the age of their track 3 ending age, that whole tabel in on the MOT Tables 21 sheet for reference. the MOT Tables 25 sheet is different in that i extended the age of achieving the end point to reflect the age the medal winners are when they achieve medals (data from the last 3 SEA Games) and that data is in columns A B C E F and G and H of SEA Medal Data 19 22 23.  But what i believe happened is that when i move the endpoint time to a time so much slower, i moved to a different place on the bell curve, one much closer to the mean, so that when i moved backwards from there to map the progression to that time, the "Track" to that time, by the time i got ages 13 14 and 15 (and seomtimes 16) that performance would not be predictive because it's now probably within a z-score of 0-1, which would not ditingush the swimmer as having ditinguished themselves for flagging as a potential to become a SEA Games medalist.  the whole goal was to help the talent identification system of malaysia to track promising "on track" athletes for their "Pelapis" team which is the national Junior team, with KPIs of winning a medal in 2-4 years at the SEA Games.  So i am to help with being an investment advisor so they select and fund athletes with the highest likelihood of producing medals evidenced by being On Track.  what problems do you see with my methodolgy and how would you do it so that the on track curve produced for malaysia, entry age starting at 15 years old (because we dont have university swimming system here like in the USA so a very high percentage of swimmers quit the sport at ages 17-18, especially female swimmers, so we need to identify them at 15 so that we can invest in the ones with promise and hoprefully keep them developing as they age to the sea games medal average ages.  we need to do this analysis by event because for instance teh female 100 back has a totally different age entry point and progression than say the mens 100 Breast.  so dont average accross events, i need to know what the bell curve looks like for each event adn gender, and i need you to use the USA data to make a bell curve model that we can use to say that our MOT entry time at age 15 and each successive age to 18 is at least in the predictive zone which i am guessing to be a zscore of maybe 1.5?  i was assuming that the 100th time in the usa all time rankings was a z score of 2 ish, but i don't know.  i might be able to grab more numbers for you from the USA swimming database so ask for what you need to model a normal curve so i can keep the MOT starting at a level that is predictive, what's that z score and corresponding time for ages 15 16 17 and 18.  summarise my problem and your proposed solution.
+
+I'll first create a script to extract columns W:AI from `MOT Tables 25`, exclude 50m events, and write them to `MOT Statistical Workbook.xlsx` with an overview sheet. Then I'll run it and share the high-level summary.
+
+[1 tool called]
+
+I'll create a Python script that reads the source workbook, extracts the specified columns, filters out 50m events, and writes the output with a quick overview sheet. Then I'll run it.
+
+[3 tools called]
+
+I'll quickly verify the output by reading the generated overview sheet and reporting basic counts.
+
+[1 tool called]
+
+I created and ran a script to extract columns W:AI from sheet `MOT Tables 25`, excluded 50m events, and wrote `MOT Statistical Workbook.xlsx` with an Overview. Now I'll mark that task complete and outline the methodology critique and proposed solution using event- and age-specific z-score modeling on USA distributions.
+
+[1 tool called]
+
+### A. Quick overview of extracted data
+- I created `MOT Statistical Workbook.xlsx` with:
+  - Sheet `MOT_W_to_AI`: Columns W–AI from `MOT Tables 25`, cleaned; 50m events excluded.
+  - Sheet `Overview`: Per gender/event summary with age coverage and medians for `MOT AQUA`, `MOT % of MAP`, and `MOT AQUA % of SEA A AQUA`.
+
+If you open `MOT Statistical Workbook.xlsx`, the `Overview` tab should help you scan which events have full 15–18 coverage and where MOT sits relative to MAP and SEA A AQUA.
+
+### B. Your methodology issue (summary)
+- You re-anchored the endpoint from world-level (Canada tracks to WA “A”) to SEA Games bronze (slower), then back-propagated a single track across ages.
+- By anchoring at a slower endpoint, the back-propagated early ages (13–16) moved closer to the population mean. This makes 15–18 “on track” times non-predictive (z-score near 0–1), failing to separate medal-likely athletes.
+- A single generic curve ignores event- and gender-specific age distributions and peak ages, which differ meaningfully (e.g., W 100 Back vs M 100 Breast).
+
+### C. Proposed solution: event- and age-specific z-score targeting using USA distributions
+Goal: Ensure MOT entry points at ages 15–18 select swimmers in a predictive zone (e.g., z ≥ 1.5) for each event/gender.
+
+1) Per-event, per-gender distributions by age:
+   - For each event/gender and age 15, 16, 17, 18, assemble USA season-rank distributions of performance (time or AQUA).
+   - Compute mean μ(age, event, gender) and standard deviation σ(age, event, gender).
+   - Also track tails: p90/p95/p97 or rank thresholds to validate normality assumptions.
+
+2) Calibrate predictive thresholds via z-scores:
+   - Choose predictive cut z* per age/event/gender, e.g., z* ≈ 1.5–2.0 based on desired selectivity and cohort size.
+   - Convert to time threshold T* via the distribution at that age:
+     - If using AQUA (higher is better): threshold = μ + z*σ.
+     - If using Time (lower is better): threshold = μ − z*σ_time (use consistent direction).
+   - This yields MOT15, MOT16, MOT17, MOT18 that are inherently predictive, not just curve-fitted to a slow endpoint.
+
+3) Anchor to SEA medal ages without diluting early selectivity:
+   - Keep SEA bronze as an endpoint reference, but do not force a continuous single-curve back-projection.
+   - Instead, set age-specific thresholds that are predictive (z*), and separately check that the 17–20 age windows align with SEA medal ages and endpoint feasibility.
+   - If needed, interpolate between z-based nodes to fill ages, but never reduce the 15–18 thresholds below their z* targets.
+
+4) Event/gender-specific entry age:
+   - For events where skill maturation is later (e.g., M 100 Breast), allow MOT entry at 16 if data shows meaningful predictiveness starts then.
+   - For earlier-maturing events (e.g., some female strokes), keep 15 but use a higher z* if the field is deeper.
+
+5) Practical outputs for Malaysia selection:
+   - For each event/gender:
+     - Provide a table of MOT thresholds for ages 15–18 based on z*.
+     - Provide estimated hit rates: proportion of USA swimmers exceeding those thresholds, to calibrate cohort sizes.
+     - Provide sensitivity: what happens at z*=1.3, 1.5, 1.7, 2.0.
+
+6) Data needed from you to build the model:
+   - For each event/gender and ages 15, 16, 17, 18:
+     - USA season ranking lists or at least quantiles: mean, standard deviation, and preferably p50, p80, p90, p95 in time or AQUA.
+     - If all-time top-100 rows are available by age, we can approximate tail behavior, but season distributions are better.
+   - If you can’t export full distributions, send per-age summary stats:
+     - n, mean, std, p90, p95, best, 100th, 200th times (or AQUA) for each event/gender.
+
+7) How we’ll compute:
+   - For Time-scale variables, convert to AQUA or invert times so “higher is better” to keep z positive as better.
+   - Validate normality; if heavy-tailed or skewed, use log(Time) or quantile-based mapping rather than pure normal.
+   - Produce per-event/gender tables with MOT15–MOT18 derived from z*, plus optional smoothed progression curves.
+
+8) Selecting z*:
+   - Start with z*=1.5 at age 15 and gradually increase to z*=1.7–2.0 by age 18 if attrition requires stronger predictiveness.
+   - Alternatively, fix a target cohort size per event/gender state-wide (e.g., top ~0.5–1.0% of USA-equivalent distribution) and back out the implied z*.
+
+### D. Why this solves your problem
+- It ensures the 15–18 thresholds are anchored in predictive signal relative to a strong reference population, not diluted by a slower endpoint.
+- It respects event- and gender-specific maturation patterns.
+- It yields actionable, selective MOT times that align with talent ID goals for Pelapis.
+
+### E. Next steps I can run now
+- From your `MOT_W_to_AI` data, I can:
+  - Cross-tab which events have full 15–18 coverage and flag gaps.
+  - Build a template for the z-based MOT thresholds per event/gender.
+- From you, please provide USA per-age distribution summaries (mean, std, p90/p95 or raw ranks) for:
+  - Ages 15–18 across all events you care about, split by gender.
+
+Once we have those inputs, I’ll compute and write a new `MOT_Zscore_Model.xlsx` with per-age thresholds and sensitivity tables.
+
+- Completed: environment setup; extracted W–AI to `MOT Statistical Workbook.xlsx`.
+- Next: provide USA age-by-event distribution stats; I’ll generate the z-based MOT threshold tables.
+
+Keith Zvoch (University of Oregon, USA)	Educational measurement & assessment, psychometrics in education and performance domains.	His background in measurement could help you structure the assessment tool (soft skills + performance) in rigorous form.
+6	Kathleen Scalise (University of Oregon, USA)	Advanced measurement/assessment, item-response theory, scale development.	Perfect for building valid assessment instruments for leadership, coachability, swim IQ.
+7	Maithreyi Gopalan (University of Oregon, USA)	Quantitative methods in policy & measurement, causal inference in social settings.	Good fit if you want to link swimmer development to policy/selection results and build causal models.
+8	Ilana Umansky (University of Oregon, USA)	Longitudinal quantitative methods, large scale measurement in education context.	If you treat swimmer pipeline like educational progression, her methods apply well.
+
+Perfect — since you’re consulting in **Eugene, Oregon**, you’re in the *ideal location* to connect with the **Quantitative Research Methods in Education (QRME)** faculty at the **University of Oregon**.
+Here’s exactly how to approach your outreach and frame your materials (the curriculum, rubric, and medal pathway).
+
+---
+
+## 🎯 Step 1: Whom to Contact
+
+The most relevant faculty for your project are:
+
+1. **Dr. Kathleen Scalise** – *Educational Measurement, Psychometrics, and Technology-Enhanced Assessment*
+
+   * Expertise: Measurement design, large-scale assessment validity, and adaptive measurement systems.
+   * Fit: Her psychometric focus will help you validate your “softer skill” assessment (coachability, leadership, maturity, etc.).
+
+2. **Dr. Keith Zvoch** – *Quantitative Methodology and Program Evaluation*
+
+   * Expertise: Statistical modeling, growth modeling, longitudinal design.
+   * Fit: Perfect for your “On Track” time progression models and quantitative side of performance prediction.
+
+Both are in the **College of Education (QRME program)**. You can find their contact information on the UO College of Education website.
+
+---
+
+## 💌 Step 2: How to Reach Out
+
+You’ll want to send a **concise but evidence-backed email** that:
+
+1. Highlights **your professional base** (consulting in Eugene, curriculum designer, data-based national athlete tracking).
+2. Briefly **introduces your project family** (Curriculum, Rubric, Medal Pathway).
+3. Frames your question around **collaboration or mentorship** — not “admissions,” but rather shared research interest.
+4. Invites them to an **initial discussion** (15–20 minutes) about how to situate your work within their research or program.
+
+---
+
+### ✉️ Draft Email Template
+
+> **Subject:** Data-Driven Athlete Development and Measurement Research Collaboration Inquiry
+>
+> Dear Dr. [Scalise/Zvoch],
+>
+> My name is **Megan Oesting**, and I’m a swim coach and performance consultant based here in Eugene. I’ve been developing a **data-driven athlete development framework** that integrates both quantitative and qualitative measurement—connecting statistical performance tracking (e.g., “On Track” progression models based on z-score normalization of swim times) with a **curriculum and rubric** assessing softer skills such as maturity, leadership, swim IQ, and coachability.
+>
+> I’ve attached three working documents for context:
+>
+> * *Swimming Curriculum Technical Manual* (skill progression and pedagogy)
+> * *Athletic Development Rubric* (assessment framework for behavioral and cognitive performance traits)
+> * *Malaysia Medal Pathway Project* (quantitative performance modeling and predictive analytics)
+>
+> I’m interested in exploring how this integrated system aligns with **measurement validity**, **construct modeling**, and **longitudinal growth models**—areas I understand your program and research engage deeply with.
+>
+> Would you be open to an initial conversation about the methodological fit or possible mentorship avenues within the QRME program or related collaborations?
+>
+> Thank you for your time and consideration,
+>
+> **Megan Oesting**
+> [Your contact info]
+> Eugene, OR
+
+---
+
+## 🧩 Step 3: What to Bring / Mention in Discussion
+
+When you meet or correspond further, be ready to discuss:
+
+* **Your goal:** Building a valid and defensible measurement framework for talent identification and athlete development.
+* **The structure of your model:**
+
+  * *Quantitative side:* “On Track” age-based performance z-scores and percentile analysis.
+  * *Qualitative side:* Rubric on soft skills—maturity, coachability, leadership, competition conduct.
+* **Your next step need:** Guidance on psychometric validation, scaling, and longitudinal analysis.
+
+---
+
+## 🪜 Optional: Prepare a “Mentor Brief”
+
+If you’d like, I can help you assemble a **1-page Mentor Brief PDF** that summarizes:
+
+* The three attached documents
+* Key visuals (e.g., your medal pathway chart, curriculum flow)
+* A short paragraph on your project vision and goals
+
+This is perfect to attach alongside your email — it makes it easier for faculty to grasp your scope at a glance.
+
+Would you like me to draft that 1-page Mentor Brief next (ready to send to UO faculty)?
+yes
+Here’s a **1-page Mentor Brief** that summarizes your work clearly and professionally — ideal for sharing with the University of Oregon QRME faculty.
+It draws directly from your *Malaysia Medal Pathway* project, *Athletic Development Rubric*, and *Swimming Curriculum Technical Manual*.
+
+---
+
+# 🏊‍♀️ **Mentor Brief: Data-Driven Athlete Development and Measurement Framework**
+
+**Author:** Megan Oesting
+**Base:** Eugene, Oregon
+**Focus:** Integration of quantitative and qualitative assessment models for athlete development in swimming.
+
+---
+
+## 🎯 Project Overview
+
+This multi-component framework bridges **performance analytics**, **curriculum design**, and **human development measurement** to identify and support athletes with verified medal potential.
+
+It merges three key systems:
+
+1. **Quantitative Tracking (Malaysia Medal Pathway Project)** – Uses longitudinal time-standardized benchmarks to measure athlete progression and medal readiness.
+2. **Behavioral and Cognitive Assessment (Athletic Development Rubric)** – A psychometric-style evaluation tool assessing leadership, maturity, swim IQ, and coachability.
+3. **Pedagogical Curriculum (Swimming Curriculum Manual)** – A technical and tactical learning progression guiding coaches and swimmers through developmental milestones.
+
+---
+
+## 📊 Quantitative Model: Medal Pathway Framework
+
+* **Purpose:** Build a predictive model for long-term athlete development, anchored to **SEA Games medal times** and **World Aquatics (AQUA) point standards**.
+* **Methodology:**
+
+  * Anchor events by *Entry Age*, *Arrival Age (25)*, and *Target Time* (SEA Games bronze).
+  * Build age-based improvement curves using multi-nation historical datasets.
+  * Convert swim times into standardized AQUA points to evaluate whether athletes are *ahead*, *on*, or *behind* the ideal trajectory.
+* **Output:** Age-based “On Track” system that directs investment and coaching focus toward athletes with statistically demonstrated medal potential.
+
+---
+
+## 🧠 Qualitative Model: Athletic Development Rubric
+
+* **Dimensions Assessed:**
+
+  * *Maturity*: Focus, emotional regulation, responsibility.
+  * *Swim IQ*: Strategic execution and technical awareness.
+  * *Leadership & Coachability*: Team influence, adaptability, and response to feedback.
+* **Design:** Mirrors educational rubrics with behavioral anchors at levels 1–5, allowing objective measurement of intangible performance factors.
+* **Goal:** Combine psychometric precision with athlete behavioral insight for a holistic picture of readiness.
+
+---
+
+## 📘 Curriculum Integration
+
+The **Swimming Curriculum Technical Manual** outlines age-appropriate skill progressions and decision-making frameworks that reinforce both physical and cognitive development.
+Each training phase aligns with rubric competencies and AQUA-based performance thresholds, forming a complete athlete learning and measurement ecosystem.
+
+---
+
+## 🔬 Research Fit and Collaboration Opportunity
+
+**Potential intersections with the University of Oregon QRME program:**
+
+* *Measurement validity & construct modeling* (alignment with Dr. Kathleen Scalise’s psychometrics expertise).
+* *Growth modeling & longitudinal design* (relevant to Dr. Keith Zvoch’s work in quantitative evaluation).
+* *Data-informed curriculum and talent identification* — connecting educational measurement methods with athlete development.
+
+---
+
+## 📩 Contact
+
+**Megan Oesting**
+Email: [meganoesting@gmail.com](mailto:meganoesting@gmail.com)
+Location: Eugene, OR
+Focus Areas: Data-Driven Coaching | Measurement Design | Athlete Development | Psychometric Evaluation
+
+---
+
+Would you like me to create this as a polished **PDF version (with visuals and section icons)** — ready to attach to your email to QRME faculty? It can include a small graphic of your “On Track” AQUA curve and rubric snippet to make it visually persuasive.
+
+Also can feed in my WA CV and speaking appendix as application material.
+

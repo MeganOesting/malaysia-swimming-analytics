@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:14-alpine
+    container_name: malaysia-swimming-postgres
+    environment:
+      POSTGRES_DB: malaysia_swimming
+      POSTGRES_USER: swimming_user
+      POSTGRES_PASSWORD: swimming_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U swimming_user -d malaysia_swimming"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: malaysia-swimming-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: malaysia-swimming-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://swimming_user:swimming_pass@postgres:5432/malaysia_swimming
+      - REDIS_URL=redis://redis:6379
+      - ENVIRONMENT=development
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./scripts:/app/scripts
+      - ./database:/app/database
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: uvicorn src.web.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # React Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: malaysia-swimming-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+      - REACT_APP_ENVIRONMENT=development
+    volumes:
+      - ./src/frontend:/app/src
+      - ./src/frontend/public:/app/public
+    depends_on:
+      - backend
+    command: npm run dev
+
+  # Celery Worker
+  celery-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: malaysia-swimming-celery
+    environment:
+      - DATABASE_URL=postgresql://swimming_user:swimming_pass@postgres:5432/malaysia_swimming
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: celery -A src.web.main worker --loglevel=info
+
+  # Flower (Celery Monitoring)
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: malaysia-swimming-flower
+    ports:
+      - "5555:5555"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    command: celery -A src.web.main flower --port=5555
+
+volumes:
+  postgres_data:
+  redis_data:
+
+
+
