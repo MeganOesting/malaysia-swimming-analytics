@@ -1,0 +1,501 @@
+Rank	Swim Time	Name	Foreign	Age	Event	LSC	Team	Meet	Time Standard
+1	59.55	Leah Shackley		16	100 BK LCM	AM	Blair Regional YMCA	2023 VA EZ LC Speedo Super Sectional	2024 Olympic Trials
+2	59.73	Teagan O'Dell		16	100 BK LCM	CA	Mission Viejo Nadadores	2023 Phillips 66 National Championships	2024 Olympic Trials
+3	1:00.06	Summer McIntosh	Yes	16	100 BK LCM	FL	Sarasota Sharks	2023 GA Speedo Atlanta Classic	2024 Olympic Trials
+4	1:00.12	Erika Pelaez		16	100 BK LCM	FG	Eagle Aquatics	2023 TYR Pro Swim Series Ft. Lauderdale	2024 Olympic Trials
+5	1:01.66	Grace Rabb		16	100 BK LCM	MN	Aquajets Swim Team	2023 MN AQJT Summer Spectacular	2024 Olympic Trials
+6	1:01.76	Sylvia Roy		16	100 BK LCM	AM	Mount Lebanon Aqua Club	2023 NI STAR Speedo Sectional Championships EZ North Long Course	2024 Olympic Trials
+7	1:01.80	Emily Hamill		16	100 BK LCM	MA	Germantown Academy Aquatic Club	2023 Phillips 66 National Championships	2024 Olympic Trials
+8	1:01.94	Charlotte Wilson		16	100 BK LCM	CO	Univ of Denver Hilltoppers	2023 Speedo Junior National Championships	2024 Summer Nationals (LCM)
+9	1:01.95	Sarah Rodrigues		16	100 BK LCM	NJ	Unattached	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Summer Nationals (LCM)
+10	1:02.00	Zuri Ferguson	Yes	16	100 BK LCM	NE	Bluefish Swim Club	2023 NE BGSC New England Senior Championship	2024 Summer Nationals (LCM)
+11	1:02.06	Alex Shackell		16	100 BK LCM	IN	Carmel Swim Club	2023 Indy Spring Cup - CAP REACHED	2023 Summer Nationals (LCM)
+12	1:02.25	Lillian Nesty		16	100 BK LCM	FL	Gator Swim Club	2023 FL Summer Senior Championships	2024 Summer Nationals (LCM)
+13	1:02.40	Haley McDonald		16	100 BK LCM	KY	Lakeside Swim Team	2023 IN CZ East Spring Speedo Sectional	2023 Winter US Open (LCM)
+14	1:02.43	Levenia Sim	Yes	16	100 BK LCM	SE	TNT Swimming	2023 TYR PSS Knoxville	2023 Winter US Open (LCM)
+15	1:02.49	Lexi Stephens		16	100 BK LCM	VA	Poseidon Swimming Inc	2023 TYR PSS Knoxville	2023 Winter US Open (LCM)
+16	1:02.57	Lila Higgo	Yes	16	100 BK LCM	FL	Bolles School Sharks	2023 Speedo Junior National Championships	2024 Summer Nationals (LCM)
+17	1:02.58	Delaney Herr		16	100 BK LCM	CA	Unattached	2023 CA TYR Fran Crippen Swim Meet of Champions at MVN	2023 Winter US Open (LCM)
+18	1:02.66	Alexa Conner		16	100 BK LCM	MA	Suburban Seahawks Club	MA JW CLOSED SUMMER SOLSTICE	2024 Summer Nationals (LCM)
+19	1:02.81	Lilla Bognar		16	100 BK LCM	SC	Team Greenville	2023 Phillips 66 National Championships	2024 Summer Nationals (LCM)
+20	1:02.83	Julie Mishler		16	100 BK LCM	IN	Fishers Area Swimming Tigers	2023 IN FAST Summer Jam	2024 Summer Nationals (LCM)
+21	1:02.90	Alana Berlin		16	100 BK LCM	WI	Schroeder YMCA Swim Team	2023 IA Speedo Section Summer Champs CZ North	2023 Winter US Open (LCM)
+22	1:03.06	Natalie Farquhar		16	100 BK LCM	PC	Neptune Swimming	2023 Speedo Junior National Championships	2023 Winter US Open (LCM)
+23	1:03.09	Sophia Sunwoo		16	100 BK LCM	PN	Bellevue Club Swim Team	2023 PN Senior Long Course Champs	2023 Winter US Open (LCM)
+24	1:03.16	Lily Van Heel		16	100 BK LCM	MN	Sea Devils	2023 MN NSAC Minnesota Senior LC State Championship	2023 Winter US Open (LCM)
+25	1:03.23	Kayman Neal		16	100 BK LCM	NC	SwimMAC Carolina	2023 NC SwimMAC Novant Invitational	2023 Winter US Open (LCM)
+25	1:03.23	Karly Boles		16	100 BK LCM	MA	Germantown Academy Aquatic Club	2023 IN NCSA Summer Swimming Championships	2023 Winter US Open (LCM)
+27	1:03.39	Anna Hulan		16	100 BK LCM	SE	Nashville Aquatic Club	2023 WV 23023 Summer Senior Showdown	2023 Winter US Open (LCM)
+28	1:03.41	Emily Brown		16	100 BK LCM	OHO	Dublin Community Swim Team	2023 OH Central Zone LC East Sectional	2023 Winter US Open (LCM)
+29	1:03.52	Phoebe Mayo		16	100 BK LCM	VA	Coast Guard Blue Dolphins	2023 VA CGBD Steve Hennessy Summer Madness	2023 Winter US Open (LCM)
+30	1:03.55	Alyssa Claborn		16	100 BK LCM	NC	Lowes YMCA Lightning Swim Team	2023 FL Last Splash Invitational	2023 Winter US Open (LCM)
+31	1:03.57	Finnly Jollands		16	100 BK LCM	GA	Stingrays	2023 GA Speedo Atlanta Classic	2023 Winter US Open (LCM)
+32	1:03.59	Rebecca Diaconescu		16	100 BK LCM	CA	Team Rebel Aquatics	2023 TYR Pro Swim Series Ft. Lauderdale	2023 Winter US Open (LCM)
+33	1:03.68	Ella Glass		16	100 BK LCM	NT	Texas Ford Aquatics	2023 IN NCSA Summer Swimming Championships	2023 Winter US Open (LCM)
+34	1:03.76r	Kate Hotem		16	100 BK LCM	VA	NOVA of Virginia Aquatics, Inc	2023 Speedo Junior National Championships	2024 Summer Juniors (LCM)
+35	1:03.92r	Erica Jaffe		16	100 BK LCM	SN	Sierra Marlins Swim Team	2023 Speedo Junior National Championships	2024 Summer Juniors (LCM)
+36	1:03.95	Addie Gish		16	100 BK LCM	CA	Rose Bowl Aquatics	2023 Futures - Sacramento, CA	2024 Summer Juniors (LCM)
+37	1:03.99	Nadia Thomas		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 PV NCAP Elite Qualifier	2023 Summer Juniors (LCM)
+37	1:03.99r	Aly Yokoyama		16	100 BK LCM	CA	Rose Bowl Aquatics	2023 CA SCS/BREA Summer Age Group Championships	2024 Summer Juniors (LCM)
+39	1:04.01	Kk LeBlanc		16	100 BK LCM	GU	Sharks Swim Club	2023 GU Senior Championship - TWST	2023 Summer Juniors (LCM)
+40	1:04.02	Avery Luedke		16	100 BK LCM	MN	Aquajets Swim Team	2023 Indy Spring Cup - CAP REACHED	2023 Summer Juniors (LCM)
+41	1:04.04	Katie Buehler		16	100 BK LCM	NC	Mecklenburg Swim Association	2023 NC SwimMAC Martha McKee Open	2023 Summer Juniors (LCM)
+42	1:04.05	libby Bakker		16	100 BK LCM	MN	Aquajets Swim Team	2023 MN AQJT Summer Spectacular	2023 Summer Juniors (LCM)
+43	1:04.13	Isabella Budnik		16	100 BK LCM	MR	Condors Swim Club	2023 CT CPAC June Invitational	2023 Summer Juniors (LCM)
+43	1:04.13	Ryley Clark		16	100 BK LCM	AZ	Life Time Arizona Swim Team	2023 Futures Championships - San Antonio, TX - Cap Reached	2024 Summer Juniors (LCM)
+45	1:04.20	Maddie Reynolds		16	100 BK LCM	FL	Laker Swim	2023 PR Puerto Rico International Swim	2023 Summer Juniors (LCM)
+46	1:04.21	Hailey Dopson		16	100 BK LCM	GA	SwimAtlanta	2023 Futures - Ocala	2024 Summer Juniors (LCM)
+47	1:04.23	Alexia Sotomayor	Yes	16	100 BK LCM	FG	Saint Andrew's Aquatics	2023 FG Southern Zone South Sectional Championships	2023 Summer Juniors (LCM)
+48	1:04.28	Gwyn Frick		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Summer Juniors (LCM)
+49	1:04.29	Jada Duncan		16	100 BK LCM	SN	Wolverine Aquatics	2023 Speedo Junior National Championships	2024 Summer Juniors (LCM)
+50	1:04.37	Kelsey Stuck		16	100 BK LCM	NC	Waves Of Wilmington,Inc.	2023 NC TAC Titans July Qualifier	2023 Summer Juniors (LCM)
+51	1:04.38	Lydia Soldatke		16	100 BK LCM	SD	Sioux Falls Swim Team	2023 Futures Championships - West Fargo, ND	2024 Summer Juniors (LCM)
+51	1:04.38	Olivia Safarikova	Yes	16	100 BK LCM	IL	NASA Wildcat Aquatics	2023 Futures Championships - West Fargo, ND	2024 Summer Juniors (LCM)
+53	1:04.40	Aubrey Simmons		16	100 BK LCM	IN	Carmel Swim Club	2023 IN Senior State LCM Championships	2023 Winter Juniors (SCY)
+54	1:04.54	Ingrid Janney		16	100 BK LCM	CT	Unattached	2023 CT LC Senior Championships	2023 Winter Juniors (SCY)
+55	1:04.55r	Isabella Schneider		16	100 BK LCM	NE	Phoenix Swimming	2023 ND USA Swimming Speedo Championship Series, Central Zone North Section	2023 Winter Juniors (SCY)
+56	1:04.59	Jayla Covington		16	100 BK LCM	FL	Bolles School Sharks	2023 Futures - Ocala	2023 Winter Juniors (SCY)
+57	1:04.65	Kennedi Dobson		16	100 BK LCM	NJ	Eastern Express Swim Team	2023 TYR Pro Swim Series Ft. Lauderdale	2023 Winter Juniors (SCY)
+58	1:04.73	Brianna Deierlein		16	100 BK LCM	FL	Sarasota Sharks	2023 Futures - Ocala	2023 Winter Juniors (SCY)
+59	1:04.77	Jade Garstang	Yes	16	100 BK LCM	UT	Wasatch Front Fish Market	2023 OR THSC SUMMER CLASSIC	2023 Winter Juniors (SCY)
+60	1:04.80	Izzy Ackley		16	100 BK LCM	OZ	Parkway Swim Club	2023 MV CSC Region VIII Sectional Championships	2024 Futures (LCM)
+61	1:04.84	Mazie Paradis		16	100 BK LCM	WI	Verona Area Swim Team	2023 Speedo Junior National Championships	2024 Futures (LCM)
+62	1:04.88	Andrea Dworak		16	100 BK LCM	PV	Rockville Montgomery Swim Club	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+63	1:04.91	Kate Fedor		16	100 BK LCM	CT	ZEUS Swim Team	2023 FL ISCA Summer Senior Blast	2024 Futures (LCM)
+64	1:04.92	Campbell Chandler		16	100 BK LCM	MD	North Baltimore Aquatic Club	2023 MD NBAC SPRING LONG COURSE MEET	2023 Futures (LCM)
+64	1:04.92	Eunice Lee		16	100 BK LCM	PC	Santa Clara Swim Club	2023 PC SCSC Superleague Summer LC Finals	2023 Futures (LCM)
+66	1:04.94	Sophia Brueggeman		16	100 BK LCM	WI	Elmbrook Swim Club	2023 IA Speedo Section Summer Champs CZ North	2024 Futures (LCM)
+66	1:04.94	Julijana Jelic		16	100 BK LCM	MI	Atlantis Swimming	2023 IN CZ East Spring Speedo Sectional	2023 Futures (LCM)
+68	1:04.95r	Lilly Robertson		16	100 BK LCM	SE	Ensworth Aquatics	2023 Futures - Ocala	2024 Futures (LCM)
+69	1:04.96	Chloe Kim		16	100 BK LCM	NJ	Scarlet Aquatics	2023 CA CA-NV Summer Sectionals	2023 Futures (LCM)
+70	1:04.97r	Adeline Cloutier		16	100 BK LCM	FL	Tampa Elite Aquatics	2023 Futures - Ocala	2024 Futures (LCM)
+71	1:04.99r	Sophia Paduano		16	100 BK LCM	MV	Kansas City Blazers	2023 MV CSC Region VIII Sectional Championships	2023 Futures (LCM)
+71	1:04.99	Stella Chapman		16	100 BK LCM	MI	Club Wolverine	2023 TYR PSS Knoxville	2023 Futures (LCM)
+71	1:04.99r	Ella Detter		16	100 BK LCM	PC	Palo Alto Stanford Aquatics	2023 Speedo Junior National Championships	2024 Futures (LCM)
+74	1:05.01	Ashley Morton		16	100 BK LCM	GA	SwimAtlanta	2023 GA Long Course Senior State	2024 Futures (LCM)
+75	1:05.05r	Ellie Horning		16	100 BK LCM	AZ	Scottsdale Aquatic Club	2023 Speedo Junior National Championships	2024 Futures (LCM)
+76	1:05.06	Zara Masud		16	100 BK LCM	CA	Aquazot Swim Club	2023 CA SCS/RAA Summer Age Group Champs	2024 Futures (LCM)
+77	1:05.10	Elle Scott		16	100 BK LCM	VA	NOVA of Virginia Aquatics, Inc	2023 VA LC Senior Champs	2023 Futures (LCM)
+78	1:05.14	Ella Jablonski		16	100 BK LCM	PN	Seattle Metropolitan Aquatic Club	2023 Speedo Junior National Championships	2024 Futures (LCM)
+79	1:05.19	Sophia Szymanski		16	100 BK LCM	IL	NASA Wildcat Aquatics	2023 WI MAC LC MIDWEST INVITATIONAL	2024 Futures (LCM)
+80	1:05.21	Isabella Chow		16	100 BK LCM	IL	Chicago Wolfpack Aquatic Club	2023 IL Duel in the Pool Illinois Swimming	2023 Futures (LCM)
+81	1:05.24	Alexandra Moore		16	100 BK LCM	CT	Chelsea Piers Aquatic Club	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+81	1:05.24	Becky Rentz		16	100 BK LCM	IL	Academy Bullets Swim Club	2023 SE NAC Summer Sizzler	2024 Futures (LCM)
+83	1:05.30	Maecy Wells		16	100 BK LCM	SC	Gamecock Aquatics	2023 SC GAME South Carolina Long Course Senior LSC Championship	2024 Futures (LCM)
+84	1:05.39	Kamile Zinis		16	100 BK LCM	IL	Hinsdale Swim Club	2023 IA Speedo Section Summer Champs CZ North	2024 Futures (LCM)
+85	1:05.40	Emma Tenhundfeld		16	100 BK LCM	OHO	South YMCA-KEY Swimming	2023 NC YMCA Long Course Nationals	2024 Futures (LCM)
+86	1:05.41	Hayden Penny		16	100 BK LCM	SC	Y-Spartaquatics Swim Club	2023 NC SwimMAC Martha McKee Open	2023 Futures (LCM)
+87	1:05.42r	Calissa Kissinger		16	100 BK LCM	FL	Pipeline Swimming	2023 FL Summer Senior Championships	2024 Futures (LCM)
+88	1:05.43	Marin Shimkus		16	100 BK LCM	IL	New Trier Aquatics	2023 IL Illinois Swimming Summer Senior Championships	2024 Futures (LCM)
+88	1:05.43	Aubrey Hull		16	100 BK LCM	NC	Mecklenburg Swim Association	2023 VA NOVA LC Winter Invitational	2023 Futures (LCM)
+90	1:05.45	Emma Redman		16	100 BK LCM	PV	The Fish	2023 PV LC Open Championships	2023 Futures (LCM)
+91	1:05.47	Madi Camden		16	100 BK LCM	MA	Parkland Aquatic Club	2023 MA Long Course Senior Championships	2024 Futures (LCM)
+92	1:05.48	Angelina Huang		16	100 BK LCM	NT	Dallas Mustangs	2023 NT MTRO American Long Course	2023 Futures (LCM)
+93	1:05.52	Mari Griffin		16	100 BK LCM	MV	Wichita Swim Club	2023 MV CSC Region VIII Sectional Championships	2023 Futures (LCM)
+94	1:05.53	Dani Carter		16	100 BK LCM	NJ	Metro Area Life Time	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Futures (LCM)
+94	1:05.53	Isabelle Barger		16	100 BK LCM	WI	Rocket Aquatics	2023 WI LAKE WESTERN GREAT LAKES INVITE LCM	2024 Futures (LCM)
+94	1:05.53	Kelsey Healy		16	100 BK LCM	OK	King Marlin Swim Club	2023 MV CSC Region VIII Sectional Championships	2023 Futures (LCM)
+97	1:05.55	Ariana Zhao		16	100 BK LCM	NE	Phoenix Swimming	2023 Speedo Junior National Championships Time Trials	2024 Futures (LCM)
+98	1:05.57	Hannah Cousins		16	100 BK LCM	IA	Piranhas Swim Club	2023 WI LAKE WESTERN GREAT LAKES INVITE LCM	2024 Futures (LCM)
+99	1:05.61r	Mia Slowik		16	100 BK LCM	MR	Asphalt Green Unified Aquatics	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Futures (LCM)
+100	1:05.62	Maren Patterson		16	100 BK LCM	OHO	Mako Swim Team	2023 IN CZ East Spring Speedo Sectional	2023 Futures (LCM)
+101	1:05.64	Grace Kraeger		16	100 BK LCM	OZ	CSP Tideriders	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+101	1:05.64	Lorin Tobler		16	100 BK LCM	AZ	Gold Medal Swim Club	2023 AZ Long Course Senior State Championships	2024 Futures (LCM)
+103	1:05.65	Sadie Murphy		16	100 BK LCM	IL	Academy Bullets Swim Club	2023 SE NAC Summer Sizzler	2023 Futures (LCM)
+104	1:05.68	Kate Bradley		16	100 BK LCM	GA	Marietta Marlins, Inc	2023 FL ISCA Summer Senior Blast	2024 Futures (LCM)
+105	1:05.69	Nan Sheppard		16	100 BK LCM	MS	Mississippi Makos Swim Team	2023 MS Long Course State Championship	2024 Futures (LCM)
+106	1:05.71	Eloise Williamson		16	100 BK LCM	NT	COR Swimming	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+107	1:05.73	Tess Heavner		16	100 BK LCM	MI	Club Wolverine	2023 MI Eric Namesnik Memorial Open	2023 Futures (LCM)
+108	1:05.75	Chloi Harper		16	100 BK LCM	NC	SwimMAC Carolina	2023 Futures - Ocala	2024 Futures (LCM)
+108	1:05.75	Mere Whelehan		16	100 BK LCM	NC	TAC Titans	2023 Futures - Ocala	2024 Futures (LCM)
+110	1:05.77	Stephanie Oiesen		16	100 BK LCM	ST	Waterloo Swimming	2023 NT MAC Lone Star Championship of the Universe	2023 Futures (LCM)
+111	1:05.79	Applejean Gwinn	Yes	16	100 BK LCM	CA	Sandpipers Of Nevada	2023 CA Speedo Grand Challenge	2023 Futures (LCM)
+112	1:05.80	Rebekah Gurley		16	100 BK LCM	NT	Metroplex Aquatics	2023 NT MARS 15th Annual Bill Nixon Memorial Meet	2023 Futures (LCM)
+112	1:05.80r	Jenna Williams		16	100 BK LCM	IL	St Charles Swim Team	2023 IA Speedo Section Summer Champs CZ North	2024 Futures (LCM)
+114	1:05.82	Maeve Eckerman		16	100 BK LCM	FL	Sarasota Sharks	2023 FL Southern Zone South Sectional Championships	2023 Futures (LCM)
+115	1:05.89	Scout Chapin		16	100 BK LCM	SE	McCallie / GPS Aquatics	2023 SE AUB Richard Quick Invitational	2023 Futures (LCM)
+116	1:05.91	Sienna Angove	Yes	16	100 BK LCM	FL	Sarasota Sharks	2023 GA Speedo Atlanta Classic	2023 Futures (LCM)
+116	1:05.91r	Samantha Synsvoll		16	100 BK LCM	CO	Colorado Springs Area Swimming	2023 CO CSI Senior LC State Championships	2023 Futures (LCM)
+116	1:05.91	Katie Gyure		16	100 BK LCM	NT	Lakeside Aquatic Club	2023 NT MAC Lone Star Championship of the Universe	2024 Futures (LCM)
+119	1:05.93	Melanie Quinto		16	100 BK LCM	SN	Wolverine Aquatics	2023 Futures - Sacramento, CA	2024 Futures (LCM)
+120	1:05.94	Noa Chambers		16	100 BK LCM	NE	Unattached	2023 NC SwimMAC Martha McKee Open	2023 Futures (LCM)
+121	1:05.96	Brianna Cong		16	100 BK LCM	IA	Central Iowa Aquatics	2023 Futures Championships - West Fargo, ND	2024 Futures (LCM)
+122	1:05.98	Abby Reich		16	100 BK LCM	AZ	Phoenix Swim Club	2023 AZ SUN Sun Devil Open	2024 Futures (LCM)
+123	1:05.99	Amelia Labno		16	100 BK LCM	MN	South Metro Storm	2023 MN NSAC Minnesota Senior LC State Championship	2024 Futures (LCM)
+124	1:06.01	Kindsey Joyce		16	100 BK LCM	MW	iNspire Swim Team	2023 Futures Championships - West Fargo, ND	2024 Futures (LCM)
+125	1:06.04r	Katie Lawrence		16	100 BK LCM	NJ	Wyckoff YMCA	2023 NC YMCA Long Course Nationals	2024 Futures (LCM)
+126	1:06.08	Morgan Raether		16	100 BK LCM	MN	Minnetonka Swim Club	2023 MN NSAC Minnesota Senior LC State Championship	2024 Futures (LCM)
+127	1:06.09	Clarke Neace		16	100 BK LCM	NC	SwimMAC Carolina	2023 Speedo Junior National Championships	2024 Futures (LCM)
+128	1:06.10	Abigail Heizer		16	100 BK LCM	GA	Spartan Aquatic Club	2023 Futures - Ocala	2024 Futures (LCM)
+129	1:06.13	Grace Saidmuratov		16	100 BK LCM	CT	Stamford Sailfish Aquatic Club	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Futures (LCM)
+130	1:06.14	Claudia Yovanovich		16	100 BK LCM	PN	Seattle Metropolitan Aquatic Club	2023 CAN Mel Zajac Jr International	2023 Futures (LCM)
+131	1:06.16	Audrey Falkner Worgull		16	100 BK LCM	WI	Lake Country Swim Team	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2024 Futures (LCM)
+131	1:06.16	Lexie Ward		16	100 BK LCM	IN	Carmel Swim Club	2023 SE NAC Summer Sizzler	2023 Futures (LCM)
+131	1:06.16	Gabi Dyer		16	100 BK LCM	CO	Highlands Ranch Aquatics	2023 Futures Championships - San Antonio, TX - Cap Reached	2024 Futures (LCM)
+134	1:06.20	Hannah Wieczorek		16	100 BK LCM	NE	Crimson Aquatics	2023 FL ISCA International Senior Cup	2023 Futures (LCM)
+135	1:06.22	Sophia Pfannstiel		16	100 BK LCM	NT	Texas Ford Aquatics	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+135	1:06.22	Addison Everage		16	100 BK LCM	PC	North Bay Aquatics	2023 Futures - Sacramento, CA	2024 Futures (LCM)
+137	1:06.24	Ella Warren		16	100 BK LCM	NT	Rockwall Aquatic Center of Excellence	2023 ST TXLA Speedo SZ LC Sectional Championships	2023 Futures (LCM)
+138	1:06.25	Maeve O'Donnell		16	100 BK LCM	IL	NASA Wildcat Aquatics	2023 WI MAC LC MIDWEST INVITATIONAL	2023 Futures (LCM)
+139	1:06.29	Sam Schoenborn		16	100 BK LCM	FG	Saint Andrew's Aquatics	2023 FG Southern Zone South Sectional Championships	2023 Futures (LCM)
+139	1:06.29	Sidney Stolle		16	100 BK LCM	AZ	Scottsdale Aquatic Club	2023 AZ Long Course Senior State Championships	2023 Futures (LCM)
+139	1:06.29	Rebecca Pickert		16	100 BK LCM	MV	Ad Astra Area Aquatics	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+142	1:06.32	Layne Jones		16	100 BK LCM	VA	CCA Marlins	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Futures (LCM)
+143	1:06.35r	Jillian Davis		16	100 BK LCM	MV	Wichita Swim Club	2023 MV CSC Region VIII Sectional Championships	2023 Futures (LCM)
+144	1:06.37	Reese Yauger		16	100 BK LCM	OHO	Northern KY Clippers Swimming	2023 OH Central Zone LC East Sectional	2023 Futures (LCM)
+145	1:06.38	Allie Byerly		16	100 BK LCM	GA	Tidal Wave Swimming	2023 GA Long Course Senior State	2024 Futures (LCM)
+146	1:06.39	Ella Cosgrove	Yes	16	100 BK LCM	AZ	Scottsdale Aquatic Club	2023 Speedo Junior National Championships	2024 Futures (LCM)
+147	1:06.41	Hattie Wasmuth		16	100 BK LCM	GA	Dynamo Swim Club	2023 Futures - Ocala	2024 Futures (LCM)
+147	1:06.41	Hailey Vlcek		16	100 BK LCM	IL	Academy Bullets Swim Club	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+147	1:06.41r	Erica Maltsev		16	100 BK LCM	NJ	Greater Somerset County YMCA Storm	2023 NC YMCA Long Course Nationals	2024 Futures (LCM)
+147	1:06.41	Addison Cerney		16	100 BK LCM	ND	Fargo-Moorhead YMCA Swim Team	2023 Futures Championships - West Fargo, ND	2024 Futures (LCM)
+151	1:06.42	Zoey Prezyna		16	100 BK LCM	NI	Victor Swim Club	2023 NC SwimMAC Martha McKee Open	2023 Futures (LCM)
+151	1:06.42	Annabelle Wentzel		16	100 BK LCM	MN	Aquajets Swim Team	2023 Indy Spring Cup - CAP REACHED	2023 Futures (LCM)
+153	1:06.47	Norah Kotnik		16	100 BK LCM	SI	Rancho San Dieguito	2023 Futures - Sacramento, CA	2024 Futures (LCM)
+154	1:06.50	Sadie Hartig		16	100 BK LCM	OHO	Northern KY Clippers Swimming	2023 OH Central Zone LC East Sectional	2023 Futures (LCM)
+155	1:06.52	Nicole Fant		16	100 BK LCM	IN	Jasper Aquatic Wildcats, Inc	2023 IN Senior State LCM Championships	2023 Futures (LCM)
+155	1:06.52	Natalia Gajecki		16	100 BK LCM	CT	Meriden Silver Fins	2023 CT LC Senior Championships	2024 Futures (LCM)
+157	1:06.54	Addy Burrough		16	100 BK LCM	IN	Fort Wayne Swim Team	2023 IN CZ East Spring Speedo Sectional	2023 Futures (LCM)
+158	1:06.56	Olivia Pettit		16	100 BK LCM	PC	Orinda Aquatics	2023 PC Long Course Far Western Championships	2024 Futures (LCM)
+159	1:06.58	Sophia Lickman		16	100 BK LCM	MI	Club Wolverine	2023 MI Eric Namesnik Memorial Open	2023 Futures (LCM)
+160	1:06.59	Alivia Wainwright		16	100 BK LCM	MA	Egg Harbor Twp Seahawks	2023 MA Long Course Senior Championships	2023 Futures (LCM)
+161	1:06.60	Abby Han		16	100 BK LCM	MR	Long Island Aquatic Club	2023 NJ SCAR Memorial Day	2023 Futures (LCM)
+162	1:06.62	Maria Grishaeva		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 PV LC Open Championships	2023 Futures (LCM)
+163	1:06.63	Sophie Phelps		16	100 BK LCM	NE	SOLO Aquatics	2023 NE BGSC New England Senior Championship	2023 Futures (LCM)
+163	1:06.63	Norah Naatjes		16	100 BK LCM	MN	St Croix Swim Club	2023 MN NSAC Minnesota Senior LC State Championship	2024 Futures (LCM)
+165	1:06.64	Julia Shafer		16	100 BK LCM	OHO	Mason Manta Rays	2023 OH RAYS City of Mason Summer Splash	2023 Futures (LCM)
+166	1:06.65	Millie Evans		16	100 BK LCM	OHO	Central Ohio Aquatics	2023 FL ISCA Summer Senior Blast	2024 Futures (LCM)
+166	1:06.65	Alexa McDevitt		16	100 BK LCM	PN	Bellevue Club Swim Team	2023 PN Senior Long Course Champs	2024 Futures (LCM)
+168	1:06.71	Lily Baumgartner		16	100 BK LCM	OHO	Lima Family YMCA Swim Team	2023 NC YMCA Long Course Nationals	2024 Futures (LCM)
+169	1:06.75	Isahbel Krasht		16	100 BK LCM	NT	Texas Ford Aquatics	2023 NT DM LC Senior Circuit #3	2023 Futures (LCM)
+170	1:06.76	Samara Zeinert		16	100 BK LCM	WI	Oshkosh YMCA Dolphin Swim Team	2023 NC YMCA Long Course Nationals	2024 Futures (LCM)
+171	1:06.77r	Georgia Wimberly		16	100 BK LCM	NT	Texas Ford Aquatics	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+171	1:06.77	Ava Allingham		16	100 BK LCM	MN	Aquajets Swim Team	2023 Speedo Junior National Championships Time Trials	2024 Futures (LCM)
+173	1:06.78	Mary Clarke		16	100 BK LCM	PN	Bellevue Club Swim Team	2023 TYR PSS - Mission Viejo TT	2023 Futures (LCM)
+174	1:06.79	Faith Leitel		16	100 BK LCM	CO	Univ of Denver Hilltoppers	2023 OR THSC SUMMER CLASSIC	2023 Futures (LCM)
+175	1:06.81	Sof Tijunelis		16	100 BK LCM	IL	RISE Aquatic Club	2023 ND USA Swimming Speedo Championship Series, Central Zone North Section	2023 Futures (LCM)
+176	1:06.82	Ariel Beltran		16	100 BK LCM	AZ	Gold Medal Swim Club	2023 IA Speedo Section Summer Champs CZ North	2023 Futures (LCM)
+176	1:06.82	Taylor Bacher		16	100 BK LCM	OHO	Mason Manta Rays	2023 OH RAYS City of Mason Summer Splash	2023 Futures (LCM)
+176	1:06.82	Lauryn Kounovsky		16	100 BK LCM	MW	iNspire Swim Team	2023 MV CSC Region VIII Sectional Championships Time Trial	2023 Futures (LCM)
+179	1:06.83	Addy Herl		16	100 BK LCM	CO	Denver Swim Academy	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+179	1:06.83	Maeve Brandenburg		16	100 BK LCM	MD	Cardinal & Gold Aquatics	2023 NI STAR Speedo Sectional Championships EZ North Long Course	2023 Futures (LCM)
+181	1:06.85	Kayla Bolster		16	100 BK LCM	MR	Asphalt Green Unified Aquatics	2023 MR TYR Senior Mets LCM Championship	2023 Futures (LCM)
+182	1:06.86	Kamryn Meskill		16	100 BK LCM	OR	Bend Swim Club	2023 Futures - Sacramento, CA	2020-2024 AAA
+183	1:06.89	Hannah Green		16	100 BK LCM	WI	Pleasant Prairie Patriots Swim Team	2023 ND USA Swimming Speedo Championship Series, Central Zone North Section	2023 Futures (LCM)
+184	1:06.90	Cassidy Allison		16	100 BK LCM	SI	Rancho San Dieguito	2023 Futures - Sacramento, CA	2020-2024 AAA
+184	1:06.90	Macey Stewart		16	100 BK LCM	SE	Auburn Aquatics	2023 GA Speedo Atlanta Classic	2020-2024 AAA
+186	1:06.91	Julia Ogren		16	100 BK LCM	MN	Rochester Swim Club	2023 Futures Championships - West Fargo, ND	2020-2024 AAA
+187	1:06.92	Maeve DeYoung		16	100 BK LCM	OR	Lake Oswego Swim Club	2023 CA Los Angeles Invite	2020-2024 AAA
+188	1:06.96	Ana Hazlehurst		16	100 BK LCM	MD	North Baltimore Aquatic Club	2023 MA CC Chargers Challenge Long Course Closed Invitational	2020-2024 AAA
+189	1:06.98	Addie King		16	100 BK LCM	SC	Wahoo Aquatic Club	2023 GA Edwin Cuttino Invite	2020-2024 AAA
+189	1:06.98	Gio Musiello		16	100 BK LCM	FG	Gulliver Swim Club	2023 FL ISCA International Senior Cup	2020-2024 AAA
+189	1:06.98	Caroline Scharff		16	100 BK LCM	GA	SwimAtlanta	2023 GA Speedo Atlanta Classic	2020-2024 AAA
+192	1:07.00	Sidney Kaufman		16	100 BK LCM	VA	SwimRVA	2023 VA LC Senior Champs	2020-2024 AAA
+193	1:07.01	Natalie Hendricks		16	100 BK LCM	MN	Aquajets Swim Team	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AAA
+194	1:07.02	Ava Easley		16	100 BK LCM	NT	Metroplex Aquatics	2023 GU Texas Senior Circuit 2	2020-2024 AAA
+195	1:07.03	Taylor Cureton		16	100 BK LCM	NC	TAC Titans	2023 NC TAC Titans Triangle Classic	2020-2024 AAA
+195	1:07.03	Isabella Sarvis		16	100 BK LCM	SC	Y-Spartaquatics Swim Club	2023 NC YMCA Long Course Nationals	2020-2024 AAA
+197	1:07.04r	Hadley Dodson		16	100 BK LCM	ST	Waterloo Swimming	2023 ST TXLA Speedo SZ LC Sectional Championships	2020-2024 AAA
+198	1:07.06	Hannah Pryor		16	100 BK LCM	IN	Boonville Aquatic Dolphins	2023 IN Senior State LCM Championships	2020-2024 AAA
+199	1:07.08	Laci Sterkenburg		16	100 BK LCM	GA	SwimAtlanta	2023 GA Speedo Atlanta Classic	2020-2024 AAA
+199	1:07.08	Lily Rossmann		16	100 BK LCM	NT	Mansfield Aquatic Club	2023 NT MTRO American Long Course	2020-2024 AAA
+201	1:07.09	Alex Fuller		16	100 BK LCM	VA	Battlefield Area Star Swimmers	2023 VA LC Senior Champs	2020-2024 AAA
+201	1:07.09	Lyla Roper		16	100 BK LCM	LA	Crawfish Aquatics	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AAA
+203	1:07.10	Avery Vassil		16	100 BK LCM	NC	Mecklenburg Swim Association	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AAA
+204	1:07.12	Allie Witdoeckt		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 VA NOVA LC Winter Invitational	2020-2024 AAA
+204	1:07.12	Natalie Holmes		16	100 BK LCM	ST	Waterloo Swimming	2023 Futures Championships - San Antonio, TX - Cap Reached	2020-2024 AAA
+206	1:07.15	Samantha Chan		16	100 BK LCM	SE	Huntsville Swim Association	2023 SE Southeastern Long Course Championships	2020-2024 AAA
+207	1:07.18	Maela McKallip		16	100 BK LCM	GA	Swim Macon	2023 GA Long Course Senior State	2020-2024 AAA
+208	1:07.21	Kennedy Lee		16	100 BK LCM	PC	Neptune Swimming	2023 Futures - Sacramento, CA	2020-2024 AAA
+208	1:07.21	Claire Roper		16	100 BK LCM	LA	Christus Louisiana Aquatic Club	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AAA
+210	1:07.22r	Evelyn Mulvihill		16	100 BK LCM	IL	RISE Aquatic Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AAA
+210	1:07.22	Olivia Matson		16	100 BK LCM	OHO	Dublin Community Swim Team	2023 OH Central Zone LC East Sectional	2020-2024 AAA
+212	1:07.23	Amanda Barnard		16	100 BK LCM	VA	NOVA of Virginia Aquatics, Inc	2023 VA NOVA LC Senior Classic	2020-2024 AAA
+212	1:07.23r	Lila Connor		16	100 BK LCM	NC	Aquatic Team Of Mecklenburg	2023 Futures Championships - San Antonio, TX - Cap Reached	2020-2024 AAA
+214	1:07.24	Bonita Zuo		16	100 BK LCM	MA	Unattached	2023 WV 23023 Summer Senior Showdown	2020-2024 AAA
+214	1:07.24	Ariel Lin	Yes	16	100 BK LCM	CA	Irvine Novaquatics	2023 CA SCS/RMDA Road to Paris - LCM TF and Finals	2020-2024 AAA
+216	1:07.26	Lily King		16	100 BK LCM	AM	Mount Pleasant Aqua Club	2023 WV CM Renee McCutchan Long Course Invite	2020-2024 AAA
+216	1:07.26	Amber Janky		16	100 BK LCM	AZ	Flying Fish Arizona Swim Team	2023 SR Speedo LC Sectionals	2020-2024 AAA
+218	1:07.28	Chantee Nguyen		16	100 BK LCM	CA	La Mirada Armada	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+219	1:07.30	Katherine Perdue		16	100 BK LCM	NC	Enfinity Aquatic Club	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+220	1:07.31	Alexis Coates		16	100 BK LCM	NE	Unattached	2023 NC GCY Sprint & Distance Meet	2020-2024 AAA
+221	1:07.32	Sophia Blietz		16	100 BK LCM	CA	Canyons Aquatic Club	2023 CA SCS/CANY June Age Group Invite	2020-2024 AAA
+222	1:07.33	Genevieve George		16	100 BK LCM	AZ	Phoenix Swim Club	2023 AZ PSC Phoenix May Cray	2020-2024 AAA
+222	1:07.33	Lena Amare		16	100 BK LCM	SE	Southern Waters Aquatic Team	2023 SE GPAC Summer Finale	2020-2024 AAA
+224	1:07.34	Lili Neisser		16	100 BK LCM	CO	Flatiron Athletic Club	2023 CO Zone 2 - VMAC	2020-2024 AAA
+224	1:07.34	Emily Way		16	100 BK LCM	MA	York YMCA	2023 MD NAAC CAROL CHIDESTER INVITE	2020-2024 AAA
+226	1:07.36	Nora Sherman		16	100 BK LCM	PV	Arlington Aquatic Club	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+227	1:07.37	Macy Lewis		16	100 BK LCM	OK	American Energy Swim Club	2023 NT MAC Senior Meet	2020-2024 AAA
+228	1:07.38	Gracie Gregory		16	100 BK LCM	VA	Williamsburg Aquatic Club	2023 VA LC Senior Champs	2020-2024 AAA
+228	1:07.38	Chloe Vitatoe		16	100 BK LCM	IN	Franklin Regional Swim Team	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+228	1:07.38	Abby Uhl		16	100 BK LCM	IL	Reach Aquatics Swim Club	2023 WI BAC JACK PETTINGER INVITE	2020-2024 AAA
+231	1:07.43	Hannah Krueger		16	100 BK LCM	WT	City Of Midland Swim Team	2023 GU Texas Senior Circuit 2	2020-2024 AAA
+231	1:07.43	Mya de Hart		16	100 BK LCM	PC	El Cerrito Gators	2023 PC Long Course Far Western Championships	2020-2024 AAA
+233	1:07.44	Sofia Burns		16	100 BK LCM	MR	Hauppauge Athletic Association	2023 MR TYR Senior Mets LCM Championship	2020-2024 AAA
+234	1:07.45	Megan Marquardt		16	100 BK LCM	IL	NASA Wildcat Aquatics	2023 IL FMC Spring Into Season LC Swim Meet	2020-2024 AAA
+235	1:07.47	Madison Jacquemin		16	100 BK LCM	SC	Coastal Aquatic Club	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AAA
+235	1:07.47	Mary Flikkema		16	100 BK LCM	IA	Black Hawk Area Swim Team	2023 IA Long Course Championship Meet	2020-2024 AAA
+237	1:07.49	Adalynn Ascher		16	100 BK LCM	MT	Missoula Aquatic Club	2023 SR Speedo LC Sectionals	2020-2024 AAA
+237	1:07.49	Maria Cheng		16	100 BK LCM	IL	FMC Aquatic	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AAA
+239	1:07.50	Maeve Keating		16	100 BK LCM	NC	SwimMAC Carolina	2023 NC SGSA Eastern Invitational	2020-2024 AAA
+240	1:07.51r	Morgan Hoppe		16	100 BK LCM	CA	Evolution Racing Club	2023 CA SCS/RAA Summer Age Group Champs	2020-2024 AAA
+240	1:07.51	Regina Torres Pomar	Yes	16	100 BK LCM	FL	Montverde Aquatic Club	2023 FL Southern Zone South Sectional Championships	2020-2024 AAA
+242	1:07.52	Ellie Schrank		16	100 BK LCM	AR	Northwest Arkansas Aquatics	2023 AR TYR Winter Long Course Invitational	2020-2024 AAA
+242	1:07.52	Jaya Veerapaneni		16	100 BK LCM	IL	RISE Aquatic Club	2023 WI MAC LC MIDWEST INVITATIONAL	2020-2024 AAA
+244	1:07.53	Holly Hirsch		16	100 BK LCM	MD	North Baltimore Aquatic Club	2023 NI STAR Speedo Sectional Championships EZ North Long Course	2020-2024 AAA
+244	1:07.53	Gabby Hall		16	100 BK LCM	LA	swimPAC	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AAA
+244	1:07.53	Savannah Branon		16	100 BK LCM	FL	Episcopal AmberJax	2023 FL BSS TYR June Classic	2020-2024 AAA
+244	1:07.53	Addison Pavek		16	100 BK LCM	MN	Riptide	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AAA
+248	1:07.54	Brooke Bourn		16	100 BK LCM	NC	Swim Fanatics Swim Club	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AAA
+249	1:07.55	Oceane Vanlinthout		16	100 BK LCM	MI	Club Wolverine	2023 MI Michigan Swimming Ultra LCM Championship Meet	2020-2024 AAA
+249	1:07.55	Aziza Meyer		16	100 BK LCM	PN	Bremerton YMCA Swim Team	2023 PN Senior Long Course Champs	2020-2024 AAA
+249	1:07.55	Charlotte Fagin		16	100 BK LCM	IN	Carmel Swim Club	2023 IN Senior State LCM Championships	2020-2024 AAA
+249	1:07.55	Lyla Elaydi		16	100 BK LCM	PC	Santa Clara Swim Club	2023 Futures - Sacramento, CA	2020-2024 AAA
+253	1:07.57	Maggie O'Toole		16	100 BK LCM	OHO	M.E. Lyons/Anderson Barracudas	2023 NC GCY Single Day Splash	2020-2024 AAA
+253	1:07.57	Anna Miler		16	100 BK LCM	WI	Schroeder YMCA Swim Team	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AAA
+253	1:07.57	Peyton Ross		16	100 BK LCM	FL	Sarasota Sharks	2023 FL Sarasota Shark Open	2020-2024 AAA
+256	1:07.59	Marin Clem		16	100 BK LCM	NT	Dallas Mustangs	2023 NT DM LC Senior Circuit #3	2020-2024 AAA
+256	1:07.59	Alli Straub		16	100 BK LCM	IL	Bloomington Normal Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AAA
+258	1:07.60	Maggie O'Shaughnessy		16	100 BK LCM	GA	Chattahoochee Gold Swim Club	2023 Futures - Ocala	2020-2024 AAA
+259	1:07.61	Emmy Therrien		16	100 BK LCM	AZ	Scottsdale Aquatic Club	2023 AZ Long Course Senior State Championships	2020-2024 AAA
+259	1:07.61	Bella Tufts		16	100 BK LCM	IN	Crown Point Swim Club	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+261	1:07.64	Annika Yaworski		16	100 BK LCM	CO	Denver Swim Academy	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+261	1:07.64	Emma Overall		16	100 BK LCM	IL	Hinsdale Swim Club	2023 MI Eric Namesnik Memorial Open	2020-2024 AAA
+263	1:07.65	Lauren Lee		16	100 BK LCM	MR	Badger Swim Club,Inc.	2023 NJ SCAR TYR LC Winter Invite	2020-2024 AAA
+263	1:07.65	Reeves Showfety		16	100 BK LCM	GA	Dynamo Swim Club	2023 GA Bulldog Summer Invite	2020-2024 AAA
+265	1:07.67	Izzy Bloom		16	100 BK LCM	WI	Badger Aquatics Club	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+266	1:07.68	Ashley Connor		16	100 BK LCM	MD	Annapolis Swim Club	2023 Futures Championships - Richmond, VA - CAP REACHED	2020-2024 AAA
+267	1:07.69	Zaria Avestruz		16	100 BK LCM	ST	Nitro Swimming	2023 ST AAAA-NS George Block Invitational	2020-2024 AAA
+268	1:07.70r	Holly Brundage		16	100 BK LCM	VA	757 Swim	2023 VA LC Senior Champs	2020-2024 AAA
+269	1:07.71	Emma Kawai		16	100 BK LCM	NE	Crimson Aquatics	2023 VA EZ LC Speedo Super Sectional	2020-2024 AAA
+270	1:07.73	Kylie Landry		16	100 BK LCM	SE	Memphis Thunder Aquatic Club	2023 SE Southeastern Long Course Championships	2020-2024 AAA
+270	1:07.73	Katherine Beauchene		16	100 BK LCM	CT	Farmington Valley YMCA Tsunamis	2023 CT SAQ May Qualifier	2020-2024 AAA
+270	1:07.73	Kelley Ryan		16	100 BK LCM	WI	McFarland Spartan Sharks	2023 ND USA Swimming Speedo Championship Series, Central Zone North Section	2020-2024 AAA
+273	1:07.74	Shanti Visurakapalli		16	100 BK LCM	OHO	Mount Carmel Force Aquatics Swim Team	2023 OH Central Zone LC East Sectional	2020-2024 AAA
+274	1:07.75	Cambria Jewett		16	100 BK LCM	NE	YMCA of Greater Nashua Storm	2023 NE CRA/USC Timed Final and Prelim/Final Meet	2020-2024 AAA
+274	1:07.75	Aliana Marakovic		16	100 BK LCM	ST	Nitro Swimming	2023 ST AAAA-NS George Block Invitational	2020-2024 AAA
+276	1:07.78	Kathryn Bonneville		16	100 BK LCM	MN	Riptide	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AAA
+276	1:07.78	Hanah Sistrunk		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 PV NCAP Elite Qualifier	2020-2024 AAA
+276	1:07.78	Angie McKane		16	100 BK LCM	NI	Unattached	2023 NI STAR Niagara LSC Long Course Championships	2020-2024 AAA
+279	1:07.79	Miko Takei		16	100 BK LCM	NC	TAC Titans	2023 NC TAC Spring Fling Quad	2020-2024 AAA
+280	1:07.82	Kaitlyn Estes		16	100 BK LCM	PV	Machine Aquatics	2023 PV NCAP Elite Qualifier	2020-2024 AAA
+281	1:07.84	Kylie Montiel		16	100 BK LCM	CA	Lakewood Aquatics	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+281	1:07.84r	Sloan Zallen		16	100 BK LCM	CO	Foothills Swim Team	2023 SR Speedo LC Sectionals	2020-2024 AAA
+281	1:07.84	Suki Burgstiner		16	100 BK LCM	FL	Bolles School Sharks	2023 FL BSS TYR June Classic	2020-2024 AAA
+281	1:07.84	Casey Zentz		16	100 BK LCM	MD	Eagle Swim Team Inc.	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+281	1:07.84	Virginia Walsh		16	100 BK LCM	CO	Elevation Athletics	2023 CO CSI Long Course Open	2020-2024 AAA
+286	1:07.86	Maggie Johnson		16	100 BK LCM	FL	Saint Petersburg Aquatics	2023 FL Southern Zone South Sectional Championships	2020-2024 AAA
+286	1:07.86	Isabela Valle		16	100 BK LCM	MA	Greater Philadelphia Aquatic Club	2023 MD NBAC SPRING LONG COURSE MEET	2020-2024 AAA
+288	1:07.89	Merritt Walker		16	100 BK LCM	KY	Lakeside Swim Team	2023 KY Lakeside Ohio Valley Conference	2020-2024 AAA
+288	1:07.89	Emily Thornett		16	100 BK LCM	MD	Monocacy Aquatic Club	2023 Futures Championships - Richmond, VA - CAP REACHED	2020-2024 AAA
+290	1:07.90	Alex Evans		16	100 BK LCM	IN	Boilermaker Aquatics	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+290	1:07.90	Erin Richards		16	100 BK LCM	CT	Farmington Valley YMCA Tsunamis	2023 CT LC Senior Championships	2020-2024 AAA
+290	1:07.90	Keegan Near		16	100 BK LCM	SR	Streamliner Aquatics	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+293	1:07.91	Kayla Zeng		16	100 BK LCM	NE	Bluefish Swim Club	2023 NJ SCAR TYR LC Winter Invite	2020-2024 AAA
+293	1:07.91	Amelia Mason		16	100 BK LCM	CO	Flatiron Athletic Club	2023 CO CSI Senior LC State Championships	2020-2024 AAA
+295	1:07.94	Amelia Amadio		16	100 BK LCM	NC	SwimMAC Carolina	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AAA
+295	1:07.94	Brynn Stoneburg		16	100 BK LCM	FL	Treasure Coast Aquatics	2023 FL Southern Zone South Sectional Championships	2020-2024 AAA
+295	1:07.94	Julia Larsen Larsen		16	100 BK LCM	PN	PRO Swimming	2023 PN VAST Summer Sprints and Distance Challenge	2020-2024 AAA
+295	1:07.94	Abby Adams		16	100 BK LCM	SE	Barracuda Swim Club of Northeast Tennessee	2023 SE Southeastern Long Course Championships	2020-2024 AAA
+299	1:07.96	Henley Hatzung		16	100 BK LCM	MN	Minnetonka Swim Club	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AAA
+300	1:07.97	Carly Vannote		16	100 BK LCM	NC	Mecklenburg Swim Association	2023 VA NOVA LC Winter Invitational	2020-2024 AAA
+300	1:07.97	Tori Abruzzo		16	100 BK LCM	MA	Plymouth Whitemarsh Aquatics	2023 NJ SCAR TYR LC Winter Invite	2020-2024 AAA
+302	1:07.98	Gillian Sato		16	100 BK LCM	CA	SOCAL Aquatics Association	2023 Futures - Sacramento, CA	2020-2024 AAA
+302	1:07.98	Ella Mongenel		16	100 BK LCM	ST	Nitro Swimming	2023 ST TXLA 11&Over End of School Splash	2020-2024 AAA
+304	1:07.99	Katie Torrey		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 PV LC Open Championships	2020-2024 AAA
+305	1:08.03	Maya Lambert		16	100 BK LCM	NC	North Carolina Aquatic Club	2023 NC ESSZ Senior Sectionals	2020-2024 AAA
+306	1:08.04	Isabella Pribonic		16	100 BK LCM	OHO	Central Ohio Aquatics	2023 OH Central Zone LC East Sectional	2020-2024 AAA
+307	1:08.05	Katelyn McClintock		16	100 BK LCM	GA	Dynamo Swim Club	2023 GA Speedo Atlanta Classic	2020-2024 AAA
+308	1:08.06	Taylor Steelman		16	100 BK LCM	CA	Santa Barbara Swim Club	2023 CA Los Angeles Invite	2020-2024 AAA
+308	1:08.06r	Savannah Skow		16	100 BK LCM	NM	Las Cruces Aquatic Team	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+310	1:08.07	Mary Shanahan		16	100 BK LCM	NC	Hillsborough Aquatic Club	2023 TYR PSS Knoxville	2020-2024 AAA
+311	1:08.08	Emily Kyre		16	100 BK LCM	OHO	South YMCA-KEY Swimming	2023 NC YMCA Long Course Nationals	2020-2024 AAA
+311	1:08.08	Natalie Doig		16	100 BK LCM	FL	Indian River Aquatics	2023 Futures - Ocala	2020-2024 AAA
+313	1:08.09	Charlotte Berndt		16	100 BK LCM	CA	Team Rebel Aquatics	2023 Futures - Sacramento, CA	2020-2024 AAA
+314	1:08.10	Emma Hauch		16	100 BK LCM	MN	South East Metro Sharks	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AAA
+315	1:08.11	Lauren Opitz		16	100 BK LCM	AM	Team Pittsburgh Elite Aquatics	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+316	1:08.12	Dani O'Dwyer		16	100 BK LCM	FL	Planet Swim Aquatics	2023 FG Southern Zone South Sectional Championships	2020-2024 AAA
+316	1:08.12	Celia Canata		16	100 BK LCM	NC	Mecklenburg Swim Association	2023 Futures - Ocala	2020-2024 AAA
+318	1:08.13	Sophia Bellissimo		16	100 BK LCM	NC	Lowes YMCA Lightning Swim Team	2023 VA Virginia Commonwealth Games	2020-2024 AAA
+319	1:08.16	Ava Ross		16	100 BK LCM	CO	Greenwood Tiger Sharks	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+319	1:08.16	Katherine Rasmussen		16	100 BK LCM	GU	Aggie Swim Club	2023 GU Senior Championship - TWST	2020-2024 AAA
+321	1:08.18	Sidney Brann		16	100 BK LCM	FL	Sarasota Sharks	2023 FL Southern Zone South Sectional Championships	2020-2024 AAA
+322	1:08.19r	Ava Walters		16	100 BK LCM	OZ	Seahawks Swim club	2023 OZ Ozark Long Course Championships	2020-2024 AAA
+322	1:08.19	Addie Elliott		16	100 BK LCM	MA	Lancaster Aquatic Club	2023 Futures Championships - Richmond, VA - CAP REACHED	2020-2024 AAA
+324	1:08.20	Colleen Bull		16	100 BK LCM	NJ	Greater Somerset County YMCA Storm	2023 NJ EEX JSM Summer Sizzle XXXI	2020-2024 AAA
+325	1:08.24	Haylee Hite		16	100 BK LCM	FL	Planet Swim Aquatics	2023 FL Summer Senior Championships	2020-2024 AAA
+325	1:08.24	Annie Jia		16	100 BK LCM	MA	Upper Dublin Aquatic Club	2023 MA LAC Arena Classic	2020-2024 AAA
+325	1:08.24	Colleen Read		16	100 BK LCM	PV	Machine Aquatics	2023 PV NCAP Elite Qualifier	2020-2024 AAA
+328	1:08.25	Marissa Williams		16	100 BK LCM	OK	Jenks Trojan Swim Club	2023 OK LC State Championships	2020-2024 AAA
+328	1:08.25	Daniela Petran		16	100 BK LCM	CA	Alpha Aquatics	2023 CA Los Angeles Invite	2020-2024 AAA
+330	1:08.26	Michaela Miller		16	100 BK LCM	GA	Columbus Aquatic Club	2023 GA Speedo Atlanta Classic	2020-2024 AAA
+330	1:08.26	Jin-Jae Robinson		16	100 BK LCM	OHO	Westerville Aquatic Club	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+332	1:08.27	Caitlin Brown		16	100 BK LCM	CA	Canyons Aquatic Club	2023 CA Los Angeles Invite	2020-2024 AAA
+333	1:08.28r	Abby Emrich		16	100 BK LCM	NC	North Carolina Aquatic Club	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+333	1:08.28r	Samantha Halvorson		16	100 BK LCM	VA	Old Dominion Aquatic Club	2023 FL ISCA International Senior Cup	2020-2024 AAA
+333	1:08.28	Avery Shuping		16	100 BK LCM	NC	North Carolina Aquatic Club	2023 NC NCAC Summer Tar Heel States	2020-2024 AAA
+336	1:08.29	Lily Dormans		16	100 BK LCM	CA	Unattached	2023 CA TYR Fran Crippen Swim Meet of Champions at MVN	2020-2024 AAA
+336	1:08.29	Sophia Xu		16	100 BK LCM	CA	Rose Bowl Aquatics	2023 CA SCS/BREA Summer Age Group Championships	2020-2024 AAA
+336	1:08.29	Lydia Sturgeon		16	100 BK LCM	OHO	Pau Hana Swim Team	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+336	1:08.29	Kate Simon		16	100 BK LCM	MI	East Grand Rapids Aquatics	2023 Futures Championships - West Fargo, ND Time Trials	2020-2024 AAA
+340	1:08.30	Elizabeth Weston		16	100 BK LCM	SC	Team Greenville	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AAA
+341	1:08.31	Marina Oria		16	100 BK LCM	OHO	Mason Manta Rays	2023 OH RAYS City of Mason Summer Splash	2020-2024 AAA
+342	1:08.32	Skylar Knowlton		16	100 BK LCM	NE	Phoenix Swimming	2023 ND USA Swimming Speedo Championship Series, Central Zone North Section	2020-2024 AAA
+343	1:08.33	Kylie Stuart		16	100 BK LCM	ST	Nitro Swimming	2023 ST AAAA-NS George Block Invitational	2020-2024 AAA
+344	1:08.34	Lauren Moorhead		16	100 BK LCM	OHO	New Albany Aquatic Club	2023 OH Central Zone LC East Sectional	2020-2024 AAA
+344	1:08.34	Ivy Monk		16	100 BK LCM	NC	SwimMAC Carolina	2023 NC SwimMAC Novant Invitational	2020-2024 AAA
+344	1:08.34	Tavia Arnell		16	100 BK LCM	WY	Sweetwater Aquatics Team	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+344	1:08.34	Ellie Todd		16	100 BK LCM	MI	Michigan Lakeshore Aquatics	2023 MI Calvin Early Bird	2020-2024 AAA
+348	1:08.35	Geneva Fackler		16	100 BK LCM	MN	Edina Swim Club	2023 MN AQJT Summer Spectacular	2020-2024 AAA
+348	1:08.35r	Caitlin Bartle		16	100 BK LCM	FL	Blue Dolfins	2023 FL Summer Senior Championships	2020-2024 AAA
+350	1:08.37	Lily Archibald		16	100 BK LCM	CT	Ridgefield Aquatic Club	2023 CT CPAC June Invitational	2020-2024 AAA
+350	1:08.37	Millie Bailey	Yes	16	100 BK LCM	CT	Weston Swimming Inc.	2023 CT CPAC June Invitational	2020-2024 AAA
+352	1:08.39	Kira Jacobs		16	100 BK LCM	MV	COOL Swim Team	2023 MV Long Course Championships	2020-2024 AAA
+352	1:08.39	Caroline Larsen		16	100 BK LCM	MN	Foxjets Swim Team	2023 SD Augustana Spring Splash	2020-2024 AAA
+352	1:08.39	Ella Freeman		16	100 BK LCM	NT	Rockwall Aquatic Center of Excellence	2023 NT RACE A/BB LC Swim Meet	2020-2024 AAA
+352	1:08.39r	Kayla Matsumoto		16	100 BK LCM	OR	Tualatin Hills Swim Club	2023 CAN Mel Zajac Jr International	2020-2024 AAA
+356	1:08.40	Sophia Amendola		16	100 BK LCM	IL	Elmhurst Swim Team	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AAA
+356	1:08.40	Kiana Hugins		16	100 BK LCM	CA	Elite Aquatics Sports Team	2023 CA SCS/RAA Summer Age Group Champs	2020-2024 AAA
+358	1:08.41	Julia Hodgson		16	100 BK LCM	GA	SwimAtlanta	2023 FL BSS TYR June Classic	2020-2024 AAA
+358	1:08.41	Myra Cansler		16	100 BK LCM	NT	Rockwall Aquatic Center of Excellence	2023 NT MTRO American Long Course	2020-2024 AAA
+358	1:08.41	Meera Kondal		16	100 BK LCM	NC	YMCA of Western North Carolina	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AAA
+361	1:08.42	Ali Cappola		16	100 BK LCM	MA	Suburban Seahawks Club	2023 MA Long Course Senior Championships	2020-2024 AAA
+362	1:08.43	Josie Crum		16	100 BK LCM	VA	Poseidon Swimming Inc	2023 VA NOVA S Freedom Splash	2020-2024 AAA
+363	1:08.44	Siena Ancona		16	100 BK LCM	CO	Pikes Peak Athletics	2023 CO CSI Senior LC State Championships	2020-2024 AAA
+364	1:08.45	Sophie Perry		16	100 BK LCM	NC	YMCA of the Triangle Area Swim Team	2023 FL Last Splash Invitational	2020-2024 AAA
+365	1:08.47	Laura Stockinger		16	100 BK LCM	MN	Velocity Aquatics	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AAA
+366	1:08.48	Megan Wedeking		16	100 BK LCM	KY	Kentucky Aquatics	2023 SE NAC Summer Sizzler	2020-2024 AAA
+367	1:08.50	Olivia Cieciwa		16	100 BK LCM	CT	Chelsea Piers Aquatic Club	2023 CT LC Senior Championships	2020-2024 AAA
+368	1:08.53	Courtney Tedesco		16	100 BK LCM	SC	South Carolina Swim Club	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AAA
+368	1:08.53	Lili Trinh		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 PV LC Open Championships	2020-2024 AAA
+368	1:08.53	Emily Judy		16	100 BK LCM	VA	Lynchburg YMCA Swim Team	2023 NC GCY Single Day Splash	2020-2024 AAA
+371	1:08.54	Aspen Whowell		16	100 BK LCM	WI	Geneva YMCA Ducks	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AAA
+372	1:08.55	Sarah Beckman		16	100 BK LCM	CA	Buenaventura Swim Club	2023 CA Speedo Grand Challenge	2020-2024 AAA
+373	1:08.56	Mia Hatzis		16	100 BK LCM	CT	Regional YMCA of Western Connecticut Makos	2023 CT LC Senior Championships	2020-2024 AAA
+373	1:08.56	Nonoka Kubota		16	100 BK LCM	IL	FMC Aquatic	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AAA
+375	1:08.57	Coco Riding		16	100 BK LCM	UT	Utah Valley Aquatics, Inc	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+375	1:08.57	Sofia Brys		16	100 BK LCM	CA	Seal Beach Swim Club	2023 CA SCS/RMDA June Age Group Invite	2020-2024 AAA
+377	1:08.58	Kaitlyn Sallows		16	100 BK LCM	OHO	Buckeye Swim Club	2023 OH Tim Myers Memorial LC Senior Champ	2020-2024 AAA
+377	1:08.58	Lindsay Naber		16	100 BK LCM	OZ	CSP Tideriders	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+379	1:08.59	Adelia Biello		16	100 BK LCM	SN	DART Swimming	2023 CC Arena Grand Challenge	2020-2024 AAA
+379	1:08.59	Sarah Larsen		16	100 BK LCM	MR	Long Island Aquatic Club	2023 MR LIAC Summer Fun Invitational	2020-2024 AAA
+379	1:08.59	Jennifer Griner		16	100 BK LCM	GA	SwimAtlanta	2023 SE AUB Richard Quick Invitational	2020-2024 AAA
+382	1:08.61	Julia Saxman		16	100 BK LCM	WI	Rocket Aquatics	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AA
+383	1:08.63	Anna Mitchum		16	100 BK LCM	PV	Rockville Montgomery Swim Club	2023 IN NCSA Summer Swimming Championships	2020-2024 AA
+384	1:08.64	Gabrielle Ezrow		16	100 BK LCM	WI	Rocket Aquatics	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AA
+384	1:08.64r	Elena Amos		16	100 BK LCM	GU	The Woodlands Swim Team	2023 Futures Championships - San Antonio, TX - Cap Reached	2020-2024 AA
+386	1:08.65	Isabella Cardenas		16	100 BK LCM	US	Unattached	2023 NED EFSL Short Distance Championships	2020-2024 AA
+387	1:08.66	Abigail Perry		16	100 BK LCM	CO	Falfins Swimming	2023 MS NuWave Summer Long Course Open	2020-2024 AA
+387	1:08.66	Ellie Butler		16	100 BK LCM	PC	Crow Canyon Sharks	2023 PC CROW Long Course Senior Open T/F	2020-2024 AA
+387	1:08.66	Siara Celentano		16	100 BK LCM	NJ	New Jersey Race Club	2023 NJ LC GOLD Championships	2020-2024 AA
+390	1:08.67	Gabriella Deluna		16	100 BK LCM	FG	South Florida Aquatic Club	2023 FG Southern Zone South Sectional Championships	2020-2024 AA
+390	1:08.67	Natalie Lomonosov		16	100 BK LCM	MD	Annapolis Swim Club	2023 MD Speedo Maryland Swimming Long Course Championship Meet	2020-2024 AA
+392	1:08.69	Emerson Smith		16	100 BK LCM	SD	Sioux Falls Swim Team	2023 ND USA Swimming Speedo Championship Series, Central Zone North Section	2020-2024 AA
+392	1:08.69	Sidney Arcella		16	100 BK LCM	NJ	Metro Area Life Time	2023 NJ SCAR TYR LC Winter Invite	2020-2024 AA
+394	1:08.70	Logan Jaffe		16	100 BK LCM	FL	PiranhasYMCA of the Suncoast	2023 Futures - Ocala	2020-2024 AA
+394	1:08.70	Grace Hoeper		16	100 BK LCM	IA	Iowa Flyers Swim Club	2023 IA Long Course Championship Meet	2020-2024 AA
+396	1:08.71	Emma Christie		16	100 BK LCM	FL	Bolles School Sharks	2023 FL Last Splash Invitational	2020-2024 AA
+396	1:08.71	Mikki Maemura		16	100 BK LCM	CA	Unattached	2023 CA TYR Fran Crippen Swim Meet of Champions at MVN	2020-2024 AA
+398	1:08.72	Alexis Bright		16	100 BK LCM	CA	Coto Golf & Racquet Club	2023 CA SCS/NOVA June Age Group Invite	2020-2024 AA
+398	1:08.72	Molly Beetner		16	100 BK LCM	CA	Alpha Aquatics	2023 CA Speedo Grand Challenge	2020-2024 AA
+400	1:08.74	Lily Powell		16	100 BK LCM	NT	Texas Ford Aquatics	2023 NT DM LC Senior Circuit #3	2020-2024 AA
+401	1:08.76	Cambell Quijano		16	100 BK LCM	MI	North Kent Aquatic Team	2023 MI West Michigan Classic	2020-2024 AA
+401	1:08.76	Sarah Jones		16	100 BK LCM	OHO	Cincinnati Marlins	2023 OH Central Zone East Sectional Time Trials	2020-2024 AA
+401	1:08.76	Addie Pollitt		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 PV LC Open Championships	2020-2024 AA
+404	1:08.77	Teagan McEnroe		16	100 BK LCM	SC	Y-Spartaquatics Swim Club	2023 NC YMCA Long Course Nationals	2020-2024 AA
+405	1:08.78	Mckenna Potteiger		16	100 BK LCM	MA	York YMCA	2023 MD NAAC CAROL CHIDESTER INVITE	2020-2024 AA
+406	1:08.81	Bella Brodoski		16	100 BK LCM	SE	Ensworth Aquatics	2023 SE AUB Richard Quick Invitational	2020-2024 AA
+406	1:08.81	Allison Bischoff		16	100 BK LCM	VA	NOVA of Virginia Aquatics, Inc	2023 VA NOVA LC Senior Classic	2020-2024 AA
+408	1:08.82	Sierra Snow		16	100 BK LCM	MD	Fox Swim Club	MD FOX Winter Long Course Challenge	2020-2024 AA
+409	1:08.83	Sammy Cummins		16	100 BK LCM	CA	Irvine Novaquatics	2023 CA SCS/RMDA Road to Paris - LCM TF and Finals	2020-2024 AA
+409	1:08.83	Brooke Vos		16	100 BK LCM	MR	Empire Swimming	2023 Futures Championships - Richmond, VA - CAP REACHED	2020-2024 AA
+411	1:08.85	Karly Frangieh		16	100 BK LCM	PC	Unattached	2023 CA TYR Fran Crippen Swim Meet of Champions at MVN	2020-2024 AA
+412	1:08.86	Tiana Brooks		16	100 BK LCM	OZ	Seahawks Swim club	2023 OZ Ozark Long Course Championships	2020-2024 AA
+413	1:08.89	Chloe Chen		16	100 BK LCM	IL	Hinsdale Swim Club	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AA
+414	1:08.91	Elle Burke		16	100 BK LCM	GU	Dads Club Swim Team	2023 IN NCSA Summer Swimming Championships	2020-2024 AA
+415	1:08.92	Sofia Smerechniak		16	100 BK LCM	MR	Team Suffolk	2023 MR LIAC Speedo LI Challenge	2020-2024 AA
+416	1:08.93	Sophie Ware		16	100 BK LCM	NT	Texas Ford Aquatics	2023 IN NCSA Summer Swimming Championships	2020-2024 AA
+416	1:08.93	Victoria Kjaerulff		16	100 BK LCM	GA	SwimAtlanta	2023 GA Speedo Atlanta Classic	2020-2024 AA
+418	1:08.95r	Kara Jones		16	100 BK LCM	SE	Huntsville Swim Association	2023 SE Southeastern Long Course Championships	2020-2024 AA
+419	1:08.96	Izzy Beu		16	100 BK LCM	IL	St Charles Swim Team	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AA
+420	1:08.97	Grace Vogt		16	100 BK LCM	NI	STAR Swimming	2023 NI Eastern Zone Senior Championships	2020-2024 AA
+421	1:08.98	Caroline Healey		16	100 BK LCM	NC	YMCA of the Triangle Area Swim Team	2023 FL Last Splash Invitational	2020-2024 AA
+422	1:08.99	Arina Vorobyeva		16	100 BK LCM	MA	Upper Dublin Aquatic Club	MA MAY MELEE LONG COURSE A/BB/C INVITATIONAL	2020-2024 AA
+422	1:08.99	Julia Reed		16	100 BK LCM	SC	South Carolina Swim Club	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AA
+424	1:09.00	Erin Terman		16	100 BK LCM	PV	Mason Makos Swim Team	2023 FL ISCA International Senior Cup	2020-2024 AA
+425	1:09.04	Kendall Schindler		16	100 BK LCM	MN	Aquajets Swim Team	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AA
+425	1:09.04	Jasmine Phuong		16	100 BK LCM	CA	DARE Aquatics	2023 CA SCS/RMDA June Age Group Invite	2020-2024 AA
+427	1:09.05	Elsie Bredbenner		16	100 BK LCM	VA	Poseidon Swimming Inc	2023 VA LC Senior Champs	2020-2024 AA
+427	1:09.05	Raegan O'Brien		16	100 BK LCM	AD	Uncle Sam Swim Team	2023 AD Adirondack Long Course Championships	2020-2024 AA
+427	1:09.05	Natalie Sierzanowski		16	100 BK LCM	IL	Fox Valley Swim Team	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AA
+427	1:09.05r	Georgia Andrew		16	100 BK LCM	IL	NASA Wildcat Aquatics	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+427	1:09.05	Caroline Lied		16	100 BK LCM	OHO	Cincinnati Marlins	2023 OH Central Zone LC East Sectional	2020-2024 AA
+432	1:09.07	Lizzie Linck		16	100 BK LCM	PV	Rockville Montgomery Swim Club	2023 PV MD State LC Championships	2020-2024 AA
+433	1:09.09	Sienna Cheng-Lucey		16	100 BK LCM	PN	King Aquatic Club	2023 OR THSC Spring Invitational	2020-2024 AA
+433	1:09.09r	Claire Hamula		16	100 BK LCM	UT	Wasatch Front Fish Market	2023 UT Utah LC Senior Championships	2020-2024 AA
+433	1:09.09	Anna Klotz		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 VA EZ LC Speedo Super Sectional	2020-2024 AA
+436	1:09.10	Anna Sophia Cesario		16	100 BK LCM	GA	Dynamo Swim Club	2023 GA Speedo Atlanta Classic	2020-2024 AA
+437	1:09.11	Stella Zhang		16	100 BK LCM	AD	Clifton Park-Halfmoon Piranhas	2023 AD Adirondack Long Course Championships	2020-2024 AA
+437	1:09.11	Bella Plude		16	100 BK LCM	IL	Fox Valley Swim Team	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AA
+439	1:09.12	Nadia Lui		16	100 BK LCM	CA	DARE Aquatics	2023 CA CA-NV Summer Sectionals	2020-2024 AA
+440	1:09.14	Julianne McCranie		16	100 BK LCM	FG	Pine Crest Swimming	2023 FG Piranhas Senior Invite	2020-2024 AA
+440	1:09.14	Maddie McKinney		16	100 BK LCM	NI	STAR Swimming	2023 NI STAR Speedo Sectional Championships EZ North Long Course	2020-2024 AA
+440	1:09.14	Olivia Barbieri		16	100 BK LCM	SE	Nashville Aquatic Club	2023 WV 23023 Summer Senior Showdown	2020-2024 AA
+443	1:09.16r	Sabra Brueggen		16	100 BK LCM	MV	COOL Swim Team	2023 MV CSC Region VIII Sectional Championships	2020-2024 AA
+443	1:09.16	Caroline Gaines		16	100 BK LCM	GA	SwimAtlanta	2023 SE AUB Richard Quick Invitational	2020-2024 AA
+445	1:09.17	Ava Carosielli		16	100 BK LCM	LE	Firestone Akron Swim Team	2023 OH Central Zone LC East Sectional	2020-2024 AA
+446	1:09.18	Kylie Bell		16	100 BK LCM	CA	Puma Aquatic Team	2023 CA SCS/CANY June Age Group Invite	2020-2024 AA
+446	1:09.18	Ava Corbi		16	100 BK LCM	NC	Unattached	2023 NC ESSZ Senior Sectionals	2020-2024 AA
+448	1:09.19	Jessie Crane		16	100 BK LCM	MR	Empire Swimming	2023 FG Piranhas Senior Invite	2020-2024 AA
+449	1:09.20	Tate Dihel		16	100 BK LCM	MN	Riptide	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AA
+450	1:09.22r	Ally Lake		16	100 BK LCM	FG	TS Aquatics	2023 FG LCM Senior Championships	2020-2024 AA
+450	1:09.22	Abby Clayton		16	100 BK LCM	FL	Rocket Swimming	2023 FL ISCA Summer Senior Blast	2020-2024 AA
+450	1:09.22	Sierra Tallman		16	100 BK LCM	CA	Santa Barbara Swim Club	2023 CA Speedo Grand Challenge	2020-2024 AA
+453	1:09.23	Elie Kauffman		16	100 BK LCM	AZ	Life Time Arizona Swim Team	2023 AZ SUN Sun Devil Open	2020-2024 AA
+454	1:09.24	Madison Richardson		16	100 BK LCM	PV	The Riptide Swim Team	2023 PV LC 13&O Championships	2020-2024 AA
+455	1:09.26	Riley Mills		16	100 BK LCM	CO	Univ of Denver Hilltoppers	2023 PC SCSC George Haines International	2020-2024 AA
+455	1:09.26	Anna Asplund		16	100 BK LCM	IN	Indiana Swim Club	2023 IN CZ East Spring Speedo Sectional	2020-2024 AA
+455	1:09.26	Morgan Carles		16	100 BK LCM	CA	Golden West Swim Club	2023 CA CA-NV Summer Sectionals	2020-2024 AA
+455	1:09.26	Rhyan Price		16	100 BK LCM	ME	Bangor YMCA Barracudas	2023 ME 2nd ANNUAL LCM CHAMPS	2020-2024 AA
+459	1:09.27r	Ellie Wolford		16	100 BK LCM	IL	New Trier Aquatics	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AA
+459	1:09.27	Taylar Hooton		16	100 BK LCM	UT	Olympus Aquatics	2023 UT CHAT Invitational	2020-2024 AA
+461	1:09.28	Isabela Teixeira	Yes	16	100 BK LCM	NE	United Swim Club	2023 NE BGSC New England Senior Championship	2020-2024 AA
+461	1:09.28	Alaira Hadford		16	100 BK LCM	MW	iNspire Swim Team	2023 MW FAST GOAL Spring Sprint Cup	2020-2024 AA
+463	1:09.29	Ellen Garritson		16	100 BK LCM	NT	Lakeside Aquatic Club	2023 NT AAC May A/BB Meet	2020-2024 AA
+464	1:09.31	Michelle Grabowski		16	100 BK LCM	CA	Sandpipers Of Nevada	2023 CA Speedo Grand Challenge	2020-2024 AA
+464	1:09.31	Sofia Kohler		16	100 BK LCM	VA	Tide Swimming	2023 VA EZ LC Speedo Super Sectional	2020-2024 AA
+466	1:09.32	Danielle Gleason		16	100 BK LCM	AZ	Phoenix Swim Club	2023 AZ SUN Sun Devil Open	2020-2024 AA
+467	1:09.33	Keira Scott	Yes	16	100 BK LCM	FL	Bolles School Sharks	2023 FL BSS TYR June Classic	2020-2024 AA
+467	1:09.33	Sophia He		16	100 BK LCM	ST	Waterloo Swimming	2023 NT MAC Lone Star Championship of the Universe	2020-2024 AA
+467	1:09.33	Amalia Guerra		16	100 BK LCM	NE	Bluefish Swim Club	2023 NE BGSC New England Senior Championship	2020-2024 AA
+470	1:09.34	Nelanee Fulton		16	100 BK LCM	FL	Hydro4 Swimming	2023 FL Planet Swim Summer Championships	2020-2024 AA
+470	1:09.34	Lily Willis		16	100 BK LCM	NC	East Carolina Aquatics	2023 NC NCAC Spring Invitational	2020-2024 AA
+472	1:09.36	Avari Wischhof		16	100 BK LCM	MW	Heartland Aquatics	2023 MV CSC Region VIII Sectional Championships	2020-2024 AA
+472	1:09.36	Samantha Haley		16	100 BK LCM	CT	Chelsea Piers Aquatic Club	2023 FL ISCA Summer Senior Blast	2020-2024 AA
+472	1:09.36	Tiffany Folcomer		16	100 BK LCM	MA	York YMCA	2023 NC NC YMCA Long Course Nationals Time Trials	2020-2024 AA
+475	1:09.37r	Ginny Robinson		16	100 BK LCM	LA	Crescent City Swim Club	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AA
+476	1:09.39	Reagan Graves		16	100 BK LCM	IN	Franklin Regional Swim Team	2023 IN FRST Summer Slam Classic	2020-2024 AA
+476	1:09.39	Abbie McGovern		16	100 BK LCM	FL	Makos Aquatics Club of Gainesville	2023 FL ISCA Summer Senior Blast	2020-2024 AA
+476	1:09.39	Cora Dietrich		16	100 BK LCM	MW	Swim Omaha	2023 IA DSMY Trudy Hancock Memorial Invite	2020-2024 AA
+479	1:09.40	Kalyna Pyk		16	100 BK LCM	MI	Michigan Lakeshore Aquatics	2023 IN CZ East Spring Speedo Sectional	2020-2024 AA
+479	1:09.40	Ayva Christie		16	100 BK LCM	MA	Ridley Area YMCA Stingrays	2023 NC YMCA Long Course Nationals	2020-2024 AA
+479	1:09.40	Tessa Jones		16	100 BK LCM	PV	Nation's Capital Swim Club	2023 Futures Championships - Richmond, VA - CAP REACHED	2020-2024 AA
+482	1:09.41	Molly Cullen		16	100 BK LCM	NJ	New Jersey Race Club	2023 NJ LC GOLD Championships	2020-2024 AA
+483	1:09.42	Annaliese Moylan		16	100 BK LCM	NE	Edge Swim Club	2023 NE BGSC New England Senior Championship	2020-2024 AA
+484	1:09.43	Angelina Komashko		16	100 BK LCM	PC	Burlingame Aquatic Club	2023 SN CA/NV Speedo Sectionals - Roseville	2020-2024 AA
+484	1:09.43	Llew Ladomirak		16	100 BK LCM	PC	Palo Alto Stanford Aquatics	2023 CA Speedo Grand Challenge	2020-2024 AA
+486	1:09.44	Anna Jorstad		16	100 BK LCM	CO	Brighton Bullfrogs Swim Club	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+487	1:09.45	Elle Santucci		16	100 BK LCM	PV	Machine Aquatics	2023 NI Eastern Zone Senior Championships	2020-2024 AA
+487	1:09.45	Sophia Bujoreanu		16	100 BK LCM	NC	Life Time North Carolina	2023 SC RAYS Rays of Sunshine	2020-2024 AA
+487	1:09.45	Molly McGourty		16	100 BK LCM	MR	BGC-N. Westchester Marlins	2023 MR PAC Summer Classic Invitational	2020-2024 AA
+490	1:09.46r	Zara Rehman		16	100 BK LCM	MI	Club Wolverine	2023 MI Michigan Swimming Ultra LCM Championship Meet	2020-2024 AA
+490	1:09.46	Kate Dunagan		16	100 BK LCM	GA	Spartan Aquatic Club	2023 GA Speedo Atlanta Classic	2020-2024 AA
+492	1:09.48	Madeleine Simmons		16	100 BK LCM	PV	All Star Aquatics	2023 PV FISH Derby	2020-2024 AA
+492	1:09.48	Catherine Rippel		16	100 BK LCM	NT	Dallas Mustangs	2023 NT MTRO American Long Course	2020-2024 AA
+494	1:09.49	Karina Hartounian		16	100 BK LCM	CA	Rose Bowl Aquatics	2023 CA Speedo Grand Challenge	2020-2024 AA
+494	1:09.49	Tova Blikre		16	100 BK LCM	ND	AquaStorm	2023 ND Long Course State Championship	2020-2024 AA
+494	1:09.49	Kate Van Zee		16	100 BK LCM	IA	Greater Des Moines YMCA	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AA
+497	1:09.50	Jennifer Barajas		16	100 BK LCM	IN	Munster Swim Club	2023 IN Senior State LCM Championships	2020-2024 AA
+497	1:09.50	Elin Ackron		16	100 BK LCM	IL	RISE Aquatic Club	2023 IA Speedo Section Summer Champs CZ North	2020-2024 AA
+499	1:09.52	Lainey Blase		16	100 BK LCM	GA	Chattahoochee Gold Swim Club	2023 GA Gold Summer Invite	2020-2024 AA
+499	1:09.52	Bella Derby		16	100 BK LCM	GU	HTX Swims	2023 GU Senior Championship - TWST	2020-2024 AA

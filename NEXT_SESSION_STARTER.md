@@ -2,13 +2,22 @@
 
 ## 📋 **CRITICAL CONTEXT FOR NEW CHAT SESSION**
 
+### 🔄 **TWO SYSTEMS APPROACH**
+**IMPORTANT**: This project has two functional systems with different tech stacks:
+
+- **New Build**: React + FastAPI + PostgreSQL + Docker (modern, in development)
+- **Legacy Build**: Flask + pandas + Excel (fully functional, being replaced)
+
+**Choose your focus based on your session goals** (see `STARTUP_SESSION_GUIDE.md` for details).
+
 ### 🎯 **PROJECT STATUS (VERIFIED)**
 - **Current Branch**: `data-cleaning` 
-- **Last Commit**: `a5746e3` (Handbook Update) - `c9625e3` (UI Foundation)
-- **UI Foundation**: ✅ COMPLETE and LOCKED IN
+- **Last Commit**: `fc3c719` (UI: Port styling from old Flask build to React)
+- **UI Foundation**: ✅ COMPLETE and LOCKED IN with professional styling
 - **Data Conversion**: ✅ All 9 meet files converted to SQLite (`database/malaysia_swimming.db`)
 - **Docker Services**: ✅ Running (PostgreSQL, Redis, FastAPI, React, Celery, Flower)
 - **Website**: ✅ Running at `http://localhost:3000` with complete UI
+- **Visual Polish**: ✅ MAS branding, proper spacing, typography, table layout
 
 ### 🎨 **UI IMPLEMENTATION COMPLETE**
 - **Header**: MAS logos on left and right of title
@@ -21,12 +30,18 @@
 - **Button Order**: Apply Selection, Download XLSX, Reset Filters
 - **Table Font**: 12.6px with 1px 3px padding for compact rows
 
-### 📊 **DATA STATUS**
-- **SQLite Database**: `database/malaysia_swimming.db` (all meet data converted)
-- **Reference Data**: Age_OnTrack_AQUA.xlsx → `map_mot_aqua` table
-- **Club Mapping**: Clubs_By_State.xlsx → `club_state_mapping` table
-- **Statistical Analysis**: All 4 periods consolidated (2021-2025)
-- **PhD Dissertation**: Updated with strategic context and academic framework
+### 📊 **MOT DELTA ANALYSIS PROJECT STATUS**
+- **Data Collection**: ✅ COMPLETE - 2,240 files across 4 periods
+- **Event Coverage**: 14 events (including 50 Free) × 2 genders × 4 ages  
+- **Data Quality**: 500 results per file, consistent format
+- **Delta Analysis**: ✅ 83/84 analyses complete (F 100 Back 15→16 pending fix)
+  - 24,585 athletes analyzed, 296.2 average sample size
+- **Database Integration**: ✅ COMPLETE - SQLite with canada_on_track (504 rows) and usa_age_deltas (83 rows)
+- **Reports Generated**: ✅ COMPLETE
+  - MOT_Delta_Index.html - Interactive index with 84 analyses
+  - USA vs Canada comparison report in reports/
+- **PhD Documentation**: ✅ COMPLETE - Chapter 3 in PhD/ folder
+- **Next Phase**: Fix missing F 100 Back 15→16 delta, complete USA vs Canada track analysis
 
 ### 🔧 **TECHNICAL SETUP**
 - **Docker Compose**: 6 services running
@@ -54,21 +69,60 @@
 - **Statistical Analysis**: `Statistical Analysis/` (all data consolidated)
 
 ### 🚀 **STARTUP COMMANDS**
+
+#### **Option 1: Current Setup (Recommended for Development)**
 ```bash
-# Navigate to project
+# IMPORTANT: Run these in TWO separate terminals!
+
+# Terminal 1: Backend (FastAPI)
 cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
+uvicorn src.web.main:app --reload --host 0.0.0.0 --port 8000
 
-# Check current branch
-git branch
+# Terminal 2: Frontend (Next.js)
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
+npm run dev
 
-# Start all services
+# Access points:
+# Frontend: http://localhost:3000 (or http://localhost:3001)
+# Backend API: http://localhost:8000
+# API Docs: http://localhost:8000/api/docs
+# Admin Panel: http://localhost:3000/admin
+
+# To restart backend: Stop (Ctrl+C) and run uvicorn command again
+# To restart frontend: Stop (Ctrl+C) and run npm run dev again
+```
+
+**Current Setup**:
+- **Backend**: FastAPI + SQLite (database: `malaysia_swimming.db` in project root)
+- **Frontend**: Next.js (React) on port 3000/3001
+- **Admin Panel**: ✅ Complete with meet upload, management, PDF generation, manual entry
+- **No Docker Required**: Simplified setup using SQLite instead of PostgreSQL
+
+#### **Option 2: Legacy System (Reference/Comparison)**
+```bash
+# Navigate to legacy system
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics\Malaysia Times Database"
+
+# Start legacy Flask system
+python -m Malaysia_Times_Database.Malaysia_Database
+
+# Access legacy system
+# http://127.0.0.1:5000
+```
+
+#### **Option 3: Both Systems (Validation/Testing)**
+```bash
+# Terminal 1: New build
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
 docker-compose up -d
 
-# Verify services
-docker ps
+# Terminal 2: Legacy system
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics\Malaysia Times Database"
+python -m Malaysia_Times_Database.Malaysia_Database
 
-# Check website
-# Open http://localhost:3000
+# Access both:
+# New: http://localhost:3000
+# Legacy: http://127.0.0.1:5000
 ```
 
 ### ⚠️ **CRITICAL NOTES**
@@ -94,3 +148,5 @@ docker ps
 ---
 
 **READ THIS FIRST**: The `Malaysia Swimming Analytics Handbook.md` contains the complete project status and should be your primary reference for understanding the current state and next steps.
+
+

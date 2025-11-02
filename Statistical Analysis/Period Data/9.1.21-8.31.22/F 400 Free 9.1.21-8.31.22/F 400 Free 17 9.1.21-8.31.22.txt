@@ -1,0 +1,501 @@
+Rank	Swim Time	Name	Foreign	Age	Event	LSC	Team	Meet	Time Standard
+1	4:05.07	Erin Gemmell		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 Jr Pan Pacific Swimming Championships	2023 Summer Nationals (LCM)
+2	4:06.84	Jillian Cox		17	400 FR LCM	ST	Longhorn Aquatics	2022 Jr Pan Pacific Swimming Championships	2023 Summer Nationals (LCM)
+3	4:07.54	Bella Sims		17	400 FR LCM	CA	Sandpipers Of Nevada	2022 TYR Pro Swim Series - Mis	2022 Summer Nationals (LCM)
+4	4:08.38	Cavan Gormsen		17	400 FR LCM	MR	Long Island Aquatic Club	2022 Phillips 66 Summer Nationals	2023 Summer Nationals (LCM)
+5	4:09.80	Michaela Mattes		17	400 FR LCM	FL	Sarasota Sharks	2022 Phillips 66 International Team Trials	2023 Summer Nationals (LCM)
+6	4:11.30	Hannah Bellard		17	400 FR LCM	MI	Club Wolverine	2022 NC Futures Championships Cary	2023 Summer Nationals (LCM)
+7	4:12.20	Hayden Miller		17	400 FR LCM	GU	Cypress Fairbanks Swim Club	2022 Speedo Junior National Ch	2023 Summer Nationals (LCM)
+8	4:13.46	Kathryn Hazle	Yes	17	400 FR LCM	SI	North Coast Aquatics	2022 Speedo Junior National Ch	2023 Summer Nationals (LCM)
+9	4:14.41	Sophia Knapp		17	400 FR LCM	VA	Tide Swimming	2022 Speedo Junior National Ch	2023 Summer Nationals (LCM)
+10	4:14.67	Maya Werner		17	400 FR LCM	US	Unattached	2022 German Nationals	2023 Summer Nationals (LCM)
+11	4:15.35	Blair Stoneburg		17	400 FR LCM	FL	Treasure Coast Aquatics	2022 FL SZ South Sectionals Championships	2022 Summer Nationals (LCM)
+12	4:15.77	Summer Cardwell		17	400 FR LCM	FL	Tampa Bay Aquatic Club	2022 Phillips 66 International Team Trials	2022 Summer Nationals (LCM)
+13	4:16.35	Paige Kuwata		17	400 FR LCM	CA	Sandpipers Of Nevada	2022 Futures - Santa Clara	2022 Winter US Open (LCM)
+14	4:16.43	Katie McCarthy		17	400 FR LCM	MN	Edina Swim Club	2022 Speedo Junior National Ch	2022 Winter US Open (LCM)
+15	4:16.63	Maddie Waggoner		17	400 FR LCM	MA	Jersey Wahoos	Mel Zajac Jr. International 20	2022 Summer Nationals (LCM)
+16	4:17.63	Alexandra Bastone		17	400 FR LCM	CT	Chelsea Piers Aquatic Club	2022 IN NCSA Summer Swimming Championships	2022 Winter US Open (LCM)
+17	4:18.72	Chloe Mudadu	Yes	17	400 FR LCM	CA	Sandpipers Of Nevada	2022 SN Finals - Western Zone Senior Ch	2022 Winter US Open (LCM)
+18	4:19.00	Hana Shimizu-Bowers		17	400 FR LCM	MR	Badger Swim Club,Inc.	2022 MR LIAC Spring Kickoff Invitational	2022 Winter US Open (LCM)
+19	4:19.38	Kayla Wilson		17	400 FR LCM	VA	Tide Swimming	2022 VA NOVA LC Winter Invitational	2022 Winter US Open (LCM)
+20	4:19.45	Ava Topolewski		17	400 FR LCM	NT	Mansfield Aquatic Club	2022 Futures Championships - C	2022 Winter US Open (LCM)
+21	4:20.00	Dana Li		17	400 FR LCM	NE	Commonwealth Swimming	2022 NE BGSC LCM Seniors	2022 Summer Juniors (LCM)
+22	4:20.46	Julia Podkoscielny		17	400 FR LCM	FG	Pine Crest Swimming	2021 Toyota US Open Championship	2022 Summer Juniors (LCM)
+23	4:20.99	Sanna Peterson		17	400 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2022 VA NOVA LC Winter Invitational	2022 Summer Juniors (LCM)
+24	4:21.03	Rye Ulett		17	400 FR LCM	KY	Cardinal Aquatics	2022 IN Purdue Closed Invite	2022 Summer Juniors (LCM)
+25	4:21.22	Maggie Schalow		17	400 FR LCM	CA	Irvine Novaquatics	2022 Phillips 66 Summer Nationals	2023 Summer Juniors (LCM)
+26	4:21.31	Jenna Kerr		17	400 FR LCM	IL	Barrington Swim Club	2022 Speedo Junior National Ch	2023 Summer Juniors (LCM)
+27	4:21.38	Mattea Sokolow		17	400 FR LCM	CA	Team Santa Monica	2022 CA Speedo Grand Challenge	2022 Summer Juniors (LCM)
+28	4:21.40	Maddie Smutny		17	400 FR LCM	FG	South Florida Aquatic Club	2022 Futures - Cary	2022 Winter Juniors (SCY)
+29	4:21.54	Abby O'Sullivan		17	400 FR LCM	CA	Mission Viejo Nadadores	2022 TYR Pro Swim Series - Mis	2022 Winter Juniors (SCY)
+30	4:21.61	Jojo Ramey		17	400 FR LCM	IN	Fishers Area Swimming Tigers	2022 TYR Pro Swim Series - Mis	2022 Winter Juniors (SCY)
+31	4:21.72	Ava Chavez		17	400 FR LCM	SN	Sierra Marlins Swim Team	2022 Futures - Santa Clara	2022 Winter Juniors (SCY)
+32	4:21.89	Lily Reader		17	400 FR LCM	IL	Barrington Swim Club	2022 WI Central Zone Section 1	2022 Winter Juniors (SCY)
+33	4:21.97	Maren Conze		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 IN NCSA Summer Swimming Championship	2022 Winter Juniors (SCY)
+34	4:22.05	Julieta Tracy		17	400 FR LCM	IL	Chicago Wolfpack Aquatic Club	2022 ILOP PATRIOT-RISE OPEN	2022 Winter Juniors (SCY)
+35	4:22.12	Piper Wood Prince		17	400 FR LCM	IL	FMC Aquatic	2022 IN NCSA Summer Swimming Championships	2022 Winter Juniors (SCY)
+36	4:22.15	Claire Dafoe		17	400 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2021 Toyota US Open Championship	2022 Winter Juniors (SCY)
+37	4:22.35	Natalie Killion		17	400 FR LCM	NI	STAR Swimming	2022 LE Futures Championships Geneva	2022 Winter Juniors (SCY)
+38	4:22.59	Caroline Riggs		17	400 FR LCM	WV	Club Mountaineer Aquatics	2022 Speedo Junior National Ch	2022 Winter Juniors (SCY)
+39	4:22.65	Courtney Phillips		17	400 FR LCM	VA	Poseidon Swimming Inc	2022 IN NCSA Summer Swimming Championships2	2022 Winter Juniors (SCY)
+40	4:23.08	Madeleine Hebert		17	400 FR LCM	CA	Team Rebel Aquatics	2022 Speedo Junior National Ch	2022 Winter Juniors (SCY)
+41	4:23.10	Alex Mitchell		17	400 FR LCM	GA	Dynamo Swim Club	2022 Speedo Junior National Ch	2022 Winter Juniors (SCY)
+42	4:23.21	Reese Tiltmann		17	400 FR LCM	WI	Elmbrook Swim Club	2022 Speedo Junior National Ch	2022 Winter Juniors (SCY)
+43	4:23.30	Libby Grether		17	400 FR LCM	OHO	Dublin Community Swim Team	2022 TT Speedo Junior National Ch	2022 Winter Juniors (SCY)
+44	4:23.60	Ellery Ottem		17	400 FR LCM	MN	Mako Aquatics	2022 MN MNSI Senior State	2022 Winter Juniors (SCY)
+45	4:23.92	Lauren Tucker		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 IN NCSA Summer Swimming Championships2	2023 Futures (LCM)
+46	4:24.02	Sumner Chmielewski		17	400 FR LCM	FL	Sarasota Tsunami Swim Team	2022 FL SZ South Sectionals Championships	2022 Futures (LCM)
+47	4:24.04	Kate Mouser		17	400 FR LCM	IN	Fishers Area Swimming Tigers	2022 TYR Pro Swim Series - Mis	2023 Futures (LCM)
+48	4:24.23	Abigail Pope		17	400 FR LCM	GU	Cypress Fairbanks Swim Club	2022 ST TXLA Speedo Southern Sectionals	2022 Futures (LCM)
+49	4:24.43	Grace Lindberg		17	400 FR LCM	PN	Cascade Swim Club	2022 Futures - Minneapolis	2023 Futures (LCM)
+50	4:24.46	Emma Guglielmello		17	400 FR LCM	GU	Magnolia Aquatic Club	2022 PamAm Age Group Swimming Champs	2022 Futures (LCM)
+51	4:24.48	Mackenzie Brandt		17	400 FR LCM	MA	Suburban Seahawks Club	2022 NJ BAC Jim Wood Memorial Invite	2022 Futures (LCM)
+52	4:24.54	Sonia Vaishnani		17	400 FR LCM	ST	Alamo Area Aquatic Association	2022 ST TXLA Speedo Southern Sectionals	2022 Futures (LCM)
+53	4:24.57	Katya Eruslanova		17	400 FR LCM	MA	Suburban Seahawks Club	2022 TYR Pro Swim Series - Mis	2023 Futures (LCM)
+54	4:24.73	Laurel Blase		17	400 FR LCM	GA	Chattahoochee Gold Swim Club	2022 Futures - Cary	2023 Futures (LCM)
+55	4:24.82	Tess Howley		17	400 FR LCM	MR	Long Island Aquatic Club	2022 MR LIAC Summertime Classic Invitational	2022 Futures (LCM)
+56	4:24.85	Lilly Derivaux		17	400 FR LCM	MA	Jersey Wahoos	2022 MA Swimming Meet	2022 Futures (LCM)
+56	4:24.85	Maggie McGuire		17	400 FR LCM	CA	SOCAL Aquatics Association	2022 CA Los Angeles Invitational	2023 Futures (LCM)
+58	4:24.87	Shea Furse		17	400 FR LCM	NE	Phoenix Swimming	2022 Futures - Geneva	2023 Futures (LCM)
+59	4:25.03	Caitlin Hurley		17	400 FR LCM	MD	North Baltimore Aquatic Club	2022 Speedo Junior National Ch	2023 Futures (LCM)
+60	4:25.04	Abby Woolford		17	400 FR LCM	OHO	Dayton Raiders	2022 LE Futures Championships Geneva	2023 Futures (LCM)
+61	4:25.25	Olivia Frantum		17	400 FR LCM	IA	Central Iowa Aquatics	2022 IN NAT Indy Spring Cup	2022 Futures (LCM)
+62	4:25.42	Grace Hodgins		17	400 FR LCM	US	Unattached	European Junior Swimming Championships	2022 Futures (LCM)
+63	4:25.49	Ava Sutphin		17	400 FR LCM	OHO	M.E. Lyons/Anderson Barracudas	2022 Speedo Junior National Ch	2023 Futures (LCM)
+64	4:25.56	Sophia Bell		17	400 FR LCM	PC	North Bay Aquatics	2022 PC SCSC Super League Summer LC Finals	2022 Futures (LCM)
+65	4:25.58	Wyllo Hanson		17	400 FR LCM	VA	Coast Guard Blue Dolphins	2022 IN NCSA Summer Swimming Championships2	2023 Futures (LCM)
+66	4:25.66	Sarah Lankford		17	400 FR LCM	FL	Saint Petersburg Aquatics	2022 FL SZ South Sectionals Championships	2022 Futures (LCM)
+67	4:25.74	Lorelai Page		17	400 FR LCM	NJ	Lakeland Hills YMCA	2022 NC AP LC YMCA Nationals	2023 Futures (LCM)
+68	4:26.06	Malia Amuan		17	400 FR LCM	NE	Phoenix Swimming	2022 CAN Invitation internationale Neptune	2022 Futures (LCM)
+69	4:26.14	Maeve Kelley		17	400 FR LCM	AM	Fox Chapel Killer Whales	2022 Futures - Geneva	2023 Futures (LCM)
+70	4:26.15	Maggie Straley		17	400 FR LCM	PN	Seattle Metropolitan Aquatic Club	2022 Futures - Santa Clara	2023 Futures (LCM)
+70	4:26.15	Zara Zallen		17	400 FR LCM	CO	Loveland Swim Club	2022 Speedo Junior National Ch	2023 Futures (LCM)
+72	4:26.18	Carinn Bethea		17	400 FR LCM	FL	T2 Aquatics	2022 FL SZ South Sectionals Championships	2022 Futures (LCM)
+73	4:26.36	Sabrina Rachjaibun		17	400 FR LCM	CO	Front Range Barracudas	2022 SN Finals - Western Zone Senior Ch	2023 Futures (LCM)
+74	4:26.42	Taylor Morris		17	400 FR LCM	NC	TAC Titans	2022 NC ESSZ Summer Sectionals	2022 Futures (LCM)
+75	4:26.47	Erin Miller		17	400 FR LCM	FG	Pine Crest Swimming	2022 NC Futures Championships Cary	2023 Futures (LCM)
+76	4:26.48	Kailee Chow		17	400 FR LCM	CA	FAST Swim Team	2022 CA CA-NV Speedo Sectionals at CANY	2023 Futures (LCM)
+77	4:26.51	Sophia Ribeiro	Yes	17	400 FR LCM	CA	Irvine Novaquatics	2022 CA Speedo Grand Challenge	2022 Futures (LCM)
+78	4:26.73	Amanda Ulicny		17	400 FR LCM	NC	Marlins Of Raleigh	2022 NC Futures Championships Cary	2023 Futures (LCM)
+79	4:26.76	Lauren Richards		17	400 FR LCM	AZ	Scottsdale Aquatic Club	2022 OR Speedo Sectionals - Mt Hood	2022 Futures (LCM)
+79	4:26.76	Sophie Brison		17	400 FR LCM	GA	Dynamo Swim Club	2022 GA Speedo Atlanta Classic	2022 Futures (LCM)
+81	4:26.89	Ava Langston		17	400 FR LCM	NT	Rockwall Aquatic Center of Excellence	2022 Futures Championships - C	2023 Futures (LCM)
+82	4:26.97	Camille Spink		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 PV NCAP Elite Qualifier	2022 Futures (LCM)
+83	4:27.07	Olivia Sundgren		17	400 FR LCM	CC	Clovis Swim Club	2022 Futures - Santa Clara	2023 Futures (LCM)
+84	4:27.30	Alexa Fulton		17	400 FR LCM	MA	Upper Main Line YMCA	2022 MA WSY/HAC Long Course Cl	2022 Futures (LCM)
+85	4:27.31	Kira Agne		17	400 FR LCM	MA	Wilmington Aquatic Club	2022 LE Futures Championships Geneva	2023 Futures (LCM)
+86	4:27.33	Emma Gettys		17	400 FR LCM	ST	Texas Gold	2022 Futures Championships - C	2023 Futures (LCM)
+87	4:27.56	Kyra Rabess	Yes	17	400 FR LCM	MI	Unattached	1st Junior Pan American Games	2022 Futures (LCM)
+88	4:27.74	Andrea Zeebe		17	400 FR LCM	HI	Kamehameha Swim Club	2022 HI Age Group LCM Championship	2022 Futures (LCM)
+89	4:27.75	Sydney Smith		17	400 FR LCM	GU	Dads Club Swim Team	2022 GU Texas Senior Circuit 3	2022 Futures (LCM)
+90	4:27.82	Kai Flanagan		17	400 FR LCM	HI	Kamehameha Swim Club	2022 Futures - Santa Clara	2023 Futures (LCM)
+91	4:27.90	Tara Joyce		17	400 FR LCM	WY	Cody Kountry Aquatic Team	2022 Futures Championships - C	2023 Futures (LCM)
+92	4:27.95	Jordan Durocher		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 PV LC Open Championships	2022 Futures (LCM)
+93	4:27.97	Paige Housman		17	400 FR LCM	AZ	Flying Fish Arizona Swim Team	2022 OR Speedo Sectionals - Mt Hood	2023 Futures (LCM)
+94	4:28.00	Ella Myers		17	400 FR LCM	PV	Nation's Capital Swim Club	2021 Toyota US Open Championship	2022 Futures (LCM)
+95	4:28.01	Kayla Newman		17	400 FR LCM	IL	Highland Park Aquatics Club	2022 MN Futures Championships Minnesota	2023 Futures (LCM)
+96	4:28.07	Katie Walker		17	400 FR LCM	NT	Mansfield Aquatic Club	2022 GU Texas Senior Circuit 3	2022 Futures (LCM)
+97	4:28.20	Cadence Fort		17	400 FR LCM	FL	Gulf Coast Swim Team	2022 FG Southern Zone South Sectional	2022 Futures (LCM)
+98	4:28.21	Vivi Criscione		17	400 FR LCM	OR	Corvallis Aquatic Team	2022 Futures - Santa Clara	2023 Futures (LCM)
+98	4:28.21	Meghan Tiernan		17	400 FR LCM	CT	Cheshire Y Sea Dog Swim Club	2022 FL ISCA Summer Senior Blast	2023 Futures (LCM)
+100	4:28.22	Katelyn Fitzgerald		17	400 FR LCM	MA	Western YMCA Wahoos	2022 NC AP LC YMCA Nationals	2023 Futures (LCM)
+101	4:28.28	Molly Warner		17	400 FR LCM	MI	Utica Shelby Swim Club	2022 MI Eric Namesnik Memorial Open	2022 Futures (LCM)
+102	4:28.36	Marin Rose		17	400 FR LCM	FL	Blue Dolfins	2022 Futures - Cary	2023 Futures (LCM)
+103	4:28.52	Mary McKenna		17	400 FR LCM	MR	Long Island Express	2022 MR TYR Senior LC Championships	2023 Futures (LCM)
+104	4:28.60	Libby Michel		17	400 FR LCM	WI	Ozaukee Aquatics	2022 TT Speedo Junior National Ch	2023 Futures (LCM)
+105	4:28.62	Peyton Drexler		17	400 FR LCM	WI	Lake Country Swim Team	2022 WI LAKE Western Great Lake Meet	2022 Futures (LCM)
+106	4:28.78	Kylee Grafmiller		17	400 FR LCM	GU	Cypress Fairbanks Swim Club	2022 Futures - College Station	2023 Futures (LCM)
+107	4:28.82	Anna Fonda		17	400 FR LCM	MI	Club Wolverine	2022 NC Futures Championships Cary	2020-2024 AAA
+108	4:28.93	Lexi Drap		17	400 FR LCM	NT	North Texas Nadadores	2022-NT Bill Nixon Memorial Meet	2020-2024 AAA
+109	4:28.99	Parker Del Balso		17	400 FR LCM	PC	Burlingame Aquatic Club	2022 SN Summer CA-NV Sectional-CC	2020-2024 AAA
+110	4:29.15	Skylar Bruner		17	400 FR LCM	SC	Hilton Head Aquatics	2022 SC LSC Senior State Champs	2020-2024 AAA
+111	4:29.16	Alyssa Martel		17	400 FR LCM	PV	Occoquan Swimming Inc	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+111	4:29.16	Delaney Bookstein		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 IN NCSA Summer Swimming Championships2	2020-2024 AAA
+113	4:29.17	Helena Jones		17	400 FR LCM	OR	Lake Oswego Swim Club	2022 AZ SAC Cactus Classic	2020-2024 AAA
+113	4:29.17	Abby Toepfer		17	400 FR LCM	NE	Kingfish Swimming	2022 Futures - Geneva	2020-2024 AAA
+115	4:29.21	Lindsey Hervey		17	400 FR LCM	MV	Columbia Swim Club	2022 Futures - Minneapolis	2020-2024 AAA
+116	4:29.23	Katie Yee		17	400 FR LCM	MR	Long Island Aquatic Club	2022 MR TYR Senior LC Championships	2020-2024 AAA
+117	4:29.26	Madeleine Dunn		17	400 FR LCM	ST	Nitro Swimming	2022 GU KATY Texas Senior Circuit I	2020-2024 AAA
+118	4:29.29	Meredith Stewart		17	400 FR LCM	LE	Blazing Barracudas	2022 IN NCSA Summer Swimming Championships	2020-2024 AAA
+119	4:29.31	Melaina Howard		17	400 FR LCM	ST	Austin Swim Club	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AAA
+120	4:29.35	Olivia Busch		17	400 FR LCM	GU	Magnolia Aquatic Club	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AAA
+121	4:29.42	Clara Armstrong		17	400 FR LCM	NT	Metroplex Aquatics	2022 GU Texas Senior Circuit 3	2020-2024 AAA
+121	4:29.42	Emerson Dalton		17	400 FR LCM	NJ	Hamilton Y Aquatic Club	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+123	4:29.45	Isabelle Gomez		17	400 FR LCM	OHO	Powel Crosley, Jr. YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+124	4:29.58	Zoe Schneider		17	400 FR LCM	MA	York YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+125	4:29.66	Abbey Gardner		17	400 FR LCM	CO	Highlands Ranch Aquatics	2022 Futures - College Station	2020-2024 AAA
+126	4:29.86	Avery Lambert	Yes	17	400 FR LCM	FL	Bolles School Sharks	2022 FL SZ South Sectionals Championships	2020-2024 AAA
+127	4:29.91	Sam Dugan		17	400 FR LCM	NJ	YMCA of Greater Monmouth County	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+128	4:29.96	Taylor Horan		17	400 FR LCM	AR	Razorback Aquatic Club Aquahawgs	2022 SE Speedo Summer Sizzler	2020-2024 AAA
+129	4:30.06	Erin Budde		17	400 FR LCM	MD	Eagle Swim Team Inc.	2022 IN NCSA Summer Swimming Championship	2020-2024 AAA
+130	4:30.12	Ava Hamblett		17	400 FR LCM	CT	Bulldog Swimming	2022 CT Senior Championship LC	2020-2024 AAA
+131	4:30.21	Lise Coetzee	Yes	17	400 FR LCM	GA	Unattached	2022 GA Bulldog Summer Invite	2020-2024 AAA
+132	4:30.23	Bridget Davis		17	400 FR LCM	NJ	Fanwood-Scotch Plains YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+133	4:30.25	Sydney Inman		17	400 FR LCM	CO	Elevation Athletics	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+134	4:30.39	Katie Swan		17	400 FR LCM	NE	Crimson Aquatics	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+135	4:30.44	Izzy Valantiejus		17	400 FR LCM	FL	Tampa Bay Aquatic Club	2022 FL Shark Open	2020-2024 AAA
+136	4:30.50	Mabel Koff		17	400 FR LCM	MD	North Baltimore Aquatic Club	2022 MD NBAC Mid-Summer Classic	2020-2024 AAA
+137	4:30.57	Anna Phelps		17	400 FR LCM	MA	South Jersey Aquatic Club	2022 LE Futures Championships Geneva	2020-2024 AAA
+138	4:30.78	Kiran Stauffer		17	400 FR LCM	IN	Concord Swim Club	2022 IN CGAC Mid Summer Spectacular	2020-2024 AAA
+139	4:30.79	Olivia Dinehart		17	400 FR LCM	FG	South Florida Aquatic Club	2022 FL SZ South Sectionals Championships	2020-2024 AAA
+140	4:30.84	Elise McCaul		17	400 FR LCM	MI	OLY Swimming	2022 MI OLY Summer Classic	2020-2024 AAA
+141	4:30.98	Claire Parsons		17	400 FR LCM	IN	Terre Haute Torpedoes	2022 IN Senior LCM Championships	2020-2024 AAA
+142	4:30.99	Morgan Rodriguez		17	400 FR LCM	ST	Longhorn Aquatics	2022 GU Texas Senior Circuit 3	2020-2024 AAA
+143	4:31.00	Lexi Sundgren		17	400 FR LCM	AM	Allegheny North Swim Club	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+144	4:31.02	Veronika Kisova		17	400 FR LCM	NE	SOLO Aquatics	2022 NE BGSC LCM Seniors	2020-2024 AAA
+145	4:31.05	Ashley Fryer		17	400 FR LCM	OHO	Mason Manta Rays	2022 IN Spring Speedo Sectionals	2020-2024 AAA
+146	4:31.14	Lauren Hartel		17	400 FR LCM	PV	Arlington Aquatic Club	2022 VA EZ LC Speedo Super Sectional	2020-2024 AAA
+147	4:31.31	Makenna Wozny		17	400 FR LCM	NC	Lifetime Swim Team North Carolina	2022 NC SwimMAC Martha McKee Meet	2020-2024 AAA
+148	4:31.42	Mackenzie Hodges		17	400 FR LCM	CA	Unattached	2022 CA RMDA Road to 2022 LCM Finals	2020-2024 AAA
+149	4:31.52	Ella Jones		17	400 FR LCM	GA	Dynamo Swim Club	2022 SE Richard Quick Invitational	2020-2024 AAA
+149	4:31.52	Camila Pierce		17	400 FR LCM	NC	Raleigh Swimming Association	2022 NC LC SR CHAMPS	2020-2024 AAA
+151	4:31.58	Reese Hinnerichs		17	400 FR LCM	NM	Beast Aquatics	2022 SE TNAQ June Invitational	2020-2024 AAA
+152	4:31.59	Jemma Burns		17	400 FR LCM	ST	Longhorn Aquatics	2022 Futures Championships - C	2020-2024 AAA
+153	4:31.63	Molly Blanchard		17	400 FR LCM	VA	Poseidon Swimming Inc	2022 VA LC Senior Champs	2020-2024 AAA
+154	4:31.76	Gabrielle Goodwin		17	400 FR LCM	FL	Blue Dolfins	2022 Futures - Cary	2020-2024 AAA
+155	4:31.77	Danielle McCarthy		17	400 FR LCM	MA	Greater Philadelphia Aquatic Club	2022 MA Swimming Meet	2020-2024 AAA
+156	4:31.80	Ella Passe		17	400 FR LCM	MN	Riptide	2022 MN USAS Speedo Meet	2020-2024 AAA
+156	4:31.80	Erika Schraber		17	400 FR LCM	MN	Minnetonka Swim Club	2022 ISR MACCABIAH OPEN & JUNIOR	2020-2024 AAA
+158	4:31.89	Grace Weaver		17	400 FR LCM	NJ	North Jersey Bluestreaks	2022 NJ EEX JS Mace Memorial Summer Sizzle	2020-2024 AAA
+159	4:31.91	Charlotte Thompson		17	400 FR LCM	GA	SwimAtlanta	2022 GA LC Senior State Championship	2020-2024 AAA
+160	4:31.92	Julia Brzozowski		17	400 FR LCM	FL	Sarasota Tsunami Swim Team	2022 FL AAU CAT Al Soltis Memorial	2020-2024 AAA
+161	4:31.93	Ansley Halbach		17	400 FR LCM	GA	Athens Bulldog Swim Club	2022 MS Southern Zone Age Group	2020-2024 AAA
+162	4:31.94	Rachel Jones		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 VA NOVA LC Winter Invitational	2020-2024 AAA
+163	4:32.00	Halia Fleming		17	400 FR LCM	CA	Mission Viejo Nadadores	2022 CA So Cal Invite	2020-2024 AAA
+163	4:32.00	Peri Gaguzis		17	400 FR LCM	AM	Fox Chapel Killer Whales	2022 LE Futures Championships Geneva	2020-2024 AAA
+163	4:32.00	Clementine Robins		17	400 FR LCM	NE	Phoenix Swimming	2022 SE Speedo Summer Sizzler	2020-2024 AAA
+166	4:32.01	Riley Zinger		17	400 FR LCM	MD	Fox Swim Club	2022 MD Summer Speedo Spectacular	2020-2024 AAA
+167	4:32.27	Gracie Doyal		17	400 FR LCM	ST	Longhorn Aquatics	2022 GU Texas Senior Circuit 3	2020-2024 AAA
+168	4:32.33	Sonia Seliger		17	400 FR LCM	MR	Asphalt Green Unified Aquatics	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+168	4:32.33	Morgan Hofmeister		17	400 FR LCM	OHO	United Swim Association	2022 Futures - Geneva	2020-2024 AAA
+170	4:32.34	Rachel Bello		17	400 FR LCM	MI	Motor City Aquatics	2022 MI OLY Summer Classic	2020-2024 AAA
+171	4:32.43	Megan Appel		17	400 FR LCM	NT	Metroplex Aquatics	2022-NT Bill Nixon Memorial Meet	2020-2024 AAA
+172	4:32.44	Meredith Yuhasz		17	400 FR LCM	NE	Phoenix Swimming	2022 NE BGSC LCM Seniors	2020-2024 AAA
+173	4:32.47	Josie Hood		17	400 FR LCM	MW	Greater Omaha Aquatics Leopardsharks	2022 ST AAAA NS George Block I	2020-2024 AAA
+173	4:32.47	Sophia Velleco		17	400 FR LCM	CT	Woodbridge Aquatic Club	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+175	4:32.48	Karen Austin		17	400 FR LCM	MI	Atlantis Swimming	2022 MI PWCW III	2020-2024 AAA
+176	4:32.53	Rachel Love		17	400 FR LCM	AD	Schenectady-Saratoga Swim Club	2022 NJ BAC Summer Champs	2020-2024 AAA
+177	4:32.57	Katie Chignell		17	400 FR LCM	NC	TAC Titans	2022 Futures - Cary	2020-2024 AAA
+178	4:32.62	Kelsey Katt		17	400 FR LCM	NJ	Berkeley Aquatic Club	2022 IN Spring Speedo Sectionals	2020-2024 AAA
+179	4:32.63	Diana Chan		17	400 FR LCM	PC	Terrapins Swim Team	2022 SN Summer CA-NV Sectional-CC	2020-2024 AAA
+180	4:32.64	Carter Roebuck		17	400 FR LCM	MR	Asphalt Green Unified Aquatics	2022 MR TYR Senior LC Championships	2020-2024 AAA
+181	4:32.68	Katy Pacher		17	400 FR LCM	MD	North Baltimore Aquatic Club	2022 MD NBAC Spring Long Course Meet	2020-2024 AAA
+182	4:32.75	Jamison Tiller		17	400 FR LCM	GA	SwimAtlanta	2022 GA LC Senior State Championship	2020-2024 AAA
+183	4:32.81	Kayla Wieckowski		17	400 FR LCM	PC	Santa Clara Swim Club	2022 PC SCSC Super League Summer LC Finals	2020-2024 AAA
+183	4:32.81	Sarah Bernard		17	400 FR LCM	NE	Commonwealth Swimming	2022 NE BGSC LCM Seniors	2020-2024 AAA
+185	4:32.83	Bennett Jones		17	400 FR LCM	CO	Team Sopris Swimming	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+186	4:32.89	Hannah Huarte		17	400 FR LCM	PN	Bellevue Club Swim Team	2022 PN Senior Long Course Champs	2020-2024 AAA
+187	4:32.96	Haley Ross		17	400 FR LCM	CO	Univ of Denver Hilltoppers	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+187	4:32.96	Alexis Dickey		17	400 FR LCM	GU	Cypress Fairbanks Swim Club	2022 GU TWST Invite	2020-2024 AAA
+189	4:32.97	Ashley Case		17	400 FR LCM	GA	Stingrays	2022 GA Rays 14th Stu Hixon Invite	2020-2024 AAA
+190	4:33.02	Matti Turrini	Yes	17	400 FR LCM	CA	Irvine Novaquatics	2022 CA So Cal Invite	2020-2024 AAA
+191	4:33.04	Audrey Portello		17	400 FR LCM	SN	DART Swimming	2022 CC Arena Grand Challenge	2020-2024 AAA
+192	4:33.08	Kristina Paegle		17	400 FR LCM	IN	Indiana Swim Club	2022 IN Spring Speedo Sectionals	2020-2024 AAA
+193	4:33.12	Tenaya Winter		17	400 FR LCM	PC	Quicksilver Swimming	2022 PC SCSC Futures West	2020-2024 AAA
+194	4:33.16	Sydney Smith		17	400 FR LCM	NC	Marlins Of Raleigh	2022 MI Eric Namesnik Memorial Open	2020-2024 AAA
+195	4:33.18	Julianna Tyler		17	400 FR LCM	CT	Cheshire Y Sea Dog Swim Club	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+196	4:33.23	Bradie Ward		17	400 FR LCM	MV	Ad Astra Area Aquatics	2022 MN Futures Championships Minnesota	2020-2024 AAA
+197	4:33.26	Nalanie Cortez		17	400 FR LCM	IN	Fishers Area Swimming Tigers	2022 IN Senior LCM Championships	2020-2024 AAA
+198	4:33.30	Virginia Hastings		17	400 FR LCM	CT	Wilton Y Wahoos Swim Club	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+199	4:33.32	Teha Molina De La Rosa	Yes	17	400 FR LCM	SN	DART Swimming	2022 CC Arena Grand Challenge	2020-2024 AAA
+200	4:33.33	Ellie Leeming		17	400 FR LCM	OR	Corvallis Aquatic Team	2022 Futures - Santa Clara	2020-2024 AAA
+201	4:33.38	Bethany Rahn		17	400 FR LCM	FL	Sarasota Sharks	2022 FL SZ South Sectionals Championships	2020-2024 AAA
+202	4:33.46	Hope Felner		17	400 FR LCM	AZ	Scottsdale Aquatic Club	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+203	4:33.51	Keilee Holcomb		17	400 FR LCM	NT	Mansfield Aquatic Club	2022-NT Bill Nixon Memorial Meet	2020-2024 AAA
+204	4:33.53	Meg Finnegan		17	400 FR LCM	MA	Jersey Wahoos	2022 MA Swimming Meet	2020-2024 AAA
+205	4:33.57	Gabbie Ahrendt		17	400 FR LCM	SD	Sioux Falls Swim Team	2022 Futures - Minneapolis	2020-2024 AAA
+206	4:33.58	Logan Betkey		17	400 FR LCM	MD	North Baltimore Aquatic Club	2022 MD LSC LC Championships	2020-2024 AAA
+207	4:33.60	Maddi Geyer		17	400 FR LCM	NC	Mecklenburg Swim Association	2022 FL BSS TYR June Classic	2020-2024 AAA
+208	4:33.61	Amelia Snyder		17	400 FR LCM	PC	Walnut Creek Aquabears	2022 PC SCSC George Haines International	2020-2024 AAA
+209	4:33.62	Yelin Tahk	Yes	17	400 FR LCM	PC	Unattached	2022 PC Pacific Swimming LC Senior Meet	2020-2024 AAA
+210	4:33.72	Lexi Haymart		17	400 FR LCM	SN	Sierra Marlins Swim Team	2022 PC SCSC Super League Summer LC Finals	2020-2024 AAA
+211	4:33.75	Annie Wang		17	400 FR LCM	NJ	Scarlet Aquatics	2022 NI EZ Speedo Sectional (LCM) Buffalo	2020-2024 AAA
+212	4:33.76	Elena Dinehart		17	400 FR LCM	FG	South Florida Aquatic Club	2022 FG Southern Zone South Sectional	2020-2024 AAA
+213	4:33.79	Gretchen Schneider		17	400 FR LCM	OHO	Dublin Community Swim Team	2022 OH CM TYR Sport Summer Cl	2020-2024 AAA
+214	4:33.85	Meghan Benda		17	400 FR LCM	MD	North Baltimore Aquatic Club	2022 MD NBAC Spring Long Course Meet	2020-2024 AAA
+215	4:33.90	Bella Busconi		17	400 FR LCM	NE	Greenwood Swimming	2022 NE BGSC LCM Seniors	2020-2024 AAA
+216	4:33.95	Hannah O'Leary		17	400 FR LCM	ST	Aquatex Swim Team	2022 Futures - College Station	2020-2024 AAA
+217	4:34.00	Leyla Sleime		17	400 FR LCM	NC	Mecklenburg Swim Association	2022 NC Futures Championships Cary	2020-2024 AAA
+217	4:34.00	Grace Ciaramitaro		17	400 FR LCM	SE	Unattached	2022 GA Rays 14th Stu Hixon Invite	2020-2024 AAA
+219	4:34.01	Lea Nader		17	400 FR LCM	ST	Alamo Area Aquatic Association	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AAA
+220	4:34.09	MaryGrace Guzzino		17	400 FR LCM	MR	BGC-N. Westchester Marlins	2022 MR LIAC Summer Fun Invitational	2020-2024 AAA
+221	4:34.11	Rachel Soubier		17	400 FR LCM	PV	Rockville Montgomery Swim Club	2022 PV RMSC June LC Meet	2020-2024 AAA
+221	4:34.11	Mariana Cote	Yes	17	400 FR LCM	FG	Midtown Weston Aquatics	2022 FG PST/SUN/MWA Tri	2020-2024 AAA
+223	4:34.13	Charlotte Trentalange		17	400 FR LCM	NJ	YMCA of Greater Monmouth County	2022 NJ EEX JS Mace Memorial Summer Sizzle	2020-2024 AAA
+224	4:34.17	Kat Putchinski		17	400 FR LCM	NT	Rockwall Aquatic Center of Excellence	2022-NT American Long Course Meet	2020-2024 AAA
+225	4:34.25	Megan Hutchins		17	400 FR LCM	MN	Riptide	2022 MN MNSI Senior State	2020-2024 AAA
+226	4:34.28	Lexi Alexen		17	400 FR LCM	CA	Mission Viejo Nadadores	2022 CA RMDA Road to 2022 LCM Finals	2020-2024 AAA
+227	4:34.35	Olivia O'Bryan		17	400 FR LCM	KY	Lakeside Swim Team	2022 NC ESSZ Summer Sectionals	2020-2024 AAA
+228	4:34.53	Riley MacVane		17	400 FR LCM	FG	North Palm Beach Swim Club	2022 NC Futures Championships Cary	2020-2024 AAA
+229	4:34.59	Mia Park		17	400 FR LCM	CA	Swim Torrance	2022 CA SCS/RMDA June Age Group	2020-2024 AAA
+230	4:34.62	Tessa Lindstrom		17	400 FR LCM	MN	Riptide	2022 MN MNSI Senior State	2020-2024 AAA
+231	4:34.65	Allison Nguyen		17	400 FR LCM	CA	Los Angeles Swim Club	2022 CA Los Angeles Invitational	2020-2024 AAA
+232	4:34.66	Sofia Krstolic		17	400 FR LCM	FL	Laker Swim	2022 FL AAU CAT Al Soltis Memorial	2020-2024 AAA
+233	4:34.81	Victoria Liu		17	400 FR LCM	CT	Chelsea Piers Aquatic Club	2022 NJ EEX JS Mace Memorial Summer Sizzle	2020-2024 AAA
+234	4:34.82	Jessica Smith		17	400 FR LCM	FG	Wahoo's of Wellington	2022 FG Senior Championships	2020-2024 AAA
+235	4:34.83	Logan Morris		17	400 FR LCM	NT	Texas Ford Aquatics	2022 IN NCSA Summer Swimming Championship	2020-2024 AAA
+236	4:34.84	Lilly Nesson		17	400 FR LCM	IL	NWDupage YMCA / B.R. Ryall S T	2022-NT American Long Course Meet	2020-2024 AAA
+237	4:34.87	Fran Smith		17	400 FR LCM	WI	Lake Country Swim Team	2022 WI Speedo Premier Invitational	2020-2024 AAA
+238	4:34.88	Emma Lunn		17	400 FR LCM	MA	Suburban Seahawks Club	2022 MA JW Summer Solstice	2020-2024 AAA
+239	4:34.92	MG King		17	400 FR LCM	IL	Lake Forest Swim Club	2022 IL LCM Senior Championships	2020-2024 AAA
+240	4:34.93	Parker Kurzawa		17	400 FR LCM	IN	Carmel Swim Club	2022 IN Spring Speedo Sectionals	2020-2024 AAA
+241	4:34.98	Kate Bryant		17	400 FR LCM	GU	The Woodlands Swim Team	2022 Futures - College Station	2020-2024 AAA
+242	4:34.99	Bry Bellile		17	400 FR LCM	WI	Mid Wisconsin Wave Makers	2022 WI LAKE Western Great Lake Meet	2020-2024 AAA
+243	4:35.17	Mclane Gmelich		17	400 FR LCM	NJ	Central Jersey Aquatic Club	2022 NJ SCAR LC Junior Olympics	2020-2024 AAA
+244	4:35.21	Milan Bever		17	400 FR LCM	CA	Irvine Novaquatics	2022 CA Los Angeles Invitational	2020-2024 AAA
+244	4:35.21	Amy Riordan		17	400 FR LCM	GA	Aiken-Augusta Swim League	2021 GA ASL November Senior Invitational	2020-2024 AAA
+246	4:35.25	Kit Schneider		17	400 FR LCM	IL	Hinsdale Swim Club	2022 WI Speedo Premier Invitational	2020-2024 AAA
+247	4:35.28	Astrid Medina		17	400 FR LCM	GA	Chattahoochee Gold Swim Club	2022 GA LC Senior State Championship	2020-2024 AAA
+248	4:35.30	Katie Russell		17	400 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2022 VA LC Senior Champs	2020-2024 AAA
+249	4:35.31	Ayanna Thompson		17	400 FR LCM	CA	FAST Swim Team	2022 CA So Cal Invite	2020-2024 AAA
+250	4:35.39	Caroline McCurdy		17	400 FR LCM	NE	Phoenix Swimming	2022 WI Central Zone Section 1	2020-2024 AAA
+250	4:35.39	Alex Watson		17	400 FR LCM	ST	Longhorn Aquatics	2022 ST TXLA 11&Over Long Course Kick Off	2020-2024 AAA
+252	4:35.62	Meredith Teague		17	400 FR LCM	NE	Commonwealth Swimming	2022 NC SwimMAC Martha McKee Meet	2020-2024 AAA
+253	4:35.63	Riley Botting		17	400 FR LCM	FG	Pine Crest Swimming	2022 NC NCAC Meet on the Hill	2020-2024 AAA
+254	4:35.69	Sofia Giordano		17	400 FR LCM	MR	Long Island Aquatic Club	2022 MR TYR Senior LC Championships	2020-2024 AAA
+255	4:35.70	Storrie Kulynych-Irvin		17	400 FR LCM	MD	North Baltimore Aquatic Club	2022 MD NBAC Spring Long Course Meet	2020-2024 AAA
+255	4:35.70	Zoey Zeller		17	400 FR LCM	PC	South Valley Makos	2022 CC Arena Grand Challenge	2020-2024 AAA
+257	4:35.79	Paige Munna		17	400 FR LCM	FG	Flood Aquatics Swim Team	2022 FG Southern Zone South Sectional	2020-2024 AAA
+257	4:35.79	Haley Halsall		17	400 FR LCM	IL	Woodstock Dolphins Swim Team	2022 WI Central Zone Section 1	2020-2024 AAA
+257	4:35.79	Natalie Tabar		17	400 FR LCM	MI	Plymouth-Canton Cruisers	2022 NC Futures Championships Cary	2020-2024 AAA
+260	4:35.89	Emily O'Brien		17	400 FR LCM	CA	Mission Viejo Nadadores	2022 CA RMDA Road to 2022 LCM Finals	2020-2024 AAA
+261	4:35.99	Riley Baldwin		17	400 FR LCM	SI	Renegade Aquatics	2022 CA CA-NV Speedo Sectionals at CANY	2020-2024 AAA
+262	4:36.07	Britta Schwengle	Yes	17	400 FR LCM	FG	Azura Florida Aquatics	2022 FL SZ South Sectionals Championships	2020-2024 AAA
+263	4:36.18	Brynn Stacey		17	400 FR LCM	WI	Badger Aquatics Club	2022 WI LAKE Western Great Lake Meet	2020-2024 AAA
+264	4:36.19	Summer Dean		17	400 FR LCM	PN	South Snohomish Co. Dolphins	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+265	4:36.22	Sarah Dichak		17	400 FR LCM	NC	Lifetime Swim Team North Carolina	2022 Futures - Cary	2020-2024 AAA
+266	4:36.28	Erika Martinez		17	400 FR LCM	NT	North Texas Nadadores	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AAA
+267	4:36.29	Ginger Kiefer		17	400 FR LCM	OR	Bend Swim Club	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+268	4:36.34	Sonja Aarsvold		17	400 FR LCM	CA	Riverside Aquatics Association	2022 CA SCS/NOVA June Age Group	2020-2024 AAA
+269	4:36.38	Anika Wright		17	400 FR LCM	MN	St Croix Swim Club	2022 MN MNSI Senior State	2020-2024 AAA
+270	4:36.46	Alexis Schaffer		17	400 FR LCM	PC	Palo Alto Stanford Aquatics	2022 CC Arena Grand Challenge	2020-2024 AAA
+271	4:36.50	Abby Bocian		17	400 FR LCM	NC	SwimMAC Carolina	2022 Futures - Cary	2020-2024 AAA
+272	4:36.55	Elizabeth Brewer		17	400 FR LCM	OHO	Northern KY Clippers Swimming	2022 OH Tim Meyers LC Senior Champs	2020-2024 AAA
+273	4:36.56	Abby Isaly		17	400 FR LCM	CA	Unattached	2022 CA MVN Fran Crippen SMOC	2020-2024 AAA
+274	4:36.57	Megan Hurley		17	400 FR LCM	FL	Blue Dolfins	2022 FL JUNE FAST Senior Invite	2020-2024 AAA
+275	4:36.66	Lilly Zippel		17	400 FR LCM	WI	Schroeder YMCA Swim Team	2022 WI SSTY BIG CHEESE	2020-2024 AAA
+276	4:36.68	Elizabeth Fetter		17	400 FR LCM	PC	Alto Swim Club	2022 SN Summer CA-NV Sectional-CC	2020-2024 AAA
+277	4:36.70	Abby Funk		17	400 FR LCM	NI	Webster BlueFins	2022 NI EZ Speedo Sectional (LCM) Buffalo	2020-2024 AAA
+278	4:36.75	Riley Crespo		17	400 FR LCM	LA	Nu Wave Swim Club	2022 LA CA Long Course Invitational	2020-2024 AAA
+278	4:36.75	Ingrid Fretz		17	400 FR LCM	IN	Irish Aquatics	2022 IN Senior LCM Championships	2020-2024 AAA
+280	4:36.77	Madison Testa		17	400 FR LCM	MA	Western YMCA Wahoos	2022 MA KA Firecracker Classic	2020-2024 AAA
+280	4:36.77	Cheyanna Cordova		17	400 FR LCM	CO	Jeffco Hurricanes	2022 CO CSI Long Course Open	2020-2024 AAA
+282	4:36.80	Clarke Doyle		17	400 FR LCM	SE	City of Mobile Swim Association	2022 SE LC Championships	2020-2024 AAA
+283	4:36.92	Kate Turner		17	400 FR LCM	WI	SWMKE	2022 WI 13 & O LC State Meet	2020-2024 AAA
+284	4:36.98	Ella Hall		17	400 FR LCM	MN	Edina Swim Club	2022 MN MNSI Senior State	2020-2024 AAA
+285	4:36.99	Grace Barnhart		17	400 FR LCM	OHO	Central Ohio Aquatics	2022 IN Spring Speedo Sectionals	2020-2024 AAA
+285	4:36.99	Avery Potyrala		17	400 FR LCM	CT	Cheshire Y Sea Dog Swim Club	2022 CT Senior Championship LC	2020-2024 AAA
+287	4:37.02	Darian Koler		17	400 FR LCM	PC	Lakeridge Swim Team	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+288	4:37.08	Syd Oneil		17	400 FR LCM	CO	Fort Collins Area Swim Team	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+288	4:37.08	Tuva Siegel		17	400 FR LCM	CO	Univ of Denver Hilltoppers	2022 CO CSI Senior LC Championships	2020-2024 AAA
+288	4:37.08	Ava Elliott		17	400 FR LCM	AZ	Gold Medal Swim Club	2022 AZ LC Senior State Championship	2020-2024 AAA
+288	4:37.08	Michaela Koltz		17	400 FR LCM	ST	Nitro Swimming	2022 ST TXLA 11& Over End of Splash	2020-2024 AAA
+292	4:37.09	Katie Ford	Yes	17	400 FR LCM	FL	Bolles School Sharks	2022 FL BSS TYR June Classic	2020-2024 AAA
+293	4:37.18	Maren Rusk		17	400 FR LCM	PN	South Snohomish Co. Dolphins	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+294	4:37.19	Audrey Schafer		17	400 FR LCM	SI	Rancho San Dieguito	2022 SI LC AG CHAMPS	2020-2024 AAA
+295	4:37.21	Claire Kuziemko		17	400 FR LCM	PC	Burlingame Aquatic Club	2022 SN Summer CA-NV Sectional-CC	2020-2024 AAA
+296	4:37.24	Camrynn Wilson		17	400 FR LCM	SC	Y-Spartaquatics Swim Club	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+297	4:37.25	Jungmin Yoon	Yes	17	400 FR LCM	CA	Unattached	2022 CA MVN Fran Crippen SMOC	2020-2024 AAA
+298	4:37.31	Kaylee Coffey		17	400 FR LCM	ST	Alamo Area Aquatic Association	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AAA
+299	4:37.32	Maren Romine		17	400 FR LCM	ST	Alamo Area Aquatic Association	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AAA
+300	4:37.36	Caroline Netolicky		17	400 FR LCM	SE	Excel Aquatics	2022 SE LC Championships	2020-2024 AAA
+301	4:37.38	Cera Mallory		17	400 FR LCM	CA	FAST Swim Team	2022 CA So Cal Invite	2020-2024 AAA
+302	4:37.46	Sylvia Admire		17	400 FR LCM	OK	Trident Aquatics Club	2022 MN Futures Championships Minnesota	2020-2024 AAA
+303	4:37.54	Grace Daniels		17	400 FR LCM	NC	SwimMAC Carolina	2022 NC SGSA Eastern Invitational	2020-2024 AAA
+304	4:37.57	Emma Vogen		17	400 FR LCM	MN	Riptide	2022 MN MNSI Senior State	2020-2024 AAA
+305	4:37.60	Elizabeth Tilt		17	400 FR LCM	GA	Chattahoochee Gold Swim Club	2022 SE GPAC Tom Lalor Invitatonal	2020-2024 AAA
+306	4:37.61	Madelyn Porter		17	400 FR LCM	IN	Newburgh Sea Creatures	2022 IN Senior LCM Championships	2020-2024 AAA
+307	4:37.64	Kelsey Wasikowski		17	400 FR LCM	OR	Team Eugene Aquatics-YMCA	2022 OR Arena 11&O LC Championship	2020-2024 AAA
+308	4:37.69	Sydney Sanders		17	400 FR LCM	NC	SwimMAC Carolina	2022 NC SGSA Eastern Invitational	2020-2024 AAA
+309	4:37.83	Cate Carboni		17	400 FR LCM	CT	Regional YMCA of Western Connecticut Makos	2022 CT RYWC LCM Senior Invitational	2020-2024 AAA
+310	4:37.88	Katie Andrist		17	400 FR LCM	UT	Hilltop Aquatic Swim Team	2022 UT CHAT INVITATIONAL	2020-2024 AAA
+311	4:37.92	Yasemine Safargar		17	400 FR LCM	NJ	Scarlet Aquatics	2022 NJ BAC Jim Wood Memorial Invite	2020-2024 AAA
+312	4:37.98	Maggie Belbot		17	400 FR LCM	MD	North Baltimore Aquatic Club	2022 MD NBAC Mid-Summer Classic	2020-2024 AAA
+313	4:38.00	Claire Culberson		17	400 FR LCM	GU	Cypress Fairbanks Swim Club	2022 Futures - College Station	2020-2024 AAA
+314	4:38.07	Lauren Hinton		17	400 FR LCM	GA	Dynamo Swim Club	2022 SE Richard Quick Invitational	2020-2024 AAA
+315	4:38.08	B Burke		17	400 FR LCM	MN	Blackline Aquatics	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+315	4:38.08	Taylor Bloom		17	400 FR LCM	NC	TAC Titans	2022 NC TAC Spring Invitational	2020-2024 AAA
+317	4:38.17	Stella Vass		17	400 FR LCM	CA	BLAST Sharks	2022 CA RAA Summer JO's	2020-2024 AAA
+317	4:38.17	Erin Dehollander		17	400 FR LCM	NI	Victor Swim Club	2022 NI LSC Long Course Championships	2020-2024 AAA
+319	4:38.18	Katherine Jia		17	400 FR LCM	MA	Upper Dublin Aquatic Club	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+320	4:38.21	Kailyn Becker		17	400 FR LCM	NC	TAC Titans	2022 NC TAC TITANS Closeout Meet	2020-2024 AAA
+321	4:38.30	Calista Lynch		17	400 FR LCM	PC	Palo Alto Stanford Aquatics	2022 PC SCSC Super League Summer LC Finals	2020-2024 AAA
+322	4:38.34	Emma Hrasko		17	400 FR LCM	NT	Dallas Mustangs	2022 SVK MAJSTROVSTVÁ SR OPEN A JUNIOROV	2020-2024 AAA
+323	4:38.37	Aleena Herrera		17	400 FR LCM	CA	Riverside Aquatics Association	2022 CA SCS/NOVA June Age Group	2020-2024 AAA
+324	4:38.42	Mackenzie Sowards-Barnett		17	400 FR LCM	NJ	YMCA of Greater Monmouth County	2022 NC AP LC YMCA National Time Trials	2020-2024 AAA
+325	4:38.44	Kate Williams		17	400 FR LCM	IL	Cats Aquatic Team	2022 MN USAS Speedo Meet	2020-2024 AAA
+325	4:38.44	Katlyn McCurtain		17	400 FR LCM	AZ	Mesa Aquatics Club	2022-NT American Long Course Meet	2020-2024 AAA
+327	4:38.45	Piper Mcneil		17	400 FR LCM	OK	American Energy Swim Club	2022 OK AESC Summer Splash	2020-2024 AAA
+328	4:38.49	Kendall Alexander		17	400 FR LCM	AZ	Gold Medal Swim Club	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+329	4:38.57	Ashley Sallows		17	400 FR LCM	OHO	Buckeye Swim Club	2022 OH Tim Meyers LC Senior Champs	2020-2024 AAA
+330	4:38.58	Genevieve Franklin		17	400 FR LCM	CO	Univ of Denver Hilltoppers	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+331	4:38.60	Alana Devlin	Yes	17	400 FR LCM	LE	Lake Erie Silver Dolphins	2022 LE Long Course Qualifier	2020-2024 AAA
+332	4:38.61	Sophia Kapla		17	400 FR LCM	MI	Grosse Pointe Gators	2022 NC Futures Championships Cary	2020-2024 AAA
+333	4:38.62	Julia McGovern		17	400 FR LCM	NC	SwimMAC Carolina	2022 NC SGSA Eastern Invitational	2020-2024 AAA
+334	4:38.70	Grace Wilson		17	400 FR LCM	NC	Sailfish Aquatics	2022 NC LC SR CHAMPS	2020-2024 AAA
+335	4:38.73	Clare Smith		17	400 FR LCM	NC	TAC Titans	2022 NC TAC Triangle Classic	2020-2024 AAA
+335	4:38.73	Audrey Jacobson		17	400 FR LCM	NT	Dallas Mustangs	2022-NT Bill Nixon Memorial Meet	2020-2024 AAA
+337	4:38.84	Meghan Christman		17	400 FR LCM	IN	Carmel Swim Club	2022 IN Senior LCM Championships	2020-2024 AAA
+338	4:38.92	Lourdes Manderfield		17	400 FR LCM	MI	Michigan Lakeshore Aquatics	2022 MI MLA West Michigan Classic	2020-2024 AAA
+339	4:38.95	Sara Ketron		17	400 FR LCM	GA	Dynamo Swim Club	2022 SE Richard Quick Invitational	2020-2024 AAA
+340	4:39.08	Andi Hunt		17	400 FR LCM	FL	Blue Dolfins	2022 FL RAFC Summer Solstice	2020-2024 AAA
+341	4:39.09	Zoe Poe		17	400 FR LCM	AM	Team Pittsburgh Elite Aquatics	2022 WV Long Course Championship	2020-2024 AAA
+342	4:39.13	Emma Kimbrough		17	400 FR LCM	CO	Maverick Aquatics	2022 CA CA-NV Speedo Sectionals at CANY	2020-2024 AAA
+343	4:39.15	Jaida Lippy		17	400 FR LCM	AZ	Gold Medal Swim Club	2022 AZ LC Senior State Championship	2020-2024 AAA
+344	4:39.17	Adelaide Wood		17	400 FR LCM	VA	Tide Swimming	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+344	4:39.17	Katie O'Connell		17	400 FR LCM	IL	Academy Bullets Swim Club	2022 ILOP PAC SUMMER KICK OFF	2020-2024 AAA
+344	4:39.17	Natalie Boorjian		17	400 FR LCM	MN	Rochester Swim Club	2022 MN Futures Championships Minnesota	2020-2024 AAA
+347	4:39.19	Charlize Phillips		17	400 FR LCM	CC	Clovis Swim Club	2022 PC SCSC Super League Summer LC Finals	2020-2024 AAA
+348	4:39.22	Emmi Von Scherr		17	400 FR LCM	CA	Unattached	2022 CA MVN Fran Crippen SMOC	2020-2024 AAA
+349	4:39.26	Alexis Martino		17	400 FR LCM	NE	Phoenix Swimming	2022 NE ATST The "Evander" Classic	2020-2024 AAA
+350	4:39.30	Morgan Razewski		17	400 FR LCM	NC	SwimMAC Carolina	2022 IN Spring Speedo Sectionals	2020-2024 AAA
+351	4:39.33	Maya Burkstrand		17	400 FR LCM	MN	Piranhas Swim Club	2022 MN USAS Speedo Meet	2020-2024 AAA
+352	4:39.37	Raya Embury-Brown	Yes	17	400 FR LCM	MI	Unattached	1st Junior Pan American Games	2020-2024 AAA
+353	4:39.40	Lauren Lane		17	400 FR LCM	NJ	Fanwood-Scotch Plains YMCA	2022 NJ EEX JS Mace Memorial Summer Sizzle	2020-2024 AAA
+353	4:39.40	Kate Heintz		17	400 FR LCM	NT	North Texas Nadadores	2022-NT MAC North Texas Senior Meet	2020-2024 AAA
+355	4:39.46	Ashley Piacentino		17	400 FR LCM	CT	Ridgefield Aquatic Club	2022 CT CPAC Memorial Day T&F	2020-2024 AAA
+356	4:39.52	Kyla Babson		17	400 FR LCM	AZ	Tucson Ford Dealers Aquatics	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+357	4:39.56	Kathleen Bendoraitis		17	400 FR LCM	NJ	Scarlet Aquatics	2022 NJ SCAR Memorial Day	2020-2024 AAA
+358	4:39.57	Darrah Shuff		17	400 FR LCM	MA	Jersey Wahoos	2022 MA JW Summer Solstice	2020-2024 AAA
+358	4:39.57	Aislyn Barnett		17	400 FR LCM	CO	Aces Swim Club	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+360	4:39.64	Addie Scott		17	400 FR LCM	MA	Kennett Area Ymca Sea Dragons	2022 NC AP LC YMCA National Time Trials	2020-2024 AAA
+361	4:39.66	Kylee Sessions		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 PV LC Open Championships	2020-2024 AAA
+361	4:39.66	Natalie Webb		17	400 FR LCM	PV	Rockville Montgomery Swim Club	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+363	4:39.68	Isabel Ondracek		17	400 FR LCM	MN	Aquajets Swim Team	2022 MN AQJT Aquajets Summer Invite	2020-2024 AAA
+364	4:39.71	Evie Kolb		17	400 FR LCM	AR	Springfield Aquatics	2022 AR Long Course Championship	2020-2024 AAA
+364	4:39.71	Meredith Bush		17	400 FR LCM	NC	Lifetime Swim Team North Carolina	2022 FL BSS TYR June Classic	2020-2024 AAA
+366	4:39.72	Annaleagh Stahl	Yes	17	400 FR LCM	PV	Occoquan Swimming Inc	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+367	4:39.74	Rory Sheridan		17	400 FR LCM	MR	Westchester Aquatic Club	2022 MR TYR Senior LC Championships	2020-2024 AAA
+368	4:39.78	Sophie Kloppenburg		17	400 FR LCM	IN	Mt. Vernon Swim Team	2022 IN Spring Speedo Sectionals	2020-2024 AAA
+369	4:39.79	Audrey Bull		17	400 FR LCM	SN	Redding Swim Team	2022 SN RAD June Meet	2020-2024 AAA
+370	4:39.82	Jenna Taylor		17	400 FR LCM	GA	SwimAtlanta	2022 GA Speedo Atlanta Classic	2020-2024 AAA
+371	4:39.83	Isabella Rodriguez		17	400 FR LCM	NE	Greenwood Swimming	2022 NE BGSC LCM Seniors	2020-2024 AAA
+372	4:39.92	Kirsti McEnroe		17	400 FR LCM	SC	Y-Spartaquatics Swim Club	2022 SC YSSC 25th Annual May LC Meet	2020-2024 AAA
+372	4:39.92	Erin Kau	Yes	17	400 FR LCM	PC	Palo Alto Stanford Aquatics	2022 CC Arena Grand Challenge	2020-2024 AAA
+374	4:39.95	Sydney Boudreaux		17	400 FR LCM	ST	Whitecaps of Westlake	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AAA
+375	4:39.96	Jocelyn Reynolds		17	400 FR LCM	SE	Birmingham Swim League	2022 SE LC Championships	2020-2024 AAA
+376	4:39.97	Emilee Hamblin		17	400 FR LCM	NC	Mecklenburg Swim Association	2022 NC SwimMAC Martha McKee Meet	2020-2024 AAA
+377	4:40.02	Molly Curran		17	400 FR LCM	NC	Marlins Of Raleigh	2022 NC NCAC LCM Tar Heel States	2020-2024 AAA
+378	4:40.04	Jordyn Spector		17	400 FR LCM	AZ	Phoenix Swim Club	2022 AZ PSC Summer Invitational	2020-2024 AAA
+378	4:40.04	Zuzu Nwaeze		17	400 FR LCM	MD	Eagle Swim Team Inc.	2022 Sandbox Invitational	2020-2024 AAA
+380	4:40.07	Maggie Rutledge		17	400 FR LCM	CT	Regional YMCA of Western Connecticut Makos	2022 CT Senior Championship LC	2020-2024 AAA
+381	4:40.09	Jessica Konsky		17	400 FR LCM	MR	Team Suffolk	2022 MR Metropolitan Long Course Junior Olympics	2020-2024 AAA
+382	4:40.10	Zoe Kuhn		17	400 FR LCM	PC	AlaGators	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+383	4:40.13	Avery King		17	400 FR LCM	MA	Parkland Aquatic Club	2022 FL AAU CAT Al Soltis Memorial	2020-2024 AAA
+383	4:40.13	Elise Bulman		17	400 FR LCM	IL	Chicago Wolfpack Aquatic Club	2022 IL LCM Senior Championships	2020-2024 AAA
+385	4:40.15	Ava Ellis		17	400 FR LCM	OHO	Cincinnati Aquatic Club	2022 LE Speedo Summer Sectionals	2020-2024 AAA
+386	4:40.17	Alice Yueh		17	400 FR LCM	OR	Lake Oswego Swim Club	2022 OR Arena 11&O LC Championship	2020-2024 AAA
+387	4:40.20	Mabry Bishop		17	400 FR LCM	FL	Academy Aquatic Club	2022 FL AAU CAT Al Soltis Memorial	2020-2024 AAA
+387	4:40.20	Sara Smith		17	400 FR LCM	PV	Rockville Montgomery Swim Club	2022 PV LC Open Championships	2020-2024 AAA
+389	4:40.27	Lainy Kruger		17	400 FR LCM	OHO	Northern KY Clippers Swimming	2022 IN Donner Jaime Miller Invitational	2020-2024 AAA
+390	4:40.31	Natalia Robak		17	400 FR LCM	NE	Bluefish Swim Club	2022 WI Central Zone Section 1	2020-2024 AAA
+391	4:40.33	Sierra Valentin		17	400 FR LCM	CA	Elite Aquatics Sports Team	2022 CA RAA Summer JO's	2020-2024 AAA
+392	4:40.37	Samantha Lee		17	400 FR LCM	OZ	CSP Tideriders	2022 OZ Long Course Champs	2020-2024 AAA
+393	4:40.38	Anna Buchert		17	400 FR LCM	SC	Y-Spartaquatics Swim Club	2022 SC YSSC 19th Annual LC	2020-2024 AAA
+394	4:40.41	Miya French		17	400 FR LCM	PC	Thunder Coast Aquatics	2022 PC TCA Senior 2	2020-2024 AAA
+394	4:40.41	Ellen Lange		17	400 FR LCM	OHO	Cincinnati Marlins	2022 LE Speedo Summer Sectionals	2020-2024 AAA
+396	4:40.42	Sophie Porter		17	400 FR LCM	CO	Foothills Swim Team	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+397	4:40.43	Corley Smith		17	400 FR LCM	FG	Unattached	2022 FL SZ South Sectionals Championships	2020-2024 AAA
+398	4:40.45	Zeynep Tokuz		17	400 FR LCM	PC	Santa Clara Swim Club	2022 PC SCSC Super League Summer LC Finals	2020-2024 AAA
+399	4:40.51	Ava Berry		17	400 FR LCM	NC	New Wave Swim Team	2022 FL RAFC Last Splash Invitational	2020-2024 AAA
+400	4:40.53	Sydney Dettmann		17	400 FR LCM	MN	St Croix Swim Club	2022 MN MNSI Senior State	2020-2024 AAA
+401	4:40.56	Hanna Sasivarevic		17	400 FR LCM	UT	Cottonwood Heights Aquatics	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+402	4:40.60	Audrey J-Cheng		17	400 FR LCM	PC	Palo Alto Stanford Aquatics	2022 PC SCSC George Haines International	2020-2024 AA
+402	4:40.60	Darby Lefaivre		17	400 FR LCM	PV	Nation's Capital Swim Club	2022 PV LC Open Championships	2020-2024 AA
+404	4:40.63	Kaylin Herbet		17	400 FR LCM	FL	Blue Dolfins	2022 FL PA Long Course Invite	2020-2024 AA
+405	4:40.65	Ella Hornbacher		17	400 FR LCM	MI	Plymouth-Canton Cruisers	2022 LE Speedo Summer Sectionals	2020-2024 AA
+406	4:40.73	Alyssa Gonci		17	400 FR LCM	CO	Jeffco Hurricanes	2022 FL RAFC Last Splash Invitational	2020-2024 AA
+407	4:40.74	Aubrey Klausner		17	400 FR LCM	FL	Highlander Aquatic Club	2022 FL Summer Senior Championships	2020-2024 AA
+408	4:40.84	Maddie Wheeler		17	400 FR LCM	CA	Aquazot Swim Club	2022 CA SCS/MVN Summer JO's	2020-2024 AA
+409	4:40.87	Cora Zuwallack		17	400 FR LCM	NE	Cape Cod Swim Club	2022 NE NSSC August Springfield	2020-2024 AA
+410	4:40.88	Megan Gangaway		17	400 FR LCM	CT	Laurel East Hartford YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AA
+411	4:40.89	Avery Kudlac		17	400 FR LCM	CT	Laurel East Hartford YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AA
+412	4:40.91	Katherine Adams		17	400 FR LCM	OR	Tualatin Hills Swim Club	2022 OR THSC Spring Invitational	2020-2024 AA
+413	4:40.94	Julienne Saliou		17	400 FR LCM	MR	Long Island Aquatic Club	2022 SE Tennessee LC Invitational	2020-2024 AA
+413	4:40.94	Carson Muir		17	400 FR LCM	SE	Birmingham Swim League	2022 SE LC Championships	2020-2024 AA
+415	4:41.08	Lily Robinson		17	400 FR LCM	MA	Upper Main Line YMCA	2022 MA WSY/HAC Long Course Cl	2020-2024 AA
+416	4:41.11	Paige Steenblock		17	400 FR LCM	MN	Riptide	2022 MN MNSI Senior State	2020-2024 AA
+417	4:41.17	Katy Hawk		17	400 FR LCM	PC	Santa Clara Swim Club	2022 CC Arena Grand Challenge	2020-2024 AA
+418	4:41.22	Flynn Truskett		17	400 FR LCM	MA	Upper Main Line YMCA	2022 MA AP UMLY Cure for Cam I	2020-2024 AA
+418	4:41.22	Courtney Boghosian		17	400 FR LCM	NE	Gator Swim Club	2022 NE BGSC LCM Seniors	2020-2024 AA
+420	4:41.24	Kaitlyn Bauer		17	400 FR LCM	VA	Lynchburg YMCA Swim Team	2022 VA LC Senior Champs	2020-2024 AA
+421	4:41.25	Adriana Roldan	Yes	17	400 FR LCM	FG	Gulliver Swim Club	2022 FL RAFC Summer Solstice	2020-2024 AA
+422	4:41.26	Clarissa Bezuidenhout		17	400 FR LCM	NC	YMCA of the Triangle Area Swim Team	2022 FL ISCA Summer Senior Blast	2020-2024 AA
+423	4:41.27	Rose Sciaudone		17	400 FR LCM	NC	Marlins Of Raleigh	2022 NC LC SR CHAMPS	2020-2024 AA
+424	4:41.32	Jada Scott		17	400 FR LCM	ST	Alamo Area Aquatic Association	2022 ST AAAA 19th Annual Cinco	2020-2024 AA
+425	4:41.38	Makhaela Parrish		17	400 FR LCM	IE	Manta Ray Aquatics	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+425	4:41.38	Brooklynn Stewart		17	400 FR LCM	CA	Las Vegas Swim Club	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+427	4:41.39	Alexia Zaidi		17	400 FR LCM	MD	Naval Academy Aquatic Club	2022 FL ISCA Summer Senior Blast	2020-2024 AA
+427	4:41.39	Neely Burns		17	400 FR LCM	AZ	Swim Neptune	2022 AZ MAC 11th Annual Speedo Invite	2020-2024 AA
+429	4:41.44	Samantha Li		17	400 FR LCM	PC	Unattached	2022 PC TCA Senior 2	2020-2024 AA
+430	4:41.47	Rachel Maki		17	400 FR LCM	SN	Shasta YMCA Sharks	2022 SN Summer Sanders LCM SR+	2020-2024 AA
+431	4:41.48	Julia Snow		17	400 FR LCM	CT	Cheshire Y Sea Dog Swim Club	2022 CT Senior Championship LC	2020-2024 AA
+432	4:41.54	Kate Yoder		17	400 FR LCM	NC	New Wave Swim Team	2022 FL RAFC Last Splash Invitational	2020-2024 AA
+433	4:41.61	Sarah Culberson		17	400 FR LCM	GU	Cypress Fairbanks Swim Club	2022 GU CFSC LC Open	2020-2024 AA
+434	4:41.62	Delrae Vetter	Yes	17	400 FR LCM	GU	The Woodlands Swim Team	2022 GU CFSC LC Open	2020-2024 AA
+435	4:41.67	Lily Collins		17	400 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2022 VA LC Senior Champs	2020-2024 AA
+436	4:41.70	Ashley Chui		17	400 FR LCM	NJ	YMCA of Greater Monmouth County	2022 NJ EEX JS Mace Memorial Summer Sizzle	2020-2024 AA
+437	4:41.71	Carleigh Dillman		17	400 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2022 VA NOVA LC Winter Invitational	2020-2024 AA
+438	4:41.72	Riley Moorman		17	400 FR LCM	VA	Old Dominion Aquatic Club	2022 FL BSS TYR June Classic	2020-2024 AA
+439	4:41.81	Nicole Ben-David		17	400 FR LCM	NJ	Fanwood-Scotch Plains YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AA
+440	4:41.82	Brooke Dunphy		17	400 FR LCM	SI	North Coast Aquatics	2022 CA So Cal Invite	2020-2024 AA
+440	4:41.82	Ellie Paisley		17	400 FR LCM	GU	Katy Aquatic Team For Youth	2022 WV Southern Zone Senior Champs	2020-2024 AA
+442	4:41.88	Sydney Nethercutt		17	400 FR LCM	IN	Northridge Area Swimming Assoc	2022 IN Senior LCM Championships	2020-2024 AA
+443	4:41.89	Reagan Holmes		17	400 FR LCM	CA	BlueFin Aquatics	2022 CA SCS/RMDA June Age Group	2020-2024 AA
+444	4:41.90	Kya Guikema		17	400 FR LCM	CO	Aquawolves Swimming	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+445	4:41.91	Alden Backstrand		17	400 FR LCM	PC	Palo Alto Stanford Aquatics	2022 SN Summer Sanders LCM SR+	2020-2024 AA
+446	4:41.92	Bella Arbaugh		17	400 FR LCM	MI	Club Wolverine	2022 MI Eric Namesnik Memorial Open	2020-2024 AA
+446	4:41.92	Kaitlyn Connors		17	400 FR LCM	AM	Team Pittsburgh Elite Aquatics	2022 LE Holtrey Summer Classic (2)	2020-2024 AA
+448	4:42.04	Andie Drew		17	400 FR LCM	IN	Irish Aquatics	2022 IN Spring Speedo Sectionals	2020-2024 AA
+449	4:42.05	Kimmy Gordon		17	400 FR LCM	CO	Pikes Peak Athletics	2022 AZ PSC Summer Invitational	2020-2024 AA
+449	4:42.05	Emma Luttrell		17	400 FR LCM	NI	Syracuse Chargers	2022 NI LSC Long Course Championships	2020-2024 AA
+451	4:42.08	Sydney Lillis		17	400 FR LCM	CT	Wilton Y Wahoos Swim Club	2022 NC AP LC YMCA National Time Trials	2020-2024 AA
+452	4:42.10	Reese Balkcom		17	400 FR LCM	FG	Unattached	2022 FG Senior Championships	2020-2024 AA
+453	4:42.20	Kirsten Lee		17	400 FR LCM	IN	Fort Wayne Swim Team	2022 IN Senior LCM Championships	2020-2024 AA
+453	4:42.20	Joslyn Jurski		17	400 FR LCM	OHO	Greater Toledo Aquatic Club	2022 IN Spring Speedo Sectionals	2020-2024 AA
+455	4:42.28	Emily Buening		17	400 FR LCM	IN	Washington Township Swim Club	2022 IN Spring Speedo Sectionals	2020-2024 AA
+455	4:42.28	Sarah Beth Cathcart		17	400 FR LCM	FL	Blue Dolfins	2022 FL JUNE FAST Senior Invite	2020-2024 AA
+455	4:42.28	Kristen Ivey		17	400 FR LCM	NC	East Carolina Aquatics	2022 NC EAC Independence Invite	2020-2024 AA
+458	4:42.32	Taylor McNerney		17	400 FR LCM	MD	North Baltimore Aquatic Club	2022 MD LSC LC Championships	2020-2024 AA
+459	4:42.33	Faith Mutschler		17	400 FR LCM	FG	Wahoo's of Wellington	2022 FL SZ South Sectionals Championships	2020-2024 AA
+460	4:42.36	Mary Codevilla		17	400 FR LCM	CO	Elevation Athletics	2022 CO FST May Madness	2020-2024 AA
+461	4:42.42	Sydney DeBaecke		17	400 FR LCM	MA	Suburban Seahawks Club	2022 MA JW Summer Solstice	2020-2024 AA
+462	4:42.46	Audrey Axton		17	400 FR LCM	NT	Unattached	2022 WV Southern Zone Senior Champs	2020-2024 AA
+463	4:42.49	Olivia Herbert		17	400 FR LCM	CT	Regional YMCA of Western Connecticut Makos	2022 CT WYW June Trials Finals	2020-2024 AA
+464	4:42.50	Jenna Miller		17	400 FR LCM	IN	Franklin Regional Swim Team	2022 IN Senior LCM Championships	2020-2024 AA
+465	4:42.56	Cassie Lowe		17	400 FR LCM	SE	Barracuda Swim Club of Northeast Tennessee	2022 SE Bank of Tennessee Model City I	2020-2024 AA
+466	4:42.57	Christa Schlimper		17	400 FR LCM	GU	Cypress Fairbanks Swim Club	2022 WV Southern Zone Senior Champs	2020-2024 AA
+467	4:42.58	Natalie Gembicki		17	400 FR LCM	FG	South Florida Aquatic Club	2022 FG Southern Zone South Sectional	2020-2024 AA
+468	4:42.59	Abi King		17	400 FR LCM	SE	Tennessee Aquatics	2022 SE LC Championships	2020-2024 AA
+469	4:42.60	Delia Fritz		17	400 FR LCM	PV	Rockville Montgomery Swim Club	2022 PV RMSC Spring LC Classic	2020-2024 AA
+470	4:42.62	Bailey Gott		17	400 FR LCM	AR	Springfield Aquatics	2022 AR TYR WINTER LC INVITE	2020-2024 AA
+471	4:42.64	Amanda Schweichler		17	400 FR LCM	CA	Sandpipers Of Nevada	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+472	4:42.65	Elle Feneide		17	400 FR LCM	CO	Elevation Athletics	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AA
+473	4:42.67	Audrey Dixon		17	400 FR LCM	IN	Irish Aquatics	2022 IN NAT Indy Spring Cup	2020-2024 AA
+474	4:42.68	Revere Schmidt		17	400 FR LCM	SI	Rancho San Dieguito	2022 CA Speedo Grand Challenge	2020-2024 AA
+474	4:42.68	Bella Palazzo		17	400 FR LCM	OHO	Westerville Aquatic Club	2022 IN Spring Speedo Sectionals	2020-2024 AA
+476	4:42.73	Annabelle Nixon		17	400 FR LCM	LE	Firestone Akron Swim Team	2022 LE Speedo Summer Sectionals	2020-2024 AA
+477	4:42.78	Delaney Cox		17	400 FR LCM	VA	Coast Guard Blue Dolphins	2022 VA LC Senior Champs	2020-2024 AA
+478	4:42.88	Alejandra Laynez		17	400 FR LCM	NJ	Cougar Aquatic Team	2022 FL RAFC Last Splash Invitational	2020-2024 AA
+478	4:42.88	Emily Kang		17	400 FR LCM	NE	Gator Swim Club	2022 NE BGSC Summer Fiesta	2020-2024 AA
+480	4:42.93	Sophia Hayes		17	400 FR LCM	IL	FMC Aquatic	2022 MN USAS Speedo Meet	2020-2024 AA
+481	4:42.94	Lucy Price		17	400 FR LCM	OZ	Parkway Swim Club	2022 MV Region VIII Speedo Summer Meet	2020-2024 AA
+482	4:42.95	Alyssa Heffelfinger		17	400 FR LCM	NC	Mecklenburg Swim Association	2022 VA NOVA LC Winter Invitational	2020-2024 AA
+483	4:42.97	Maddie Davenport		17	400 FR LCM	ST	Unattached	2022 KY LAK 94th Ohio Valley Championships	2020-2024 AA
+483	4:42.97	Kate Mondick		17	400 FR LCM	MA	Upper Main Line YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AA
+485	4:42.99	Samantha Armand		17	400 FR LCM	NC	TAC Titans	2022 NC TAC Triangle Classic	2020-2024 AA
+486	4:43.02	Alice Stainer		17	400 FR LCM	SN	Unattached	2022 SN Bill Rose Classic	2020-2024 AA
+487	4:43.12	Kat Woodall		17	400 FR LCM	KY	Lexington Dolphins	2022 OH CLPR DAVID WEBB	2020-2024 AA
+488	4:43.17	Angelina Messina	Yes	17	400 FR LCM	IL	St Charles Swim Team	2022 IN BA Early Bird Invitational	2020-2024 AA
+489	4:43.19	Hannah Ahn		17	400 FR LCM	FL	Gator Swim Club	2022 FL Shark Open	2020-2024 AA
+490	4:43.20	Lindsey Lett		17	400 FR LCM	MA	South Jersey Aquatic Club	2022 MA Swimming Meet	2020-2024 AA
+491	4:43.21	Erin Butler		17	400 FR LCM	LE	Lake Erie Silver Dolphins	2022 IN Spring Speedo Sectionals	2020-2024 AA
+492	4:43.27	Lilli Topp		17	400 FR LCM	CA	Alpha Aquatics	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+493	4:43.33	Paula Warren		17	400 FR LCM	ST	Nitro Swimming	2022 ST NTRO Distance Meet	2020-2024 AA
+494	4:43.39	Sarah Berthoud		17	400 FR LCM	IE	Spokane Waves Aquatic Team	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+495	4:43.40	Hailey Rees		17	400 FR LCM	GU	Magnolia Aquatic Club	2022-NT American Long Course Meet	2020-2024 AA
+496	4:43.48	Cate Russo		17	400 FR LCM	CA	Swim Torrance	2022 USA Swimming Futures - SC	2020-2024 AA
+496	4:43.48	Gillian Tu		17	400 FR LCM	PN	Unattached	2022 PN Senior Long Course Champs	2020-2024 AA
+498	4:43.50	Abigail Heintz		17	400 FR LCM	SC	Team Greenville	2022 SC LSC Senior State Champs	2020-2024 AA
+499	4:43.51	Campbell Murawski		17	400 FR LCM	OZ	CSP Tideriders	2022 OZ CSP Tideriders 84th Summer Invitational	2020-2024 AA
+500	4:43.52	Brooke Punnewaert		17	400 FR LCM	OZ	CSP Tideriders	2022 OZ CSP Tideriders 84th Summer Invitational	2020-2024 AA

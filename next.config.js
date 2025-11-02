@@ -2,6 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  // Next.js will automatically detect src/pages directory
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
   env: {
     REACT_APP_API_URL: process.env.REACT_APP_API_URL || 'http://localhost:8000',
   },

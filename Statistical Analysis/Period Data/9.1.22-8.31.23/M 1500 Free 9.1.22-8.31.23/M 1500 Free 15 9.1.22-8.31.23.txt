@@ -1,0 +1,501 @@
+Rank	Swim Time	Name	Foreign	Age	Event	LSC	Team	Meet	Time Standard
+1	15:18.13	Nathan Szobota		15	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2023 Phillips 66 National Championships	2024 Olympic Trials
+2	15:33.69	Aiden Hammer		15	1500 FR LCM	PN	King Aquatic Club	2023 Speedo Junior National Championships	2024 Olympic Trials
+3	15:36.17	Sean Green		15	1500 FR LCM	MR	Long Island Aquatic Club	2022 Toyota US Open	2024 Olympic Trials
+4	15:40.26	Gabriel Manteufel		15	1500 FR LCM	CA	Sandpipers Of Nevada	2023 Futures - Sacramento, CA	2024 Summer Nationals (LCM)
+5	15:42.73	Evan Gluck		15	1500 FR LCM	NT	COR Swimming	2023 IN NCSA Summer Swimming Championships	2024 Summer Nationals (LCM)
+6	15:43.78	Whitaker Steward		15	1500 FR LCM	MV	Tsunami Swim Team of K.C.	2023 MV CSC Region VIII Sectional Championships	2023 Summer Nationals (LCM)
+7	15:51.08	Dillon Brigman		15	1500 FR LCM	FL	Bolles School Sharks	2023 Speedo Junior National Championships	2024 Summer Juniors (LCM)
+8	15:55.89	Santi Alzate		15	1500 FR LCM	NC	SwimMAC Carolina	2023 Speedo Junior National Championships	2024 Summer Juniors (LCM)
+9	15:58.05	Norvin Clontz		15	1500 FR LCM	NC	SwimMAC Carolina	2022 Toyota US Open	2023 Summer Juniors (LCM)
+10	16:00.08	Max Stewart		15	1500 FR LCM	CA	Irvine Novaquatics	2023 CA Los Angeles Invite	2023 Summer Juniors (LCM)
+11	16:02.83	Alex Parent		15	1500 FR LCM	NE	Bluefish Swim Club	2023 IN CZ East Spring Speedo Sectional	2023 Summer Juniors (LCM)
+12	16:06.58	Zach Tower		15	1500 FR LCM	CA	TSM Aquatics	2023 Futures - Sacramento, CA	2023 Winter Juniors (SCY)
+13	16:06.83	Cooper Zakorchemny		15	1500 FR LCM	PV	Rockville Montgomery Swim Club	2023 IN NCSA Summer Swimming Championships	2023 Winter Juniors (SCY)
+14	16:07.19	William Siegel		15	1500 FR LCM	MR	Long Island Aquatic Club	2023 NC SwimMAC Martha McKee Open	2023 Winter Juniors (SCY)
+15	16:07.40	Sam Huggins		15	1500 FR LCM	MA	Nittany Lion Aquatic Club	2023 MA Long Course Senior Championships	2023 Winter Juniors (SCY)
+16	16:10.61	Ian Platts-Mills		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 IN NCSA Summer Swimming Championships	2023 Winter Juniors (SCY)
+17	16:13.16	Max Spory		15	1500 FR LCM	OK	American Energy Swim Club	2023 MV CSC Region VIII Sectional Championships	2023 Winter Juniors (SCY)
+18	16:13.88	Zach Parent		15	1500 FR LCM	NE	Bluefish Swim Club	2023 IN CZ East Spring Speedo Sectional	2023 Winter Juniors (SCY)
+19	16:15.98	Lewis Zhang		15	1500 FR LCM	IN	Carmel Swim Club	2023 IN Senior State LCM Championships	2024 Futures (LCM)
+20	16:16.66	Sam Hennenfent		15	1500 FR LCM	MV	Tsunami Swim Team of K.C.	2023 MV CSC Region VIII Sectional Championships	2023 Futures (LCM)
+21	16:17.62	Maddox Matyas		15	1500 FR LCM	FL	Saint Petersburg Aquatics	2023 FL SPA Seminole Sunrise Lanes Meet	2024 Futures (LCM)
+22	16:17.85	Paul Mullen		15	1500 FR LCM	PV	Nation's Capital Swim Club	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Futures (LCM)
+23	16:19.38	JASON SUGIHARA		15	1500 FR LCM	AZ	Gold Medal Swim Club	2023 TYR Pro Swim Series Mission Viejo	2023 Futures (LCM)
+24	16:19.52	Brayden King		15	1500 FR LCM	VA	Cavalier Aquatics/Piedmont Family YMCA	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Futures (LCM)
+25	16:19.77	Cody Lonsberry		15	1500 FR LCM	CT	Indian Valley Family YMCA Breakers	2023 NC YMCA Long Course Nationals	2024 Futures (LCM)
+26	16:19.78	Alex Grocholski		15	1500 FR LCM	PV	Unattached	2023 FL ISCA Summer Senior Blast	2024 Futures (LCM)
+27	16:20.57	Will Charlton		15	1500 FR LCM	VA	Cavalier Aquatics/Piedmont Family YMCA	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Futures (LCM)
+28	16:20.69	Gip Crye		15	1500 FR LCM	SE	Panama City Swim Team	2023 SE Southeastern Long Course Championships	2023 Futures (LCM)
+29	16:20.70	Alex Nguyen		15	1500 FR LCM	PV	Rockville Montgomery Swim Club	2023 VA EZ LC Speedo Super Sectional	2023 Futures (LCM)
+30	16:20.97	Brady Julian		15	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+31	16:22.16	Bryce Labonte		15	1500 FR LCM	FL	Fast Falcons	2023 Futures - Ocala	2024 Futures (LCM)
+32	16:23.03	Keeno Usita		15	1500 FR LCM	CA	La Mirada Armada	2023 SN CA/NV Speedo Sectionals - Roseville	2024 Futures (LCM)
+33	16:24.25	Tristan McCain		15	1500 FR LCM	ST	Longhorn Aquatics	2023 TYR PSS Knoxville	2023 Futures (LCM)
+34	16:25.82	Mac Clark		15	1500 FR LCM	AM	Team Pittsburgh Elite Aquatics	2023 WV CM Renee McCutchan Long Course Invite	2023 Futures (LCM)
+35	16:28.18	Ethan Linville		15	1500 FR LCM	CC	Clovis Swim Club	2023 CC Arena Grand Challenge	2023 Futures (LCM)
+36	16:28.56	Eli Rolfsen		15	1500 FR LCM	MI	Greater Kalamazoo Crocs	2023 IN CZ East Spring Speedo Sectional	2023 Futures (LCM)
+37	16:28.60	Sam Marsteiner		15	1500 FR LCM	NC	New Wave Swim Team	2023 NC SwimMAC Martha McKee Open	2023 Futures (LCM)
+38	16:28.75	Oliver Shao		15	1500 FR LCM	MR	Asphalt Green Unified Aquatics	2023 Futures Championships - Richmond, VA - CAP REACHED	2024 Futures (LCM)
+39	16:28.77	Braedon Ando		15	1500 FR LCM	NE	Bluefish Swim Club	2023 CT GRIT Aquatics Senior Invitational	2023 Futures (LCM)
+40	16:29.61	Lukas Avitia		15	1500 FR LCM	NT	Mansfield Aquatic Club	2023 ST TXLA Speedo SZ LC Sectional Championships	2023 Futures (LCM)
+41	16:30.85	Timothy Lee		15	1500 FR LCM	NJ	Scarlet Aquatics	2023 NJ LC GOLD Championships	2024 Futures (LCM)
+42	16:31.35	Jack Grimley		15	1500 FR LCM	MA	Germantown Academy Aquatic Club	2023 IN NCSA Summer Swimming Championships	2024 Futures (LCM)
+43	16:33.35	Jay Hickman		15	1500 FR LCM	CA	Lakewood Aquatics	2023 CA CA-NV Summer Sectionals	2023 Futures (LCM)
+44	16:35.09	Turner Mitten		15	1500 FR LCM	FL	Sarasota Sharks	2023 Futures - Ocala	2024 Futures (LCM)
+45	16:35.50	Kannen Crossland		15	1500 FR LCM	GU	South Texas Aquatics	2023 GU FCST Summer Splash	2024 Futures (LCM)
+46	16:36.24	Jake Salcedo		15	1500 FR LCM	CC	Clovis Swim Club	2023 CC Arena Western Zone Senior Championships	2024 Futures (LCM)
+47	16:36.74	Maddox May		15	1500 FR LCM	SE	Baylor Swim Club	2023 SE Southeastern Long Course Championships	2023 Futures (LCM)
+48	16:38.07	Grant Lilly		15	1500 FR LCM	ST	Alamo Area Aquatic Association	2023 ST TXLA Speedo SZ LC Sectional Championships	2023 Futures (LCM)
+49	16:38.34	Blake Hill		15	1500 FR LCM	PC	Crow Canyon Sharks	2023 PC SCSC George Haines International	2023 Futures (LCM)
+50	16:38.91	Ashton Joswiak		15	1500 FR LCM	AZ	Phoenix Swim Club	2023 SR Speedo LC Sectionals	2024 Futures (LCM)
+51	16:39.03	Maddex Ternes		15	1500 FR LCM	SC	Y-Spartaquatics Swim Club	2023 NC YMCA Long Course Nationals	2020-2024 AAA
+52	16:39.15	James Darcy		15	1500 FR LCM	MR	Long Island Aquatic Club	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+53	16:39.35	AJ Adams		15	1500 FR LCM	IN	Fishers Area Swimming Tigers	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+54	16:40.04	Tyler Barritt		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 NC NCAC Meet on the Hill	2020-2024 AAA
+55	16:40.52	Aaron Jia		15	1500 FR LCM	PV	Nation's Capital Swim Club	2023 VA EZ LC Speedo Super Sectional	2020-2024 AAA
+56	16:40.86	Patrick O'Hagan		15	1500 FR LCM	MR	Long Island Aquatic Club	2023 NJ SCAR TYR LC Winter Invite	2020-2024 AAA
+57	16:40.98	Cooper Dillman		15	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2023 VA NOVA S Freedom Splash	2020-2024 AAA
+58	16:41.43	Luke Leon Guerrero		15	1500 FR LCM	CA	FAST Swim Team	2023 CA CA-NV Summer Sectionals	2020-2024 AAA
+59	16:41.68	Gavin Buckley		15	1500 FR LCM	MR	Long Island Aquatic Club	2023 MR TYR Senior Mets LCM Championship	2020-2024 AAA
+60	16:41.90	Benjamin Robins		15	1500 FR LCM	MR	Badger Swim Club,Inc.	2023 MR TYR Senior Mets LCM Championship	2020-2024 AAA
+61	16:42.72	Aidan Palaj		15	1500 FR LCM	CT	West Hartford Aquatic Team	2023 FL ISCA Summer Senior Blast	2020-2024 AAA
+62	16:42.95	Zack Arnold		15	1500 FR LCM	MR	Badger Swim Club,Inc.	2023 MR LIAC Speedo LI Challenge	2020-2024 AAA
+63	16:43.22	Eli Nelson		15	1500 FR LCM	NC	Marlins Of Raleigh	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AAA
+64	16:43.61	Freddy Rosenthal		15	1500 FR LCM	FG	Pine Crest Swimming	2023 FL ISCA Summer Senior Blast	2020-2024 AAA
+65	16:43.75	Kelvin Teng		15	1500 FR LCM	MI	OLY Swimming	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+66	16:44.13	Aidan Frazier		15	1500 FR LCM	OHO	Dublin Community Swim Team	2023 OH Central Zone LC East Sectional	2020-2024 AAA
+67	16:44.87	Lukas Biller		15	1500 FR LCM	IN	Carmel Swim Club	2023 IN Senior State LCM Championships	2020-2024 AAA
+68	16:45.02	Finn Nelson		15	1500 FR LCM	WI	Lake Country Swim Team	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AAA
+69	16:45.32	Corey Beard		15	1500 FR LCM	IL	NWDupage YMCA / B.R. Ryall S T	2023 FL ISCA Summer Senior Blast	2020-2024 AAA
+70	16:45.34	Austin Wickboldt		15	1500 FR LCM	GU	Cypress Fairbanks Swim Club	2023 MS Southern Zone Senior Championships	2020-2024 AAA
+71	16:45.69	Lucas Jue		15	1500 FR LCM	CA	Lakewood Aquatics	2023 CA CA-NV Summer Sectionals	2020-2024 AAA
+72	16:46.36	Jarrod Coy		15	1500 FR LCM	OR	Corvallis Aquatic Team	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+73	16:46.85	Zachary McNabb		15	1500 FR LCM	VA	Old Dominion Aquatic Club	2023 VA LC Senior Champs	2020-2024 AAA
+74	16:47.48	Gavin Keogh		15	1500 FR LCM	CO	Flatiron Athletic Club	2023 CO Zone 2 - VMAC	2020-2024 AAA
+75	16:47.79	Anthony Ramirez		15	1500 FR LCM	CA	La Mirada Armada	2023 SN CA/NV Speedo Sectionals - Roseville	2020-2024 AAA
+76	16:47.97	Andrew Vet		15	1500 FR LCM	CA	La Mirada Armada	2023 SN CA/NV Speedo Sectionals - Roseville	2020-2024 AAA
+77	16:48.15	Jack Culberson		15	1500 FR LCM	GU	Cypress Fairbanks Swim Club	2023 Futures Championships - San Antonio, TX - Cap Reached	2020-2024 AAA
+78	16:48.27	Clay Magyar		15	1500 FR LCM	FL	Bolles School Sharks	2023 FL BSS TYR June Classic	2020-2024 AAA
+79	16:48.62	Samuel Metzgar		15	1500 FR LCM	PN	King Aquatic Club	2023 PN Senior Long Course Champs	2020-2024 AAA
+80	16:48.79	Carter Bradley		15	1500 FR LCM	CO	Foothills Swim Team	2023 SR Speedo LC Sectionals	2020-2024 AAA
+81	16:48.95	Justin Jarczynski		15	1500 FR LCM	PV	Rockville Montgomery Swim Club	2023 NI Eastern Zone Senior Championships	2020-2024 AAA
+82	16:48.97	Lucas Brown		15	1500 FR LCM	FL	Rocket Swimming	2023 FL ISCA Summer Senior Blast	2020-2024 AAA
+83	16:49.19	Duncan McClaren		15	1500 FR LCM	CA	Boulder City Henderson Swim Team	2023 CA Los Angeles Invite	2020-2024 AAA
+84	16:49.21	Ben Brock		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 NC GCY Sprint & Distance Meet	2020-2024 AAA
+85	16:49.22	Will Lathrop		15	1500 FR LCM	IN	Carmel Swim Club	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+86	16:49.93	Beck Armstrong		15	1500 FR LCM	NC	SwimMAC Carolina	2023 NC ESSZ Senior Sectionals	2020-2024 AAA
+87	16:49.99	Eric Ring		15	1500 FR LCM	LA	Hurricane Swim Club	2023 MS Southern Zone Senior Championships	2020-2024 AAA
+88	16:50.05	Seth Hyde		15	1500 FR LCM	FL	Fast Falcons	2023 Futures - Ocala	2020-2024 AAA
+89	16:50.82	Garic Shao		15	1500 FR LCM	PC	Alto Swim Club	2023 FL ISCA Summer Senior Blast	2020-2024 AAA
+90	16:51.40	Nicholas Kwan		15	1500 FR LCM	FL	Bolles School Sharks	2023 FG Piranhas Senior Invite	2020-2024 AAA
+91	16:52.07	Owen Jones		15	1500 FR LCM	SN	Sierra Marlins Swim Team	2023 PC Long Course Far Western Championships	2020-2024 AAA
+91	16:52.07	Alex Burkhart		15	1500 FR LCM	SC	Foothills Area YMCA Bluefins	2023 NC YMCA Long Course Nationals	2020-2024 AAA
+93	16:52.30	Vito Sgroi		15	1500 FR LCM	FL	Sarasota Sharks	2023 FL GAIN Swimming Invitational	2020-2024 AAA
+94	16:52.44	Luke Pugh		15	1500 FR LCM	IN	Carmel Swim Club	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+95	16:52.67	Eli Bona		15	1500 FR LCM	IE	Walla Walla Swim Club	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+96	16:52.71	Cody Crawford		15	1500 FR LCM	FL	Sarasota Tsunami Swim Team	2023 FL Southern Zone South Sectional Championships	2020-2024 AAA
+97	16:53.15	Chip Andrews		15	1500 FR LCM	SE	City of Mobile Swim Association	2023 SE AUB Richard Quick Invitational	2020-2024 AAA
+98	16:53.65	Leon Mikulski		15	1500 FR LCM	CA	La Mirada Armada	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+99	16:54.07	Caleb Von Wachter		15	1500 FR LCM	MD	Eagle Swim Team Inc.	2023 MD Speedo Maryland Swimming Long Course Championship Meet	2020-2024 AAA
+100	16:54.12	Roy Dafinoiu		15	1500 FR LCM	MR	Condors Swim Club	2023 NI STAR Speedo Sectional Championships EZ North Long Course	2020-2024 AAA
+101	16:54.55	Rylan Sepulveda		15	1500 FR LCM	FL	Bolles School Sharks	2023 FG Piranhas Senior Invite	2020-2024 AAA
+102	16:54.75	Christopher Gregg		15	1500 FR LCM	MI	Club Wolverine	2023 MI Eric Namesnik Memorial Open	2020-2024 AAA
+103	16:55.17	Jack Eaddy		15	1500 FR LCM	NE	Gator Swim Club	2023 NE BGSC Summer Fiesta Meet	2020-2024 AAA
+104	16:55.30	Asher Cooper		15	1500 FR LCM	GA	Peachtree Aquatic Club	2023 NC ESSZ Senior Sectionals	2020-2024 AAA
+105	16:55.36	Drew Dieke		15	1500 FR LCM	IA	Greater Des Moines YMCA	2023 IA Long Course Championship Meet	2020-2024 AAA
+106	16:55.66	Colt Chaires		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+107	16:56.31	Casey Kupka		15	1500 FR LCM	MI	Greater Kalamazoo Crocs	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+108	16:57.07	Stephen Argabright		15	1500 FR LCM	AZ	Mesa Aquatics Club	2023 AZ MAC Narwhal Invite	2020-2024 AAA
+109	16:57.10	Brady Bennett		15	1500 FR LCM	ST	Texas Gold	2023 ST TXLA Speedo SZ LC Sectional Championships	2020-2024 AAA
+110	16:57.21	Alexander Andre		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 NC NCAC Meet on the Hill	2020-2024 AAA
+111	16:57.40	Grant Golembiewski		15	1500 FR LCM	PV	Occoquan Swimming Inc	2023 NC TAC Titans Triangle Classic	2020-2024 AAA
+112	16:57.76	Ethan Coggin		15	1500 FR LCM	GA	SwimAtlanta	2023 FL BSS TYR June Classic	2020-2024 AAA
+113	16:58.37	Owen Durham		15	1500 FR LCM	KY	Lakeside Swim Team	2023 IN NCSA Summer Swimming Championships	2020-2024 AAA
+114	16:58.42	Mathias Esteves	Yes	15	1500 FR LCM	FG	Gulliver Swim Club	2023 FL ISCA International Senior Cup	2020-2024 AAA
+115	16:59.08	Dhane Boskus		15	1500 FR LCM	AR	Northwest Arkansas Aquatics	2023 MV CSC Region VIII Sectional Championships	2020-2024 AAA
+116	16:59.45	Crosby Fenniman		15	1500 FR LCM	FL	Area Tallahassee Aquatic Club	2023 FL Summer Senior Championships	2020-2024 AAA
+117	16:59.46	Isaac Carr		15	1500 FR LCM	IL	Champaign Cnty YMCA	2023 IN BA Boiler Bash	2020-2024 AAA
+118	17:01.08	Matthew Ko		15	1500 FR LCM	CA	Irvine Novaquatics	2023 CA Los Angeles Invite	2020-2024 AAA
+118	17:01.08	Joshua Davis		15	1500 FR LCM	CA	The Swim Team	2023 CA SCS/RAA Summer Age Group Champs	2020-2024 AAA
+120	17:01.10	Doug Sims		15	1500 FR LCM	PV	Nation's Capital Swim Club	2023 PV LC Open Championships	2020-2024 AAA
+121	17:01.43	Roman Dawson		15	1500 FR LCM	CC	Clovis Swim Club	2023 CA FAST Jon Urbanchek Invite	2020-2024 AAA
+122	17:01.54	Lincoln Council		15	1500 FR LCM	SC	Y-Spartaquatics Swim Club	2023 SC YSSC Firecracker Invitational	2020-2024 AAA
+123	17:01.71	Adam Polzien		15	1500 FR LCM	NC	SwimMAC Carolina	2023 NC ESSZ Senior Sectionals	2020-2024 AAA
+124	17:01.78	Phil Lin		15	1500 FR LCM	PC	Unattached	2023 PC SCSC George Haines International	2020-2024 AAA
+125	17:02.39	Kyle Johnson		15	1500 FR LCM	WI	Waukesha Express Swim Team	2023 Indy Spring Cup - CAP REACHED	2020-2024 AAA
+126	17:02.52	Noah Bose		15	1500 FR LCM	ST	Nitro Swimming	2023 ST TXLA Speedo SZ LC Sectional Championships	2020-2024 AAA
+127	17:02.64	Arthur Lin		15	1500 FR LCM	CA	La Mirada Armada	2023 CA SCS/BREA Summer Age Group Championships	2020-2024 AAA
+128	17:02.86	Hudson Martz		15	1500 FR LCM	AZ	Scottsdale Aquatic Club	2023 OR THSC SUMMER CLASSIC	2020-2024 AAA
+129	17:04.15	Wyatt Vitiello		15	1500 FR LCM	CT	ZEUS Swim Team	2023 NE CRA/USC Timed Final and Prelim/Final Meet	2020-2024 AAA
+130	17:04.18	Gavin Willyerd		15	1500 FR LCM	AZ	Mesa Aquatics Club	2023 AZ MAC 12th Annual Speedo Invite	2020-2024 AAA
+131	17:04.29	Alex Vail		15	1500 FR LCM	OR	Lake Oswego Swim Club	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+132	17:04.47	Alexander Yin		15	1500 FR LCM	GU	Blue Tide Aquatics	2023 ST AAAA-NS George Block Invitational	2020-2024 AAA
+133	17:04.67	Kjell Cady		15	1500 FR LCM	PN	South Snohomish Co. Dolphins	2023 PN SSCD Dick LaFave Classic	2020-2024 AAA
+134	17:05.33	Blake Wool		15	1500 FR LCM	CT	Farmington Valley YMCA Tsunamis	2023 CT LC Senior Championships	2020-2024 AAA
+135	17:05.59	Eddie Campion		15	1500 FR LCM	OHO	Westerville Aquatic Club	2023 OH Tim Myers Memorial LC Senior Champ	2020-2024 AAA
+135	17:05.59	Anderson Bishop		15	1500 FR LCM	PV	All Star Aquatics	2023 FL ISCA International Senior Cup	2020-2024 AAA
+137	17:05.87	Aleksandr Ries		15	1500 FR LCM	IN	Franklin Regional Swim Team	2023 IN FRST Summer Slam Classic	2020-2024 AAA
+138	17:06.30	Alex Kaczmark		15	1500 FR LCM	MA	Chambersburg Chargers	2023 NC YMCA Long Course Nationals	2020-2024 AAA
+139	17:06.31	Hayden Tedhams		15	1500 FR LCM	FL	Swim Florida	2023 FL Southern Zone South Sectional Championships	2020-2024 AAA
+140	17:06.52	Gio Medina		15	1500 FR LCM	FL	Gulf Coast Swim Team	2023 FL Summer Senior Championships	2020-2024 AAA
+141	17:06.96	Jack Wenglarski		15	1500 FR LCM	AR	Northwest Arkansas Aquatics	2023 AR Long Course Championships	2020-2024 AAA
+142	17:07.42	David De La Garza		15	1500 FR LCM	NT	Rockwall Aquatic Center of Excellence	2023 NT RACE Going the Distance with my Peeps	2020-2024 AAA
+143	17:07.59	Garrett Taylor		15	1500 FR LCM	CA	Boulder City Henderson Swim Team	2023 CA Los Angeles Invite	2020-2024 AAA
+144	17:07.68	Liam Smith		15	1500 FR LCM	MI	Greater Kalamazoo Crocs	2023 MI JAWS Sun & Fun ABC Spectacular & IMX Challenge	2020-2024 AAA
+145	17:07.72	Shah Grewal	Yes	15	1500 FR LCM	PN	King Aquatic Club	2023 PN Senior Long Course Champs	2020-2024 AAA
+146	17:07.83	Drew Culverhouse		15	1500 FR LCM	FL	Highlander Aquatic Club	2023 FL Summer Solstice Invitational	2020-2024 AAA
+147	17:07.89	Wills Dino		15	1500 FR LCM	OZ	CSP Tideriders	2023 MV CSC Region VIII Sectional Championships	2020-2024 AAA
+148	17:08.03	Barrett Kerrigan		15	1500 FR LCM	CO	Pikes Peak Athletics	2023 OR THSC SUMMER CLASSIC	2020-2024 AAA
+149	17:08.04	Carston Silva		15	1500 FR LCM	NT	Mansfield Aquatic Club	2023 NT MTRO American Long Course	2020-2024 AAA
+150	17:09.49	Gregory Ospina		15	1500 FR LCM	PC	Santa Clara Swim Club	2023 PC SCSC Superleague Summer LC Finals	2020-2024 AAA
+151	17:09.55	Sam Dellasega		15	1500 FR LCM	NC	New Wave Swim Team	2023 FL Last Splash Invitational	2020-2024 AAA
+152	17:09.61	Jeremiah Tomioka		15	1500 FR LCM	NJ	Scarlet Aquatics	2023 NI STAR Speedo Sectional Championships EZ North Long Course	2020-2024 AAA
+153	17:09.82	Luke Keller		15	1500 FR LCM	IL	Barrington Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AAA
+154	17:10.56	Dillon Metz		15	1500 FR LCM	FG	Wahoo's of Wellington	2023 FL Southern Zone South Sectional Championships	2020-2024 AAA
+155	17:10.57	Markus Crawford		15	1500 FR LCM	AZ	Phoenix Swim Club	2023 AZ Long Course Senior State Championships	2020-2024 AAA
+156	17:10.85	Heston Steckel		15	1500 FR LCM	MA	Germantown Academy Aquatic Club	2023 NI Eastern Zone Senior Championships	2020-2024 AAA
+157	17:11.05	Dylan Fisk		15	1500 FR LCM	PN	Bellingham Bay Swim Team	2023 PN Senior Long Course Champs	2020-2024 AAA
+158	17:11.12	Hudson Theuer		15	1500 FR LCM	KY	Lakeside Swim Team	2023 KY Lakeside Ohio Valley Conference	2020-2024 AAA
+159	17:11.36	Michael Chuang		15	1500 FR LCM	PC	Santa Clara Swim Club	2023 PC Long Course Far Western Championships	2020-2024 AAA
+160	17:11.82	Nicholas Woolery		15	1500 FR LCM	PC	Terrapins Swim Team	2023 PC Long Course Far Western Championships	2020-2024 AAA
+161	17:11.95	Arun Kaura		15	1500 FR LCM	IL	Fox Valley Swim Team	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AAA
+162	17:12.23	Carson Day		15	1500 FR LCM	NC	SwimMAC Carolina	2023 NC SwimMAC Novant Invitational	2020-2024 AAA
+163	17:12.32	Spencer Carter		15	1500 FR LCM	CO	Pikes Peak Athletics	2023 OR THSC SUMMER CLASSIC	2020-2024 AAA
+164	17:12.54	Patrick Dunn		15	1500 FR LCM	AZ	Scottsdale Aquatic Club	2023 AZ Long Course Senior State Championships	2020-2024 AAA
+165	17:13.18	David Sapozhnikov		15	1500 FR LCM	NE	Charles River Aquatics	2023 NE CRA Long Course Specialty Meet	2020-2024 AAA
+166	17:13.44	Ezekiel Pittman		15	1500 FR LCM	CA	Boulder City Henderson Swim Team	2023 CA Los Angeles Invite	2020-2024 AAA
+167	17:14.19	Reid Stellatella		15	1500 FR LCM	NJ	Scarlet Aquatics	2023 NJ LC GOLD Championships	2020-2024 AAA
+168	17:14.59	Pierce Bickerton		15	1500 FR LCM	CO	Fort Collins Area Swim Team	2023 CO CSI Long Course Open	2020-2024 AAA
+169	17:14.61	Landen Chen		15	1500 FR LCM	IA	Des Moines Swimming Federation	2023 IA Long Course Championship Meet	2020-2024 AAA
+170	17:14.65	Henry Schattle		15	1500 FR LCM	GU	Dads Club Swim Team	2023 MS Southern Zone Senior Championships	2020-2024 AAA
+171	17:15.08	Patrick Fanshawe		15	1500 FR LCM	MR	Condors Swim Club	2023 VA EZ LC Speedo Super Sectional	2020-2024 AAA
+172	17:15.42	Dylan Haver		15	1500 FR LCM	GU	Sharks Swim Club	2023 GU Senior Championship - TWST	2020-2024 AAA
+173	17:16.04	Lex O'Brient		15	1500 FR LCM	AR	Northwest Arkansas Aquatics	2023 MV CSC Region VIII Sectional Championships	2020-2024 AAA
+174	17:16.30	Carter Hadley		15	1500 FR LCM	IN	Carmel Swim Club	2023 IN CZ East Spring Speedo Sectional	2020-2024 AAA
+175	17:16.39	Kaden Townsend		15	1500 FR LCM	FL	Bolles School Sharks	2023 FL BSS TYR June Classic	2020-2024 AAA
+176	17:16.96	Kevin Yum		15	1500 FR LCM	US	Unattached	2023 CA FAST Distance Dog Fight Invitational	2020-2024 AAA
+177	17:17.24	Ryan Herink		15	1500 FR LCM	IA	Black Hawk Area Swim Team	2023 IA Long Course Championship Meet	2020-2024 AAA
+178	17:17.67	Ethan Schutten		15	1500 FR LCM	WI	Schroeder YMCA Swim Team	2023 WI LAKE WESTERN GREAT LAKES INVITE LCM	2020-2024 AAA
+179	17:17.96	Abir Bhatia		15	1500 FR LCM	PC	San Ramon Valley Aquatics	2023 CC Arena Western Zone Senior Championships	2020-2024 AAA
+180	17:18.22	Alex Nixon		15	1500 FR LCM	OHO	Cincinnati Marlins	2023 OH Central Zone LC East Sectional	2020-2024 AAA
+181	17:18.30	Cinco Perez		15	1500 FR LCM	AM	Team Pittsburgh Elite Aquatics	2023 AM LC Age Group Championships	2020-2024 AAA
+182	17:18.37	Denali Cutbush-Taylor		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AAA
+183	17:18.55	Ayden Fortney		15	1500 FR LCM	OHO	Central Ohio Aquatics	2023 OH Central Zone LC East Sectional	2020-2024 AAA
+184	17:19.26	Cole Radnay		15	1500 FR LCM	FL	Saint Petersburg Aquatics	2023 FL Southern Zone South Sectional Championships	2020-2024 AAA
+185	17:19.44	Liam McQuaid		15	1500 FR LCM	MD	North Baltimore Aquatic Club	2023 MD NBAC SPRING LONG COURSE MEET	2020-2024 AAA
+186	17:19.65	Thomas Cechini	Yes	15	1500 FR LCM	MA	Mercersburg Academy	2023 XXXVI CARIFTA Championship	2020-2024 AAA
+187	17:20.89	Emerson Gatherum		15	1500 FR LCM	OR	Corvallis Aquatic Team	2023 OR OREGON SWIMMING, INC. OSI Arena 11&O LC CHAMPIONSHIPS	2020-2024 AAA
+188	17:20.96	Chetan Raghavan		15	1500 FR LCM	PC	Albany Armada Aquatics, LLC	2023 SN CA/NV Speedo Sectionals - Roseville	2020-2024 AAA
+189	17:21.00	Ames Wu		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 NC NCAC Meet on the Hill	2020-2024 AAA
+190	17:21.08	Tyler Yeung		15	1500 FR LCM	NJ	Scarlet Aquatics	2023 NJ LC GOLD Championships	2020-2024 AAA
+191	17:21.12	Christian Wester		15	1500 FR LCM	SE	Huntsville Swim Association	2023 SE HSA June Invitational	2020-2024 AAA
+192	17:21.43	Nicholas Stratton		15	1500 FR LCM	VA	Tide Swimming	2023 VA LC Senior Champs	2020-2024 AAA
+193	17:21.48	Chase Gluck		15	1500 FR LCM	NT	COR Swimming	2023 NT MTRO American Long Course	2020-2024 AAA
+194	17:21.61	Caleb Kattau		15	1500 FR LCM	CA	Sandpipers Of Nevada	2023 CA SCS/RMDA June Age Group Invite	2020-2024 AAA
+195	17:21.71	Zach Mendez		15	1500 FR LCM	MV	Northland United Swim Team	2023 MV EKC Rose Memorial	2020-2024 AAA
+196	17:22.29	Tyler Ortiz		15	1500 FR LCM	PC	Livermore Aqua Cowboys	2023 SN CA/NV Speedo Sectionals - Roseville	2020-2024 AAA
+197	17:22.75	Jerry Wang		15	1500 FR LCM	NJ	Peddie Aquatic Association	2023 NJ LC GOLD Championships	2020-2024 AAA
+198	17:23.74	David Fishberg		15	1500 FR LCM	FL	Fast Lane Aquatics	2023 FL Summer Solstice Invitational	2020-2024 AAA
+199	17:23.89	Anthony Korchnak		15	1500 FR LCM	IN	Boilermaker Aquatics	2023 IN Senior State LCM Championships	2020-2024 AAA
+200	17:23.90	Brandon Sumino		15	1500 FR LCM	CA	Irvine Novaquatics	2023 CA SCS/BREA Summer Age Group Championships	2020-2024 AAA
+201	17:24.21	Seth Werntz		15	1500 FR LCM	IN	Irish Aquatics	2023 IN Senior State LCM Championships	2020-2024 AA
+202	17:24.33	Drew Emanuel		15	1500 FR LCM	IA	Des Moines Swimming Federation	2023 IA Long Course Championship Meet	2020-2024 AA
+203	17:24.85	Lars Patkowa		15	1500 FR LCM	IL	Academy Bullets Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+204	17:25.10	Jaden Akpan		15	1500 FR LCM	SR	Boise YMCA Swim Team	2023 SN 25th Annual Summer Sanders LCM Meet SR+ Swim Meet	2020-2024 AA
+205	17:25.44	Van Haney		15	1500 FR LCM	UT	Hilltop Aquatic Swim Team	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+206	17:25.57	Velizar Filipov		15	1500 FR LCM	IL	FMC Aquatic	2023 IN CGAC Mid Summer Spectacular	2020-2024 AA
+207	17:26.28	Ryan Sommerstad		15	1500 FR LCM	MR	Three Village Swim Club	2023 MR TYR Senior Mets LCM Championship	2020-2024 AA
+208	17:26.76	Lucas Purcell		15	1500 FR LCM	NC	Marlins Of Raleigh	2023 NC NCAC Meet on the Hill	2020-2024 AA
+209	17:26.80	Lane Monger		15	1500 FR LCM	IN	Noblesville Swim Club	2023 IN CZ East Spring Speedo Sectional	2020-2024 AA
+210	17:26.98	Jonathan Payne		15	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2023 VA LC Senior Champs	2020-2024 AA
+211	17:27.40	Deacon Smith		15	1500 FR LCM	IN	Northridge Area Swimming Assoc	2023 IN CZ East Spring Speedo Sectional	2020-2024 AA
+212	17:27.61	Alex Chehebar		15	1500 FR LCM	LA	swimPAC	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AA
+213	17:27.66	Kale Copeland		15	1500 FR LCM	NE	Amherst Tritons Swim Team	2023 NE CRA Long Course Specialty Meet	2020-2024 AA
+214	17:27.75	Will Redetzke		15	1500 FR LCM	MN	Riptide	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AA
+215	17:27.77	Ben Boyd		15	1500 FR LCM	MI	Greater Kalamazoo Crocs	2023 IN CZ East Spring Speedo Sectional	2020-2024 AA
+216	17:27.97	Jackson Butcher		15	1500 FR LCM	PN	Seattle Metropolitan Aquatic Club	2023 CAN Mel Zajac Jr International	2020-2024 AA
+217	17:28.15	Hunter Guthrie		15	1500 FR LCM	PV	The Fish	2023 FL ISCA International Senior Cup	2020-2024 AA
+218	17:28.26	Walker Simpson		15	1500 FR LCM	SC	Team Greenville	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AA
+219	17:28.43	Brady Beauch		15	1500 FR LCM	MI	Byron Center	2023 MI Michigan Swimming Ultra LCM Championship Meet	2020-2024 AA
+220	17:28.75	Tanner Sheffert		15	1500 FR LCM	AZ	Phoenix Swim Club	2023 AZ PSC Summer Invite	2020-2024 AA
+221	17:28.79	Aiden St Hilaire		15	1500 FR LCM	NE	Bluefish Swim Club	2023 NE BGSC New England Senior Championship	2020-2024 AA
+222	17:28.87	Austin Felio		15	1500 FR LCM	SI	Manta Ray Aquatics	2023 SI LC Age Group Championships	2020-2024 AA
+223	17:29.04	Kaden Hung		15	1500 FR LCM	MI	Plymouth-Canton Cruisers	2023 MI Eric Namesnik Memorial Open	2020-2024 AA
+224	17:29.38	Justin Park		15	1500 FR LCM	NC	TAC Titans	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AA
+225	17:29.39	Emmett Shank		15	1500 FR LCM	OZ	Parkway Swim Club	2023 MV CSC Region VIII Sectional Championships	2020-2024 AA
+226	17:29.62	Carson Collier		15	1500 FR LCM	IN	Fort Wayne Swim Team	2023 IN Senior State LCM Championships	2020-2024 AA
+227	17:29.83	Michael Marsh		15	1500 FR LCM	IL	Academy Bullets Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+228	17:30.10	Will Blakeley		15	1500 FR LCM	MI	Utica Shelby Swim Club	2023 Indy Spring Cup - CAP REACHED	2020-2024 AA
+229	17:30.47	Gavin Tran		15	1500 FR LCM	MA	Hershey Aquatic Club	MA KA FIRECRACKER CLASSIC LONG COURSE A/BB/C INVITATIONAL	2020-2024 AA
+230	17:30.72	Joey Milhomens		15	1500 FR LCM	CT	Cheshire Y Sea Dog Swim Club	2023 CT LC Senior Championships	2020-2024 AA
+231	17:31.20	Noah Mudadu	Yes	15	1500 FR LCM	CA	Sandpipers Of Nevada	2023 CA SAND Cinco de Mayo	2020-2024 AA
+232	17:31.51	Jamison Gray		15	1500 FR LCM	IA	Piranhas Swim Club	2023 IA Long Course Championship Meet	2020-2024 AA
+233	17:32.64	Ethan Preyss		15	1500 FR LCM	IN	Franklin Regional Swim Team	2023 IN Senior State LCM Championships	2020-2024 AA
+234	17:32.77	George Patterson		15	1500 FR LCM	IN	Valparaiso Swim Club	2023 IN CZ East Spring Speedo Sectional	2020-2024 AA
+235	17:33.69	Chandler Wolf		15	1500 FR LCM	PN	Valley Aquatics	2023 PN Senior Long Course Champs	2020-2024 AA
+236	17:33.77	Alejandro Stoner		15	1500 FR LCM	FL	Sarasota Sharks	2023 FL Summer Senior Championships	2020-2024 AA
+237	17:33.91	Cabot Murawski		15	1500 FR LCM	OZ	CSP Tideriders	2023 OZ 2023 CSP Mile Meet	2020-2024 AA
+238	17:34.08	Tristan Herbst		15	1500 FR LCM	MN	Riptide	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AA
+239	17:34.11	Nathan Chor		15	1500 FR LCM	ST	Waterloo Swimming	2023 ST AAAA Long Course STAGS	2020-2024 AA
+240	17:34.66	Max Baumgartner		15	1500 FR LCM	SE	Huntsville Swim Association	2023 SE Southeastern Long Course Championships	2020-2024 AA
+241	17:34.96	Matthew Ferguson		15	1500 FR LCM	IL	Lyons Aquatics	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+242	17:35.05	Austin Poole		15	1500 FR LCM	NC	TAC Titans	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AA
+243	17:35.35	Noah Peery		15	1500 FR LCM	AR	Arkansas Dolphins Swim Team	2023 MV CSC Region VIII Sectional Championships	2020-2024 AA
+244	17:35.49	Eric Nie		15	1500 FR LCM	NE	Bluefish Swim Club	2023 NE BGSC New England Senior Championship	2020-2024 AA
+245	17:35.55	Zachary Brewer		15	1500 FR LCM	GU	Swim Ohana	2023 GU Senior Championship - TWST	2020-2024 AA
+246	17:35.61	Aiden Chang		15	1500 FR LCM	FL	Fast Falcons	2023 FL Summer Senior Championships	2020-2024 AA
+247	17:35.71	Johnathan Feiro		15	1500 FR LCM	IL	Hinsdale Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+248	17:35.74	Grey DeWalt		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AA
+249	17:35.78	Jonas Nissan		15	1500 FR LCM	IL	Wildkit Swimming Organization	2023 IN MSC Summer Splash	2020-2024 AA
+250	17:36.65	Alex Drachuk		15	1500 FR LCM	OHO	Dayton Raiders	2023 OH Tim Myers Memorial LC Senior Champ	2020-2024 AA
+251	17:36.66	Sam Campbell		15	1500 FR LCM	MI	Club Wolverine	2023 MI Eric Namesnik Memorial Open	2020-2024 AA
+252	17:36.84	Jack Lavallee		15	1500 FR LCM	MA	South Jersey Aquatic Club	2023 MA Long Course Senior Championships	2020-2024 AA
+253	17:37.08	George Newsome		15	1500 FR LCM	NI	Victor Swim Club	2023 NI STAR Niagara LSC Long Course Championships	2020-2024 AA
+254	17:37.12	Vince Masters		15	1500 FR LCM	OHO	Upper Arlington Swim Club	2023 OH Tim Myers Memorial LC Senior Champ	2020-2024 AA
+255	17:37.42	Colton Roberts	Yes	15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 NC ESSZ Senior Sectionals	2020-2024 AA
+256	17:37.58	Colin McNerney		15	1500 FR LCM	OHO	Cincinnati Marlins	2023 OH CM TYR Sport Summer Classic	2020-2024 AA
+257	17:37.80	Ben Cottrill		15	1500 FR LCM	ST	Alamo Area Aquatic Association	2023 ST AAAA-NS George Block Invitational	2020-2024 AA
+258	17:38.06	Gaspar Coulon	Yes	15	1500 FR LCM	LA	Nu Wave Swim Club	2023 MS Southern Zone Senior Championships	2020-2024 AA
+259	17:38.21	Luke Feller		15	1500 FR LCM	IN	Carmel Swim Club	2023 IN CGAC Mid Summer Spectacular	2020-2024 AA
+260	17:38.61	Jack Neudecker		15	1500 FR LCM	NC	Marlins Of Raleigh	2023 NC NCAC Meet on the Hill	2020-2024 AA
+261	17:38.91	Sam Cavanaugh		15	1500 FR LCM	AM	Team Pittsburgh Elite Aquatics	2023 LE Holtrey 23	2020-2024 AA
+261	17:38.91	Koen Anderson		15	1500 FR LCM	NI	Syracuse Chargers	2023 NI STAR Niagara LSC Long Course Championships	2020-2024 AA
+263	17:38.97	Owen Robertson		15	1500 FR LCM	OR	Gold's Aquatic Club Camas	2023 SR Speedo LC Sectionals	2020-2024 AA
+264	17:39.54	Lucas Munoz		15	1500 FR LCM	CA	San Clemente Aquatic Team	2023 CA SCS/CITI Summer Age Group Championships	2020-2024 AA
+265	17:39.58	Andrew Linden		15	1500 FR LCM	MN	Rochester Swim Club	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AA
+266	17:39.74	Liam Alletag		15	1500 FR LCM	LA	City Of Lafayette Aquatics	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AA
+267	17:39.92	Anderson Ranson		15	1500 FR LCM	FL	Tampa Bay Aquatic Club	2023 FL Sarasota Shark Open	2020-2024 AA
+268	17:40.14	Kaenan Joyce		15	1500 FR LCM	HI	Kamehameha Swim Club	2023 HI Long Course Age Group Championship	2020-2024 AA
+269	17:40.20	Tyler Sinsabaugh		15	1500 FR LCM	NM	Charger Aquatics	2023 NM New Mexico State Long Course Championships	2020-2024 AA
+270	17:40.89	Sebastian Labuda		15	1500 FR LCM	IL	Hinsdale Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+271	17:41.13	Wes Drake		15	1500 FR LCM	IN	Lawrence Swim Team	2023 IN Senior State LCM Championships	2020-2024 AA
+272	17:41.17	Henry Ma		15	1500 FR LCM	MR	Long Island Aquatic Club	2023 MR LIAC Speedo LI Challenge	2020-2024 AA
+272	17:41.17	Chris Zeng		15	1500 FR LCM	NE	Bluefish Swim Club	2023 NE BGSC New England Senior Championship	2020-2024 AA
+274	17:41.25	Jack Dalrymple		15	1500 FR LCM	SC	Columbia Swimming	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AA
+275	17:41.69	Blake Madsen		15	1500 FR LCM	PV	Machine Aquatics	2023 PV LC Spring Invitational	2020-2024 AA
+276	17:41.85	Jack White		15	1500 FR LCM	CA	Sandpipers Of Nevada	2023 CA SAND John Sullivan Firecracker Invitational	2020-2024 AA
+276	17:41.85	Brody Carlson		15	1500 FR LCM	WI	Waukesha Express Swim Team	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AA
+278	17:41.90	Zachary Preen		15	1500 FR LCM	KY	Etown Dolphins	2023 KY KYLSC Long Course Championships	2020-2024 AA
+279	17:41.91	Kuba Shaw		15	1500 FR LCM	SE	Tennessee Aquatics	2023 SE RPS Long Course Finale	2020-2024 AA
+280	17:42.23	Ismael Gelabert		15	1500 FR LCM	NC	Marlins Of Raleigh	2023 NC NCAC Meet on the Hill	2020-2024 AA
+281	17:42.38	Carson West		15	1500 FR LCM	NC	SwimMAC Carolina	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AA
+281	17:42.38	John Dwyer		15	1500 FR LCM	CT	West Hartford Aquatic Team	2023 CT WYW June Trials and Finals	2020-2024 AA
+283	17:42.40	Ben Smith		15	1500 FR LCM	NC	New Wave Swim Team	2023 NC TAC Titans Triangle Classic	2020-2024 AA
+284	17:42.97	Grant Inman		15	1500 FR LCM	MW	Swim Omaha	2023 MV CSC Region VIII Sectional Championships	2020-2024 AA
+285	17:43.03	Nathan Kennedy		15	1500 FR LCM	MS	Sunkist Swim Team	2023 MS Southern Zone Senior Championships	2020-2024 AA
+286	17:43.10	Austin Parker		15	1500 FR LCM	VA	Stingrays Swim Team	2023 VA LC Senior Champs	2020-2024 AA
+287	17:43.22	Joel Silver		15	1500 FR LCM	CO	Univ of Denver Hilltoppers	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+288	17:43.35	Carter O'Leary		15	1500 FR LCM	WI	McFarland Spartan Sharks	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AA
+289	17:43.41	Yesum Lee		15	1500 FR LCM	MR	Phoenix Aquatic Club USA LLC	2023 MR SSC Summer Mad Dash Invitational	2020-2024 AA
+290	17:43.54	Matthew Wolfle		15	1500 FR LCM	VA	NOVA of Virginia Aquatics, Inc	2023 VA NOVA LC Senior Classic	2020-2024 AA
+291	17:43.85	Tyler Stargardt		15	1500 FR LCM	FL	Tampa Bay Aquatic Club	2023 FL Sarasota Shark Open	2020-2024 AA
+292	17:44.07	Ryan Morrison		15	1500 FR LCM	GU	Cypress Fairbanks Swim Club	2023 MS Southern Zone Senior Championships	2020-2024 AA
+293	17:44.34	Connor Homes		15	1500 FR LCM	AZ	Tucson Ford Dealers Aquatics	2023 SR Speedo LC Sectionals	2020-2024 AA
+294	17:44.46	Wyatt Fortney		15	1500 FR LCM	CO	Univ of Denver Hilltoppers	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+295	17:44.58	Eliasz Ndubuisi		15	1500 FR LCM	SC	Columbia Swimming	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AA
+296	17:44.67	Ben Witmer		15	1500 FR LCM	CO	Univ of Denver Hilltoppers	2023 OR THSC SUMMER CLASSIC	2020-2024 AA
+297	17:44.98	Hunter Haberman		15	1500 FR LCM	GU	The Woodlands Swim Team	2023 GU Senior Championship - TWST	2020-2024 AA
+298	17:45.13	Alex Kosel		15	1500 FR LCM	MN	New Hope Crystal Plymouth Swim Club	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AA
+299	17:45.19	Tj Hannigan		15	1500 FR LCM	MA	South Jersey Aquatic Club	2023 MA Long Course Senior Championships	2020-2024 AA
+300	17:45.32	Bennett Sullivan		15	1500 FR LCM	CA	Santa Barbara Swim Club	2023 CA SCS/CANY June Age Group Invite	2020-2024 AA
+301	17:45.33	Charlie Edwards		15	1500 FR LCM	IL	Barrington Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+302	17:45.34	Jack Clippinger		15	1500 FR LCM	VA	SwimRVA	2023 VA SRVA Summer Invitational	2020-2024 AA
+303	17:45.39	Ben Nendza		15	1500 FR LCM	GU	Sharks Swim Club	2023 GU Sharks April LC Invitational	2020-2024 AA
+304	17:45.44	Joshua Warrick		15	1500 FR LCM	ST	Austin Swim Club	2023 ST ASC Firecracker Open	2020-2024 AA
+305	17:45.71	AJ Alfeo		15	1500 FR LCM	NT	Rockwall Aquatic Center of Excellence	2023 NT RACE Going the Distance with my Peeps	2020-2024 AA
+306	17:45.80	Alex Luebke	Yes	15	1500 FR LCM	NC	TAC Titans	2023 NC TAC Titans Distance Days	2020-2024 AA
+307	17:45.99	Charlie Herfel		15	1500 FR LCM	OHO	Northern KY Clippers Swimming	2023 OH CM TYR Sport Summer Classic	2020-2024 AA
+308	17:46.01	Dean Amble		15	1500 FR LCM	WI	Lake Country Swim Team	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AA
+309	17:46.06	Sam Lemm		15	1500 FR LCM	WI	Waukesha Express Swim Team	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AA
+310	17:46.25	Brody Chop		15	1500 FR LCM	IN	Fishers Area Swimming Tigers	2023 MI Eric Namesnik Memorial Open	2020-2024 AA
+311	17:46.42	Sri Amaravadi		15	1500 FR LCM	IL	Fox Valley Swim Team	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+312	17:46.47	Nick Shalhoub		15	1500 FR LCM	NC	TAC Titans	2023 NC TAC Titans Triangle Classic	2020-2024 AA
+313	17:46.92	Alex Lou		15	1500 FR LCM	GA	Dynamo Swim Club	2023 GA Speedo Atlanta Classic	2020-2024 AA
+314	17:47.21	Jack Jones		15	1500 FR LCM	IN	Greater Evansville Swimming Inc	2023 IN Senior State LCM Championships	2020-2024 AA
+315	17:47.25	Colin Kennedy		15	1500 FR LCM	OHO	Upper Arlington Swim Club	2023 OH Tim Myers Memorial LC Senior Champ	2020-2024 AA
+316	17:47.32	Nik Brusilovski		15	1500 FR LCM	PN	Wave Aquatics	2023 OR THSC SUMMER CLASSIC	2020-2024 AA
+317	17:47.35	Wyeth Carle		15	1500 FR LCM	OHO	Buckeye Swim Club	2023 OH Tim Myers Memorial LC Senior Champ	2020-2024 AA
+318	17:47.44	Joe Luken		15	1500 FR LCM	AZ	Gold Medal Swim Club	2023 AZ Long Course Senior State Championships	2020-2024 AA
+319	17:47.47	Jonathan Renninger		15	1500 FR LCM	PN	King Aquatic Club	2023 PN Senior Long Course Champs	2020-2024 AA
+320	17:47.72	Cole Faerber		15	1500 FR LCM	GU	Blue Tide Aquatics	2023 GU Senior Championship - TWST	2020-2024 AA
+321	17:47.89	Elias Mendez		15	1500 FR LCM	OK	American Energy Swim Club	2023 OK AESC Summer Splash	2020-2024 AA
+322	17:48.18	Wyatt Ball		15	1500 FR LCM	FL	Pipeline Swimming	2023 FL GCST Summer Open	2020-2024 AA
+323	17:48.34	Eian Peng		15	1500 FR LCM	OR	MJCC Stingrays	2023 OR OREGON SWIMMING, INC. OSI Arena 11&O LC CHAMPIONSHIPS	2020-2024 AA
+324	17:48.36	Zakary Guenther		15	1500 FR LCM	OR	Corvallis Aquatic Team	2023 OR Comfort Suites Corvallis - CAT LC Open	2020-2024 AA
+325	17:48.76	Hunter Johnson		15	1500 FR LCM	SD	Rushmore Swim Team	2023 SD Rushmore Classic Swim Meet	2020-2024 AA
+325	17:48.76	Rowan Young-Mcmurchie		15	1500 FR LCM	IE	Tri-city Channel Cats	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+327	17:48.79	Silas Daut		15	1500 FR LCM	FL	Treasure Coast Swimming Conquistadores	2023 FL Summer Senior Championships	2020-2024 AA
+328	17:48.96	Christopher Goodman		15	1500 FR LCM	CA	TSM Aquatics	2023 CA SCS/CITI Summer Age Group Championships	2020-2024 AA
+329	17:49.08	Ryan Loveless		15	1500 FR LCM	MR	Badger Swim Club,Inc.	2023 MI Eric Namesnik Memorial Open	2020-2024 AA
+330	17:49.52	Jordan Estimo		15	1500 FR LCM	PC	Pleasanton Seahawks	2023 PC OAPB Long Course Senior Open	2020-2024 AA
+331	17:49.53	Collin Magnus		15	1500 FR LCM	FL	Laker Swim	2023 FL FAST May Invite	2020-2024 AA
+332	17:49.84	Kenny Meyer		15	1500 FR LCM	CA	Sandpipers Of Nevada	2023 CA SAND Cinco de Mayo	2020-2024 AA
+333	17:49.96	Leo Flint		15	1500 FR LCM	IL	NWDupage YMCA / B.R. Ryall S T	2023 FL ISCA Summer Senior Blast	2020-2024 AA
+334	17:50.19	Hudson Ambrogi		15	1500 FR LCM	NM	Roadrunners of Albuquerque Aquatic Club	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+335	17:50.34	Jake Jacob Nowoswiat		15	1500 FR LCM	MA	Upper Main Line YMCA	2023 MA NLAC Swim Fest	2020-2024 AA
+336	17:50.40	Tucker Wilson		15	1500 FR LCM	GA	Warner Robins Aquanauts	2023 GA Long Course Senior State	2020-2024 AA
+337	17:50.54	Renato Corrales		15	1500 FR LCM	FG	Swim Fort Lauderdale	2023 FG LCM Senior Championships	2020-2024 AA
+338	17:50.60	William Ma		15	1500 FR LCM	PN	King Aquatic Club	2023 PN VAST Summer Sprints and Distance Challenge	2020-2024 AA
+338	17:50.60	Luke Norman		15	1500 FR LCM	IL	FMC Aquatic	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+340	17:50.89	Kyler Tolson		15	1500 FR LCM	AZ	Gold Medal Swim Club	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+341	17:51.03	Landon McDaniel		15	1500 FR LCM	GU	Magnolia Aquatic Club	2023 GU FCST Summer Splash	2020-2024 AA
+342	17:51.28	Carter Steele		15	1500 FR LCM	AD	Albany Starfish	2023 AD Adirondack Long Course Championships	2020-2024 AA
+343	17:51.76	Malachi Villarreal		15	1500 FR LCM	WY	Unattached	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+344	17:52.03	Connor Oneil		15	1500 FR LCM	SE	Atomic City Aquatic Club	2023 SE Southeastern Long Course Championships	2020-2024 AA
+345	17:52.06	Max Klockow		15	1500 FR LCM	WI	Lake Country Swim Team	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AA
+346	17:52.18	Dylan Croxton		15	1500 FR LCM	VA	Hanover Aquatics, Inc	2023 VA LC Senior Champs	2020-2024 AA
+347	17:52.22	Camden Theodos		15	1500 FR LCM	OZ	CSP Tideriders	2023 MV CSC Region VIII Sectional Championships	2020-2024 AA
+348	17:52.77	Bennett Daul		15	1500 FR LCM	WI	Howard Suamico Storm Breakers	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 AA
+349	17:53.31	Graham Lucas		15	1500 FR LCM	PN	Olympic Cascade Aquatics	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+350	17:53.87	Carter Zieminick		15	1500 FR LCM	SE	Tennessee Aquatics	2023 WV 23023 Summer Senior Showdown	2020-2024 AA
+351	17:54.18	Jackson Pyle		15	1500 FR LCM	IN	Summit City Aquatics	2023 IN BA Boiler Bash	2020-2024 AA
+352	17:54.21	Brian Story		15	1500 FR LCM	NE	Phoenix Swimming	2023 NE BGSC New England Senior Championship	2020-2024 AA
+353	17:54.57	Lucas Paez		15	1500 FR LCM	FL	Montverde Aquatic Club	2023 FL Summer Solstice Invitational	2020-2024 AA
+354	17:55.32	Jaga Pagva		15	1500 FR LCM	IN	Pacesetter Aquatics	2023 IN Senior State LCM Championships	2020-2024 AA
+355	17:55.39	Rahul Shahani		15	1500 FR LCM	MD	Eagle Swim Team Inc.	2023 MD Speedo Maryland Swimming Long Course Championship Meet	2020-2024 AA
+356	17:55.52	Sean Dillon		15	1500 FR LCM	MA	Suburban Seahawks Club	2023 MA Long Course Senior Championships	2020-2024 AA
+357	17:55.54	Alex Wu		15	1500 FR LCM	OHO	Dublin Community Swim Team	2023 OH CM TYR Sport Summer Classic	2020-2024 AA
+358	17:56.28	Wesley Ross		15	1500 FR LCM	NE	Phoenix Swimming	2023 NE BGSC New England Senior Championship	2020-2024 AA
+359	17:56.31	Ivan Blystiv		15	1500 FR LCM	IN	Concord Swim Club	2023 IN CGAC Mid Summer Spectacular	2020-2024 AA
+360	17:56.85	Henry Geitz		15	1500 FR LCM	PN	Wave Aquatics	2023 OR THSC SUMMER CLASSIC	2020-2024 AA
+361	17:57.24	Aiden Clarke		15	1500 FR LCM	IN	Carmel Swim Club	2023 IN Senior State LCM Championships	2020-2024 AA
+361	17:57.24	Jake Macdonald		15	1500 FR LCM	FL	Blue Dolfins	2023 FL Summer Solstice Invitational	2020-2024 AA
+363	17:57.37	Caleb Wurtz		15	1500 FR LCM	CO	Pikes Peak Athletics	2023 OR THSC SUMMER CLASSIC	2020-2024 AA
+364	17:58.44	Benjamin Chu		15	1500 FR LCM	IE	Tri-city Channel Cats	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+365	17:58.48	Robert Holmes		15	1500 FR LCM	NC	North Carolina Aquatic Club	2023 NC NCAC Meet on the Hill	2020-2024 AA
+366	17:58.65	Logan Thomas		15	1500 FR LCM	FL	Episcopal AmberJax	2023 FL Episcopal AmberJax's Speedo Mayhem	2020-2024 AA
+367	17:59.47	Holden Brown		15	1500 FR LCM	NE	Crimson Aquatics	2023 NE BGSC Summer Fiesta Meet	2020-2024 AA
+368	17:59.58	Dylan Heikkila		15	1500 FR LCM	PN	King Aquatic Club	2023 OR Howard Jones Open	2020-2024 AA
+369	17:59.73	Noah Cheng		15	1500 FR LCM	WI	Schroeder YMCA Swim Team	2022 WI SSTY LONG COURSE INTRASQUAD	2020-2024 AA
+370	17:59.93	Devin Locklear		15	1500 FR LCM	NC	Marlins Of Raleigh	2023 NC NCAC Meet on the Hill	2020-2024 AA
+371	18:00.57	Alex Pahlevanpour		15	1500 FR LCM	PV	Machine Aquatics	2023 PV LC 13&O Championships	2020-2024 AA
+372	18:00.59	Edmund Droege		15	1500 FR LCM	NT	Lakeside Aquatic Club	2023 NT LAC Summer Distance Meet	2020-2024 AA
+373	18:00.82	Ethan Scruggs		15	1500 FR LCM	SE	Tennessee Aquatics	2023 WV 23023 Summer Senior Showdown	2020-2024 AA
+374	18:00.91	James Lu		15	1500 FR LCM	MD	Eagle Swim Team Inc.	2023 MD RAC Sandbox Meet	2020-2024 AA
+375	18:01.08	Austin Jones		15	1500 FR LCM	CO	Pikes Peak Athletics	2023 OR THSC SUMMER CLASSIC	2020-2024 AA
+376	18:01.16	Patrick Curran		15	1500 FR LCM	MN	Riptide	2023 MN RSC Summerfest Swim Meet	2020-2024 AA
+377	18:01.23	Steven Olvera		15	1500 FR LCM	CA	La Mirada Armada	2023 CA SCS/RMDA June Age Group Invite	2020-2024 AA
+378	18:01.34	Jack Hatchard	Yes	15	1500 FR LCM	UT	Olympus Aquatics	2023 UT Utah LC Senior Championships	2020-2024 AA
+379	18:01.48	Henry Kogan		15	1500 FR LCM	MA	Upper Main Line YMCA	2023 MA NLAC Swim Fest	2020-2024 AA
+380	18:01.81	Aden Stephens		15	1500 FR LCM	VA	Stingrays Swim Team	2023 VA RAYS Helen Wang Sunflower Classic	2020-2024 AA
+381	18:02.09	Alex Townsend		15	1500 FR LCM	NC	Marlins Of Raleigh	2023 NC SwimMAC Martha McKee Open	2020-2024 AA
+382	18:02.30	Philip Berry-Stoelzle		15	1500 FR LCM	IA	Iowa Flyers Swim Club	2023 IA Long Course Championship Meet	2020-2024 AA
+383	18:02.42	Brendan Sulak		15	1500 FR LCM	LE	Cleveland Swim Institute	2023 LE Busbey 23	2020-2024 AA
+384	18:02.45	Isaac Heller		15	1500 FR LCM	IN	Summit City Aquatics	2023 IN Senior State LCM Championships	2020-2024 AA
+385	18:02.57	Nicholas Aldrich		15	1500 FR LCM	FL	Laker Swim	2023 FL Summer Solstice Invitational	2020-2024 AA
+386	18:02.64	Max Chiappetta		15	1500 FR LCM	IL	Reach Aquatics Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+387	18:02.79	Axel Torres-Torres		15	1500 FR LCM	FG	Gulliver Swim Club	2023 FG Gulliver Summer Classic	2020-2024 AA
+388	18:02.89	Elliott Austin		15	1500 FR LCM	NC	Mecklenburg Swim Association	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AA
+389	18:03.53	Cade Taylor		15	1500 FR LCM	SC	Team Greenville	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AA
+390	18:03.71	Christopher Chu		15	1500 FR LCM	FL	Gator Swim Club	2023 FL Sarasota Shark Open	2020-2024 AA
+391	18:03.86	Lucas Landers		15	1500 FR LCM	VA	757 Swim	2023 VA NOVA S Freedom Splash	2020-2024 AA
+392	18:04.30	Everson Connors		15	1500 FR LCM	MT	Helena Lions Swim Team	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+393	18:04.60	Court Barrett		15	1500 FR LCM	MD	Severna Park Stingrays	2023 MD Speedo Maryland Swimming Long Course Championship Meet	2020-2024 AA
+394	18:05.19	Sean Baudoin		15	1500 FR LCM	LA	Crawfish Aquatics	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AA
+395	18:05.21	Jake Thomas		15	1500 FR LCM	SE	Tennessee Aquatics	2023 WV 23023 Summer Senior Showdown	2020-2024 AA
+395	18:05.21	Charlie Burdulis		15	1500 FR LCM	NC	SwimMAC Carolina	2023 NC NCS LC SR Champs (STAR2)	2020-2024 AA
+397	18:05.37	Gavin Potter		15	1500 FR LCM	MN	Rochester Swim Club	2023 MN NSAC Minnesota Senior LC State Championship	2020-2024 AA
+398	18:05.47	Shael Fernando Fernando	Yes	15	1500 FR LCM	NI	Victor Swim Club	2023 NI STAR Niagara LSC Long Course Championships	2020-2024 AA
+399	18:05.54	Anthony Sacco		15	1500 FR LCM	GU	South Texas Aquatics	2023 NT MTRO American Long Course	2020-2024 AA
+400	18:05.70	Calvin Meymaris		15	1500 FR LCM	CO	CAC Boulder Riptide	2023 CO CSI Senior LC State Championships	2020-2024 AA
+401	18:05.72	Eren Aydin		15	1500 FR LCM	MR	Phoenix Aquatic Club USA LLC	2023 MR LIAC Summer Classic Invitational	2020-2024 AA
+402	18:06.26	Mitch Anderson		15	1500 FR LCM	CA	San Clemente Aquatic Team	2023 CA SCS/CITI Summer Age Group Championships	2020-2024 AA
+403	18:06.28	Coi Call		15	1500 FR LCM	AR	Razorback Aquatic Club Aquahawgs	2023 SE NAC Summer Sizzler	2020-2024 AA
+404	18:06.30	Xander Smith		15	1500 FR LCM	SE	Auburn Aquatics	2023 SE AUB Richard Quick Invitational	2020-2024 AA
+404	18:06.30	Ryan Walter		15	1500 FR LCM	OHO	Powel Crosley, Jr. YMCA	2023 OH AP SWOYSL AA Championship	2020-2024 AA
+406	18:06.38	Matthew Evans		15	1500 FR LCM	MA	Upper Dublin Aquatic Club	2023 MA Long Course Senior Championships	2020-2024 AA
+407	18:06.39	Thomas Iglar		15	1500 FR LCM	GA	Stingrays	2023 FL GAIN Swimming Invitational	2020-2024 AA
+408	18:06.50	Fraser Scott	Yes	15	1500 FR LCM	OR	Corvallis Aquatic Team	2023 CC Arena Western Zone Senior Championships	2020-2024 AA
+409	18:06.60	Drew Eckerman		15	1500 FR LCM	SE	Tennessee Aquatics	2023 WV 23023 Summer Senior Showdown	2020-2024 AA
+410	18:06.77	Santi Garcia Rojo	Yes	15	1500 FR LCM	SI	Sea to Desert Swim Association	2023 CA Los Angeles Invite	2020-2024 AA
+411	18:07.13	Daniel Landau		15	1500 FR LCM	NE	Crimson Aquatics	2023 FL BSS TYR June Classic	2020-2024 AA
+412	18:07.35	Joseph Kirchmann		15	1500 FR LCM	CA	Canyons Aquatic Club	2023 CA SCS/CANY June Age Group Invite	2020-2024 AA
+413	18:07.42	Jamesyn Samples		15	1500 FR LCM	OZ	Saluki Swim Club	2023 OZ Saluki International	2020-2024 AA
+414	18:07.80	Hunt Thomas		15	1500 FR LCM	SC	Y-Spartaquatics Swim Club	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AA
+415	18:07.92	Riley Mortenson		15	1500 FR LCM	CA	The Swim Team	2023 CA MVN BB Min-LCM-Orange Committee	2020-2024 AA
+416	18:08.49	George Hudson		15	1500 FR LCM	ST	Waterloo Swimming	2023 ST AAAA Long Course STAGS	2020-2024 AA
+417	18:08.53	Dylan Schrock		15	1500 FR LCM	ST	Longhorn Aquatics	2023 ST TXLA Texas Open	2020-2024 AA
+418	18:08.74	Itay Goudz		15	1500 FR LCM	CA	CCAT Swimming	2023 CA BUEN Memorial Day LCM	2020-2024 AA
+419	18:09.01	Nick Davidson		15	1500 FR LCM	HI	Kamehameha Swim Club	2023 HI Distance Meet (LCM)	2020-2024 AA
+420	18:09.03	Santiago Rivas		15	1500 FR LCM	LA	City Of Lafayette Aquatics	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AA
+421	18:09.19	Matthew Franklin		15	1500 FR LCM	MR	Long Island Aquatic Club	2023 MR LIAC Speedo LI Challenge	2020-2024 AA
+422	18:09.31	Adrian Lavorini		15	1500 FR LCM	AM	Butler Y Aquatic Club	2023 AM LC Age Group Championships	2020-2024 AA
+423	18:09.38	Andrew Zhou		15	1500 FR LCM	PC	Crow Canyon Sharks	2023 PC Long Course Far Western Championships	2020-2024 AA
+424	18:09.40	Paul Do		15	1500 FR LCM	SC	Y-Spartaquatics Swim Club	2023 SC GAME South Carolina Long Course Senior LSC Championship	2020-2024 AA
+425	18:09.43	Anthony Cuadros		15	1500 FR LCM	IN	Center Grove Aquatic Club	2023 IN CGAC Mid Summer Spectacular	2020-2024 AA
+426	18:09.59	Jimmy Beeson		15	1500 FR LCM	SC	Y-Spartaquatics Swim Club	2023 SC YSSC Long Course Summer Splash	2020-2024 AA
+427	18:09.70	Logan Wilson		15	1500 FR LCM	FL	Pipeline Swimming	2023 FL Summer Senior Championships	2020-2024 AA
+428	18:10.11	Matt D'Orazio		15	1500 FR LCM	ST	Alamo Area Aquatic Association	2023 ST AAAA-NS Salute to the Troops Swim Meet	2020-2024 AA
+429	18:10.45	Joseph Gertz		15	1500 FR LCM	OHO	Countryside YMCA	2023 OH AP SWOYSL AA Championship	2020-2024 AA
+430	18:10.81	Ethan Phipps		15	1500 FR LCM	LA	City Of Lafayette Aquatics	2023 LA Louisiana Senior Long Course State Championship	2020-2024 AA
+431	18:10.83	Josh Turner		15	1500 FR LCM	IL	Delta Aquatics	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+432	18:10.87	Evan Ream		15	1500 FR LCM	LE	Lake Erie Silver Dolphins	2023 WV Club Mountaineer Aquatics Summer Invite	2020-2024 AA
+433	18:10.94	Stanley Oka		15	1500 FR LCM	CC	Fresno Dolphins Swim Team	2023 CC Mike Snyder Memorial A/B Modified Meet	2020-2024 AA
+434	18:11.24	William Pinchot		15	1500 FR LCM	IL	Barrington Swim Club	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 AA
+435	18:11.56	Jackson Cooper		15	1500 FR LCM	MR	Empire Swimming	2023 NC EAC Independence Day Invitational	2020-2024 AA
+436	18:11.65	Deion Chung		15	1500 FR LCM	HI	Kamehameha Swim Club	2023 HI Long Course Age Group Championship	2020-2024 AA
+437	18:11.92	Bill McMinn		15	1500 FR LCM	KY	Triton Swimming	2023 SE HSA June Invitational	2020-2024 A
+438	18:12.06	Thomas Senfield		15	1500 FR LCM	VA	SwimRVA	2023 VA SRVA Summer Invitational	2020-2024 A
+438	18:12.06	Cheney Mo		15	1500 FR LCM	CA	La Mirada Armada	2023 CA SCS/RMDA June Age Group Invite	2020-2024 A
+440	18:12.16	Christopher Karling		15	1500 FR LCM	CA	Swim Torrance	2023 CA SCS/CANY June Age Group Invite	2020-2024 A
+441	18:12.23	Owen Tharrington		15	1500 FR LCM	CT	Chelsea Piers Aquatic Club	2023 CT CPAC May Invitational	2020-2024 A
+442	18:12.56	Ian Durham		15	1500 FR LCM	MD	Loyola Blakefield Aquatics	2023 MD RAC Sandbox Meet	2020-2024 A
+443	18:12.58	Carter Cox		15	1500 FR LCM	PN	King Aquatic Club	2023 OR Howard Jones Open	2020-2024 A
+444	18:12.81	Crenshaw Halbach		15	1500 FR LCM	GA	Athens Bulldog Swim Club	2023 SC TG Dash & Splash	2020-2024 A
+445	18:13.11	Lucky Biscan		15	1500 FR LCM	MN	Edina Swim Club	2023 MN UOFM 2023 Gopher Invite	2020-2024 A
+446	18:13.65	Wyatt Perkins		15	1500 FR LCM	NC	TAC Titans	2023 NC TAC Titans Distance Days	2020-2024 A
+447	18:13.97	Jack Andrew		15	1500 FR LCM	PN	Valley Aquatics	2023 PN BC May Flowers	2020-2024 A
+448	18:14.10	Viraj Chopra		15	1500 FR LCM	NC	Mecklenburg Swim Association	2023 NC SAC Last Chance Qualifier	2020-2024 A
+449	18:14.38	Ronald Liu		15	1500 FR LCM	GU	Dads Club Swim Team	2023 ST AAAA-NS George Block Invitational	2020-2024 A
+450	18:14.51	Tim Williams		15	1500 FR LCM	MD	Bayside Aquatics	2023 MD Speedo Maryland Swimming Long Course Championship Meet	2020-2024 A
+451	18:14.74	Rowan Turner		15	1500 FR LCM	PV	Nation's Capital Swim Club	2023 PV LC 13&O Championships	2020-2024 A
+452	18:14.92	Aiden Gouldson		15	1500 FR LCM	NE	United Swim Club	2023 NE CRA/USC Timed Final and Prelim/Final Meet	2020-2024 A
+453	18:14.99	Tanay Gupta		15	1500 FR LCM	PC	Santa Clara Swim Club	2023 CC Mike Snyder Memorial A/B Modified Meet	2020-2024 A
+454	18:15.11	Cy Cheatham		15	1500 FR LCM	OR	Corvallis Aquatic Team	2023 CC Arena Western Zone Senior Championships	2020-2024 A
+455	18:15.12	AJ Katch		15	1500 FR LCM	WI	Schroeder YMCA Swim Team	2023 WI 13 & OVER LONG COURSE STATE CHAMPIONSHIPS	2020-2024 A
+456	18:15.15	Ethan Dutton		15	1500 FR LCM	FL	Saint Petersburg Aquatics	2023 SA Infinity Gala	2020-2024 A
+457	18:15.76	Simon Belopolskiy		15	1500 FR LCM	PV	Rockville Montgomery Swim Club	2023 PV LC 13&O Championships	2020-2024 A
+458	18:15.77	Grady Gospodarek		15	1500 FR LCM	NC	New Wave Swim Team	2023 FL Last Splash Invitational	2020-2024 A
+459	18:15.91	Camden Stutsman		15	1500 FR LCM	IN	Concord Swim Club	2023 IN CGAC Mid Summer Spectacular	2020-2024 A
+460	18:16.31	Prentice Sanders		15	1500 FR LCM	PN	King Aquatic Club	2023 SR Speedo LC Sectionals	2020-2024 A
+460	18:16.31	Ryan Watson		15	1500 FR LCM	IL	Fox Valley Swim Team	2023 IL Illinois Swimming Summer Senior Championships	2020-2024 A
+462	18:16.41	Pedro Barbosa		15	1500 FR LCM	OR	Corvallis Aquatic Team	2023 SR Boise YMCA Summer Invitational	2020-2024 A
+463	18:16.46	Joe Laudadio		15	1500 FR LCM	FL	United Swim Club	2023 FL ATAC Long Course Open	2020-2024 A
+464	18:16.88	Ilai Alkin		15	1500 FR LCM	NJ	Ridgewood YMCA	2023 NJ LC GOLD Championships	2020-2024 A
+465	18:16.93	Benjamin Stenger		15	1500 FR LCM	OHO	M.E. Lyons/Anderson Barracudas	2023 OH AP SWOYSL AA Championship	2020-2024 A
+466	18:17.21	Jordan Ragland		15	1500 FR LCM	SN	Del Paso Country Club	2023 SN 800M/1500M Distance Time Trial	2020-2024 A
+467	18:17.24	Luka Di Fabio		15	1500 FR LCM	AD	Adirondack Bluefins	2023 AD Hawks Summer Invitational	2020-2024 A
+468	18:17.39	Dayne Webb		15	1500 FR LCM	MI	Greater Kalamazoo Crocs	2023 MI Summer Solstice Open Invitational	2020-2024 A
+469	18:17.50	Nick Scheid		15	1500 FR LCM	MD	Columbia Aquatics Association	2023 MD RAC Sandbox Meet	2020-2024 A
+470	18:17.56	Kai Jordan		15	1500 FR LCM	PC	Neptune Swimming	2023 PC AC Long Course Swim into Spring CBA+	2020-2024 A
+471	18:17.74	Matthew Kauffman		15	1500 FR LCM	PV	Machine Aquatics	2023 PV NCAP Elite Qualifier	2020-2024 A
+472	18:17.90	John Gregory		15	1500 FR LCM	AD	Schenectady-Saratoga Swim Club	2023 MR LIAC Summer Classic Invitational	2020-2024 A
+473	18:17.92	Dominic Impens		15	1500 FR LCM	SC	YMCA of Upper Palmetto Rays	2023 SC RAYS Rays of Sunshine	2020-2024 A
+474	18:17.95	Noah Swanson		15	1500 FR LCM	MN	West Express Swim Team	2023 MN MTKA Minnesota Regional Championship	2020-2024 A
+475	18:18.01	Jonah Beth		15	1500 FR LCM	OK	King Marlin Swim Club	2023 OK KMS Summer Twister	2020-2024 A
+476	18:18.66	Ethan Hammontree		15	1500 FR LCM	WT	City Of Midland Swim Team	2023 WT ConocoPhillips West Texas Invitational	2020-2024 A
+477	18:18.80	Turner Wiand		15	1500 FR LCM	SC	YMCA of Upper Palmetto Rays	2023 SC RAYS Rays of Sunshine	2020-2024 A
+478	18:18.85	William Sollie		15	1500 FR LCM	GA	Dekalb Aquatics	2023 GA Dynamo Coda Classic	2020-2024 A
+479	18:19.54	Daniel Saunders		15	1500 FR LCM	PV	APACC (Ailynn Park Aquatic Club & Clinic)	2023 PV AAC LC Invitational	2020-2024 A
+480	18:19.76	Nolan Francis		15	1500 FR LCM	CT	Chelsea Piers Aquatic Club	2023 CT CDOG LC Distance Regional	2020-2024 A
+481	18:20.29	Sebastian Wrona		15	1500 FR LCM	UT	Olympus Aquatics	2023 CA SAND Cinco de Mayo	2020-2024 A
+482	18:20.30	Rohan Mariano		15	1500 FR LCM	OK	Sooner Swim Club	2023 OK LC State Championships	2020-2024 A
+483	18:20.56	Nathan Manzione		15	1500 FR LCM	NE	Charles River Aquatics	2023 NE CRA/USC Timed Final and Prelim/Final Meet	2020-2024 A
+484	18:20.79	Afonso Campanico		15	1500 FR LCM	CA	Boulder City Henderson Swim Team	2023 CA SCS/RAA Summer Age Group Champs	2020-2024 A
+485	18:20.90	Aidan Villars		15	1500 FR LCM	LA	South Louisiana Swim Team	2023 LA Tristan Vessel Invitational	2020-2024 A
+486	18:21.16	Ethan Pure		15	1500 FR LCM	GA	Dynamo Swim Club	2023 GA Dynamo Coda Classic	2020-2024 A
+487	18:21.23	Joaquin Sucgang		15	1500 FR LCM	CA	CCAT Swimming	2023 CA SCS/CITI Summer Age Group Championships	2020-2024 A
+488	18:21.77	Hayden Renoux		15	1500 FR LCM	MV	COOL Swim Team	2023 MV Long Course Championships	2020-2024 A
+489	18:22.13	Evan McCorkle		15	1500 FR LCM	IA	Ames Cyclone Aquatics Club	2023 IA Long Course Championship Meet	2020-2024 A
+490	18:22.49	Alex Mangalindan		15	1500 FR LCM	PN	King Aquatic Club	2023 PN VAST Summer Sprints and Distance Challenge	2020-2024 A
+491	18:22.64	Dillon Singer		15	1500 FR LCM	MR	Freedom Aquatics	2023 NJ EEX JSM Summer Sizzle XXXI	2020-2024 A
+492	18:22.67	Henry Paterson		15	1500 FR LCM	MA	York YMCA	2023 MD NBAC SPRING LONG COURSE MEET	2020-2024 A
+493	18:22.71	Rigs Helmedag		15	1500 FR LCM	NC	Marlins Of Raleigh	2023 NC NCS LC SR Champs (STAR2)	2020-2024 A
+494	18:22.96	Austin Shadinger		15	1500 FR LCM	SE	Huntsville Swim Association	2023 SE HSA June Invitational	2020-2024 A
+495	18:23.01	Bobby Regan		15	1500 FR LCM	CT	Regional YMCA of Western Connecticut Makos	2023 CT RYWC May Invitational	2020-2024 A
+496	18:24.27	Logan Divine		15	1500 FR LCM	CA	Canyons Aquatic Club	2023 CA BUEN Memorial Day LCM	2020-2024 A
+497	18:24.29	Ben Wang		15	1500 FR LCM	MD	North Baltimore Aquatic Club	2023 MD NBAC Mid-Summer Classic	2020-2024 A
+498	18:24.95	Grant Castillon		15	1500 FR LCM	LA	Nu Wave Swim Club	2023 MS NuWave Summer Long Course Open	2020-2024 A
+499	18:25.54	Isaac Truelove		15	1500 FR LCM	ST	Austin Swim Club	2023 ST ASC May Open	2020-2024 A
+500	18:25.73	Austin Landry		15	1500 FR LCM	LA	Crawfish Aquatics	2023 LA Louisiana Senior Long Course State Championship	2020-2024 A

@@ -1,12 +1,46 @@
 # Malaysia Swimming Analytics - Comprehensive Developer Handbook
 
+## ⚡ QUICK START (Read This First!)
+
+**To start the application, open TWO terminals and run:**
+
+**Terminal 1 - Backend:**
+```bash
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
+uvicorn src.web.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
+npm run dev
+```
+
+**Access Points:**
+- Frontend: http://localhost:3000 (or http://localhost:3001)
+- Backend API: http://localhost:8000
+- Admin Panel: http://localhost:3000/admin
+- API Docs: http://localhost:8000/api/docs
+
+**To restart backend**: Press `Ctrl+C` and run the uvicorn command again  
+**To restart frontend**: Press `Ctrl+C` and run `npm run dev` again
+
+**Current Tech Stack:**
+- Backend: FastAPI + SQLite (`malaysia_swimming.db` in project root)
+- Frontend: Next.js (React)
+- No Docker required - simplified setup
+
+**See `QUICK_START.md` for the fastest reference guide.**
+
+---
+
 ## 🎯 Project Overview
 
-The Malaysia Swimming Analytics platform is a **complete rebuild** of the existing Malaysia Times Database system, moving from a "Winchester House" architecture (multiple overlapping Flask/Excel-based projects) to a modern, scalable system using React, FastAPI, and PostgreSQL.
+The Malaysia Swimming Analytics platform is a **complete rebuild** of the existing Malaysia Times Database system, moving from a "Winchester House" architecture (multiple overlapping Flask/Excel-based projects) to a modern, scalable system using React, FastAPI, and SQLite (simplified from original PostgreSQL plan).
 
 ### 🏗️ Architecture Transformation
 - **FROM**: Flask + Excel + pandas (old system)
-- **TO**: React + FastAPI + PostgreSQL (new system)
+- **TO**: React + FastAPI + SQLite (new system - simplified setup)
 - **GOAL**: Clean, modern, scalable swimming analytics platform
 
 ## 🛠️ New Tech Stack
@@ -41,7 +75,22 @@ The Malaysia Swimming Analytics platform is a **complete rebuild** of the existi
 
 ## 📊 Core Features
 
-### Current Features
+### ✅ Completed Features (New Build)
+- **Modern UI Foundation**: Professional React interface with MAS branding
+- **Responsive Table Layout**: Fixed column widths, sticky headers, proper alignment
+- **Interactive Filtering**: Meet, gender, age group, event, state, foreign swimmer filters
+- **6x3 Event Grid**: Organized event selection matching old build layout
+- **Reference Sidebar**: MAP, MOT, LTAD, AQUA navigation buttons
+- **MAS Color Scheme**: Consistent #cc0000 branding throughout
+- **Professional Typography**: System fonts, proper spacing, tabular numbers
+
+### 🔄 In Progress Features
+- **Data Integration**: Connecting React frontend to FastAPI backend
+- **Backend API Endpoints**: Results, meets, events, statistics endpoints
+- **Database Integration**: SQLite to PostgreSQL migration
+- **Filter Logic**: Porting filtering logic from old Flask build
+
+### 📋 Planned Features (Legacy System Migration)
 - **Performance Analysis**: Compare swimmer performances against AQUA targets
 - **Age Points Calculation**: Malaysia Age Points (MAP) computation
 - **Multi-Meet Support**: Analyze results from multiple competitions
@@ -58,7 +107,38 @@ The Malaysia Swimming Analytics platform is a **complete rebuild** of the existi
 
 ## 🗄️ Database Schema Design
 
-### Core Tables
+### Statistical Analysis Database (SQLite)
+
+**Location**: `database/malaysia_swimming.db`
+
+The MOT Delta Analysis Project uses SQLite to store structured data for analysis and comparison. See `Statistical Analysis/DATABASE_DOCUMENTATION.md` for complete details.
+
+#### Core Statistical Tables
+- **canada_on_track**: Canada On Track reference times for Track 1/2/3 (504 rows)
+  - Stores original time format and parsed seconds
+  - Tracks three development pathways (Early/Middle/Late)
+  - Source: Excel workbook `Malaysia On Track Statistical Analysis.xlsx`
+  
+- **usa_age_deltas**: USA swimming improvement deltas between ages (83/84 rows)
+  - Complete statistical analysis (median, mean, std dev, IQR)
+  - 84 total analyses: 14 events × 2 genders × 3 age transitions
+  - Source: `MOT_Delta_Analysis_Results.csv`
+  
+- **usa_age_results** (Planned): Raw USA season ranking data for z-score modeling
+  - Will store distribution data for statistical validation
+  - Required for predictive validity analysis
+
+#### Database Management
+- **Schema**: Defined in `Statistical Analysis/db_schema.py`
+- **Canonical Events**: Enforced via `Statistical Analysis/events_catalog.py` (14 events)
+- **Load Scripts**: 
+  - `load_canada_tracks.py` - Loads Canada reference data
+  - `load_usa_deltas.py` - Loads computed USA delta analyses
+- **Analysis Tools**: `compare_deltas_canada.py` queries database for comparisons
+
+### Main Application Database (PostgreSQL - Planned)
+
+#### Core Tables (For web application)
 - **athletes**: Swimmer information and demographics
 - **meets**: Competition details and metadata
 - **results**: Individual swim results and times
@@ -66,7 +146,7 @@ The Malaysia Swimming Analytics platform is a **complete rebuild** of the existi
 - **clubs**: Club and team information
 - **states**: Malaysian state codes and mappings
 
-### Data Relationships
+#### Data Relationships
 - Athletes belong to clubs
 - Results link athletes to meets and events
 - Meets contain multiple results
@@ -215,15 +295,25 @@ Malaysia Swimming Analytics/
 ### 🎯 **AUTOMATIC DEVELOPER ONBOARDING**
 This section provides a complete startup process that automatically loads all project context and gets any developer up to speed instantly.
 
+### 🔄 **TRANSITION STRATEGY: TWO SYSTEMS**
+**IMPORTANT**: This project has two functional systems with different tech stacks:
+
+- **New Build**: React + FastAPI + PostgreSQL + Docker (modern, in development)
+- **Legacy Build**: Flask + pandas + Excel (fully functional, being replaced)
+
+**Choose your focus based on your session goals** (see `STARTUP_SESSION_GUIDE.md` for details).
+
 ### 📋 **Current Project Status (Verified from Actual Files)**
 - **Data Conversion**: ✅ All 9 meet files converted to SQLite database (`malaysia_swimming.db`)
 - **Reference Data**: ✅ Age_OnTrack_AQUA.xlsx and Clubs_By_State.xlsx converted to SQLite tables
 - **Methodology Docs**: ✅ Complete documentation in `docs/` folder (MAP_Methodology.md, MOT_Methodology.md, AQUA_Methodology.md)
 - **Database Schema**: ✅ PostgreSQL schema defined in `scripts/init.sql`
 - **Docker Services**: ✅ Configuration in `docker-compose.yml` with 6 services
-- **UI Foundation**: ✅ Complete React frontend with locked-in design
+- **UI Foundation**: ✅ Complete React frontend with locked-in design and professional styling
+- **Visual Polish**: ✅ MAS branding, proper spacing, typography, table layout
 - **API Endpoints**: ✅ FastAPI backend with all necessary endpoints
 - **Meet Abbreviations**: ✅ Implemented (SUK24, MIA25, MO25, SEAG25, ST24)
+- **UI Commit**: ✅ Latest commit fc3c719 locks in professional styling from old build
 - **Statistical Analysis**: ✅ Complete data consolidation (all 4 periods: 2021-2022, 2023-2024, 2024-2025)
 - **PhD Dissertation**: ✅ Updated with strategic context, problem statement, and significance sections
 - **Current Branch**: `data-cleaning` (UI foundation committed)
@@ -245,16 +335,29 @@ This section provides a complete startup process that automatically loads all pr
 - **File Management**: Same folder, Git tracks different versions
 - **Switch Branches**: `git checkout core-functionality` or `git checkout data-cleaning`
 
-### 📊 **DATA CONSOLIDATION COMPLETE**
-- **Statistical Analysis**: All 4 periods consolidated in new build
-  - `9.1.21-8.31.22` (24 files) - Successfully moved from old build
-  - `9.1.23-8.31.24` (existing)
-  - `9.1.24-8.31.25` (existing)
-- **PhD Dissertation**: Updated with strategic context and academic framework
-- **Old Build Cleanup**: Duplicate files removed, no data loss
-- **Single Source of Truth**: All data now in `Statistical Analysis/` folder
+### 📊 **MOT DELTA ANALYSIS PROJECT - ANALYSIS COMPLETE**
+- **Data Collection**: ✅ COMPLETE - 2,240 files across 4 periods
+  - `9.1.21-8.31.22` (560 files) - Complete dataset
+  - `9.1.22-8.31.23` (560 files) - Complete dataset  
+  - `9.1.23-8.31.24` (560 files) - Complete dataset
+  - `9.1.24-8.31.25` (560 files) - Complete dataset
+- **Event Coverage**: 14 events (including 50 Free) × 2 genders × 4 ages
+- **Data Quality**: 500 results per file, consistent format
+- **Delta Analysis**: ✅ COMPLETE - 83/84 analyses executed (F 100 Back 15→16 pending fix)
+  - Total athletes analyzed: 24,585
+  - Average sample size: 296.2 athletes per analysis
+  - Median improvement: 0.865s across all transitions
+- **Database Integration**: ✅ COMPLETE - SQLite with canada_on_track (504 rows) and usa_age_deltas (83 rows)
+- **Reports Generated**: ✅ COMPLETE
+  - 84 Delta Data folders with detailed analyses
+  - MOT_Delta_Index.html - Interactive index with links
+  - USA vs Canada comparison report in reports/
+- **PhD Documentation**: ✅ COMPLETE - Chapter 3 methodology in PhD/ folder
+- **Methodology**: Evidence-based delta analysis approach
 
 ### 🔄 **AUTOMATIC STARTUP SEQUENCE**
+
+#### **Option 1: New Build (Recommended for Development)**
 ```bash
 # 1. Navigate to project directory
 cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
@@ -265,25 +368,37 @@ docker-compose up -d
 # 3. Verify all services are running
 docker ps
 
-# 4. Check database status
-python scripts/test_database_connection.py
+# 4. Access new build
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8000
+# API Docs: http://localhost:8000/api/docs
+```
 
-# 5. Verify SQLite data
-python -c "
-import sqlite3
-conn = sqlite3.connect('malaysia_swimming.db')
-cursor = conn.cursor()
-cursor.execute('SELECT name FROM sqlite_master WHERE type = ?', ('table',))
-tables = cursor.fetchall()
-print('SQLite Tables:', [table[0] for table in tables])
-cursor.execute('SELECT COUNT(*) FROM athletes')
-athletes = cursor.fetchone()[0]
-print(f'Athletes: {athletes}')
-cursor.execute('SELECT COUNT(*) FROM results')
-results = cursor.fetchone()[0]
-print(f'Results: {results}')
-conn.close()
-"
+#### **Option 2: Legacy System (Reference/Comparison)**
+```bash
+# 1. Navigate to legacy system
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics\Malaysia Times Database"
+
+# 2. Start legacy Flask system
+python -m Malaysia_Times_Database.Malaysia_Database
+
+# 3. Access legacy system
+# http://127.0.0.1:5000
+```
+
+#### **Option 3: Both Systems (Validation/Testing)**
+```bash
+# Terminal 1: New build
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
+docker-compose up -d
+
+# Terminal 2: Legacy system
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics\Malaysia Times Database"
+python -m Malaysia_Times_Database.Malaysia_Database
+
+# Access both:
+# New: http://localhost:3000
+# Legacy: http://127.0.0.1:5000
 ```
 
 ### 🎯 **DEVELOPER CONTEXT LOADING**
@@ -437,14 +552,19 @@ echo "🚀 READY TO CONTINUE DEVELOPMENT"
    alembic upgrade head
    ```
 
-6. **Start development servers**:
+6. **Start development servers** (REQUIRED - run in separate terminals):
    ```bash
-   # Backend (FastAPI)
+   # Terminal 1: Backend (FastAPI)
+   cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
    uvicorn src.web.main:app --reload --host 0.0.0.0 --port 8000
    
-   # Frontend (React/Next.js)
+   # Terminal 2: Frontend (Next.js)
+   cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics"
    npm run dev
    ```
+   
+   **To restart backend**: Stop the uvicorn process (Ctrl+C) and run the command again.
+   **To restart frontend**: Stop the npm process (Ctrl+C) and run `npm run dev` again.
 
 ### 🌐 Access Points
 - **Frontend**: http://localhost:3000
@@ -614,12 +734,81 @@ pause
 - **Ready for**: Data cleaning and functionality implementation
 
 ### 🎯 **NEXT DEVELOPMENT PHASE**
-- **Data Cleaning**: Validate and clean all converted data
-- **Functionality Implementation**: Connect UI to backend APIs
-- **Filter Logic**: Implement meet selection, gender, event filtering
-- **Download Functionality**: XLSX export implementation
-- **Testing**: Comprehensive testing of all features
-- **Documentation**: Complete API and user documentation
+- **MOT Delta Analysis**: Complete missing F 100 Back 15→16 delta
+- **USA vs Canada Comparison**: Finalize track comparison analysis using SQLite queries
+- **Z-Score Modeling**: Load USA season ranking data for predictive validity analysis
+- **MOT Table Reconstruction**: Generate recommendations based on delta analysis results
+
+---
+
+## 🚀 NEW SESSION STARTUP GUIDE
+
+### ⚠️ CURRENT SESSION STATUS (Database Conversion Work)
+
+**See `TOMORROW_START_GUIDE.md` for detailed status and tomorrow's tasks.**
+
+**Quick Status**:
+- ✅ SEAG file processing updated to handle all sheets and extract meet info from Excel data
+- ✅ Database schema updated with new columns (birth_date, nation, club_name, club_code, city, etc.)
+- ✅ Meet deduplication logic implemented (meet_id_map)
+- ⚠️ **CRITICAL**: SEAG file birthdate situation needs clarification:
+  - Column 5 (BIRTHDATE) is empty
+  - Column 18 (labeled "AGE") contains values like 17, 14
+  - Code treats column 18 as birthyear, but values look like ages
+  - **QUESTION**: Are column 18 values birthyears (2008, 2011) or ages (17, 14)?
+- ⚠️ Duplicate meets issue: Different naming between filename and Excel data extraction
+- ⚠️ Only 38.3% of athletes have birthdates - needs parsing improvements
+
+**Tomorrow's Priority Tasks**:
+1. **First**: Clarify SEAG column 18 situation (birthyear vs age)
+2. Fix duplicate meets (name normalization)
+3. Improve birthdate parsing (38.3% → higher coverage)
+4. Populate SEAG club names when file available
+
+**Files**:
+- Conversion script: `scripts/convert_meets_to_sqlite_fixed.py`
+- Database: `malaysia_swimming.db`
+- Verification: `verify_database.py`
+- **See `TOMORROW_START_GUIDE.md` for complete details**
+
+---
+
+### For MOT Delta Analysis Project
+
+**Quick Status Check**:
+```bash
+cd "C:\Users\megan\OneDrive\Documents\Malaysia Swimming Analytics\statistical_analysis"
+
+# Check database status
+python -c "import sqlite3,os;db=os.path.join('..','database','malaysia_swimming.db');con=sqlite3.connect(db);cur=con.cursor();print('canada_on_track:',cur.execute('select count(*) from canada_on_track').fetchone()[0]);print('usa_age_deltas:',cur.execute('select count(*) from usa_age_deltas').fetchone()[0]);con.close()"
+
+# Open index page
+start MOT_Delta_Analysis_Index.html
+```
+
+**Key Files to Review**:
+1. **Database Documentation**: `Statistical Analysis/DATABASE_DOCUMENTATION.md` - Complete database schema and usage
+2. **Session Guide**: `Statistical Analysis/Statistical Session Startup Guide!!!!!!!!!.txt` - Current project status
+3. **PhD Chapter 3**: `Statistical Analysis/PhD/Chapter 3 - Data Collection and Validation Methodology.txt` - Methodology
+4. **Results Index**: `Statistical Analysis/MOT_Delta_Analysis_Index.html` - Interactive index of all analyses
+5. **Comparison Report**: `Statistical Analysis/reports/Delta_Comparison_USA_vs_Canada.html` - USA vs Canada analysis
+
+**Current Tasks**:
+- ✅ Fix missing F 100 Back 15→16 delta (completed)
+- ✅ Update comparison tool to use SQLite queries (completed)
+- ✅ Complete track-specific delta analysis (completed)
+- ✅ Generate event-specific MOT reports with Section 8 (insights & recommendations)
+- 🔄 **Phase 1: Malaysian Data Integration** - Analyze Malaysian swimmers' z-scores vs USA (IN PROGRESS)
+  - Script: `statistical_analysis/scripts/analyze_malaysian_zscores.py`
+  - Output: `Malaysian_vs_USA_ZScore_Comparison.html`
+  - Adds Malaysian section to event-specific reports
+
+**Malaysian Data Integration - 3 Phase Plan**:
+- **Phase 1** (Current): Z-score analysis comparing Malaysian swimmers to USA reference curves
+- **Phase 2** (Next): Malaysian distribution analysis by z-score range and event
+- **Phase 3** (Future): Longitudinal delta analysis when multi-year Malaysian data available
+
+See: `statistical_analysis/MALAYSIAN_DATA_INTEGRATION_PLAN.md` for complete details
 
 ---
 

@@ -164,14 +164,30 @@ def main():
         return False
     
     print("\n🎉 Complete data conversion process finished successfully!")
-    print("\nNext steps:")
-    print("1. Start the backend: uvicorn src.web.main:app --reload --host 0.0.0.0 --port 8000")
-    print("2. Start the frontend: npm run dev")
-    print("3. Access the application at http://localhost:3000")
+    print("\n⚠️  IMPORTANT: Run these commands in TWO separate terminals:")
+    print("\nTerminal 1 (Backend):")
+    print("  cd \"C:\\Users\\megan\\OneDrive\\Documents\\Malaysia Swimming Analytics\"")
+    print("  uvicorn src.web.main:app --reload --host 0.0.0.0 --port 8000")
+    print("\nTerminal 2 (Frontend):")
+    print("  cd \"C:\\Users\\megan\\OneDrive\\Documents\\Malaysia Swimming Analytics\"")
+    print("  npm run dev")
+    print("\nAccess points:")
+    print("  - Frontend: http://localhost:3000 (or http://localhost:3001)")
+    print("  - Backend API: http://localhost:8000")
+    print("  - Admin Panel: http://localhost:3000/admin")
+    print("\nTo restart backend: Press Ctrl+C and run the uvicorn command again")
+    print("To restart frontend: Press Ctrl+C and run npm run dev again")
     
     return True
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
 
 

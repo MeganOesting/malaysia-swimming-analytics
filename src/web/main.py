@@ -12,9 +12,28 @@ from typing import List, Optional
 import os
 import sys
 import sqlite3
+from pathlib import Path
 
 # Add the project root to the Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+project_root = Path(__file__).parent.parent.parent
+sys.path.append(str(project_root))
+
+# Database path - works for both Docker and local development
+def get_db_path():
+    """Get database path, checking multiple possible locations"""
+    # Try root directory first (local development)
+    root_db = project_root / "malaysia_swimming.db"
+    if root_db.exists():
+        return str(root_db)
+    # Try database folder
+    db_folder_db = project_root / "database" / "malaysia_swimming.db"
+    if db_folder_db.exists():
+        return str(db_folder_db)
+    # Docker path (fallback)
+    return "/app/database/malaysia_swimming.db"
+
+# Import routers
+from src.web.routers import results, admin
 
 app = FastAPI(
     title="Malaysia Swimming Analytics API",
@@ -27,11 +46,20 @@ app = FastAPI(
 # CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers
+app.include_router(results.router, prefix="/api")
+app.include_router(admin.router, prefix="/api")
 
 # Security
 security = HTTPBearer()
@@ -84,30 +112,29 @@ async def create_meet(meet_data: dict, current_user: dict = Depends(get_current_
 async def get_simple_results():
     """Get simple results with direct mapping columns only."""
     try:
-        # Simple SQLite connection - use absolute path for Docker
-        db_path = '/app/database/malaysia_swimming.db'
+        # Simple SQLite connection
+        db_path = get_db_path()
         conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         
-        # Simple query with direct mapping columns
+        # Simple query with direct mapping columns - concatenate distance + stroke for event
         query = """
         SELECT 
-            a.name,
-            a.gender,
+            COALESCE(a.name, 'Unknown') as name,
+            COALESCE(a.gender, 'U') as gender,
             r.age,
-            e.distance,
-            e.stroke,
+            COALESCE(e.distance, 0) as distance,
+            COALESCE(e.stroke, 'Unknown') as stroke,
             r.time_string,
             r.place,
             r.aqua_points,
-            m.name as meet_name
+            COALESCE(m.name, 'Unknown Meet') as meet_name
         FROM results r
-        JOIN athletes a ON r.athlete_id = a.id
-        JOIN events e ON r.event_id = e.id
-        JOIN meets m ON r.meet_id = m.id
+        LEFT JOIN athletes a ON r.athlete_id = a.id
+        LEFT JOIN events e ON r.event_id = e.id
+        LEFT JOIN meets m ON r.meet_id = m.id
         ORDER BY r.created_at DESC
-        LIMIT 100
         """
         
         cursor.execute(query)
@@ -122,21 +149,37 @@ async def get_simple_results():
             "State Championships 2024": "ST24"
         }
         
-        # Convert to list of dicts
+        # Convert to list of dicts - concatenate distance + stroke for event
+        # Stroke mapping from original code
+        STROKE_MAP = {
+            "FR": "Free",
+            "BK": "Back", 
+            "BR": "Breast",
+            "BU": "Fly",
+            "ME": "IM",
+        }
+        
         data = []
         for row in results:
             meet_name = row[8]
             meet_abbr = meet_abbreviations.get(meet_name, meet_name)
+            distance = row[3]
+            stroke = row[4]
+            stroke_label = STROKE_MAP.get(stroke, stroke) if stroke != 'Unknown' else 'Unknown'
+            event = f"{distance} {stroke_label}" if distance > 0 and stroke != 'Unknown' else "Unknown Event"
+            
             data.append({
                 "name": row[0],
                 "gender": row[1],
                 "age": row[2],
-                "distance": row[3],
-                "stroke": row[4],
+                "distance": distance,
+                "stroke": stroke,
+                "event": event,
                 "time": row[5],
                 "place": row[6],
                 "aqua_points": row[7],
-                "meet": meet_abbr
+                "meet": meet_abbr,
+                "meet_code": meet_abbr
             })
         
         conn.close()
@@ -148,7 +191,7 @@ async def get_simple_results():
 async def get_results_stats():
     """Get basic statistics for the results."""
     try:
-        db_path = '/app/database/malaysia_swimming.db'
+        db_path = get_db_path()
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         
@@ -172,42 +215,7 @@ async def get_results_stats():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/meets")
-async def get_meets():
-    """Get list of available meets."""
-    # Hardcoded meets for now to get the website working
-    meets = [
-        {"id": "sukma2024", "name": "SUK24"},
-        {"id": "miag2025", "name": "MIA25"},
-        {"id": "malaysiaopen2025", "name": "MO25"},
-        {"id": "seaage2025", "name": "SEAG25"},
-        {"id": "state2024", "name": "ST24"}
-    ]
-    return {"meets": meets}
-
-@app.get("/api/events")
-async def get_events():
-    """Get list of available events."""
-    try:
-        db_path = '/app/database/malaysia_swimming.db'
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT DISTINCT distance, stroke FROM events ORDER BY distance, stroke")
-        events = cursor.fetchall()
-        
-        data = []
-        for event in events:
-            data.append({
-                "id": f"{event[0]}m {event[1]}",
-                "name": f"{event[0]}m {event[1]}"
-            })
-        
-        conn.close()
-        return {"events": data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# Meets and events endpoints moved to routers/results.py
 
 # TODO: Implement results endpoints
 @app.get("/api/results")
