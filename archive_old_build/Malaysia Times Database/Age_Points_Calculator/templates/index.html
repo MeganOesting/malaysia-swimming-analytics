@@ -1,0 +1,83 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bakat Points Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; max-width:720px; margin: 2rem auto; padding:1rem; }
+    label { display:block; margin-top:1rem; }
+    select,input { padding:0.4rem; font-size:1rem; width:100%; box-sizing:border-box; }
+    button { margin-top:1rem; padding:0.6rem 1rem; font-size:1rem; }
+    .result { margin-top:1rem; padding:1rem; background:#f6f6f6; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <h1>Bakat Points — Interactive</h1>
+  <p>Select Gender, Age (12–18), Event (LCM), then enter swimmer time (mm:ss.ss).</p>
+  <form id="calcForm" onsubmit="return false;">
+    <label>Gender
+      <select id="gender">
+        {% for g in genders %}
+        <option value="{{g}}">{{g}}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Age
+      <select id="age">
+        {% for a in ages %}
+        <option value="{{a}}">{{a}}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Event
+      <select id="event">
+        {% for e in events %}
+        <option value="{{e}}">{{e}}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Swimmer time (mm:ss.ss)
+      <input id="swimmer" placeholder="e.g. 2:13.45">
+    </label>
+    <button id="computeBtn">Compute Points</button>
+  </form>
+
+  <div id="output" class="result" style="display:none;"></div>
+
+  <script>
+    document.getElementById("computeBtn").addEventListener("click", async function(){
+      const gender = document.getElementById("gender").value;
+      const age = document.getElementById("age").value;
+      const event = document.getElementById("event").value;
+      const swimmer_time = document.getElementById("swimmer").value.trim();
+      if(!swimmer_time){ alert("Enter swimmer time."); return; }
+      const resp = await fetch("{{ compute_url }}", {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({gender, age, event, swimmer_time})
+      });
+      const out = document.getElementById("output");
+      if(!resp.ok){
+        const err = await resp.json();
+        out.style.display="block";
+        out.innerHTML = "<strong>Error:</strong> " + (err.error || "Unknown error");
+        return;
+      }
+      const data = await resp.json();
+      out.style.display = "block";
+
+      const formatTime = s => {
+        const m = Math.floor(s / 60);
+        const sec = (s % 60).toFixed(2);
+        return `${m}:${sec}`;
+};
+
+      out.innerHTML = `<strong>Base time:</strong> ${formatTime(data.base_time)}<br>
+                 <strong>Swimmer time:</strong> ${formatTime(data.swimmer_time)}<br>
+                 <strong>Points:</strong> ${data.points}`;  
+    });
+  </script>
+</body>
+</html>

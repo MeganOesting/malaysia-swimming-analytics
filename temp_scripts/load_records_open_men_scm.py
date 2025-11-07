@@ -1,0 +1,181 @@
+"""Load national men’s open SCM records into the records table."""
+
+from __future__ import annotations
+
+import sqlite3
+from dataclasses import dataclass
+from pathlib import Path
+
+import pandas as pd
+
+
+DATABASE = Path("malaysia_swimming.db")
+
+
+@dataclass(frozen=True)
+class RecordRow:
+    event_label: str
+    time_text: str
+    athlete_name: str
+    record_date_text: str
+    competition: str
+    location: str
+
+
+RECORDS = (
+    RecordRow("50m Freestyle", "22.27", "Yin Chuen Lim", "18 October 2024", "World Cup Shanghai", "Shangahi, China"),
+    RecordRow("100m Freestyle", "48.93", "Yin Chuen Lim", "1 November 2024", "World Cup Singapore", "Singapore"),
+    RecordRow("200m Freestyle", "1:45.01", "SIM Welson", "25 October 2019", "Australian Championships", "Melbourne, Australia"),
+    RecordRow("400m Freestyle", "3:42.72", "KHIEW Hoe Yean", "31 October 2024", "World Cup Singapore", "Singapore"),
+    RecordRow("800m Freestyle", "7:49.20", "Muhammad Dhuha Bin Zulfikry", "5 July 2024", "Malaysia SCM Championships", "Kuala Lumpur, Malaysia"),
+    RecordRow("1500m Freestyle", "14:59.80", "Muhammad Dhuha Bin Zulfikry", "19 October 2024", "World Cup Shanghai", "Shangahi, China"),
+    RecordRow("50m Backstroke", "24.23", "LIM Alex", "7 April 2006", "World Championships", "Shanghai, China"),
+    RecordRow("100m Backstroke", "52.57", "LIM Alex", "5 April 2006", "World Championships", "Shanghai, China"),
+    RecordRow("200m Backstroke", "1:56.55", "Khiew Hoe Yean", "18 October 2024", "World Cup Shanghai", "Shangahi, China"),
+    RecordRow("50m Breaststroke", "27.34", "LEONG Bryan", "15 December 2023", "Speedo BUCS Championships", "Sheffield, United Kingdom"),
+    RecordRow("100m Breaststroke", "1:00.23", "LIM Daniel", "17 November 2019", "Swim England National Winter Championships", "Sheffield, United Kingdom"),
+    RecordRow("200m Breaststroke", "2:10.62", "LIM Daniel", "9 December 2018", "Scottish Open Championships", "Edinburgh, United Kingdom"),
+    RecordRow("50m Butterfly", "23.70", "LEONG Bryan", "16 December 2023", "Swim England National Winter Championships", "Sheffield, United Kingdom"),
+    RecordRow("100m Butterfly", "52.19", "LEONG Bryan", "14 December 2023", "Swim England National Winter Championships", "Sheffield, United Kingdom"),
+    RecordRow("200m Butterfly", "1:57.96", "ZHENG Young Low", "5 July 2024", "Malaysia SCM Championships", "Kuala Lumpur, Malaysia"),
+    RecordRow("100m Individual Medley", "55.49", "NG Terence Shin Jian", "7 July 2024", "Malaysia SCM Championships", "Kuala Lumpur, Malaysia"),
+    RecordRow("200m Individual Medley", "1:59.60", "Hii Puong Wei", "1 November 2024", "World Cup Singapore", "Singapore"),
+    RecordRow("400m Individual Medley", "4:16.09", "TAN Khai Xin Jayden", "2 November 2024", "World Cup Singapore", "Singapore"),
+)
+
+
+EVENT_MAP = {
+    "Freestyle": "Free",
+    "Backstroke": "Back",
+    "Breaststroke": "Breast",
+    "Butterfly": "Fly",
+    "Individual Medley": "IM",
+}
+
+
+def normalize_name(value: str) -> str:
+    return "".join(ch for ch in value.upper() if ch.isalpha())
+
+
+def parse_time_to_seconds(time_text: str) -> float:
+    parts = time_text.split(":")
+    if len(parts) == 1:
+        return float(parts[0])
+    minutes = int(parts[0])
+    seconds = float(parts[1])
+    return minutes * 60 + seconds
+
+
+def parse_date(text: str) -> str:
+    dt = pd.to_datetime(text, dayfirst=False)
+    return dt.strftime("%Y.%m.%d")
+
+
+def ensure_athlete(conn: sqlite3.Connection, name: str) -> str:
+    df = pd.read_sql_query("SELECT id, FULLNAME, NATION FROM athletes", conn)
+    normalized_map = {
+        normalize_name(row["FULLNAME"]): (row["id"], (row["NATION"] or "").strip().upper())
+        for _, row in df.iterrows()
+    }
+
+    norm = normalize_name(name)
+    if norm in normalized_map:
+        athlete_id, nation = normalized_map[norm]
+        if not nation:
+            conn.execute("UPDATE athletes SET NATION = 'MAS' WHERE id = ?", (athlete_id,))
+            nation = "MAS"
+        if nation != "MAS":
+            raise ValueError(
+                f"Athlete {name} has NATION={nation}, cannot assign national/state record."
+            )
+        return athlete_id
+
+    next_index = 0
+    if not df.empty:
+        ids = (
+            df["id"].astype(str).str.extract(r"(\d+)$", expand=False).dropna().astype(int)
+        )
+        next_index = ids.max() + 1
+
+    new_id = f"athlete_{next_index}"
+    conn.execute(
+        "INSERT INTO athletes (id, FULLNAME, BIRTHDATE, FIRSTNAME, LASTNAME, MIDDLENAME, SUFFIX, IC, NATION) VALUES (?, ?, '', '', '', '', '', '', 'MAS')",
+        (new_id, name.strip()),
+    )
+    return new_id
+
+
+def event_identifier(distance: int, stroke: str) -> str:
+    return f"SCM_{stroke}_{distance}_M"
+
+
+def main() -> int:
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM records WHERE category_type = 'open' AND category_value = 'M-SCM-N-I'"
+    )
+
+    rows_inserted = 0
+
+    for record in RECORDS:
+        if not record.time_text.strip():
+            continue
+
+        distance_part, label = record.event_label.split("m ", 1)
+        distance = int(distance_part)
+        stroke_label = EVENT_MAP[label]
+
+        event_id = event_identifier(distance, stroke_label)
+        record_time_seconds = parse_time_to_seconds(record.time_text)
+        record_time_string = record.time_text
+        record_date = parse_date(record.record_date_text)
+        athlete_id = ensure_athlete(conn, record.athlete_name)
+
+        notes = f"Competition: {record.competition}; Location: {record.location}"
+        record_id = f"record_open_men_SCM_{stroke_label}_{distance}"
+
+        cursor.execute(
+            """
+            INSERT INTO records (
+                id,
+                event_id,
+                category_type,
+                category_value,
+                min_day_age,
+                max_day_age,
+                record_time_seconds,
+                record_time_string,
+                record_date,
+                athlete_id,
+                meet_id,
+                notes,
+                is_relay,
+                team_entity,
+                team_name,
+                age_basis
+            ) VALUES (?, ?, 'open', 'M-SCM-N-I', NULL, NULL, ?, ?, ?, ?, NULL, ?, 0, NULL, NULL, 'open')
+            """,
+            (
+                record_id,
+                event_id,
+                record_time_seconds,
+                record_time_string,
+                record_date,
+                athlete_id,
+                notes,
+            ),
+        )
+
+        rows_inserted += 1
+
+    conn.commit()
+    conn.close()
+
+    print(f"Inserted {rows_inserted} open men SCM records.")
+    return rows_inserted
+
+
+if __name__ == "__main__":
+    main()

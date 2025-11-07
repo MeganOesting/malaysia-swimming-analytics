@@ -124,6 +124,58 @@ export default function Home() {
     }
   };
 
+  const fetchFilteredData = async () => {
+    try {
+      setLoading(true);
+      
+      // Build query params from selected filters
+      const params = new URLSearchParams();
+      
+      if (selectedMeets.length > 0) {
+        params.append('meet_ids', selectedMeets.join(','));
+      }
+      if (selectedGenders.length > 0) {
+        params.append('genders', selectedGenders.join(','));
+      }
+      if (selectedEvents.length > 0 && !selectedEvents.includes('ALL_EVENTS')) {
+        params.append('events', selectedEvents.join(','));
+      }
+      if (selectedAgeGroups.length > 0 && !selectedAgeGroups.includes('OPEN')) {
+        params.append('age_groups', selectedAgeGroups.join(','));
+      }
+      if (!includeForeign) {
+        params.append('include_foreign', 'false');
+      }
+      
+      const timestamp = Date.now();
+      const fetchOptions = {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      };
+      
+      const response = await fetch(`http://localhost:8000/api/results/filtered?${params.toString()}&t=${timestamp}`, fetchOptions);
+      
+      if (!response.ok) throw new Error('Failed to fetch filtered results');
+      
+      const data = await response.json();
+      
+      console.log('Fetched filtered data:', data);
+      console.log('Filtered results count:', data.results?.length || 0);
+      setResults(data.results || []);
+      setAppliedMeets(selectedMeets);
+      setAppliedGenders(selectedGenders);
+      setAppliedEvents(selectedEvents);
+      
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Auto-apply filters when meet + gender + event are ALL selected
   useEffect(() => {
     console.log('Auto-loading check:', {
@@ -924,11 +976,7 @@ export default function Home() {
                 <div style={{ margin: '2px 0' }}>
                   <button 
                     type="button" 
-                    onClick={() => {
-                      setAppliedMeets(selectedMeets);
-                      setAppliedGenders(selectedGenders);
-                      setAppliedEvents(selectedEvents);
-                    }}
+                    onClick={fetchFilteredData}
                     style={{ 
                       fontSize: '0.9em', 
                       padding: '2px 10px', 
@@ -995,20 +1043,16 @@ export default function Home() {
                     padding: '1px 3px', 
                     textAlign: 'center', 
                     background: '#f5f5f5', 
-                    width: '6ch', 
-                    maxWidth: '6ch', 
-                    whiteSpace: 'normal', 
-                    wordWrap: 'break-word' 
+                    width: '4ch', 
+                    whiteSpace: 'normal'
                   }}>Gender</th>
                   <th style={{ 
                     border: '1px solid #ccc', 
                     padding: '1px 3px', 
                     textAlign: 'center', 
                     background: '#f5f5f5', 
-                    width: '10ch', 
-                    maxWidth: '10ch', 
-                    whiteSpace: 'normal', 
-                    wordWrap: 'break-word' 
+                    width: '8ch', 
+                    whiteSpace: 'normal'
                   }}>Event</th>
                   <th style={{ 
                     border: '1px solid #ccc', 
@@ -1036,19 +1080,19 @@ export default function Home() {
                     textAlign: 'center', 
                     background: '#f5f5f5', 
                     width: '3ch', 
-                    maxWidth: '3ch', 
-                    whiteSpace: 'normal', 
-                    wordWrap: 'break-word' 
-                  }}>Age</th>
+                    whiteSpace: 'normal',
+                    lineHeight: '1.0'
+                  }}>
+                    <div>Year</div>
+                    <div>Age</div>
+                  </th>
                   <th style={{ 
                     border: '1px solid #ccc', 
                     padding: '1px 3px', 
                     textAlign: 'center', 
                     background: '#f5f5f5', 
                     width: '6ch', 
-                    maxWidth: '6ch', 
-                    whiteSpace: 'normal', 
-                    wordWrap: 'break-word' 
+                    whiteSpace: 'normal'
                   }}>Meet</th>
                   <th style={{ 
                     border: '1px solid #ccc', 
@@ -1066,9 +1110,7 @@ export default function Home() {
                     textAlign: 'center', 
                     background: '#f5f5f5', 
                     width: '6ch', 
-                    maxWidth: '6ch', 
-                    whiteSpace: 'normal', 
-                    wordWrap: 'break-word' 
+                    whiteSpace: 'normal'
                   }}>AQUA</th>
                   <th style={{ 
                     border: '1px solid #ccc', 
@@ -1145,7 +1187,7 @@ export default function Home() {
                   filteredResults.map((result, index) => (
                     <tr key={index}>
                       <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.gender}</td>
-                      <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.distance}m {result.stroke}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.distance} {result.stroke === 'FR' ? 'Free' : result.stroke === 'BK' ? 'Back' : result.stroke === 'BR' ? 'Breast' : result.stroke === 'BU' ? 'Fly' : result.stroke === 'ME' ? 'IM' : result.stroke}</td>
                       <td style={{ 
                         border: '1px solid #ccc', 
                         padding: '1px 3px', 
@@ -1154,7 +1196,7 @@ export default function Home() {
                         whiteSpace: 'nowrap' 
                       }} title={result.name}>{result.name}</td>
                       <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>-</td>
-                      <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.age}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.age ?? '-'}</td>
                       <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.meet_code}</td>
                       <td style={{ 
                         border: '1px solid #ccc', 
@@ -1162,7 +1204,7 @@ export default function Home() {
                         textAlign: 'right', 
                         fontVariantNumeric: 'tabular-nums' 
                       }}>{result.time}</td>
-                      <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.aqua_points}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.aqua_points ?? '-'}</td>
                       <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>{result.place}</td>
                       <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'right' }}>-</td>
                       <td style={{ border: '1px solid #ccc', padding: '1px 3px', textAlign: 'center' }}>-</td>

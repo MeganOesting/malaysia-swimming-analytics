@@ -36,3 +36,13 @@ for i in range(2, min(7, len(df2))):
 
 
 
+
+
+
+
+
+
+
+
+
+

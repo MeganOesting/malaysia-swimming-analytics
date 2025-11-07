@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SUKMA On Track – Results</title>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f5f5f5; }
+  </style>
+  </head>
+<body>
+  <h1>Results</h1>
+  {% if selected_meets %}
+    <p>Selected: {{ ', '.join(selected_meets) }}</p>
+  {% endif %}
+  <p>Headers only for now; data population will come next.</p>
+  <table>
+    <thead>
+      <tr>
+        {% for h in headers %}
+          <th>{{ h }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% if rows and rows|length %}
+        {% for r in rows %}
+          <tr>
+            {% for cell in r %}
+              <td>{{ cell }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="{{ headers|length }}">No data yet.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <p><a href="{{ url_for('index') }}">Back</a></p>
+</body>
+</html>

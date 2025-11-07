@@ -1,56 +1,39 @@
 import sqlite3
 
 conn = sqlite3.connect('malaysia_swimming.db')
-cursor = conn.cursor()
+c = conn.cursor()
 
-# Check for duplicate athletes (same name)
-cursor.execute("""
-    SELECT name, COUNT(*) as count
-    FROM athletes
-    GROUP BY name
-    HAVING COUNT(*) > 1
-    ORDER BY count DESC
-    LIMIT 20
-""")
-duplicate_athletes = cursor.fetchall()
-print("Duplicate athletes (same name, different IDs):")
-for name, count in duplicate_athletes[:20]:
-    print(f"  {name}: {count} records")
+# Check if UNIQUE index exists
+c.execute("SELECT sql FROM sqlite_master WHERE type='index' AND name='idx_results_unique'")
+idx = c.fetchone()
+print("UNIQUE index exists:", idx is not None)
+if idx:
+    print("Index SQL:", idx[0])
 
-# Check total vs unique names
-cursor.execute("SELECT COUNT(*) FROM athletes")
-total = cursor.fetchone()[0]
-cursor.execute("SELECT COUNT(DISTINCT name) FROM athletes")
-unique_names = cursor.fetchone()[0]
-print(f"\nTotal athlete records: {total}")
-print(f"Unique athlete names: {unique_names}")
-print(f"Duplicate athlete records: {total - unique_names}")
+# Check for NULL time_seconds
+c.execute("SELECT COUNT(*) FROM results WHERE time_seconds IS NULL")
+print("Results with NULL time_seconds:", c.fetchone()[0])
 
-# Check SUKMA specifically
-cursor.execute("""
-    SELECT COUNT(*) FROM results
-    WHERE meet_id IN (
-        SELECT id FROM meets WHERE name = 'SUKMA 2024'
-    )
-""")
-sukma_results = cursor.fetchone()[0]
-print(f"\nSUKMA 2024 results: {sukma_results}")
-
-# Check duplicate meets
-cursor.execute("""
-    SELECT name, meet_date, COUNT(*) as count
-    FROM meets
-    GROUP BY name, meet_date
-    HAVING COUNT(*) > 1
-    ORDER BY count DESC
-""")
-duplicate_meets = cursor.fetchall()
-print(f"\nDuplicate meets (same name and date, different IDs): {len(duplicate_meets)}")
-for name, date, count in duplicate_meets[:10]:
-    print(f"  {name} ({date}): {count} records")
+# Check SUKMA meet results
+c.execute("SELECT id FROM meets WHERE name LIKE '%Sukan Malaysia%' LIMIT 1")
+meet_row = c.fetchone()
+if meet_row:
+    meet_id = meet_row[0]
+    c.execute("SELECT COUNT(*) FROM results WHERE meet_id = ?", (meet_id,))
+    print(f"Total results for SUKMA meet: {c.fetchone()[0]}")
+    
+    # Check for exact duplicates
+    c.execute("""
+        SELECT meet_id, event_id, athlete_id, time_seconds, COUNT(*) as cnt
+        FROM results 
+        WHERE meet_id = ?
+        GROUP BY meet_id, event_id, athlete_id, time_seconds
+        HAVING COUNT(*) > 1
+        LIMIT 5
+    """, (meet_id,))
+    dupes = c.fetchall()
+    print(f"Duplicate groups found: {len(dupes)}")
+    if dupes:
+        print("Sample duplicates:", dupes[:3])
 
 conn.close()
-
-
-
-

@@ -39,3 +39,13 @@ print(f'Results with meet_ids not in meets table: {orphaned_meets}')
 conn.close()
 
 
+
+
+
+
+
+
+
+
+
+

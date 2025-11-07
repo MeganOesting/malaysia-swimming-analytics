@@ -1,0 +1,32 @@
+MOT DELTA ANALYSIS REPORT
+========================
+
+Event: 200 Breast
+Gender: F
+Age Transition: 16->17
+Periods: 9.1.22-8.31.23 to 9.1.23-8.31.24
+Analysis Date: 2025-11-01 11:05:32
+
+SAMPLE STATISTICS
+=================
+Sample Size: 58 athletes
+Median Improvement: 3.255 seconds
+Mean Improvement: 3.598 seconds
+Standard Deviation: 3.359 seconds
+Min Improvement: -3.970 seconds
+Max Improvement: 9.970 seconds
+Q25 (IQR Lower): 1.008 seconds
+Q75 (IQR Upper): 5.865 seconds
+IQR Range: 4.857 seconds
+
+IMPROVEMENT DISTRIBUTION
+=======================
+Positive Improvements: 51 athletes
+Negative Changes: 7 athletes
+No Change: 0 athletes
+
+STATISTICAL SIGNIFICANCE
+=======================
+Sample size is adequate for statistical analysis (n>=30)
+Median improvement of 3.255s represents the typical improvement for this age transition.
+This suggests consistent improvement from age 16 to 17.

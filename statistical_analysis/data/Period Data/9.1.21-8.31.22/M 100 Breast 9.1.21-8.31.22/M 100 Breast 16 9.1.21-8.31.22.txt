@@ -1,0 +1,501 @@
+Rank	Swim Time	Name	Foreign	Age	Event	LSC	Team	Meet	Time Standard
+1	1:00.37	Nick Mahabir	Yes	16	100 BR LCM	SI	Coronado Swim Association Team Elite	2022 Phillips 66 Summer Nationals	2023 Summer Nationals (LCM)
+2	1:01.80	Joshua Chen		16	100 BR LCM	IA	Ames Cyclone Aquatics Club	2022 Speedo Junior National Ch	2023 Summer Nationals (LCM)
+3	1:01.93	Daniel Li		16	100 BR LCM	CA	Rose Bowl Aquatics	2022 Phillips 66 Summer Nationals	2023 Summer Nationals (LCM)
+4	1:02.15	Colin Zhang		16	100 BR LCM	IL	Glenbrook Swim Club	2022 Speedo Junior National Ch	2023 Summer Nationals (LCM)
+5	1:02.30	Watson Nguyen		16	100 BR LCM	NT	Metroplex Aquatics	2022 Phillips 66 International Team Trials	2023 Summer Nationals (LCM)
+6	1:02.89	Luke Vickers		16	100 BR LCM	LE	David YMCA Phantoms	2022 Speedo Junior National Ch	2022 Winter US Open (LCM)
+7	1:03.11	Jake Eccleston		16	100 BR LCM	CO	Loveland Swim Club	2022 Speedo Junior National Ch	2022 Winter US Open (LCM)
+8	1:03.15	Alexei Avakov		16	100 BR LCM	NE	Phoenix Swimming	2022 TT Speedo Junior National Ch	2022 Winter US Open (LCM)
+9	1:03.30	Jake Wang		16	100 BR LCM	MA	Suburban Seahawks Club	2022 IN NCSA Summer Swimming Championships	2022 Winter US Open (LCM)
+10	1:03.38	Grayson Nye		16	100 BR LCM	NC	TAC Titans	2022 NC Futures Championships Cary	2022 Winter US Open (LCM)
+11	1:03.54	Kalvin Hahn		16	100 BR LCM	MW	Greater Omaha Aquatics Leopardsharks	2022 Speedo Junior National Ch	2022 Winter US Open (LCM)
+12	1:03.63	Tyler Tannenberger		16	100 BR LCM	GU	Swim Streamline at Northampton	2022 IN NCSA Summer Swimming Championship	2022 Winter US Open (LCM)
+13	1:03.71	Wyatt Porch		16	100 BR LCM	FL	Bolles School Sharks	2022 Futures - Cary	2022 Winter US Open (LCM)
+14	1:03.93	Andrew Zou		16	100 BR LCM	ST	Longhorn Aquatics	2022 ST TXLA Speedo Southern Sectionals	2022 Winter US Open (LCM)
+15	1:04.25	Lleyton Arnold		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 IN NCSA Summer Swimming Championships	2022 Winter US Open (LCM)
+16	1:04.37	Joseph Gardner		16	100 BR LCM	AM	Mount Pleasant Aqua Club	2022 Futures - Geneva	2022 Winter US Open (LCM)
+17	1:04.42	Brasen Walker		16	100 BR LCM	NC	Raleigh Swimming Association	2022 FL Planet Swim Summer Championship	2022 Winter US Open (LCM)
+18	1:04.46	Ewan Lonergan		16	100 BR LCM	PC	Quicksilver Swimming	2022 SN Summer CA-NV Sectional-CC	2022 Winter US Open (LCM)
+19	1:04.50	Charlie Egeland		16	100 BR LCM	MN	Aquajets Swim Team	2022 MN NSAC TYR Summer Jam	2022 Winter US Open (LCM)
+20	1:04.63	Michael Hochwalt		16	100 BR LCM	IE	Spokane Waves Aquatic Team	2022 SN Finals - Western Zone Senior Ch	2022 Winter US Open (LCM)
+21	1:04.64	Abram Mueller		16	100 BR LCM	WI	Badger Aquatics Club	2022 MN USAS Speedo Meet	2022 Winter US Open (LCM)
+22	1:04.72	Ben Delmar		16	100 BR LCM	NC	SwimMAC Carolina	2022 IN Spring Speedo Sectionals	2022 Winter US Open (LCM)
+23	1:04.73	Josh Bey		16	100 BR LCM	IN	Highland Hurricanes Swim Club	2022 Speedo Junior National Ch	2022 Winter US Open (LCM)
+24	1:04.87	Brandon Malicki		16	100 BR LCM	IN	Carmel Swim Club	2022 Speedo Junior National Ch	2022 Winter US Open (LCM)
+25	1:05.02	Caiden Bowers		16	100 BR LCM	MD	Eagle Swim Team Inc.	2022 IN NCSA Summer Swimming Championships2	2023 Summer Juniors (LCM)
+25	1:05.02	Mason Hetzell		16	100 BR LCM	NC	Marlins Of Raleigh	2022 NC SwimMAC Martha McKee Meet	2022 Summer Juniors (LCM)
+27	1:05.08	Luke Newcomb		16	100 BR LCM	MI	Club Wolverine	2022 Futures - Cary	2023 Summer Juniors (LCM)
+28	1:05.09	Jeffrey Hou		16	100 BR LCM	IL	FMC Aquatic	2022 MN USAS Speedo Meet	2023 Summer Juniors (LCM)
+29	1:05.17	Charles Lee		16	100 BR LCM	PN	Issaquah Swim Team	2022 PN Senior Long Course Champs	2023 Summer Juniors (LCM)
+29	1:05.17	Carter Lancaster		16	100 BR LCM	FL	Bolles School Sharks	2022 NC Futures Championships Cary	2023 Summer Juniors (LCM)
+31	1:05.19	Phillip Osadsky		16	100 BR LCM	US	Unattached	2022 GER Deutsche Jahrgangsmeisterschaften	2022 Summer Juniors (LCM)
+32	1:05.23	Landon Nava		16	100 BR LCM	SN	Sierra Marlins Swim Team	2022 Speedo Junior National Ch	2023 Summer Juniors (LCM)
+33	1:05.26	Fyn Nadel		16	100 BR LCM	IA	Central Iowa Aquatics	2022 Speedo Junior National Ch	2023 Summer Juniors (LCM)
+34	1:05.28	Cole Stevenson		16	100 BR LCM	IN	Concord Swim Club	2022 Speedo Junior National Ch	2023 Summer Juniors (LCM)
+35	1:05.35	Jacob Turner		16	100 BR LCM	NT	Metroplex Aquatics	2022-NT American Long Course Meet	2023 Summer Juniors (LCM)
+36	1:05.37	Gregory Lin		16	100 BR LCM	NJ	YMCA of Greater Monmouth County	2022 NC AP LC YMCA Nationals	2023 Summer Juniors (LCM)
+37	1:05.45	Jed Garner		16	100 BR LCM	PV	Rockville Montgomery Swim Club	2021 Toyota US Open Championship	2022 Summer Juniors (LCM)
+38	1:05.48	Alex Gallagher		16	100 BR LCM	LE	Hudson Explorer Aquatic	2022 LE Futures Championships Geneva	2023 Summer Juniors (LCM)
+39	1:05.51	Layton Sealman		16	100 BR LCM	CO	Elevation Athletics	2022 OR Speedo Sectionals - Mt Hood	2022 Summer Juniors (LCM)
+40	1:05.54	Geoffrey Cradock		16	100 BR LCM	MD	Naval Academy Aquatic Club	2022 FL ISCA Summer Senior Blast	2023 Summer Juniors (LCM)
+41	1:05.62	Chris Bartmess		16	100 BR LCM	IN	South Bend Swim Club	2022 IN Senior LCM Championships	2023 Summer Juniors (LCM)
+42	1:05.73	Jack Ussery		16	100 BR LCM	SC	Hilton Head Aquatics	2022 SC LSC Senior State Champs	2023 Summer Juniors (LCM)
+42	1:05.73	Jack Skarda		16	100 BR LCM	PN	Seattle Metropolitan Aquatic Club	2022 PC SCSC Futures West - Time Trials	2023 Summer Juniors (LCM)
+44	1:05.74	Cooper Krance		16	100 BR LCM	MN	South Metro Storm	2022 MN MNSI Senior State	2023 Summer Juniors (LCM)
+45	1:05.76	Gannon Flynn		16	100 BR LCM	ST	Nitro Swimming	2022 Speedo Junior National Ch	2023 Summer Juniors (LCM)
+46	1:05.79	Daniel Baytin		16	100 BR LCM	NJ	X-Cel Swimming	2022 Futures - Geneva	2023 Summer Juniors (LCM)
+47	1:05.80	Sean Li		16	100 BR LCM	NT	Dallas Mustangs	2022 Futures - College Station	2023 Summer Juniors (LCM)
+48	1:05.81	Alex Cucu		16	100 BR LCM	LE	SwimStrongsville	2022 LE Speedo Summer Sectionals	2023 Summer Juniors (LCM)
+48	1:05.81	Reed Lucero		16	100 BR LCM	AZ	Gold Medal Swim Club	2022 AZ LC Senior State Championship	2022 Summer Juniors (LCM)
+50	1:05.86	Daniel Yi		16	100 BR LCM	CO	Denver Swim Academy	2022 SN Time Trials - SR Western Zones	2023 Summer Juniors (LCM)
+51	1:05.93	ERIC Lee		16	100 BR LCM	NJ	Scarlet Aquatics	2022 NI EZ Speedo Sectional (LCM) Buffalo	2022 Winter Juniors (SCY)
+51	1:05.93	PJ Foy		16	100 BR LCM	AK	Glacier Swim Club	2022 Futures - Santa Clara	2022 Winter Juniors (SCY)
+53	1:05.96	Thomas Aguero		16	100 BR LCM	PC	Quicksilver Swimming	2022 SN Summer CA-NV Sectional-CC	2022 Winter Juniors (SCY)
+54	1:06.02	Hudson Schuricht		16	100 BR LCM	AZ	Scottsdale Aquatic Club	2022 OR Speedo Sectionals - Mt Hood	2022 Winter Juniors (SCY)
+54	1:06.02	Sean Setzer		16	100 BR LCM	NC	Waves Of Wilmington,Inc.	2022 NC Futures Championships Cary	2022 Winter Juniors (SCY)
+56	1:06.09	William Savarese		16	100 BR LCM	NT	COR Swimming	2022 IN NCSA Summer Swimming Championships2	2022 Winter Juniors (SCY)
+57	1:06.13	Jordan Kelly		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 VA NOVA LC Winter Invitational	2022 Winter Juniors (SCY)
+58	1:06.14	Travis Oleson		16	100 BR LCM	CO	Highlands Ranch Aquatics	2022 AZ SAC Cactus Classic	2022 Winter Juniors (SCY)
+59	1:06.18	Owen Von Weihe		16	100 BR LCM	NC	Marlins Of Raleigh	2022 NC Futures Championships Cary	2022 Winter Juniors (SCY)
+60	1:06.19	Nathan Wu		16	100 BR LCM	CA	Evolution Racing Club	2022 Speedo Junior National Ch	2022 Winter Juniors (SCY)
+61	1:06.21	Kevin Jiang		16	100 BR LCM	MR	Badger Swim Club,Inc.	2022 MI Eric Namesnik Memorial Open	2022 Winter Juniors (SCY)
+62	1:06.27	Erik Nadecki		16	100 BR LCM	MR	BGC-N. Westchester Marlins	2022 Futures - Geneva	2022 Winter Juniors (SCY)
+63	1:06.31	Nate Harris		16	100 BR LCM	IL	Hinsdale Swim Club	2022 IL LCM Senior Championships	2022 Winter Juniors (SCY)
+64	1:06.32	Michael Gorey		16	100 BR LCM	IN	Carmel Swim Club	2022 IN Senior LCM Championships	2022 Winter Juniors (SCY)
+65	1:06.33	Branden Beladi		16	100 BR LCM	NT	Lakeside Aquatic Club	2022 Futures Championships College Station	2022 Winter Juniors (SCY)
+66	1:06.39	Joe Polyak		16	100 BR LCM	IA	Iowa Flyers Swim Club	2022 IA Long Course Championships	2022 Winter Juniors (SCY)
+67	1:06.40	Nate Thomason		16	100 BR LCM	ST	Waterloo Swimming	2022 ST TXLA 11& Over End of Splash	2022 Winter Juniors (SCY)
+68	1:06.41	Haru YAMAGATA	Yes	16	100 BR LCM	CA	Golden West Swim Club	2022 CA SCS/MVN Summer JO's	2022 Winter Juniors (SCY)
+69	1:06.45	Eugene Hsieh		16	100 BR LCM	PC	Palo Alto Stanford Aquatics	2022 PC SCSC George Haines International	2022 Winter Juniors (SCY)
+70	1:06.46	Emmanuel Gadson	Yes	16	100 BR LCM	SC	Gamecock Aquatics	2022 BAH 50th Bahamas National Championships	2022 Winter Juniors (SCY)
+71	1:06.47	Angus Macdonald		16	100 BR LCM	MI	Birmingham 'Y' Blue Dolphins	2022 MI Eric Namesnik Memorial Open	2022 Winter Juniors (SCY)
+71	1:06.47	Jaeddan Gamilla		16	100 BR LCM	IL	Maverick Swim Club	2022 MN USAS Speedo Meet	2022 Winter Juniors (SCY)
+73	1:06.49	Mark Brown		16	100 BR LCM	NC	Greensboro Community YMCA	2022 FL RAFC Last Splash Invitational	2022 Winter Juniors (SCY)
+73	1:06.49	James Lombardi		16	100 BR LCM	NJ	YMCA of Greater Monmouth County	2022 NC AP LC YMCA Nationals	2022 Winter Juniors (SCY)
+75	1:06.50	Daniel Listor		16	100 BR LCM	NJ	Peddie Aquatic Association	2022 IN NCSA Summer Swimming Championship	2022 Winter Juniors (SCY)
+76	1:06.52	Jack Bigham		16	100 BR LCM	NJ	Life Time Metro	2022 LE Futures Championships Geneva	2022 Winter Juniors (SCY)
+76	1:06.52	Simon Bermudez		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 VA NOVA Senior Classic	2022 Winter Juniors (SCY)
+78	1:06.54	Larkin Helman		16	100 BR LCM	GU	Dads Club Swim Team	2022 ST TXLA Speedo Southern Sectionals	2022 Winter Juniors (SCY)
+79	1:06.56	Kelson Cantrell		16	100 BR LCM	PC	Alto Swim Club	2022 SN Summer CA-NV Sectional-CC	2022 Winter Juniors (SCY)
+80	1:06.58	Kai Hang		16	100 BR LCM	MA	Upper Perk YMCA Gators	2022 NC AP LC YMCA Nationals	2022 Winter Juniors (SCY)
+80	1:06.58	Michael Mullen		16	100 BR LCM	FL	Bolles School Sharks	2022 FL BSS TYR June Classic	2022 Winter Juniors (SCY)
+82	1:06.69	Sam White		16	100 BR LCM	CO	Front Range Barracudas	2022 IA DSMY TRUDY HANCOCK MEMORIAL	2022 Futures (LCM)
+83	1:06.70	Nik Keuser		16	100 BR LCM	MW	Millard Aquatic Club	2022 MN Futures Championships Minnesota	2023 Futures (LCM)
+84	1:06.71	Evan Lim		16	100 BR LCM	CA	Irvine Novaquatics	2022 CA So Cal Invite	2022 Futures (LCM)
+85	1:06.73	Brady Johnson		16	100 BR LCM	IL	FMC Aquatic	2022 IN NCSA Summer Swimming Championships	2023 Futures (LCM)
+86	1:06.79	Preston Kwon		16	100 BR LCM	AK	Northern Lights Swim Club	2022 USA Swimming Futures - SC	2023 Futures (LCM)
+87	1:06.82	Daniel Verdolaga		16	100 BR LCM	CA	Unattached	2022 CA MVN Fran Crippen SMOC	2022 Futures (LCM)
+87	1:06.82	Eli Hobson		16	100 BR LCM	CO	Pikes Peak Athletics	2022 Futures - College Station	2023 Futures (LCM)
+89	1:06.84	Gunner Hopkins		16	100 BR LCM	PC	De Anza Cupertino Aquatics	2022 SN Summer CA-NV Sectional-CC	2023 Futures (LCM)
+90	1:06.86	Anakin Fischer		16	100 BR LCM	WI	Waukesha Express Swim Team	2022 WI 13 & O LC State Meet	2023 Futures (LCM)
+91	1:06.87	Bekzhan Yessengeldy	Yes	16	100 BR LCM	SI	Coronado Swim Association Team Elite	2022 SI SPLASH AND DASH	2023 Futures (LCM)
+92	1:06.90	Aidan Biddle		16	100 BR LCM	IN	Noblesville Swim Club	2022 IN Spring Speedo Sectionals	2022 Futures (LCM)
+92	1:06.90	Freddie Cumming		16	100 BR LCM	PC	Almaden Riptides	2022 SN Summer CA-NV Sectional-CC	2023 Futures (LCM)
+94	1:06.92	William Carrico		16	100 BR LCM	NE	Phoenix Swimming	2022 VA NOVA LC Winter Invitational	2022 Futures (LCM)
+94	1:06.92	Aaron Lee		16	100 BR LCM	NJ	YMCA of Greater Monmouth County	2022 NJ EEX JS Mace Memorial Summer Sizzle	2023 Futures (LCM)
+94	1:06.92	Max Mahler		16	100 BR LCM	NC	Enfinity Aquatic Club	2022 IN NCSA Summer Swimming Championships	2023 Futures (LCM)
+97	1:06.93	Stuart Timmerman		16	100 BR LCM	IL	NASA Wildcat Aquatics	2022 Futures - Minneapolis	2023 Futures (LCM)
+98	1:06.94	Luke Mychalowych		16	100 BR LCM	MI	Motor City Aquatics	2022 IN Spring Speedo Sectionals	2022 Futures (LCM)
+99	1:06.97	Alston Qin	Yes	16	100 BR LCM	FL	Bolles School Sharks	2022 FL BSS May Senior Meet	2022 Futures (LCM)
+99	1:06.97	Thomas Mercer		16	100 BR LCM	KY	Lakeside Swim Team	2022 SE Speedo Summer Sizzler	2023 Futures (LCM)
+101	1:06.99	Anthony Koh		16	100 BR LCM	MA	Upper Dublin Aquatic Club	2022 AM LC Eastern Zone SR Championship	2023 Futures (LCM)
+102	1:07.01	Daniel Cao		16	100 BR LCM	CA	Fontana Aquatics Club	2022 CA CA-NV Speedo Sectionals at CANY	2023 Futures (LCM)
+102	1:07.01	Andrew Delzer		16	100 BR LCM	MI	OLY Swimming	2022 IN NCSA Summer Swimming Championships2	2023 Futures (LCM)
+104	1:07.03	Brandon Lee		16	100 BR LCM	CA	Unattached	2022 CA SCS/MVN Summer JO's	2023 Futures (LCM)
+105	1:07.09	Harper Johnson		16	100 BR LCM	GA	Unattached	2022 NC Futures Championships Cary	2023 Futures (LCM)
+106	1:07.10	Ryan Pak		16	100 BR LCM	PN	Seattle Metropolitan Aquatic Club	Mel Zajac Jr. International 20	2022 Futures (LCM)
+107	1:07.16	Ryan Tirado	Yes	16	100 BR LCM	US	Unattached	1st Junior Pan American Games	2022 Futures (LCM)
+108	1:07.18	Cole Bettis		16	100 BR LCM	NM	Charger Aquatics	2022 SN Finals - Western Zone Senior Ch	2023 Futures (LCM)
+109	1:07.23	Kalen Anbar		16	100 BR LCM	CT	New Canaan YMCA Caimans	2021 Toyota US Open Championship	2022 Futures (LCM)
+110	1:07.26	Jordan Evans		16	100 BR LCM	CA	Las Vegas Swim Club	2022 SN Finals - Western Zone Senior Ch	2023 Futures (LCM)
+110	1:07.26	Caleb Maldari		16	100 BR LCM	NC	SwimMAC Carolina	2022 NC SwimMAC Novant LC	2022 Futures (LCM)
+112	1:07.32	Harrison Quach		16	100 BR LCM	PV	Rockville Montgomery Swim Club	2022 IN NCSA Summer Swimming Championship	2023 Futures (LCM)
+113	1:07.38	Porawat Bunditkitsada	Yes	16	100 BR LCM	FL	Bolles School Sharks	2022 FL SZ South Sectionals Championships	2022 Futures (LCM)
+114	1:07.40	Max Moore		16	100 BR LCM	VA	Cavalier Aquatics/Piedmont Family YMCA	2022 NC SGSA Eastern Invitational	2022 Futures (LCM)
+115	1:07.43	Javier Colmenares	Yes	16	100 BR LCM	FG	South Florida Aquatic Club	2022 NC Futures Championships Cary	2023 Futures (LCM)
+116	1:07.45	Evan Pickles		16	100 BR LCM	AZ	Swim Neptune	2022 AZ LC Senior State Championship	2023 Futures (LCM)
+117	1:07.46	Devyn Caples		16	100 BR LCM	PC	Pleasanton Seahawks	2022 PC LCM Far Westerns	2023 Futures (LCM)
+118	1:07.47	Drayton Beber		16	100 BR LCM	MW	Greater Omaha Aquatics Leopardsharks	2022 MW Midwestern LC Championships	2023 Futures (LCM)
+119	1:07.49	Drew Watson		16	100 BR LCM	IL	Reach Aquatics Swim Club	2022 IL LCM Senior Championships	2023 Futures (LCM)
+119	1:07.49	Jayden Repak		16	100 BR LCM	FL	Berkeley Aquatics	2022 Futures - Cary	2023 Futures (LCM)
+121	1:07.51	Chase Foulds		16	100 BR LCM	FG	Saint Andrew's Aquatics	2022 FL SZ South Sectionals Championships	2022 Futures (LCM)
+122	1:07.52	Joe Umhofer		16	100 BR LCM	PV	Rockville Montgomery Swim Club	2022 IN NCSA Summer Swimming Championships	2023 Futures (LCM)
+123	1:07.53	Luke Reyes		16	100 BR LCM	AZ	Scottsdale Aquatic Club	2022 OR Speedo Sectionals - Mt Hood	2022 Futures (LCM)
+123	1:07.53	Jeremy Kelly		16	100 BR LCM	ST	Nitro Swimming	2022 ST TXLA Speedo Southern Sectionals	2022 Futures (LCM)
+125	1:07.55	Jayden Loran	Yes	16	100 BR LCM	FG	Unattached	2022 FG Senior Championships	2023 Futures (LCM)
+126	1:07.56	Cody Vertin		16	100 BR LCM	SD	Brookings Swim Club	2022 WI Central Zone Section 1	2022 Futures (LCM)
+127	1:07.57	Quinlan Schroeder	Yes	16	100 BR LCM	MN	Riptide	2022 MN MNSI Senior State	2023 Futures (LCM)
+127	1:07.57	Brian Wilbur		16	100 BR LCM	PV	Rockville Montgomery Swim Club	2022 AM LC Eastern Zone SR Championship	2023 Futures (LCM)
+127	1:07.57	Corbin Songer		16	100 BR LCM	SE	Ensworth Aquatics	2022 SE LC Championships	2023 Futures (LCM)
+130	1:07.59	Mack Nuval		16	100 BR LCM	GU	Houston Bridge Bats	2022 GU RICE Open	2023 Futures (LCM)
+131	1:07.60	Jackson Frazier		16	100 BR LCM	SE	Huntsville Swim Association	2022 IN NCSA Summer Swimming Championship	2023 Futures (LCM)
+132	1:07.61	Isaiah Jarvis		16	100 BR LCM	PC	Alto Swim Club	2022 SN Summer CA-NV Sectional-CC	2023 Futures (LCM)
+133	1:07.62	Shane McEliece		16	100 BR LCM	SE	Panama City Swim Team	2022 SE LC Championships	2023 Futures (LCM)
+134	1:07.63	Noah Henderson		16	100 BR LCM	PN	StingRay Swim Team	2022 PN OCA July Jubilee Invitational	2022 Futures (LCM)
+134	1:07.63	Owen Bohi		16	100 BR LCM	PC	Tiger Aquatics	2022 SN Summer CA-NV Sectional-CC	2023 Futures (LCM)
+136	1:07.64	Jonathan Sgouros		16	100 BR LCM	AZ	Scottsdale Aquatic Club	2022 Futures Championships College Station	2023 Futures (LCM)
+137	1:07.65	Michael Kent		16	100 BR LCM	FL	YMCA of Southwest Florida Hurricanes	2022 FL Shark Open	2023 Futures (LCM)
+138	1:07.66	Alekos Binder		16	100 BR LCM	CA	BLAST Sharks	2022 CA RAA Summer JO's	2023 Futures (LCM)
+139	1:07.71	Liam Aleman		16	100 BR LCM	NC	YMCA of Western North Carolina	2022 NC LC SR CHAMPS	2023 Futures (LCM)
+140	1:07.76	Evan Wang		16	100 BR LCM	CA	Evolution Racing Club	2022 CA Speedo GC Time Trials	2022 Futures (LCM)
+141	1:07.80	Nico Morton		16	100 BR LCM	UT	Olympus Aquatics	2022 SN Finals - Western Zone Senior Ch	2023 Futures (LCM)
+142	1:07.81	Deacon Mascarinas		16	100 BR LCM	CT	New Canaan YMCA Caimans	2022 FL RAFC Last Splash Invitational	2023 Futures (LCM)
+143	1:07.82	Jacob Cadaval		16	100 BR LCM	CA	Saddleback El Toro Aquatics	2022 IN Spring Speedo Sectionals	2022 Futures (LCM)
+144	1:07.83	Meyer Eskin		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 VA NOVA LC Winter Invitational	2022 Futures (LCM)
+145	1:07.84	Noah Saylor		16	100 BR LCM	GA	SwimAtlanta	2022 GA LC Senior State Championship	2023 Futures (LCM)
+146	1:07.88	Matthew Schoenagel		16	100 BR LCM	NC	Raleigh Swimming Association	2022 NC LC SR CHAMPS	2023 Futures (LCM)
+146	1:07.88	Nathan Huynh		16	100 BR LCM	IL	Fox Valley Swim Team	2022 MN USAS Speedo Meet	2022 Futures (LCM)
+146	1:07.88	Zach Drotar		16	100 BR LCM	NI	Cato-Meridian Otters	2022 NI STAR/WEBS Long Course	2023 Futures (LCM)
+149	1:07.92	Gavin McCarter		16	100 BR LCM	NC	SwimMAC Carolina	2022 NC ESSZ Summer Sectionals	2022 Futures (LCM)
+149	1:07.92	Nathan Dunhac		16	100 BR LCM	OHO	Dayton Raiders	2022 OH Tim Meyers LC Senior Champs	2023 Futures (LCM)
+149	1:07.92	Gray Attmore		16	100 BR LCM	SE	Ensworth Aquatics	2022 SE LC Championships	2023 Futures (LCM)
+152	1:07.94	Ray Chun		16	100 BR LCM	CA	San Gabriel Sea Gulls	2022 CA RAA Summer JO's	2023 Futures (LCM)
+153	1:07.96	Elliot Lee		16	100 BR LCM	CT	Bulldog Swimming	2022 TT Speedo Junior National Ch	2023 Futures (LCM)
+154	1:07.98	Tyler Schultz		16	100 BR LCM	NI	Chenango Valley Swim Club	2022 NI LSC Long Course Championships	2023 Futures (LCM)
+155	1:07.99	Noah Benton		16	100 BR LCM	KY	Lakeside Swim Team	2022 KY 13&Over LCM State Championships	2023 Futures (LCM)
+156	1:08.01	Jay Schlosser		16	100 BR LCM	SE	Nashville Aquatic Club	2022 WV Southern Zone Senior Champs	2023 Futures (LCM)
+157	1:08.09	Pablo Silva		16	100 BR LCM	VA	NOVA of Virginia Aquatics, Inc	2022 VA LC Senior Champs	2023 Futures (LCM)
+158	1:08.10	Doyee Kim		16	100 BR LCM	NJ	Jersey Flyers Aquatic Club	2022 NJ EEX JS Mace Memorial Summer Sizzle	2022 Futures (LCM)
+159	1:08.12	Gregg Enoch		16	100 BR LCM	IN	Carmel Swim Club	2022 MI Eric Namesnik Memorial Open	2023 Futures (LCM)
+160	1:08.14	Alexander Lee		16	100 BR LCM	CT	Cheshire Y Sea Dog Swim Club	2022 FL ISCA Summer Senior Blast	2023 Futures (LCM)
+161	1:08.16	Luca Simon		16	100 BR LCM	FL	Sarasota Tsunami Swim Team	2022 Futures - Cary	2023 Futures (LCM)
+162	1:08.18	Andrew Nguyen		16	100 BR LCM	PN	Olympic Cascade Aquatics	2022 USA Swimming Futures - SC	2023 Futures (LCM)
+162	1:08.18	Andrew Lee		16	100 BR LCM	NJ	Jersey Flyers Aquatic Club	2022 Futures - Geneva	2023 Futures (LCM)
+164	1:08.19	Jonathan Mei		16	100 BR LCM	CA	Rose Bowl Aquatics	2022 CA SCS/BUEN June Age Group	2022 Futures (LCM)
+165	1:08.20	Max Balon		16	100 BR LCM	FL	Unattached	2022 NC Futures Championships Cary	2023 Futures (LCM)
+166	1:08.22	Gabe Herzlinger		16	100 BR LCM	NE	Crimson Aquatics	2022 LE Futures Championships Geneva	2023 Futures (LCM)
+167	1:08.24	Saylor Penny		16	100 BR LCM	NC	Marlins Of Raleigh	2022 Futures - Cary	2023 Futures (LCM)
+168	1:08.27	Jason Manzo		16	100 BR LCM	ST	Alamo Area Aquatic Association	2022 ST AAAA NS George Block I	2022 Futures (LCM)
+168	1:08.27	Marco Warma	Yes	16	100 BR LCM	SI	Wind N' Sea Swim Team	2022 CAN CHAMPIONNATS CANADIENS JUNIORS ET SÉNIORS	2023 Futures (LCM)
+170	1:08.31	Jacob VanRensburg		16	100 BR LCM	CA	Temecula Swim Club	2022 CA Eastern Committee LC C	2023 Futures (LCM)
+171	1:08.33	Grant Bibza		16	100 BR LCM	NT	Unattached	2022 Futures Championships College Station	2023 Futures (LCM)
+172	1:08.34	Evan Marczak		16	100 BR LCM	SN	DART Swimming	2022 Futures - Santa Clara	2023 Futures (LCM)
+172	1:08.34	L.T. Stancil		16	100 BR LCM	HI	Iolani Swim Club	2022 SN Finals - Western Zone Senior Ch	2023 Futures (LCM)
+174	1:08.35	Tyler Hartmann		16	100 BR LCM	WI	Lake Country Swim Team	2022 WI 13 & O LC State Meet	2023 Futures (LCM)
+174	1:08.35	David Topi		16	100 BR LCM	NE	Phoenix Swimming	2022 SE Speedo Summer Sizzler	2023 Futures (LCM)
+176	1:08.36	Cameron Frazier		16	100 BR LCM	OHO	Westerville Aquatic Club	2022 OH Tim Meyers LC Senior Champs	2023 Futures (LCM)
+177	1:08.38	Jack Nussbaum		16	100 BR LCM	VA	H2okie Aquatics	2022 VA Virginia Commonwealth	2022 Futures (LCM)
+178	1:08.39	Casey Aten		16	100 BR LCM	FL	Sarasota Sharks	2022 Futures - Cary	2023 Futures (LCM)
+179	1:08.40	Max Rice		16	100 BR LCM	IL	NASA Wildcat Aquatics	2022 Futures - Minneapolis	2023 Futures (LCM)
+179	1:08.40	Blaise Minckler		16	100 BR LCM	SC	Hilton Head Aquatics	2022 GA Edwin C Cuttino Invite	2022 Futures (LCM)
+181	1:08.41	Lance Bi		16	100 BR LCM	IL	Patriot Aquatic Club	2022 WI Central Zone Section 1	2022 Futures (LCM)
+182	1:08.42	Sam Sacor		16	100 BR LCM	IL	Glenbrook Swim Club	2022 IL LCM Senior Championships	2023 Futures (LCM)
+183	1:08.44	Tyler Campbell		16	100 BR LCM	CA	Unattached	2022 CA TORR Spring Splash	2022 Futures (LCM)
+184	1:08.45	Andrew Li		16	100 BR LCM	NC	TAC Titans	2022 NC TAC Spring Invitational	2022 Futures (LCM)
+184	1:08.45	Anderson Brown		16	100 BR LCM	ST	Hays Swim Club	2022 ST TXLA 11&Over Long Course Kick Off	2022 Futures (LCM)
+186	1:08.46	Brody Hanlon		16	100 BR LCM	MD	Fox Swim Club	2022 MD LSC LC Championships	2023 Futures (LCM)
+187	1:08.50	Seth Riley		16	100 BR LCM	SC	Myrtle Beach Riptides	2022 NC ESSZ Summer Sectionals	2022 Futures (LCM)
+188	1:08.51	Owen Gagne		16	100 BR LCM	MN	Edina Swim Club	2022 MN Futures Championships Minnesota	2023 Futures (LCM)
+189	1:08.52	Jon Daniel Busby		16	100 BR LCM	MS	Sunkist Swim Team	2022 MS Long Course State Championship	2023 Futures (LCM)
+189	1:08.52	Will Vincent		16	100 BR LCM	NC	Marlins Of Raleigh	2022 NC Futures Championships Cary	2023 Futures (LCM)
+191	1:08.55	Ethan Labounty		16	100 BR LCM	MN	South Metro Storm	2022 MN MNSI Senior State	2023 Futures (LCM)
+192	1:08.57	Warner Russ		16	100 BR LCM	MS	Mississippi Makos Swim Team	2022 MS Long Course State Championship	2023 Futures (LCM)
+193	1:08.58	Luke Stibrich		16	100 BR LCM	GU	Blue Tide Aquatics	2022 SN Summer Sanders LCM SR+	2022 Futures (LCM)
+194	1:08.59	James Gottfried		16	100 BR LCM	GU	Premier Aquatics Club of Klein	2022 Futures - College Station	2023 Futures (LCM)
+194	1:08.59	Jack Cerone		16	100 BR LCM	LE	Firestone Akron Swim Team	2022 LE Speedo Summer Sectionals	2023 Futures (LCM)
+196	1:08.60	Thomas Farney		16	100 BR LCM	VA	NOVA of Virginia Aquatics, Inc	2022 VA EZ LC Speedo Super Sectional	2022 Futures (LCM)
+196	1:08.60	Keegan Stack		16	100 BR LCM	MA	South Jersey Aquatic Club	2022 MA Swimming Meet	2022 Futures (LCM)
+198	1:08.62	Carter Mui		16	100 BR LCM	MA	Pocono Family YMCA	2022 AM LC Eastern Zone SR Championship	2023 Futures (LCM)
+198	1:08.62	Jared Ladinez		16	100 BR LCM	CA	Riverside Aquatics Association	2022 CA RAA Summer JO's	2023 Futures (LCM)
+200	1:08.64	Luke Corey		16	100 BR LCM	MD	Naval Academy Aquatic Club	2022 FL ISCA Summer Senior Blast	2023 Futures (LCM)
+200	1:08.64	Liam Donovan		16	100 BR LCM	OHO	Dublin Community Swim Team	2022 Futures - Geneva	2023 Futures (LCM)
+202	1:08.65	Joshua Corn		16	100 BR LCM	CO	Foothills Swim Team	2021 CO Junior National Long C	2022 Futures (LCM)
+203	1:08.67	Ashton Banks		16	100 BR LCM	AK	Midnight Sun Swim Team	2022 OR Speedo Sectionals - Mt Hood	2023 Futures (LCM)
+203	1:08.67	Evan Thilow		16	100 BR LCM	SN	Sierra Marlins Swim Team	2022 PC LCM Far Westerns	2023 Futures (LCM)
+203	1:08.67	Brady Beyer		16	100 BR LCM	CA	Unattached	2022 CA RMDA Road to 2022 LCM Finals	2022 Futures (LCM)
+206	1:08.71	Ben Davis		16	100 BR LCM	LE	Unattached	2022 LE Speedo Summer Sectionals	2020-2024 AAA
+207	1:08.72	Zach LeMay		16	100 BR LCM	MA	Central Bucks Swim Team	2022 LE Futures Championships Geneva	2020-2024 AAA
+207	1:08.72	Rob Carpenter		16	100 BR LCM	CC	Merced Skimmers Swim Team	2022 CC Arena Grand Challenge	2020-2024 AAA
+209	1:08.73	Eli Martin		16	100 BR LCM	PV	Arlington Aquatic Club	2022 IN NCSA Summer Swimming Championship	2020-2024 AAA
+210	1:08.74	Tyson Elliott		16	100 BR LCM	OR	The Dolphins Portland Swimming	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+210	1:08.74	Griffin Jones		16	100 BR LCM	NC	Swim GSA	2022 NC LC SR CHAMPS	2020-2024 AAA
+212	1:08.78	Michael Kong		16	100 BR LCM	SE	Nashville Aquatic Club	2022 SE Speedo Summer Sizzler	2020-2024 AAA
+212	1:08.78	Nick Hensel		16	100 BR LCM	GU	Dads Club Swim Team	2022 WV Southern Zone Senior Champs	2020-2024 AAA
+214	1:08.80	Evan Wilson		16	100 BR LCM	FG	Miami Country Day Aquatics	2022 FG Southern Zone South Sectional	2020-2024 AAA
+215	1:08.82	Edgar Rutkauskas		16	100 BR LCM	IL	Patriot Aquatic Club	2022 IL LCM Senior Championships	2020-2024 AAA
+215	1:08.82	Benke Grobler	Yes	16	100 BR LCM	PV	Nation's Capital Swim Club	2022 PV NCAP Elite Qualifier	2020-2024 AAA
+215	1:08.82	Cormac McKenney		16	100 BR LCM	ME	Coastal Maine Aquatics	2022 NE BGSC LCM Seniors	2020-2024 AAA
+218	1:08.83	Nate Moir		16	100 BR LCM	UT	Hilltop Aquatic Swim Team	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+219	1:08.84	Nicholas Caporaso		16	100 BR LCM	NC	TAC Titans	2022 NC LC SR CHAMPS	2020-2024 AAA
+220	1:08.88	Cooper Lucas		16	100 BR LCM	NT	Lakeside Aquatic Club	2022-NT MAC A/BB June 3-5	2020-2024 AAA
+221	1:08.89	Isaac Holtham		16	100 BR LCM	NC	Lifetime Swim Team North Carolina	2022 NC LC SR CHAMPS	2020-2024 AAA
+221	1:08.89	John Franchetti		16	100 BR LCM	MA	Dolphins Community Aquatics Association	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+223	1:08.93	Cutter Shipman		16	100 BR LCM	FG	Martin County Swimming	2022 FG Senior Championships	2020-2024 AAA
+223	1:08.93	Gabriel Schreiber	Yes	16	100 BR LCM	OR	Lake Oswego Swim Club	2022 AZ SAC Cactus Classic	2020-2024 AAA
+223	1:08.93	Michael Granin		16	100 BR LCM	NJ	Wyckoff YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+226	1:08.95	Dane Weber		16	100 BR LCM	CA	SOCAL Aquatics Association	2022 PC SCSC Futures West	2020-2024 AAA
+226	1:08.95	Yassin Dwidar	Yes	16	100 BR LCM	PC	Pleasanton Seahawks	2022 PC LCM Far Westerns	2020-2024 AAA
+228	1:08.96	Trent Stegina		16	100 BR LCM	PC	Alto Swim Club	2022 SN Summer CA-NV Sectional-CC	2020-2024 AAA
+228	1:08.96	Alvin Zhang		16	100 BR LCM	PN	Bellevue Club Swim Team	2022 PN Senior Long Course Champs	2020-2024 AAA
+230	1:08.97	Alex Zou		16	100 BR LCM	CO	Front Range Barracudas	2022 IA DSMY TRUDY HANCOCK MEMORIAL	2020-2024 AAA
+231	1:08.99	Matthew Johnson		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 VA NOVA LC Winter Invitational	2020-2024 AAA
+232	1:09.01	Nico Morales Ostergaard		16	100 BR LCM	CA	Saddleback El Toro Aquatics	2022 CA RAA Summer JO's	2020-2024 AAA
+232	1:09.01	Oliver Lehmann		16	100 BR LCM	AZ	Scottsdale Aquatic Club	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AAA
+234	1:09.02	Aidan Lee		16	100 BR LCM	MR	Westchester Aquatic Club	2022 NJ EEX JS Mace Memorial Summer Sizzle	2020-2024 AAA
+235	1:09.03	Jake Hokanson		16	100 BR LCM	AR	Razorback Aquatic Club Aquahawgs	2022 AR TYR WINTER LC INVITE	2020-2024 AAA
+235	1:09.03	Sonny Wang		16	100 BR LCM	ST	Waterloo Swimming	2022 ST WLOO Spring Splash	2020-2024 AAA
+237	1:09.05	Nevin Shaw		16	100 BR LCM	MA	North Penn Aquatic Club	2022 LE Futures Championships Geneva	2020-2024 AAA
+238	1:09.06	Nathan Sayer		16	100 BR LCM	GA	Chattahoochee Gold Swim Club	2022 GA LC Senior State Championship	2020-2024 AAA
+239	1:09.08	River Paulk		16	100 BR LCM	WT	Lubbock Swim Club	2022 GU Futures TT - College Station	2020-2024 AAA
+240	1:09.11	Owen Hoban		16	100 BR LCM	PV	Occoquan Swimming Inc	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+241	1:09.18	Jack Graham		16	100 BR LCM	VA	Coast Guard Blue Dolphins	2022 VA LC Senior Champs	2020-2024 AAA
+241	1:09.18	Erik Hoie		16	100 BR LCM	NJ	Life Time Metro	2022 FL BSS TYR June Classic	2020-2024 AAA
+243	1:09.19	Noam Berkovsky		16	100 BR LCM	NJ	Scarlet Aquatics	2022 NJ SCAR LC Junior Olympics	2020-2024 AAA
+244	1:09.20	Caleb Del Rosario		16	100 BR LCM	NE	Greenwood Swimming	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+245	1:09.21	Jonathan Wang		16	100 BR LCM	IL	FMC Aquatic	2022 IL LCM Senior Championships	2020-2024 AAA
+246	1:09.22	Erik Petruzzi		16	100 BR LCM	NC	Unattached	2022 NC LC SR CHAMPS	2020-2024 AAA
+246	1:09.22	Nick Austin		16	100 BR LCM	NE	South Shore YMCA Strypers	2022 NE NSSC June Springfield	2020-2024 AAA
+248	1:09.25	Artemiy Zakorchemnyy		16	100 BR LCM	IL	Palatine Park Dist Swim Team	2022 IN FAST Summer Jam Invitational	2020-2024 AAA
+249	1:09.30	Ryan Healy		16	100 BR LCM	OK	King Marlin Swim Club	2022 OK King Marlin Spring Twister	2020-2024 AAA
+250	1:09.31	Nate Wallace		16	100 BR LCM	PV	DC Dept Of Parks an Recreation	2022 PV Maryland State LC Championships	2020-2024 AAA
+251	1:09.32	Bryan Huang		16	100 BR LCM	CA	CLASS Aquatics	2022 CA RAA Summer JO's	2020-2024 AAA
+252	1:09.34	Luke Goodspeed		16	100 BR LCM	AD	Schenectady-Saratoga Swim Club	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+253	1:09.35	Andrew Colgan		16	100 BR LCM	MN	Hurricanes Swim Team	2022 MN MNSI Senior State	2020-2024 AAA
+254	1:09.36	Topher Roberts		16	100 BR LCM	NC	Carolina Aquatic Team	2022 IN NCSA Summer Swimming Championships	2020-2024 AAA
+255	1:09.37	Klein Brock		16	100 BR LCM	IA	Central Iowa Aquatics	2022 IN NAT Indy Spring Cup	2020-2024 AAA
+255	1:09.37	Artur Becker	Yes	16	100 BR LCM	FL	Montverde Aquatic Club	2022 FL Summer Senior Championships	2020-2024 AAA
+255	1:09.37	Joel Chen		16	100 BR LCM	PC	Palo Alto Stanford Aquatics	2022 PC SCSC Super League Summer LC Finals	2020-2024 AAA
+258	1:09.41	Carrick Shea		16	100 BR LCM	NE	Crimson Aquatics	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+259	1:09.43	William Iglar		16	100 BR LCM	GA	Stingrays	2022 MS Southern Zone Age Group	2020-2024 AAA
+260	1:09.46	Elias Corn		16	100 BR LCM	FL	Sarasota Tsunami Swim Team	2022 FL SZ South Sectionals Championships	2020-2024 AAA
+261	1:09.47	Cayden Liao		16	100 BR LCM	MN	Aquajets Swim Team	2022 MN MNSI Senior State	2020-2024 AAA
+261	1:09.47	Michael Turmilov		16	100 BR LCM	NT	Texas Ford Aquatics	2022 IN NCSA Summer Swimming Championships2	2020-2024 AAA
+261	1:09.47	Thomas Witty		16	100 BR LCM	PN	Bainbridge Island Swim Club	Mel Zajac Jr. International 20	2020-2024 AAA
+264	1:09.48	Cole Wilson		16	100 BR LCM	IA	Black Hawk Area Swim Team	2022 IA Long Course Championships	2020-2024 AAA
+265	1:09.49	Pierre Leroy		16	100 BR LCM	MR	Team Suffolk	2022 IN NCSA Summer Swimming Championships	2020-2024 AAA
+266	1:09.50	Charlie McGlynn		16	100 BR LCM	IL	Scout Aquatics	2022 IL LCM Senior Championships	2020-2024 AAA
+267	1:09.51	William Ruy		16	100 BR LCM	PC	Crow Canyon Country Club Sharks	2022 SN Summer CA-NV Sectional-CC	2020-2024 AAA
+267	1:09.51	Emile Haig		16	100 BR LCM	IN	Carmel Swim Club	2022 IN Senior LCM Championships	2020-2024 AAA
+269	1:09.52	Aidan Ta		16	100 BR LCM	PC	Santa Clara Swim Club	2022 PC SCSC Super League Summer LC Finals	2020-2024 AAA
+270	1:09.53	Noah Robinson		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 PV LC 13&O Championships	2020-2024 AAA
+271	1:09.55	Hunter Boudreau		16	100 BR LCM	LA	City Of Lafayette Aquatics	2022 LA Senior LC State Championships	2020-2024 AAA
+272	1:09.56	Walker Mattice		16	100 BR LCM	IN	Zionsville Swim Club	2022 IN Senior LCM Championships	2020-2024 AAA
+272	1:09.56	Bennett Braatz		16	100 BR LCM	WI	Sun Prairie Storm	2022 MN USAS Speedo Meet	2020-2024 AAA
+274	1:09.60	Jackson Kogler		16	100 BR LCM	MN	St Croix Swim Club	2022 MN MNSI Senior State	2020-2024 AAA
+275	1:09.61	Charlie Bufton		16	100 BR LCM	IL	NASA Wildcat Aquatics	2022 WI Speedo Premier Invitational	2020-2024 AAA
+275	1:09.61	Nathan Chen		16	100 BR LCM	PC	Monterey Bay Swim Club	2022 CC Mike Snyder Memorial Meet	2020-2024 AAA
+277	1:09.63	Evan Preissler		16	100 BR LCM	OHO	Mason Manta Rays	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+278	1:09.64	Luke Dauer		16	100 BR LCM	OHO	Unattached	2022 LE Speedo Summer Sectionals	2020-2024 AAA
+279	1:09.68	Nick Lungaretti		16	100 BR LCM	AZ	J Swim Club	2022 AZ LC Senior State Championship	2020-2024 AAA
+280	1:09.69	David Masneri		16	100 BR LCM	NC	Greensboro Community YMCA	2022 FL RAFC Last Splash Invitational	2020-2024 AAA
+280	1:09.69	Andrew Jin	Yes	16	100 BR LCM	PC	Palo Alto Stanford Aquatics	2022 CC Arena Grand Challenge	2020-2024 AAA
+280	1:09.69	Callum Bolitho		16	100 BR LCM	SI	Rancho San Dieguito	2022 PC SCSC Futures West	2020-2024 AAA
+283	1:09.71	Jonathan Cong		16	100 BR LCM	SI	Pacific Swim	2022 PC SCSC Futures West	2020-2024 AAA
+284	1:09.72	Galen Carter		16	100 BR LCM	NE	Charles River Aquatics	2022 MI Eric Namesnik Memorial Open	2020-2024 AAA
+285	1:09.74	Maston Ballew		16	100 BR LCM	SE	Nashville Aquatic Club	2022 WV Southern Zone Senior Champs	2020-2024 AAA
+286	1:09.75	Neimantas Zonys		16	100 BR LCM	IL	Academy Bullets Swim Club	2022 IL LCM Senior Championships	2020-2024 AAA
+287	1:09.76	Jerry Chen		16	100 BR LCM	PN	Cascade Swim Club	2022 PN SMAC Summer Classic	2020-2024 AAA
+287	1:09.76	Colin Ko		16	100 BR LCM	NJ	Montclair YMCA	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+289	1:09.77	Luke Dewees		16	100 BR LCM	IN	Newburgh Sea Creatures	2022 IN Senior LCM Championships	2020-2024 AAA
+290	1:09.78	Jude Winnington		16	100 BR LCM	MA	Diamond State Aquatics	2022 Futures - Geneva	2020-2024 AAA
+291	1:09.79	Adan Pedraza		16	100 BR LCM	IL	Team Millennium	2022 IL LCM Senior Championships	2020-2024 AAA
+291	1:09.79	Joseph Busic		16	100 BR LCM	MA	Jersey Wahoos	2022 MA JW Summer Solstice	2020-2024 AAA
+293	1:09.81	Landon Luzak		16	100 BR LCM	VA	Tide Swimming	2022 VA LC Senior Champs	2020-2024 AAA
+293	1:09.81	Bryant Julian		16	100 BR LCM	VA	NOVA of Virginia Aquatics, Inc	2022 VA LC Senior Champs	2020-2024 AAA
+293	1:09.81	Spencer Nicholas		16	100 BR LCM	SE	Nashville Aquatic Club	2022 SE All American Swim LC Spring Classic	2020-2024 AAA
+293	1:09.81	Seth Tolentino		16	100 BR LCM	FL	Bolles School Sharks	2022 FL BSS May Senior Meet	2020-2024 AAA
+297	1:09.82	Lorenzo Viteri		16	100 BR LCM	GU	Premier Aquatics Club of Klein	2022 GU TWST Senior Champs	2020-2024 AAA
+297	1:09.82	Aidan Jackson		16	100 BR LCM	MW	Swim Omaha	2022 MN Futures Championships Minnesota	2020-2024 AAA
+297	1:09.82	Justin Sere		16	100 BR LCM	VA	Coast Guard Blue Dolphins	2022 VA LC Senior Champs	2020-2024 AAA
+300	1:09.83	Ty Leon Guerrero		16	100 BR LCM	CA	FAST Swim Team	2022 CA So Cal Invite	2020-2024 AAA
+301	1:09.86	Aiden Griffith		16	100 BR LCM	SI	Coronado Swim Association Team Elite	2022 SI LC AG CHAMPS	2020-2024 AAA
+302	1:09.88	Eric Ryan		16	100 BR LCM	AD	Schenectady-Saratoga Swim Club	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+303	1:09.90	Curtis Feller		16	100 BR LCM	KY	Triton Swimming	2022 KY 13&Over LCM State Championships	2020-2024 AAA
+303	1:09.90	Demarkus Darensbourg		16	100 BR LCM	MV	Empire KC Swim Club	2022 MV LCM Championships	2020-2024 AAA
+303	1:09.90	Alex Huang		16	100 BR LCM	MI	Mid-Michigan Aquatics	2022 IN MS 13-14 & Open ULTRA Summer	2020-2024 AAA
+306	1:09.91	Daniel Gertsik		16	100 BR LCM	FG	Saint Andrew's Aquatics	2022 FG Southern Zone South Sectional	2020-2024 AAA
+307	1:09.92	Tyler Wright		16	100 BR LCM	MA	York YMCA	2022 MD NBAC Spring Long Course Meet	2020-2024 AAA
+307	1:09.92	Calum Shank		16	100 BR LCM	OZ	Parkway Swim Club	2022 OZ Long Course Champs	2020-2024 AAA
+309	1:09.94	Nathan Knobelspiesse		16	100 BR LCM	OR	Team Eugene Aquatics-YMCA	2022 USA Swimming Futures - SC	2020-2024 AAA
+310	1:09.95	Nicky Skamnes		16	100 BR LCM	UT	Swim Utah	2022 UT Kearns LC Classic	2020-2024 AAA
+310	1:09.95	Bhargav Vadapalli		16	100 BR LCM	NC	Unattached	2022 NC SwimMAC Novant LC	2020-2024 AAA
+310	1:09.95	Christopher Mo		16	100 BR LCM	CA	Los Angeles Swim Club	2022 CA SCS/BUEN June Age Group	2020-2024 AAA
+313	1:09.96	Grant Hu		16	100 BR LCM	NT	Metroplex Aquatics	2022-NT TEXAS SENIOR CIRCUIT LONG COURSE	2020-2024 AAA
+314	1:09.97	Tyler Watchalapong		16	100 BR LCM	CA	Sandpipers Of Nevada	2022 CA SCS/BUEN June Age Group	2020-2024 AAA
+315	1:09.98	Alex Edquid		16	100 BR LCM	AZ	Aqua Fit Tucson	2022 AZ LC Senior State Championship	2020-2024 AAA
+315	1:09.98	Nathan Kim		16	100 BR LCM	CA	Rose Bowl Aquatics	2022 CA SCS/BUEN June Age Group	2020-2024 AAA
+317	1:10.00	Ford Johnson		16	100 BR LCM	GA	Chattahoochee Gold Swim Club	2022 GA Gold Summer Invite	2020-2024 AAA
+317	1:10.00	Jacob Hills		16	100 BR LCM	SC	South Carolina Swim Club	2022 SC SCSC June Invitational	2020-2024 AAA
+319	1:10.01	Jonah Lee		16	100 BR LCM	IN	Valparaiso Swim Club	2022 IN Senior LCM Championships	2020-2024 AAA
+320	1:10.02	Aiden Carlson		16	100 BR LCM	ND	Northern Lights Swimming Association	2022 WI Central Zone Section 1	2020-2024 AAA
+321	1:10.03	Hudson DeGroote		16	100 BR LCM	NC	Marlins Of Raleigh	2022 VA Virginia Commonwealth	2020-2024 AAA
+322	1:10.07	Bartek Bednarz		16	100 BR LCM	AZ	Swim Neptune	2022 AZ LC Senior State Championship	2020-2024 AAA
+322	1:10.07	Tomas Adomaitis		16	100 BR LCM	IL	FMC Aquatic	2022 MN USAS Speedo Meet	2020-2024 AAA
+324	1:10.08	H.T. Tragle		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 VA STAT LC Invite	2020-2024 AAA
+325	1:10.09	Jack Favazza		16	100 BR LCM	OZ	Parkway Swim Club	2022 MV Region VIII Speedo Summer Meet	2020-2024 AAA
+326	1:10.10	Eli Bates		16	100 BR LCM	GA	Athens Bulldog Swim Club	2022 GA LC Senior State Championship	2020-2024 AAA
+327	1:10.11	Nate Oppenheim		16	100 BR LCM	CT	Ridgefield Aquatic Club	2022 VA EZ LC Speedo Super Sectional	2020-2024 AAA
+328	1:10.12	Jay Gerloff		16	100 BR LCM	VA	Old Dominion Aquatic Club	2022 FL BSS TYR June Classic	2020-2024 AAA
+329	1:10.13	Rowan Hayes		16	100 BR LCM	MR	Queens Aquatic Club	2022 MR RED International Invitational	2020-2024 AAA
+329	1:10.13	Allan Chu		16	100 BR LCM	MR	Long Island Aquatic Club	2022 IN NCSA Summer Swimming Championships2	2020-2024 AAA
+331	1:10.14	Aiden Bucaria		16	100 BR LCM	CT	Greenwich YWCA Dolphins Swm Tm	2022 CT GRYM May LCM Invite	2020-2024 AAA
+332	1:10.15	Andrew Wang		16	100 BR LCM	NJ	YMCA of Greater Monmouth County	2022 NC AP LC YMCA Nationals	2020-2024 AAA
+333	1:10.19	Benton Cheng		16	100 BR LCM	CA	Irvine Novaquatics	2022 CA So Cal Invite	2020-2024 AAA
+334	1:10.21	David Bosch		16	100 BR LCM	CO	Loveland Swim Club	2022 CO FAST June Bonanza	2020-2024 AAA
+334	1:10.21	Nate Levy		16	100 BR LCM	PC	Unattached	2022 PC Pacific Swimming LC Senior Meet	2020-2024 AAA
+336	1:10.23	Luuk Eggink		16	100 BR LCM	AZ	Aqua Fit Tucson	2022 AZ LC Senior State Championship	2020-2024 AAA
+336	1:10.23	Will Gavin		16	100 BR LCM	GA	Life Time Georgia	2022 GA Lifetime Last Chance LCM Meet	2020-2024 AAA
+338	1:10.25	Jackson Rosol		16	100 BR LCM	PC	Reno Aquatic Club	2022 CC Arena Grand Challenge	2020-2024 AAA
+338	1:10.25	Alden Brotman		16	100 BR LCM	SI	Rancho San Dieguito	2022 CA CA-NV Speedo Sectionals at CANY	2020-2024 AAA
+340	1:10.26	Will Sinclair		16	100 BR LCM	NC	SwimMAC Carolina	2022 NC SwimMAC Novant LC	2020-2024 AAA
+341	1:10.27	Shivansh Singhal		16	100 BR LCM	CA	Sandpipers Of Nevada	2022 AZ MAC Narwhal Invite	2020-2024 AAA
+342	1:10.28	Adam Boudjemaa		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 VA NOVA LC Winter Invitational	2020-2024 AAA
+342	1:10.28	Cael Meranda		16	100 BR LCM	MW	Lincoln Select Swimming	2022 IA David Armbruster Open	2020-2024 AAA
+344	1:10.30	Nigel Dowlan		16	100 BR LCM	CA	Arroyo Grande Aquatic Club	2022 CA MVN Post CIF Senior LC	2020-2024 AAA
+345	1:10.31	Daniel Oroszlan		16	100 BR LCM	CA	CLASS Aquatics	2022 CA RAA Summer JO's	2020-2024 AAA
+346	1:10.32	Channing Mouton		16	100 BR LCM	ST	Austin Swim Club	2022 WT 77th Annual Frost Bank Invitational	2020-2024 AAA
+346	1:10.32	Caleb Warner		16	100 BR LCM	OZ	Rockwood Swim Club	2022 OZ Meet Me in St. Louis	2020-2024 AAA
+348	1:10.33	Jacob Duran		16	100 BR LCM	NM	Unattached	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+349	1:10.34	Lane Bradshaw		16	100 BR LCM	NC	SwimMAC Carolina	2022 NC SwimMAC Novant LC	2020-2024 AAA
+350	1:10.36	Amos Crafts		16	100 BR LCM	OR	Portland Aquatic Club	2022 OR CRST Summer Blast	2020-2024 AAA
+350	1:10.36	Michael Morea		16	100 BR LCM	NC	TAC Titans	2022 NC TAC TITANS Closeout Meet	2020-2024 AAA
+352	1:10.37	Jojo Frye		16	100 BR LCM	SC	Gamecock Aquatics	2002 SC CA May Breakout LC Meet	2020-2024 AAA
+352	1:10.37	Nate Hohm		16	100 BR LCM	NC	Aquatic Team Of Mecklenburg	2022 NC SwimMAC Martha McKee Meet	2020-2024 AAA
+354	1:10.38	Jake Cannistra		16	100 BR LCM	PV	All Star Aquatics	2022 PV LC Open Championships	2020-2024 AAA
+354	1:10.38	Jaxon Bruzgul		16	100 BR LCM	NI	Town Wreckers Swim Team	2022 Futures - Geneva	2020-2024 AAA
+354	1:10.38	Haolin Cong	Yes	16	100 BR LCM	PN	Bellevue Club Swim Team	2022 PN Senior Long Course Champs	2020-2024 AAA
+354	1:10.38	Henry Xu		16	100 BR LCM	NJ	Whitewaters Swimming	2022 NJ SCAR LC Junior Olympics	2020-2024 AAA
+358	1:10.39	Eric Rabinovich		16	100 BR LCM	IL	Glenbrook Swim Club	2022 IL LCM Senior Championships	2020-2024 AAA
+359	1:10.40	Ian Kim		16	100 BR LCM	MR	Condors Swim Club	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+359	1:10.40	Charles Derivaux		16	100 BR LCM	MA	Jersey Wahoos	2022 MA Swimming Meet	2020-2024 AAA
+359	1:10.40	Alex Karahalis		16	100 BR LCM	MA	Western YMCA Wahoos	2022 MA WSY/HAC Long Course Cl	2020-2024 AAA
+359	1:10.40	Lance Young		16	100 BR LCM	SE	Huntsville Swim Association	2022 IN NCSA Summer Swimming Championships	2020-2024 AAA
+359	1:10.40	Kevin Williams		16	100 BR LCM	NC	TAC Titans	2022 NC TAC TITANS Closeout Meet	2020-2024 AAA
+364	1:10.41	Kyle Algrim		16	100 BR LCM	IL	St Charles Swim Team	2022 MN USAS Speedo Meet	2020-2024 AAA
+364	1:10.41	William Harpster		16	100 BR LCM	OHO	Greater Columbus Swim Tm Of Oh	2022 OH Tim Meyers LC Senior Champs	2020-2024 AAA
+366	1:10.42	Tyler Swartz		16	100 BR LCM	VA	Tide Swimming	2022 VA LC Senior Champs	2020-2024 AAA
+366	1:10.42	Owen Gingras		16	100 BR LCM	IE	Vandal Aquatic Club	2022 SN Finals - Western Zone Senior Ch	2020-2024 AAA
+368	1:10.43	Christo Papaioannou		16	100 BR LCM	NC	Enfinity Aquatic Club	2022 NC LC SR CHAMPS	2020-2024 AAA
+368	1:10.43	JP Soukoulis		16	100 BR LCM	IL	New Trier Aquatics	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+370	1:10.44	Ivan Shandrenko		16	100 BR LCM	MD	Monocacy Aquatic Club	2022 MD LSC LC Championships	2020-2024 AAA
+371	1:10.45	Jack McLellan		16	100 BR LCM	GA	Dynamo Swim Club	2022 SE Richard Quick Invitational	2020-2024 AAA
+372	1:10.46	Sean Atkinson		16	100 BR LCM	MR	Long Island Aquatic Club	2022 NC TAC TITANS Closeout Meet	2020-2024 AAA
+373	1:10.47	Noah Carver		16	100 BR LCM	SN	Sierra Marlins Swim Team	2022 SN Summer Sanders LCM SR+	2020-2024 AAA
+374	1:10.49	Cole Withrow		16	100 BR LCM	GA	Carpet Capital Aquatics Club	2022 GA SA Betsy Dunbar	2020-2024 AAA
+374	1:10.49	Emanuel Cuarta	Yes	16	100 BR LCM	FG	Plantation Swim Team	2022 FG Senior Qualifier	2020-2024 AAA
+374	1:10.49	Tommy Wonka		16	100 BR LCM	WY	Buffalo Swim Club	2022 WY WYSI Long Course Championships	2020-2024 AAA
+374	1:10.49	Marre Gattnar		16	100 BR LCM	PC	North Bay Aquatics	2022 SN Summer Sanders LCM SR+	2020-2024 AAA
+374	1:10.49	Samuel Kuo		16	100 BR LCM	CA	Costa Mesa Aquatics Club	2022 CA CMAC LCM	2020-2024 AAA
+379	1:10.50	Lukas McIntyre-Quinn		16	100 BR LCM	OHO	Mason Manta Rays	2022 FL ISCA Summer Senior Blast	2020-2024 AAA
+380	1:10.51	AJ Wong	Yes	16	100 BR LCM	PV	Rockville Montgomery Swim Club	2022 AM LC Eastern Zone SR Championship	2020-2024 AAA
+380	1:10.51	Drew Rosa		16	100 BR LCM	IL	FMC Aquatic	2022 MN USAS Speedo Meet	2020-2024 AAA
+382	1:10.52	James Tao		16	100 BR LCM	MA	Jersey Wahoos	2022 VA NOVA LC Winter Invitational	2020-2024 AAA
+383	1:10.55	Rowan Cridlebaugh		16	100 BR LCM	NC	Greensboro Community YMCA	2022 FL RAFC Last Splash Invitational	2020-2024 AAA
+384	1:10.56	Evan Poulos		16	100 BR LCM	PV	Nation's Capital Swim Club	2022 IN NCSA Summer Swimming Championships2	2020-2024 AAA
+384	1:10.56	Tallin Kunz		16	100 BR LCM	UT	Utah Valley Aquatics, Inc	2022 UT UVRays LC Oviatt Inv	2020-2024 AAA
+386	1:10.57	Ryan Connole		16	100 BR LCM	CA	SOCAL Aquatics Association	2022 CA Los Angeles Invitational	2020-2024 AAA
+387	1:10.59	Joe Coleman		16	100 BR LCM	MR	Condors Swim Club	2022 MR TYR Senior LC Championships	2020-2024 AAA
+388	1:10.61	Felix Flakstad		16	100 BR LCM	CT	Greenwich YWCA Dolphins Swm Tm	2022 IN NCSA Summer Swimming Championships	2020-2024 AA
+389	1:10.62	Dylan Chehebar		16	100 BR LCM	LA	Pelican Athletic Club	2022 LA Senior LC State Championships	2020-2024 AA
+389	1:10.62	Ian O'Neil		16	100 BR LCM	GU	Dads Club Swim Team	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AA
+389	1:10.62	Noah Katz		16	100 BR LCM	ME	Kennebec Valley YMCA	2022 ME SUMMER LCM CHAMPS	2020-2024 AA
+392	1:10.63	David Fayngersh		16	100 BR LCM	MR	Long Island Express	2022 MR TYR Senior LC Championships	2020-2024 AA
+392	1:10.63	Jack Nugent		16	100 BR LCM	CA	Evolution Racing Club	2022 CA MVN Post CIF Senior LC	2020-2024 AA
+394	1:10.64	Lucas Mijares		16	100 BR LCM	NT	North Texas Nadadores	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AA
+395	1:10.65	Khoi Nguyen		16	100 BR LCM	LA	Crawfish Aquatics	2022 LA Senior LC State Championships	2020-2024 AA
+395	1:10.65	Henry Stimson		16	100 BR LCM	OHO	Mason Manta Rays	2022 OH Tim Meyers LC Senior Champs	2020-2024 AA
+397	1:10.68	Jeremy Dukes		16	100 BR LCM	IN	Boilermaker Aquatics	2022 IN Spring Speedo Sectionals	2020-2024 AA
+398	1:10.69	Chas Jones		16	100 BR LCM	CT	Chelsea Piers Aquatic Club	2022 NJ EEX JS Mace Memorial Summer Sizzle	2020-2024 AA
+398	1:10.69	Michael Yang		16	100 BR LCM	NE	Gator Swim Club	2022 FL ISCA Summer Senior Blast	2020-2024 AA
+400	1:10.70	Cardin Nguyen		16	100 BR LCM	CO	Colorado Springs Area Swimming	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+400	1:10.70	Malachi Caballero		16	100 BR LCM	VA	Rappahannock Area YMCA Swim Team, Inc	2022 VA LC Senior Champs	2020-2024 AA
+402	1:10.72	Jax Milasincic		16	100 BR LCM	PC	Crow Canyon Country Club Sharks	2022 SN Summer CA-NV Sectional-CC	2020-2024 AA
+402	1:10.72	Nate Eickman		16	100 BR LCM	GA	Northwest Georgia Aquatics	2022 SE Ensworth July Invitational	2020-2024 AA
+404	1:10.73	Ryder Chene	Yes	16	100 BR LCM	PN	Olympic Cascade Aquatics	2022 PN Senior Long Course Champs	2020-2024 AA
+405	1:10.76	Jack Haywood		16	100 BR LCM	NC	SwimMAC Carolina	2022 NC SwimMAC Blue/Orange	2020-2024 AA
+405	1:10.76	Frank Alberti		16	100 BR LCM	MV	Wichita Swim Club	2022 MV Region VIII Speedo Summer Meet	2020-2024 AA
+407	1:10.78	Christian Losh		16	100 BR LCM	NC	SwimMAC Carolina	2022 NC SwimMAC Novant LC	2020-2024 AA
+407	1:10.78	Herky Wright		16	100 BR LCM	IE	Tri-city Channel Cats	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+409	1:10.79	Matthew Sexton		16	100 BR LCM	OR	Lake Oswego Swim Club	2022 OR Arena 11&O LC Championship	2020-2024 AA
+410	1:10.82	Amey Joshi		16	100 BR LCM	PN	West Coast Aquatics	2022 PN SSCD Dick LaFave Class	2020-2024 AA
+410	1:10.82	Andrew Taulbee		16	100 BR LCM	OHO	Pau Hana Swim Team	2022 OH Tim Meyers LC Senior Champs	2020-2024 AA
+412	1:10.84	Philip Lucas		16	100 BR LCM	IN	Irish Aquatics	2022 IN Senior LCM Championships	2020-2024 AA
+412	1:10.84	Justin Shin		16	100 BR LCM	IA	Ames Cyclone Aquatics Club	2022 IA Long Course Championships	2020-2024 AA
+414	1:10.85	Tristan Regula		16	100 BR LCM	HI	Aulea Swim Club	2022 HI Long Course Senior Champs	2020-2024 AA
+414	1:10.85	Kayleb Eldridge		16	100 BR LCM	SC	City of Charleston Southern Marlins Racing Team	2022 FL ISCA Summer Senior Blast	2020-2024 AA
+416	1:10.88	Eric Sinclair		16	100 BR LCM	MV	COOL Swim Team	2022 MV Region VIII Speedo Summer Meet	2020-2024 AA
+416	1:10.88	George Andriashvili		16	100 BR LCM	CA	Aquazot Swim Club	2022 CA SCS/RMDA June Age Group	2020-2024 AA
+416	1:10.88	Tucker Dombroski		16	100 BR LCM	IL	Palatine Park Dist Swim Team	2022 IL LCM Senior Championships	2020-2024 AA
+419	1:10.89	Connor Van Otterloo		16	100 BR LCM	ST	Longhorn Aquatics	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AA
+419	1:10.89	Dominic Mazurek		16	100 BR LCM	IL	Glenbrook Swim Club	2022 IN NASA Summer Invitational	2020-2024 AA
+421	1:10.90	Chris Aristondo		16	100 BR LCM	NC	Aquatic Team Of Mecklenburg	2022 NC ESSZ Summer Sectionals	2020-2024 AA
+421	1:10.90	Jack Maron		16	100 BR LCM	NE	Bluefish Swim Club	2022 NE YNS Shark Frenzy Special	2020-2024 AA
+423	1:10.91	Kiefer Hoang		16	100 BR LCM	ST	Lone Star Aquatic Club	2022 ST AAAA LC STAGS Champs	2020-2024 AA
+424	1:10.95	Jeffery Xu		16	100 BR LCM	GA	Gwinnett Aquatics	2022 GA LC Senior State Championship	2020-2024 AA
+424	1:10.95	Matt Stratton		16	100 BR LCM	IL	St Charles Swim Team	2022 IL LCM Senior Championships	2020-2024 AA
+426	1:10.96	Logan Gunn		16	100 BR LCM	PC	Walnut Creek Aquabears	2022 PC TCA Senior 2	2020-2024 AA
+427	1:10.97	Ryan Bambrick		16	100 BR LCM	NC	New South Swimming	2022 NC LC SR CHAMPS	2020-2024 AA
+428	1:10.99	Owen Markowitz		16	100 BR LCM	NJ	Lakeland Hills YMCA	2022 NJ July Independence Invitational	2020-2024 AA
+429	1:11.01	Bo Daniels		16	100 BR LCM	SE	Coast Aquatics	2022 SE LC Championships	2020-2024 AA
+429	1:11.01	FREDERICK KLEIN		16	100 BR LCM	NC	SwimMAC Carolina	2022 NC SwimMAC Novant LC	2020-2024 AA
+429	1:11.01	Jack Ortman		16	100 BR LCM	SN	DART Swimming	2022 CC Arena Grand Challenge	2020-2024 AA
+429	1:11.01	Woobie Kupsky		16	100 BR LCM	MA	Unattached	2022 MA KA May Melee	2020-2024 AA
+433	1:11.03	Jameson McEnaney		16	100 BR LCM	NE	Edge Swim Club	2022 VA EZ LC Speedo Super Sectional	2020-2024 AA
+434	1:11.04	Dylan Wee		16	100 BR LCM	CA	BLAST Sharks	2022 CA SCS/BUEN June Age Group	2020-2024 AA
+435	1:11.06	Eddie Flynn		16	100 BR LCM	AZ	Life Time Arizona Swim Team	2022 AZ PSC Summer Invitational	2020-2024 AA
+436	1:11.08	Taisho Shiono		16	100 BR LCM	CA	Aquazot Swim Club	2022 CA CMAC LCM	2020-2024 AA
+437	1:11.10	Elliott Destefani		16	100 BR LCM	PC	Reno Aquatic Club	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+437	1:11.10	Alex Golu		16	100 BR LCM	SI	Manta Ray Aquatics	2022 CA Speedo Grand Challenge	2020-2024 AA
+437	1:11.10	Michael Hoard		16	100 BR LCM	MI	North Kent Aquatic Team	2022 IN MS 13-14 & Open ULTRA Summer	2020-2024 AA
+437	1:11.10	Boden Pearson		16	100 BR LCM	PV	Occoquan Swimming Inc	2022 FL ISCA Summer Senior Blast	2020-2024 AA
+441	1:11.13	Paul Gelinas		16	100 BR LCM	PN	Seattle Metropolitan Aquatic Club	2022 PN SMAC Summer Classic	2020-2024 AA
+442	1:11.15	Ian Beierle		16	100 BR LCM	KY	Triton Swimming	2022 KY 13&Over LCM State Championships	2020-2024 AA
+442	1:11.15	Malcolm Collins		16	100 BR LCM	MA	Parkland Aquatic Club	2022 AM LC Eastern Zone SR Championship	2020-2024 AA
+442	1:11.15	Daniel Lewis		16	100 BR LCM	PC	Terrapins Swim Team	2022 CC Arena Grand Challenge	2020-2024 AA
+445	1:11.16	John Copeland		16	100 BR LCM	NC	Greensboro Community YMCA	2022 NC NCAC Meet on the Hill	2020-2024 AA
+446	1:11.17	Nate Finnegan		16	100 BR LCM	MW	Greater Omaha Aquatics Leopardsharks	2022 MV EKC Rose Memorial Invitational	2020-2024 AA
+447	1:11.18	Josh Gluzman		16	100 BR LCM	FG	Saint Andrew's Aquatics	2022 FL SZ South Sectionals Championships	2020-2024 AA
+448	1:11.19	Ben Wu		16	100 BR LCM	CT	Stamford Sailfish Aquatic Club	2022 CT CPAC Memorial Day T&F	2020-2024 AA
+449	1:11.20	Alex Yun		16	100 BR LCM	NE	South Shore YMCA Strypers	2022 NC AP LC YMCA Nationals	2020-2024 AA
+449	1:11.20	Alex Kabacy		16	100 BR LCM	PN	Seattle Metropolitan Aquatic Club	2022 PN Senior Long Course Champs	2020-2024 AA
+449	1:11.20	Preston Dean		16	100 BR LCM	KY	Cardinal Aquatics	2022 KY 13&Over LCM State Championships	2020-2024 AA
+449	1:11.20	Ethan Jantzi		16	100 BR LCM	AZ	Yuma Aquatics	2022 AZ LC Senior State Championship	2020-2024 AA
+453	1:11.21	Paolo Belleza		16	100 BR LCM	MI	Club Wolverine	2022 MI Eric Namesnik Memorial Open	2020-2024 AA
+454	1:11.22	Christian Wong		16	100 BR LCM	NJ	Greater Somerset County YMCA Storm	2022 NJ July Independence Invitational	2020-2024 AA
+455	1:11.25	Brandon Moore		16	100 BR LCM	VA	NOVA of Virginia Aquatics, Inc	2022 VA LC Senior Champs	2020-2024 AA
+455	1:11.25	Ramiel Fayngersh		16	100 BR LCM	MR	Long Island Express	2022 MR Metropolitan Long Course Junior Olympics	2020-2024 AA
+457	1:11.26	Christopher Zhang		16	100 BR LCM	NC	Lifetime Swim Team North Carolina	2022 FL BSS TYR June Classic	2020-2024 AA
+457	1:11.26	Alex Thai		16	100 BR LCM	FL	Florida Elite Swimming	2022 FL SZ South Sectionals Championships	2020-2024 AA
+459	1:11.27	Tristan Prizler		16	100 BR LCM	OHO	Dayton Raiders	2022 MI Eric Namesnik Memorial Open	2020-2024 AA
+460	1:11.29	Henry Snider		16	100 BR LCM	MV	Northland United Swim Team	2022 MV CSC Summer Invite	2020-2024 AA
+460	1:11.29	Nasim Elkassem		16	100 BR LCM	PV	Rockville Montgomery Swim Club	2022 PV RMSC Spring LC Classic	2020-2024 AA
+460	1:11.29	Keely Yeager		16	100 BR LCM	SI	Unattached	2022 SI PS BB Min All Ages	2020-2024 AA
+463	1:11.30	Fineas Howser		16	100 BR LCM	MV	Empire KC Swim Club	2022 MV Region VIII Speedo Summer Meet	2020-2024 AA
+464	1:11.31	Kyle Bitz		16	100 BR LCM	MD	Eagle Swim Team Inc.	2022 MD FOX Long Course	2020-2024 AA
+464	1:11.31	Landon Kyser		16	100 BR LCM	FG	Heritage Aquatic Team	2022 FL BSS TYR June Classic	2020-2024 AA
+466	1:11.32	Eduardo Rengifo		16	100 BR LCM	MI	Utica Shelby Swim Club	2022 LE Speedo Summer Sectionals	2020-2024 AA
+466	1:11.32	Mateo Haeuser		16	100 BR LCM	WI	Lake Country Swim Team	2022 WI 13 & O LC State Meet	2020-2024 AA
+468	1:11.36	Reid Vandervoort		16	100 BR LCM	GU	Dads Club Swim Team	2022 ST AAAA NS George Block I	2020-2024 AA
+469	1:11.38	Avery Joo		16	100 BR LCM	GA	Life Time Georgia	2022 GA LC Senior State Championship	2020-2024 AA
+469	1:11.38	Lucas Williams		16	100 BR LCM	OR	Multnomah Athletic Club	2022 OR Speedo Sectionals - Mt Hood	2020-2024 AA
+471	1:11.39	Isaac deVries		16	100 BR LCM	MI	West Michigan Swimmers	2022 IN MS 13-14 & Open ULTRA Summer	2020-2024 AA
+471	1:11.39	Parker Basener		16	100 BR LCM	MD	Monocacy Aquatic Club	2022 MD LSC LC Championships	2020-2024 AA
+473	1:11.41	Reid Lalli		16	100 BR LCM	PC	Orinda Aquatics	2022 SN Summer CA-NV Sectional-CC	2020-2024 AA
+473	1:11.41	Benjamin Skinner		16	100 BR LCM	ST	Surge Aquatics	2022 WT 77th Annual Frost Bank Invitational	2020-2024 AA
+475	1:11.42	Ryin Ruaboro		16	100 BR LCM	PC	California Dolphin Swim Team	2022 PC LCM Far Westerns	2020-2024 AA
+475	1:11.42	Ben Gallegos		16	100 BR LCM	CA	Mission Viejo Nadadores	2022 CA SCS/MVN Summer JO's	2020-2024 AA
+477	1:11.43	Gage Boushee		16	100 BR LCM	MN	South Metro Storm	2022 MN USAS Speedo Meet	2020-2024 AA
+477	1:11.43	Max Inlow		16	100 BR LCM	GA	Gwinnett Aquatics	2022 GA LC Senior State Championship	2020-2024 AA
+477	1:11.43	Josh Nelson		16	100 BR LCM	CO	Aces Swim Club	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA
+477	1:11.43	Gianni Famiano		16	100 BR LCM	FG	Pompano Beach Piranhas	2022 FG Senior Championships	2020-2024 AA
+481	1:11.44	Thomson Parlette		16	100 BR LCM	MN	Rochester Swim Club	2022 Futures - Minneapolis	2020-2024 AA
+482	1:11.45	Josh Harrison		16	100 BR LCM	MI	Birmingham 'Y' Blue Dolphins	2022 LE Speedo Summer Sectionals	2020-2024 AA
+483	1:11.47	Carter Miller		16	100 BR LCM	SE	Ensworth Aquatics	2022 SE Officially Summer Invite	2020-2024 AA
+483	1:11.47	Daniel Lopez		16	100 BR LCM	IN	Summit City Aquatics	2022 IN Senior LCM Championships	2020-2024 AA
+485	1:11.48	Ethan Song		16	100 BR LCM	SI	Coronado Swim Association Team Elite	2022 CA Speedo Grand Challenge	2020-2024 AA
+485	1:11.48	Ian Leonard		16	100 BR LCM	WI	Southwest Aquatic Team	2022 WI 13 & O LC State Meet	2020-2024 AA
+487	1:11.49	Luke McCarthy		16	100 BR LCM	NC	East Carolina Aquatics	2022 WV Southern Zone Senior Champs	2020-2024 AA
+487	1:11.49	Weifan Zhang		16	100 BR LCM	GU	Houston Cougar Aquatic Sports	2022 GU TWST Senior Champs	2020-2024 AA
+487	1:11.49	Joe Morales		16	100 BR LCM	NT	Barracudas Open-Water & Select Swimming	2022-NT American Long Course Meet	2020-2024 AA
+490	1:11.50	Alex Bauer		16	100 BR LCM	AM	Unattached	2022 AM LC Junior Olympics	2020-2024 AA
+491	1:11.51	Kamen Rangelov	Yes	16	100 BR LCM	FL	Bolles School Sharks	2022 FG Piranhas Senior Invitational	2020-2024 AA
+491	1:11.51	Parker Smith		16	100 BR LCM	PC	Orinda Aquatics	2022 SN Time Trials - SR Western Zones	2020-2024 AA
+493	1:11.54	Deji Jones		16	100 BR LCM	PV	Machine Aquatics	2022 PV LC Open Championships	2020-2024 AA
+494	1:11.55	John Weigel		16	100 BR LCM	IA	Iowa Flyers Swim Club	2022 IA CIA BEAT THE HEAT	2020-2024 AA
+494	1:11.55	Quinn Belmar	Yes	16	100 BR LCM	GU	Dads Club Swim Team	2022 ST TXLA Speedo Southern Sectionals	2020-2024 AA
+496	1:11.56	Dante Dentino		16	100 BR LCM	NJ	Central Jersey Aquatic Club	2022 NJ EEX JS Mace Memorial Summer Sizzle	2020-2024 AA
+497	1:11.57	Ludwig Ibarra		16	100 BR LCM	UT	Utah Valley Aquatics, Inc	2022 UT LC Champs	2020-2024 AA
+498	1:11.58	Zachary Spicer		16	100 BR LCM	NC	Aquatic Team Of Mecklenburg	2022 NC SwimMAC Martha McKee Meet	2020-2024 AA
+498	1:11.58	Charlie Gwidt		16	100 BR LCM	WI	Schroeder YMCA Swim Team	2022 WI 13 & O LC State Meet	2020-2024 AA
+500	1:11.59	Troy Eggers		16	100 BR LCM	UT	Southern Utah Swimming Association	2022 SN Finals - Western Zone Senior Ch	2020-2024 AA

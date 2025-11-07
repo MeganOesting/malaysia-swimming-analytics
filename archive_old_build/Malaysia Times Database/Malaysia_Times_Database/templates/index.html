@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Malaysia Times Database</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; max-width: 800px; margin: 2rem auto; padding: 1rem; }
+    h1 { margin-bottom: 0.25rem; }
+    p.lead { color: #444; margin-top: 0; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 1.25rem; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; background: #fafafa; }
+    .card h2 { margin: 0 0 8px; font-size: 1.1rem; }
+    .card p { margin: 0 0 12px; color: #555; }
+    .btn { display: inline-block; padding: 10px 14px; border-radius: 8px; text-decoration: none; background: #0b5ed7; color: #fff; }
+    .btn:hover { background: #0a53be; }
+    footer { margin-top: 2rem; color: #666; font-size: 0.95rem; }
+  </style>
+  </head>
+<body>
+  <h1>Malaysia Times Database</h1>
+  <p class="lead">Choose a tool to begin.</p>
+
+  <div class="cards">
+    <div class="card">
+      <h2>On Track Calculator</h2>
+      <p>Analyze meet results and compute On Track targets.</p>
+      <a class="btn" href="/on-track">Open On Track</a>
+    </div>
+    <div class="card">
+      <h2>Age Points Calculator</h2>
+      <p>Compute Bakat Age Points from base tables.</p>
+      <a class="btn" href="/age-points">Open Age Points</a>
+    </div>
+  </div>
+
+  <footer>
+    This is the landing page. We'll wire both tools here next.
+  </footer>
+</body>
+</html>
+

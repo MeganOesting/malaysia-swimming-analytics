@@ -7,9 +7,9 @@ import tempfile
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, List
 
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form, Depends
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import pandas as pd
@@ -49,17 +49,299 @@ class ConversionResult(BaseModel):
     events: int = 0
     meets: int = 0
 
+
 def get_database_connection():
-    """Get SQLite database connection"""
-    db_path = project_root / "database" / "malaysia_swimming.db"
+    """Get SQLite connection to the canonical database."""
+    db_path = CANONICAL_DB_PATH
     return sqlite3.connect(str(db_path))
 
-@router.get("/api/admin/test")
+@router.get("/meets")
+async def list_meets() -> Dict[str, List[Dict[str, Any]]]:
+    """Return meets with metadata expected by the admin dashboard."""
+    conn = get_database_connection()
+    conn.row_factory = sqlite3.Row
+    try:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(
+                """
+                SELECT m.id,
+                       m.name,
+                       m.meet_type,
+                       m.alias,
+                       m.meet_date,
+                       m.location,
+                       m.city,
+                       COUNT(r.id) AS result_count
+                FROM meets m
+                LEFT JOIN results r ON r.meet_id = m.id
+                GROUP BY m.id, m.name, m.meet_type, m.alias, m.meet_date, m.location, m.city, m.created_at
+                ORDER BY COALESCE(m.meet_date, m.created_at) DESC
+                """
+            )
+        except sqlite3.OperationalError:
+            return {"meets": []}
+        meets = []
+        for row in cursor.fetchall():
+            alias_value = (row["alias"] or "").strip() if row["alias"] else ""
+            meet_type_value = (row["meet_type"] or "").strip()
+            code_value = alias_value or meet_type_value
+            city_value = (row["city"] or "").strip() if row["city"] else ""
+            meets.append(
+                {
+                    "id": row["id"],
+                    "name": row["name"],
+                    "alias": alias_value,
+                    "code": code_value,
+                    "date": row["meet_date"],
+                    "city": city_value,
+                    "result_count": row["result_count"],
+                }
+            )
+        return {"meets": meets}
+    finally:
+        conn.close()
+
+@router.delete("/meets/{meet_id}")
+async def delete_meet(meet_id: str) -> Dict[str, Any]:
+    """Delete a meet and its associated results."""
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM results WHERE meet_id = ?", (meet_id,))
+        cursor.execute("DELETE FROM meets WHERE id = ?", (meet_id,))
+        if cursor.rowcount == 0:
+            conn.rollback()
+            raise HTTPException(status_code=404, detail="Meet not found")
+        conn.commit()
+        return {"message": "Meet deleted", "meet_id": meet_id}
+    finally:
+        conn.close()
+
+@router.get("/meets/{meet_id}/pdf", response_class=HTMLResponse)
+async def generate_meet_pdf(meet_id: str) -> HTMLResponse:
+    """Return a printable HTML report for the specified meet."""
+    conn = get_database_connection()
+    conn.row_factory = sqlite3.Row
+    try:
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "SELECT id, name, meet_type, alias, meet_date, location, city FROM meets WHERE id = ?",
+            (meet_id,),
+        )
+        meet = cursor.fetchone()
+        if not meet:
+            raise HTTPException(status_code=404, detail="Meet not found")
+
+        cursor.execute(
+            """
+            SELECT a.name AS athlete_name,
+                   a.gender,
+                   e.distance,
+                   e.stroke,
+                   r.time_string,
+                   r.place,
+                   r.day_age,
+                   r.year_age,
+                   r.course
+            FROM results r
+            JOIN athletes a ON r.athlete_id = a.id
+            JOIN events e ON r.event_id = e.id
+            WHERE r.meet_id = ?
+            ORDER BY e.distance, e.stroke, a.gender, r.time_seconds
+            """,
+            (meet_id,),
+        )
+        rows = cursor.fetchall()
+
+        events: Dict[str, Dict[str, Any]] = {}
+
+        for row in rows:
+            event_key = f"{row['distance']}{row['stroke']}{row['gender']}"
+            if event_key not in events:
+                events[event_key] = {
+                    "distance": row["distance"],
+                    "stroke": row["stroke"],
+                    "gender": row["gender"],
+                    "results": [],
+                    "seen": {},
+                }
+
+            athlete_name = row["athlete_name"] or ""
+            time_string = row["time_string"] or ""
+            name_norm = " ".join(str(athlete_name).split()).upper()
+            time_norm = str(time_string).strip()
+            norm_key = (name_norm, time_norm)
+            existing_idx = events[event_key]["seen"].get(norm_key)
+            if existing_idx is not None:
+                existing = events[event_key]["results"][existing_idx]
+                new_place = row["place"]
+                old_place = existing.get("place")
+                try:
+                    if new_place is not None and (old_place is None or int(new_place) < int(old_place)):
+                        existing["place"] = new_place
+                except Exception:
+                    pass
+                continue
+
+            events[event_key]["seen"][norm_key] = len(events[event_key]["results"])
+            events[event_key]["results"].append(
+                {
+                    "athlete_name": athlete_name,
+                    "time_string": time_string,
+                    "place": row["place"],
+                    "day_age": row["day_age"],
+                    "year_age": row["year_age"],
+                    "course": row["course"],
+                }
+            )
+
+        stroke_map = {
+            "FR": "Free",
+            "FRE": "Free",
+            "FREESTYLE": "Free",
+            "BK": "Back",
+            "BAC": "Back",
+            "BACKSTROKE": "Back",
+            "BR": "Breast",
+            "BRE": "Breast",
+            "BREASTSTROKE": "Breast",
+            "BU": "Fly",
+            "FLY": "Fly",
+            "BUTTERFLY": "Fly",
+            "ME": "IM",
+            "MED": "IM",
+            "IM": "IM",
+            "MEDLEY": "IM",
+        }
+
+        gender_map = {
+            "M": "Men's",
+            "F": "Women's",
+        }
+
+        def event_sort_key(event_key: str) -> tuple:
+            stroke = events[event_key]["stroke"]
+            distance = events[event_key]["distance"]
+            gender = events[event_key]["gender"]
+
+            stroke_order = {
+                "FR": 0,
+                "FRE": 0,
+                "FREESTYLE": 0,
+                "BK": 1,
+                "BAC": 1,
+                "BACKSTROKE": 1,
+                "BR": 2,
+                "BRE": 2,
+                "BREASTSTROKE": 2,
+                "BU": 3,
+                "FLY": 3,
+                "BUTTERFLY": 3,
+                "ME": 4,
+                "IM": 4,
+                "MED": 4,
+                "MEDLEY": 4,
+            }
+
+            stroke_priority = stroke_order.get(str(stroke).upper(), 5)
+            gender_priority = 0 if str(gender).upper().startswith("M") else 1
+            try:
+                distance_value = float(distance)
+            except (TypeError, ValueError):
+                try:
+                    distance_value = float(str(distance).strip().rstrip("mM"))
+                except Exception:
+                    distance_value = 0.0
+            return (gender_priority, stroke_priority, distance_value)
+
+        alias_raw = None
+        if hasattr(meet, "keys") and "alias" in meet.keys():
+            alias_raw = meet["alias"]
+        alias_value = (alias_raw if alias_raw else meet["meet_type"] or "").strip()
+        title_components: List[str] = []
+        base_name = (meet["name"] or "").strip()
+        if base_name:
+            if alias_value:
+                title_components.append(f"{base_name} ({alias_value})")
+            else:
+                title_components.append(base_name)
+        elif alias_value:
+            title_components.append(alias_value)
+        city_value = (meet["city"] or "").strip() if meet["city"] else ""
+        date_value = (meet["meet_date"] or "").strip() if meet["meet_date"] else ""
+        if city_value:
+            title_components.append(city_value)
+        if date_value:
+            title_components.append(date_value)
+        title_text = " • ".join(title_components) if title_components else (base_name or alias_value or "Meet Results")
+
+        html_lines = [
+            "<!DOCTYPE html>",
+            "<html>",
+            "<head>",
+            "    <meta charset=\"UTF-8\">",
+            f"    <title>{meet['name']} - Results</title>",
+            "    <style>",
+            "        body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; margin: 20px; font-size: 12pt; line-height: 1.4; }",
+            "        h1 { color: #2c3e50; margin-bottom: 4px; font-size: 16pt; }",
+            "        h2 { color: #4b5563; margin-top: 0; font-weight: normal; font-size: 12pt; }",
+            "        .columns { column-count: 2; column-gap: 24px; }",
+            "        .event-section { margin-bottom: 16px; break-inside: avoid-column; }",
+            "        .event-title { font-size: 14pt; font-weight: bold; margin-bottom: 4px; color: #34495e; }",
+            "        .results-text { font-family: 'Courier New', monospace; white-space: pre; font-size: 11pt; line-height: 1.05; margin: 0; }",
+            "    </style>",
+            "</head>",
+            "<body>",
+        ]
+
+        html_lines.append(f"    <h1>{title_text}</h1>")
+        html_lines.append("    <div class=\"columns\">")
+
+        for key in sorted(events.keys(), key=event_sort_key):
+            event = events[key]
+            event_stroke = str(event["stroke"]).upper() if event["stroke"] else ""
+            event_gender = str(event["gender"]).upper() if event["gender"] else ""
+            event_title = f"{gender_map.get(event_gender, event_gender)} {event['distance']}m {stroke_map.get(event_stroke, event['stroke'])}"
+            course = event["results"][0].get("course") if event["results"] else ""
+            if course:
+                event_title = f"{event_title} {course}"
+
+            html_lines.append("        <div class=\"event-section\">")
+            html_lines.append(f"            <div class=\"event-title\">{event_title}</div>")
+            html_lines.append("            <pre class=\"results-text\">")
+
+            for idx, result in enumerate(event["results"], start=1):
+                place_str = str(idx).rjust(4)
+                name_str = (result.get("athlete_name") or "").ljust(40)[:40]
+                time_str = (result.get("time_string") or "").rjust(8)[:8]
+                age_val = result.get("year_age")
+                if age_val is None or age_val == "":
+                    age_val = result.get("day_age")
+                age_str = str(age_val).rjust(3)[:3] if age_val not in (None, "") else "   "
+                course_str = (result.get("course") or "").rjust(4)[:4]
+                html_lines.append(f"{place_str} {name_str} {age_str}  {time_str} {course_str}")
+
+            html_lines.append("            </pre>")
+            html_lines.append("        </div>")
+
+        html_lines.extend([
+            "    </div>",
+            "</body>",
+            "</html>",
+        ])
+
+        return HTMLResponse("\n".join(html_lines))
+    finally:
+        conn.close()
+
+@router.get("/test")
 async def test_admin():
     """Test admin endpoint"""
     return {"message": "Admin router is working"}
 
-@router.post("/api/admin/authenticate")
+@router.post("/authenticate")
 async def authenticate(request: AuthRequest):
     """Authenticate admin user"""
     print(f"Received password: '{request.password}'")
@@ -71,7 +353,7 @@ async def authenticate(request: AuthRequest):
     else:
         raise HTTPException(status_code=401, detail="Invalid password")
 
-@router.post("/api/admin/convert-excel", response_model=ConversionResult)
+@router.post("/convert-excel", response_model=ConversionResult)
 async def convert_excel(
     file: UploadFile = File(...),
     meet_name: str = Form(None),
@@ -265,7 +547,7 @@ def process_sheet_data(df, meet_id, gender):
     
     if colB_data is None or colC_data is None or colD_data is None or colE_data is None:
         return athletes, results, events
-    
+
     # Process data with corrected column mapping
     gender_col = colB_data.astype(str).str.strip().str.upper()
     distance_col = pd.to_numeric(colC_data, errors='coerce')

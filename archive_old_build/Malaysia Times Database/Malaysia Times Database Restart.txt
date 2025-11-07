@@ -1,0 +1,53 @@
+Right‑click the folder and choose “Open with Code.”
+Open Codex on the left of the VS screen
+ “open Malaysia_Times_Database_README.md” (and/or the developer guide) and I’ll read them at the start.
+Run command
+
+Open the project folder in your editor:
+C:\Users\megan\OneDrive\Documents\Malaysia Times Database
+Activate the venv (cmd/PowerShell):
+.venv\Scripts\activate
+Run the app:
+python -m Malaysia_Times_Database.Malaysia_Database
+Open the site:
+http://127.0.0.1:5000 (hard refresh with Ctrl+F5)
+Data files present:
+Shared workbook: Malaysia_Times_Database\Age_OnTrack_AQUA.xlsx
+Meets in: Malaysia_Times_Database\Meets
+Optional tips
+Keep the README and Developer Guide open in your IDE for quick reference.
+
+Remind me to save the code after every time you change/update the code
+Remind me that ctrl+c is how i stop the code running in command center
+Make a copy/backup of the code (snapshot the folder or copy On_Track_Code.py and templates/static).
+Update this README with any new aliases or UX changes made today.
+
+The page will read in workbooks directly downloaded from swimrankings.net and use their column format.  If we switch to being able to use the original meet manager output files, then we will need to tell the code where to find the relevant data.  
+
+After-restart checklist
+
+How to loop me back in
+
+If you want me to review something, say “open <path>” and I’ll read it.
+Paste any errors from the terminal or the browser and I’ll debug.
+Common gotchas
+
+If “meets don’t populate,” ensure xlrd==2.0.1 is installed in the venv and files are in the Meets folder.
+If AQUA/Path/Margin/Age Points show N/A, confirm the shared workbook and sheet names.
+
+OLD TODO NOTES: Team/State display
+Future UI will show both team code (3–5 letters) and state code (3 letters) in the table.
+Format options:
+Concatenated in one column: “TEAM STATE” or “TEAM (STATE)” or “TEAM/STATE”
+Separate columns: “Team” and “State” (adds an extra column)
+Data source:
+Team code comes from TEAM_ALIASES mapping in On_Track_Code.py
+State code remains the 3-letter code already resolved for the athlete
+Implementation notes:
+Update row builder in On_Track_Code.py to include state code alongside the current team value.
+If concatenating: change the value inserted for the Team column to “TEAM (STATE)” and keep column count the same.
+If adding a new column: update headers and CSS widths in templates/index.html, and adjust sortable column indices if needed.
+Consider slightly tighter font/width for the combined Team/State cell if it gets crowded.
+Styling:
+Keep Team/State column at fixed ch-width (e.g., 7–9ch) if concatenated.
+If separate columns, set Team ~5ch and State ~4ch; center State for readability.

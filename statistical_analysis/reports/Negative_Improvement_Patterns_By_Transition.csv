@@ -1,0 +1,4 @@
+transition,count_negative,ranges_affected,num_ranges_affected
+15→16,9,"Above Average (0.5 ≤ z < 1.0), Average (0 ≤ z < 0.5), Lower (-1.0 ≤ z < -0.5), Top 15.9% (1.0 ≤ z < 1.5), Top 6.7% (1.5 ≤ z < 2.0)",5
+16→17,33,"Above Average (0.5 ≤ z < 1.0), Top 15.9% (1.0 ≤ z < 1.5), Top 2.5% (z ≥ 2.0), Top 6.7% (1.5 ≤ z < 2.0)",4
+17→18,130,"Above Average (0.5 ≤ z < 1.0), Average (0 ≤ z < 0.5), Below Average (-0.5 ≤ z < 0), Bottom 15.9% (z < -1.0), Lower (-1.0 ≤ z < -0.5), Top 15.9% (1.0 ≤ z < 1.5), Top 2.5% (z ≥ 2.0), Top 6.7% (1.5 ≤ z < 2.0)",8

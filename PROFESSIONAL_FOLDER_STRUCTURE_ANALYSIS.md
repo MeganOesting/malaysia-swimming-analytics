@@ -1,4 +1,10 @@
 # Professional Folder Structure Analysis & Recommendations
+
+> **Update (November 2025):**
+> - Handoff docs refreshed — read `SESSION_START.md`, `Malaysia Swimming Analytics Handbook.md`, and `WHAT_S_NEXT.md` before making changes.
+> - Athlete data now consolidates via `temp_scripts/rebuild_consolidated_athletes.py` → `data/manual_matching/consolidated_athlete_ID_rebuilt.xlsx`.
+> - Alias management lives in the new `athlete_aliases` table (seed with `temp_scripts/setup_athlete_aliases.py`).
+
 ## Malaysia Swimming Analytics - National System Architecture
 
 ---
@@ -273,8 +279,7 @@ Malaysia Swimming Analytics/
 │   └── README.md
 │
 ├── 📖 Malaysia Swimming Analytics Handbook.md  # Main project guide
-├── 📖 NEXT_SESSION_STARTER.md           # Quick session start
-└── 📖 STARTUP_SESSION_GUIDE.md          # Detailed startup guide
+└── 📖 SESSION_START.md                  # Session startup guide
 ```
 
 ---

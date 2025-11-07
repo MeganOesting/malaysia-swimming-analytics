@@ -1,0 +1,166 @@
+Malaysia Times Database - Comprehensive Project Summary
+Project Overview
+The Malaysia Times Database is a Flask-based web application designed to analyze Malaysian swimming competition results. It compares swimmer performances against AQUA (Australian Swimming) targets and computes Malaysia Age Points (MAP) to track athlete development against national standards.
+Core Functionality
+Primary Features
+Performance Analysis: Compares meet results to AQUA targets (On Track Path Time, On Track AQUA, Track Gap)
+Age Points Calculation: Computes Malaysia Age Points (MAP) from base tables
+Multi-Meet Support: Analyzes results from multiple swimming competitions
+Foreign Athlete Handling: Properly identifies and processes non-Malaysian swimmers
+Data Export: Exports filtered results to Excel format
+Real-time Filtering: Interactive web interface with multiple filter options
+Data Processing
+Excel Workbook Processing: Reads local Excel files (no user uploads)
+Unified Processing: Single processor handles both men's and women's results from combined or separate workbooks
+Caching System: LRU caches for performance optimization
+State Resolution: Maps club names to Malaysian state codes
+Foreign Detection: Identifies foreign athletes using AthleteINFO database
+Technical Architecture
+Tech Stack
+Backend: Python 3.9+ (tested on 3.13)
+Web Framework: Flask with Jinja2 templates
+Data Processing: pandas for Excel IO and data manipulation
+Excel Support:
+openpyxl for .xlsx files
+xlrd==2.0.1 for .xls files (critical version requirement)
+Caching: functools.lru_cache for performance
+Development: Flask debug mode with auto-reload
+Project Structure
+Core Application Files
+Malaysia_Times_Database/Malaysia_Database.py: Main application entry point
+On_Track_Calculator/On_Track_Code.py: Core Flask application with all routes and processing logic
+Malaysia_Times_Database/age_points_core.py: MAP calculation engine
+Malaysia_Times_Database/age_points_blueprint.py: Optional Age Points UI (not mounted by default)
+Data Files
+Malaysia_Times_Database/Age_OnTrack_AQUA.xlsx: Shared workbook containing:
+MOT Tables 25 sheet: On Track Path Time targets
+AQUA POINTS sheet: AQUA base seconds (male/female)
+Malaysia_Times_Database/AthleteINFO.csv: Athlete database with foreign flags, country codes, and state assignments
+Malaysia_Times_Database/Clubs_By_State.xlsx: Club-to-state mapping
+Meets/: Competition data files (9 Excel workbooks)
+UI Components
+On_Track_Calculator/templates/index.html: Main single-page application
+Malaysia_Times_Database/static/docs/: Reference PDFs (MAP/MOT/LTAD documentation)
+Available Meets
+The system supports 5 major swimming competitions:
+SUKMA 2024 (SUK24) - Malaysian Games
+MIAG 2025 (MIA25) - Malaysian International Age Group
+Malaysia Open 2025 (MO25) - National Open Championships
+SEA Age 2025 (SEAG25) - Southeast Asian Age Group (combined format)
+State Championships (STATE24) - January 2024 State Meets
+Web Application Routes
+Public Routes
+/ (GET/POST): Main application interface with filtering and results display
+/export (POST): Export filtered results to Excel
+/run (GET/POST): Alternative results page
+/ltad: LTAD (Long Term Athlete Development) information page
+Admin Routes
+/admin/reload-athleteinfo: Reload athlete database from CSV
+/admin/reload-clubs: Reload club-to-state mapping
+/admin/flush-cache: Clear all caches and reload data
+/admin/debug-q-scan: Debug Q column processing for specific meets
+/admin/debug-club: Debug club name resolution
+/admin/debug-athlete: Debug specific athlete data
+/admin/debug-resolve: Test file path resolution
+/admin/reload-foreign: Reload foreign swimmer names
+/admin/reload-sukma: Rebuild SUKMA team lookup
+Data Processing Logic
+Unified Processing System
+The application uses a single processing function (_process_meet_workbook) that handles both men's and women's results from either:
+Combined workbooks (both genders in one file)
+Separate workbooks (legacy format)
+Foreign Athlete Handling
+Priority Order for State Assignment:
+Preprocessed team_val: Direct foreign country codes (INA, KOR, SGP, etc.)
+AthleteINFO database: Foreign flags and country codes
+Club-to-state mapping: For Malaysian athletes
+Fallback: Unassigned (UN) for unresolved cases
+Event Support
+Supported Events:
+Freestyle: 50, 100, 200, 400, 800, 1500m
+Backstroke: 50, 100, 200m
+Breaststroke: 50, 100, 200m
+Butterfly: 50, 100, 200m
+Individual Medley: 200, 400m
+Stroke Code Mapping:
+FR → Free, BK → Back, BR → Breast, BU → Fly, ME → IM
+User Interface Features
+Filtering Options
+Meets: Multi-select from available competitions
+Gender: Male/Female (both can be selected)
+Events: Multi-select from supported events
+State: 3-letter state code filter
+Age Groups: OPEN, 16-18, 14-15, 12-13, 13U
+Results Mode: All times vs Best times only
+Foreign Swimmers: Include/exclude non-Malaysian athletes
+Results Table Columns
+Gender: Male/Female
+Event: Swimming event name
+Name: Swimmer name (with "(Non-Malaysian)" tag for foreign athletes)
+State: 3-letter state code or country code
+Age: Swimmer age
+Meet: Competition abbreviation
+Time: Swimming time
+AQUA: AQUA points
+Place: Competition placement
+On Track Path Time: Target time from MOT tables
+On Track AQUA: Calculated AQUA points for target time
+Track Gap: Difference between actual and target AQUA
+Age Points: Malaysia Age Points (MAP)
+Data Sources and File Formats
+Excel File Structure
+Expected Column Layout:
+Column B: Gender (M/F)
+Column C: Distance (50, 100, 200, etc.)
+Column D: Stroke (Fr, Bk, Br, Bu, Me)
+Column E: Swimmer Name
+Column F: Birthdate (dd.mm.yyyy format)
+Column G: Age (optional, calculated if missing)
+Column I: Swimming Time
+Column K: AQUA Points
+Column M: Place
+Column N: Meet Date
+Column Q: Team/Club Name
+Special Handling
+SEA Age 2025: Uses combined format with special sheet detection
+Foreign Athletes: Identified via Nation column (G) and AthleteINFO database
+Age Calculation: Computed as of December 31st of meet year
+Performance Optimizations
+Caching Strategy
+Meet Rows Cache: Pre-parsed competition data
+AQUA/MOT Maps: LRU caches for target time lookups
+Club Mappings: Cached club-to-state resolution
+Background Loading: Asynchronous cache warming
+Data Processing
+Unified Processing: Single function handles all data processing
+Efficient Filtering: Early filtering to reduce processing load
+Vectorized Operations: pandas-based data manipulation
+Development and Maintenance
+Startup Protocol
+Create virtual environment
+Install dependencies (flask, pandas, openpyxl, xlrd==2.0.1)
+Start application: python -m Malaysia_Times_Database.Malaysia_Database
+Access at http://127.0.0.1:5000
+Load data via admin endpoints
+Data Management
+AthleteINFO.csv: Central athlete database with foreign flags and state assignments
+Clubs_By_State.xlsx: Club-to-state mapping with multiple sheets per state
+Meet Files: Competition results in standardized Excel format
+Troubleshooting
+xlrd Version: Must be exactly 2.0.1 for .xls support
+File Paths: Admin debug endpoints for path resolution
+Cache Issues: Admin flush-cache endpoint for data reload
+Foreign Athletes: Debug endpoints for athlete data inspection
+Future Development
+Planned Enhancements
+MAP Button: Interactive Malaysia Age Points information and calculations
+MOT Button: On Track target time progression and tracking
+Combined Workbooks: Full support for single workbooks per meet
+Registration System: Athlete registration and payment processing
+Performance Analytics: Advanced statistical analysis and reporting
+Extensibility
+New Meets: Easy addition of new competition formats
+Additional Events: Support for new swimming events
+Custom Calculations: Extensible scoring and analysis framework
+API Integration: Potential for external data sources
+This system represents a comprehensive solution for Malaysian swimming performance analysis, with robust data processing, flexible filtering, and extensive administrative capabilities for managing athlete data and competition results.

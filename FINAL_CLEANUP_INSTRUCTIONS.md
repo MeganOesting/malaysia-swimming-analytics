@@ -1,4 +1,6 @@
-# Final Cleanup Instructions
+# Final Cleanup Instructions (Completed October 2025)
+
+> Status: Cleanup scripts executed and verified (`python scripts\cleanup_statistical_tables.py`, `python scripts\test_sqlite_db.py`). The Times Database now contains only web-application tables. Keep this document for historical reference or if the cleanup needs to be repeated after future migrations.
 
 ## ✅ Reorganization Status: ALMOST COMPLETE
 

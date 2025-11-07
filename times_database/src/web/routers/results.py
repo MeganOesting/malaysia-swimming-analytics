@@ -3,15 +3,33 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 import sqlite3
 from typing import List, Dict, Any
+from pathlib import Path
+
+# Align database resolution with the admin router so every endpoint reads the
+# same canonical file (the repository-level malaysia_swimming.db).
+project_root = Path(__file__).resolve().parents[2]
+_db_candidates = [
+    project_root.parent / "malaysia_swimming.db",
+    project_root / "database" / "malaysia_swimming.db",
+]
+
+DATABASE_PATH = None
+for candidate in _db_candidates:
+    resolved = candidate.resolve()
+    if resolved.exists():
+        DATABASE_PATH = resolved
+        break
+
+if DATABASE_PATH is None:
+    DATABASE_PATH = _db_candidates[0].resolve()
+    DATABASE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 router = APIRouter()
 
 def get_db():
     # Simple SQLite connection for now
-    import os
-    # Use absolute path for Docker container
-    db_path = '/app/database/malaysia_swimming.db'
-    conn = sqlite3.connect(db_path)
+    DATABASE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(str(DATABASE_PATH))
     conn.row_factory = sqlite3.Row
     return conn
 

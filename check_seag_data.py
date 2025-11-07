@@ -54,3 +54,13 @@ print(f"  Birth dates available: 0 (SEAG files only have birthyear in column 18,
 conn.close()
 
 
+
+
+
+
+
+
+
+
+
+

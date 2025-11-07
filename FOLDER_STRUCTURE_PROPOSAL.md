@@ -88,8 +88,7 @@ Malaysia Swimming Analytics/
 │   └── malaysia_swimming.db        # SQLite (if shared across projects)
 │
 ├── 📖 Malaysia Swimming Analytics Handbook.md  # Main project guide
-├── 📖 NEXT_SESSION_STARTER.md      # Quick session start
-├── 📖 STARTUP_SESSION_GUIDE.md     # Detailed startup guide
+├── 📖 SESSION_START.md             # Session startup guide
 │
 └── [Future Projects]
     ├── athlete_registration/

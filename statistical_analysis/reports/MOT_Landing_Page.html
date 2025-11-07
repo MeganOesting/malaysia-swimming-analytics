@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysia On Track (MOT) Standards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        /* Section Styling */
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .section p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .section ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .section li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        
+        /* Highlight Boxes */
+        .highlight-box {
+            background: #e8f4f8;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        
+        .coming-soon-box {
+            background: #fff3cd;
+            border-left: 5px solid #f39c12;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        /* Steps/Process */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .step-card {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 20px;
+            border-radius: 6px;
+            position: relative;
+        }
+        
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+        }
+        
+        .step-card h4 {
+            margin-top: 10px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .step-card ul {
+            margin-left: 20px;
+            font-size: 0.95em;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #3498db;
+            border: 2px solid #3498db;
+        }
+        
+        .btn-outline:hover {
+            background: #e8f4f8;
+        }
+        
+        /* Resource Links */
+        .resource-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .resource-card {
+            border: 2px solid #dee2e6;
+            padding: 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            border-color: #3498db;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .resource-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .resource-card p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .resource-card a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .resource-card a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Key Points */
+        .key-point {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* Back Link */
+        .back-link {
+            margin-bottom: 20px;
+        }
+        
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Icons */
+        .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back to Times Database Link -->
+        <div class="back-link">
+            <a href="#" onclick="history.back(); return false;">← Back to Times Database</a>
+        </div>
+        
+        <!-- Header -->
+        <header>
+            <h1>🏊 Malaysia On Track (MOT) Standards</h1>
+            <p class="subtitle">Competitive developmental benchmarks for swimmers</p>
+        </header>
+        
+        <!-- Section 1: What is MOT? -->
+        <section class="section">
+            <h2>📊 What is MOT?</h2>
+            <p>
+                <strong>Malaysia On Track (MOT)</strong> provides age-specific performance standards that help identify swimmers 
+                who are "on track" for competitive success. These standards are based on comprehensive statistical analysis 
+                of improvement patterns from top-performing developmental swimmers worldwide.
+            </p>
+            
+            <div class="highlight-box">
+                <p><strong>Key Features:</strong></p>
+                <ul>
+                    <li><span class="key-point">Age-Specific Benchmarks:</span> Standards for ages 15, 16, 17, and 18 years</li>
+                    <li><span class="key-point">Three Development Tracks:</span> Early, Middle, and Late developers, recognizing that swimmers develop at different rates</li>
+                    <li><span class="key-point">Evidence-Based:</span> Based on the top 500 ranked swimmers from USA Swimming's database for each event, gender, and age (15-18) for each season from September 2021 to September 2025</li>
+                    <li><span class="key-point">Improvement Analysis:</span> 84 separate analyses tracking how swimmers improve between ages (14 events × 2 genders × 3 age transitions: 15→16, 16→17, 17→18)</li>
+                    <li><span class="key-point">Internationally Validated:</span> Compared and validated against Canada On Track standards</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Section 2: How MOT Times Are Determined -->
+        <section class="section">
+            <h2>🔍 How Are MOT Standards Created?</h2>
+            <p>
+                MOT standards are not arbitrary goals—they are based on rigorous statistical analysis of how competitive developmental 
+                swimmers actually improve over time. Here's how we determine these standards:
+            </p>
+            
+            <div class="process-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Data Collection</h4>
+                    <ul>
+                        <li>Top 500 ranked swimmers from USA Swimming's database for each combination of:
+                            <ul style="margin-top: 8px;">
+                                <li>14 events (50 Free, 100 Free, 200 Free, etc.)</li>
+                                <li>2 genders (Female, Male)</li>
+                                <li>4 ages (15, 16, 17, 18 years)</li>
+                                <li>4 seasons (Sept 2021-Aug 2022, Sept 2022-Aug 2023, Sept 2023-Aug 2024, Sept 2024-Aug 2025)</li>
+                            </ul>
+                        </li>
+                        <li>This means we pull the top 500 results from USA Swimming's season rankings for each specific event, gender, and age for each season</li>
+                        <li>This gives us approximately 112,000 individual swimmer records in our source data (14 events × 2 genders × 4 ages × ~500 swimmers × 4 seasons)</li>
+                        <li>Ages are based on the swimmer's age on the first day of competition</li>
+                    </ul>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Improvement Analysis</h4>
+                    <ul>
+                        <li>Perform 84 separate <strong>improvement analyses</strong>:
+                            <ul style="margin-top: 8px;">
+                                <li>14 events × 2 genders × 3 age transitions = 84 improvement analyses</li>
+                                <li>Each improvement analysis tracks how swimmers improve between ages (15→16, 16→17, 17→18)</li>
+                                <li>For each improvement analysis, we find swimmers who competed in both the "from" age and the "to" age groups</li>
+                            </ul>
+                        </li>
+                        <li>For each improvement analysis, calculate statistical measures:
+                            <ul style="margin-top: 8px;">
+                                <li>Median improvement (the "typical" improvement)</li>
+                                <li>Mean, standard deviation, and quartiles</li>
+                                <li>Sample sizes (number of swimmers who appear in both age groups for that transition)</li>
+                            </ul>
+                        </li>
+                        <li>Note: Sample sizes in improvement analyses are typically 250-350 swimmers (fewer than 500) because not all swimmers compete in consecutive age groups</li>
+                        <li>Identify patterns across different performance levels and events</li>
+                    </ul>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Standard Setting</h4>
+                    <ul>
+                        <li>Compare USA improvement patterns with Canada On Track benchmarks</li>
+                        <li>Establish three tracks (Early, Middle, Late developers)</li>
+                        <li>Set age-specific time standards for each track</li>
+                    </ul>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Validation</h4>
+                    <ul>
+                        <li>Cross-reference with international standards</li>
+                        <li>Validate against competitive performance data</li>
+                        <li>Ensure standards are achievable yet challenging</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <p>
+                    <strong>📖 Want to learn more?</strong> For detailed statistical methodology, data sources, and validation 
+                    procedures, see our <a href="MOT_Data_Methodology_and_Assumptions.html" target="_blank">Full Methodology Report</a>.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Section 3: Using MOT for Individual Swimmers -->
+        <section class="section">
+            <h2>👤 Understanding Your Swimmer's Progress</h2>
+            <p>
+                MOT standards help coaches, parents, and swimmers understand developmental trajectories and set realistic, 
+                age-appropriate goals.
+            </p>
+            
+            <div class="highlight-box">
+                <p><strong>MOT standards help you:</strong></p>
+                <ul>
+                    <li>✓ Identify if a swimmer is on track for competitive performance at their age</li>
+                    <li>✓ Set realistic age-appropriate goals based on evidence</li>
+                    <li>✓ Understand developmental trajectories (recognizing that swimmers develop at different rates)</li>
+                    <li>✓ Compare progress against three development pathways (Early, Middle, Late)</li>
+                    <li>✓ Project future performance based on current trajectory</li>
+                </ul>
+            </div>
+            
+            <div class="coming-soon-box">
+                <h3>📈 Swimmer Progression Graph (Coming Soon)</h3>
+                <p>
+                    Soon, you'll be able to generate a personalized progression graph for any swimmer showing:
+                </p>
+                <ul>
+                    <li>Their current times vs. MOT standards across ages</li>
+                    <li>Their improvement trajectory vs. expected MOT progression</li>
+                    <li>Which track they align with (Early, Middle, Late developer)</li>
+                    <li>Projected performance if they maintain current improvement rate</li>
+                    <li>Visual representation of their progress toward competitive standards</li>
+                </ul>
+                <p style="margin-top: 15px; font-style: italic; color: #856404;">
+                    This feature is currently in development and will be available soon.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Section 4: Available Data Overview -->
+        <section class="section">
+            <h2>📋 Available Data & Analyses</h2>
+            <div class="info-box">
+                <p><strong>What data do we have?</strong></p>
+                <ul>
+                    <li><span class="key-point">Events:</span> 14 standard swimming events (50 Free, 100 Free, 200 Free, 400 Free, 800 Free, 1500 Free, 100 Back, 200 Back, 100 Breast, 200 Breast, 100 Fly, 200 Fly, 200 IM, 400 IM)</li>
+                    <li><span class="key-point">Genders:</span> Female (F) and Male (M)</li>
+                    <li><span class="key-point">Ages with Data:</span> 15, 16, 17, and 18 years old</li>
+                    <li><span class="key-point">Improvement Analyses:</span> We analyze three age transitions: 15→16, 16→17, and 17→18</li>
+                    <li><span class="key-point">Total Analyses:</span> 84 separate improvement analyses (14 events × 2 genders × 3 age transitions)</li>
+                    <li><span class="key-point">Reference Standards:</span> Compared with <a href="https://www.swimming.ca/on-track-times/" target="_blank">Canada On Track</a> times (<a href="https://www.swimming.ca/wp-content/uploads/2025/04/On-Track-Times-for-SNC-Website-APRIL-2025.pdf" target="_blank">April 2025 PDF</a>)</li>
+                </ul>
+                <p style="margin-top: 15px;">
+                    For each event, gender, and age combination, we have the top 500 ranked swimmers from USA Swimming's database 
+                    for each season from September 2021 to September 2025.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Section 5: Quick Access Tools -->
+        <section class="section">
+            <h2>🚀 Quick Actions</h2>
+            <div class="action-buttons">
+                <a href="../MOT_Delta_Analysis_Index.html" class="btn btn-primary" target="_blank">
+                    📊 View MOT Standards Table
+                </a>
+                <a href="Delta_Comparison_USA_vs_Canada.html" class="btn btn-secondary" target="_blank">
+                    🌍 USA vs Canada Comparison
+                </a>
+                <a href="MOT_Data_Methodology_and_Assumptions.html" class="btn btn-outline" target="_blank">
+                    📖 Full Methodology Report
+                </a>
+            </div>
+        </section>
+        
+        <!-- Section 6: Deep Dive Resources -->
+        <section class="section">
+            <h2>📚 Learn More About MOT</h2>
+            <p>
+                For those interested in understanding the statistical foundation and detailed methodology behind MOT standards:
+            </p>
+            
+            <div class="resource-links">
+                <div class="resource-card">
+                    <h4>📊 Full Methodology & Assumptions</h4>
+                    <p>
+                        Detailed explanation of data sources, statistical methods, distribution characteristics, 
+                        and validation procedures.
+                    </p>
+                    <a href="MOT_Data_Methodology_and_Assumptions.html" target="_blank">
+                        Read Full Methodology Report →
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <h4>🌍 USA vs Canada Comparison</h4>
+                    <p>
+                        Comprehensive analysis comparing USA Swimming improvement patterns with Canada On Track 
+                        benchmarks to validate MOT standards.
+                    </p>
+                    <a href="Delta_Comparison_USA_vs_Canada.html" target="_blank">
+                        View Comparison Analysis →
+                    </a>
+                    <p style="margin-top: 10px; font-size: 0.9em;">
+                        <strong>Reference:</strong> <a href="https://www.swimming.ca/on-track-times/" target="_blank">Canada On Track</a> | 
+                        <a href="https://www.swimming.ca/wp-content/uploads/2025/04/On-Track-Times-for-SNC-Website-APRIL-2025.pdf" target="_blank">April 2025 PDF</a>
+                    </p>
+                </div>
+                
+                <div class="resource-card">
+                    <h4>📈 Z-Score Analysis Report</h4>
+                    <p>
+                        Understanding how performance levels (z-scores) correlate with improvement rates and 
+                        what this means for identifying "on track" swimmers.
+                    </p>
+                    <a href="../MOT_Delta_Analysis_Index.html" target="_blank">
+                        Access Z-Score Reports →
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <h4>🔬 Data Validation & Distribution</h4>
+                    <p>
+                        Technical details about data characteristics, validation processes, and how the competitive 
+                        sample relates to the full swimming population.
+                    </p>
+                    <a href="MOT_Data_Methodology_and_Assumptions.html" target="_blank">
+                        Learn About Data Characteristics →
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <p><strong>Malaysia On Track (MOT) Standards</strong></p>
+            <p>
+                <strong>Data Sources:</strong> USA Swimming season rankings (2021-2025) | 
+                Canada On Track reference times (April 2025) | 
+                Ages based on first day of competition
+            </p>
+            <p>
+                <strong>Project:</strong> Malaysia On Track (MOT) Delta Analysis | 
+                <strong>Last Updated:</strong> <span id="lastUpdated"></span>
+            </p>
+            <p style="margin-top: 15px;">
+                <a href="../MOT_Delta_Analysis_Index.html" target="_blank">Statistical Analysis Portal</a> | 
+                <a href="MOT_Data_Methodology_and_Assumptions.html" target="_blank">Full Methodology</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Set last updated date
+        document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    </script>
+</body>
+</html>
+

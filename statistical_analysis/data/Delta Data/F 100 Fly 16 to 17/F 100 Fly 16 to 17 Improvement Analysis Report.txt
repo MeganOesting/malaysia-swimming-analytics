@@ -1,0 +1,32 @@
+MOT DELTA ANALYSIS REPORT
+========================
+
+Event: 100 Fly
+Gender: F
+Age Transition: 16->17
+Periods: 9.1.22-8.31.23 to 9.1.23-8.31.24
+Analysis Date: 2025-11-01 11:05:33
+
+SAMPLE STATISTICS
+=================
+Sample Size: 349 athletes
+Median Improvement: 0.560 seconds
+Mean Improvement: 0.591 seconds
+Standard Deviation: 1.028 seconds
+Min Improvement: -2.710 seconds
+Max Improvement: 3.670 seconds
+Q25 (IQR Lower): -0.110 seconds
+Q75 (IQR Upper): 1.210 seconds
+IQR Range: 1.320 seconds
+
+IMPROVEMENT DISTRIBUTION
+=======================
+Positive Improvements: 253 athletes
+Negative Changes: 95 athletes
+No Change: 1 athletes
+
+STATISTICAL SIGNIFICANCE
+=======================
+Sample size is adequate for statistical analysis (n>=30)
+Median improvement of 0.560s represents the typical improvement for this age transition.
+This suggests consistent improvement from age 16 to 17.

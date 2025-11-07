@@ -1,4 +1,6 @@
-# Folder Reorganization - Step-by-Step Instructions
+# Folder Reorganization (Completed October 2025)
+
+> Status: All migration steps executed and verified. This document is preserved for reference only; you do **not** need to rerun the scripts unless you intentionally reset the repository structure.
 
 ## ✅ COMPLETED: Script Updates
 - Fixed `build_delta_html.py` - Now handles relative paths dynamically
@@ -84,6 +86,8 @@ After migration, scripts in `times_database/scripts/` need path updates:
 - Scripts that load MAP/MOT/AQUA tables
 
 **Update pattern:** `data/reference/` → `../reference_data/imports/`
+
+*(Historical log: statistical tables were moved to `statistical_analysis/database/statistical.db` on 2025‑10‑xx; Times Database now contains only web-app tables as verified by `python scripts\cleanup_statistical_tables.py` and `python scripts\test_sqlite_db.py`.)*
 
 ### Step 5: Update Docker Configuration
 

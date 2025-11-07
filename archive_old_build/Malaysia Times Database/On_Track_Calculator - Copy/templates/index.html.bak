@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SUKMA On Track</title>
+</head>
+<body>
+  <h1>Welcome to SUKMA On Track</h1>
+  <div>
+    <img src="{{ url_for('static', filename='MAS_Logo.png') }}" alt="MAS Logo" height="150">
+    <img src="{{ url_for('static', filename='SUKMA_Logo.png') }}" alt="SUKMA Logo" height="150">
+  </div>
+
+  <a href="{{ url_for('run_calculations') }}">
+    <button>Run Rankings & AQUA Calculations</button>
+  </a>
+</body>
+</html>
+

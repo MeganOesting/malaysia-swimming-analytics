@@ -1,0 +1,565 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Malaysia On Track Calculator</title>
+  <style>
+    /* Slightly smaller main header */
+    h1 { font-size: 1.4rem; }
+    /* Page font */
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; }
+    .header-row { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .logos img { margin-right: 8px; }
+    .right-actions { white-space: nowrap; }
+    .mas-logo { height: 1em; vertical-align: middle; margin: 0 6px; }
+    /* Match AQUA header side padding across all headers; top-align headers */
+    table thead th { padding-left: 4px !important; padding-right: 4px !important; vertical-align: top; position: relative; }
+    
+    /* Fix Name column (3rd) width; prevent spillover */
+    th:nth-child(3), td:nth-child(3) {
+      width: {{ name_col_ch }}ch;
+      max-width: {{ name_col_ch }}ch;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* Explicit column widths based on longest expected strings */
+    /* 1: Gender (max "Female" => 6ch) */
+    th:nth-child(1), td:nth-child(1) { width: 6ch; max-width: 6ch; white-space: nowrap; }
+    /* 2: Event (max "200 Breast" => 10ch) */
+    th:nth-child(2), td:nth-child(2) { width: 10ch; max-width: 10ch; white-space: nowrap; }
+    /* 3: Name dynamic via name_col_ch (kept below) */
+    /* 4: Team (tighter width; keep centered) */
+    th:nth-child(4), td:nth-child(4) { width: 6ch; max-width: 6ch; white-space: nowrap; }
+    td:nth-child(4) { text-align: center; }
+    /* 5: Age (max "Age" => 3ch) */
+    th:nth-child(5), td:nth-child(5) { width: 3ch; max-width: 3ch; }
+    /* 6: Meet (codes like SUK24) */
+    th:nth-child(6), td:nth-child(6) { width: 6ch; max-width: 6ch; white-space: nowrap; }
+    /* 7: Time (narrower) */
+    th:nth-child(7), td:nth-child(7) { width: 7ch; max-width: 7ch; white-space: nowrap; }
+    /* Tighter Time header padding to give AQUA more room */
+    th:nth-child(7) { padding-left: 2px !important; padding-right: 2px !important; }
+    /* 8: AQUA (needs more room than 4ch) */
+    th:nth-child(8), td:nth-child(8) {
+      width: 6ch; max-width: 6ch; white-space: nowrap;
+      padding-left: 6px !important; padding-right: 6px !important;
+    }
+    /* 9: Place (compact, e.g., numeric or short text) */
+    th:nth-child(9), td:nth-child(9) { width: 4ch; max-width: 4ch; white-space: nowrap; }
+    /* Center Place header and contents */
+    th:nth-child(9) { text-align: center !important; }
+    td:nth-child(9) { text-align: center; }
+    /* 10: On Track Path Time (slightly narrower again) */
+    th:nth-child(10) { width: 6.5ch; max-width: 6.5ch; white-space: normal; word-wrap: break-word; }
+    td:nth-child(10) { width: 6.5ch; max-width: 6.5ch; white-space: nowrap; }
+    /* Match AQUA header padding for On Track Target Time */
+    th:nth-child(10) { padding-left: 6px !important; padding-right: 6px !important; }
+    /* 11: On Track AQUA (fit "On Track" => 8ch) */
+    th:nth-child(11), td:nth-child(11) { width: 8ch; max-width: 8ch; }
+    /* 12: Track Gap (wrap header, compact width) */
+    th:nth-child(12), td:nth-child(12) { width: 7ch; max-width: 7ch; }
+    th:nth-child(12) { white-space: normal; word-wrap: break-word; }
+    /* Tighten Track Gap header side padding (keep minimal) */
+    th:nth-child(12) { padding-left: 2px !important; padding-right: 2px !important; }
+    /* 13: Age Points (numeric, slightly wider) */
+    th:nth-child(13), td:nth-child(13) { width: 6ch; max-width: 6ch; white-space: nowrap; }
+
+    /* Allow On Track headers to wrap without widening widths */
+    th:nth-child(10), th:nth-child(11) { white-space: normal; word-wrap: break-word; }
+    /* Center only the two On Track column headers */
+    th:nth-child(10), th:nth-child(11) {
+      text-align: center !important;
+    }
+    /* Center Team (col 4) and Track Gap (col 12) headers */
+    th:nth-child(4), th:nth-child(12) { text-align: center !important; }
+    /* Center Gender (1), Event (2), Name (3), Meet (6) headers */
+    th:nth-child(1), th:nth-child(2), th:nth-child(3), th:nth-child(6) { text-align: center !important; }
+    /* Center AQUA header (col 8) */
+    th:nth-child(8) { text-align: center !important; }
+    /* Increase AQUA header side padding for readability */
+    th:nth-child(8) { padding-left: 6px !important; padding-right: 6px !important; }
+    /* Center Time header (col 7) */
+    th:nth-child(7) { text-align: center !important; }
+    /* Center contents for AQUA (col 8) and On Track AQUA (col 11) only */
+    td:nth-child(8), td:nth-child(11) { text-align: center; }
+    /* Center Age Points header and contents (col 13) */
+    th:nth-child(13) { text-align: center !important; }
+    td:nth-child(13) { text-align: center; }
+    
+    /* Center Age header and contents (col 5) */
+    th:nth-child(5) { text-align: center !important; }
+    td:nth-child(5) { text-align: center; }
+    /* Right-align time columns' data: Time (col 7) and On Track Target Time (col 10) */
+    td:nth-child(7), td:nth-child(10) { text-align: right; }
+    /* Stabilize digit widths in Time column */
+    td:nth-child(7) { font-variant-numeric: tabular-nums; }
+    td:nth-child(12) { text-align: center; }
+    /* Sortable headers */
+    .sortable { cursor: pointer; user-select: none; }
+    .sortable .arrow { opacity: 0.5; font-size: 0.9em; }
+    .arrow-row { position: absolute; left: 4px; bottom: 4px; margin: 0; text-align: left; }
+    /* Active sorted column header (avoid bold to prevent width change) */
+    th.sorted { background: #eef6ff; }
+    th.sorted .arrow { opacity: 1; }
+    /* Place cell highlight colors (updated tones) */
+    .place-gold { background: #f1c232; }
+    .place-silver { background: #b7b7b7; }
+    .place-bronze { background: #bf9000; }
+  </style>
+  </head>
+<body>
+  <h1 style="text-align:center;">
+    <img class="mas-logo" src="{{ url_for('static', filename='MAS_Logo.png') }}" alt="MAS Logo">
+    Welcome to the Malaysia Times Database
+    <img class="mas-logo" src="{{ url_for('static', filename='MAS_Logo.png') }}" alt="MAS Logo">
+  </h1>
+  <div class="header-row">
+    <div class="logos"></div>
+    <div class="right-actions"></div>
+  </div>
+
+  <div class="page">
+    <div class="main">
+
+  {% if missing_paths and missing_paths|length %}
+    <p style="color:#b00;">Missing required files:<br>{{ missing_paths|join('<br>')|safe }}</p>
+  {% endif %}
+
+  <style>
+    .summary { font-size: 0.9em; margin: 6px 0 8px 0; }
+    .summary-line { margin: 2px 0; }
+    .summary .item { margin-right: 10px; white-space: nowrap; }
+    .summary .icon { margin-right: 4px; }
+    .apply-compact { font-size: 0.9em; padding: 2px 10px; }
+  </style>
+  <div class="summary">
+    <form id="filtersForm" method="post" action="" style="margin: 0;">
+      <div class="summary-line">
+        <strong>Meets</strong>:
+        {% for meet in available_meets %}
+          <label class="item">
+            <input type="checkbox" name="meets" value="{{ meet.id }}" {% if meet.id in selected_meet_ids %}checked{% endif %}>
+            {{ meet.label }}
+          </label>
+        {% endfor %}
+      </div>
+      <div class="summary-line">
+        <strong>Gender</strong>:
+        <label class="item"><input type="checkbox" name="genders" value="M" {% if 'M' in selected_genders %}checked{% endif %}> Male</label>
+        <label class="item"><input type="checkbox" name="genders" value="F" {% if 'F' in selected_genders %}checked{% endif %}> Female</label>
+      </div>
+      <div class="summary-line">
+        <strong>State</strong>:
+        <select name="state_code" class="item">
+          <option value="" {% if not state_filter %}selected{% endif %}>All States</option>
+          {% for sc in state_codes %}
+            <option value="{{ sc }}" {% if state_filter == sc %}selected{% endif %}>{{ sc }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="summary-line">
+        <strong>Age Group</strong>:
+        <label class="item"><input type="checkbox" name="age_groups" value="OPEN" {% if 'OPEN' in selected_age_groups %}checked{% endif %}> Open</label>
+        <label class="item"><input type="checkbox" name="age_groups" value="16-18" {% if '16-18' in selected_age_groups %}checked{% endif %}> 16–18</label>
+        <label class="item"><input type="checkbox" name="age_groups" value="14-15" {% if '14-15' in selected_age_groups %}checked{% endif %}> 14–15</label>
+        <label class="item"><input type="checkbox" name="age_groups" value="12-13" {% if '12-13' in selected_age_groups %}checked{% endif %}> 12–13</label>
+        <label class="item"><input type="checkbox" name="age_groups" value="13U" {% if '13U' in selected_age_groups %}checked{% endif %}> 13 &amp; Under</label>
+      </div>
+      <div class="summary-line">
+        <strong>Events</strong>:
+        <div class="events-grid">
+          {% set ev = '50 Free' %}
+          <label class="item ev-r1c1"><input type="checkbox" name="events" value="50 Free" {% if ev in selected_events %}checked{% endif %}> 50 Free</label>
+          {% set ev = '100 Free' %}
+          <label class="item ev-r1c2"><input type="checkbox" name="events" value="100 Free" {% if ev in selected_events %}checked{% endif %}> 100 Free</label>
+          {% set ev = '200 Free' %}
+          <label class="item ev-r1c3"><input type="checkbox" name="events" value="200 Free" {% if ev in selected_events %}checked{% endif %}> 200 Free</label>
+          {% set ev = '400 Free' %}
+          <label class="item ev-r1c4"><input type="checkbox" name="events" value="400 Free" {% if ev in selected_events %}checked{% endif %}> 400 Free</label>
+          {% set ev = '800 Free' %}
+          <label class="item ev-r1c5"><input type="checkbox" name="events" value="800 Free" {% if ev in selected_events %}checked{% endif %}> 800 Free</label>
+          {% set ev = '1500 Free' %}
+          <label class="item ev-r1c6"><input type="checkbox" name="events" value="1500 Free" {% if ev in selected_events %}checked{% endif %}> 1500 Free</label>
+
+          {% set ev = '50 Back' %}
+          <label class="item ev-r2c1"><input type="checkbox" name="events" value="50 Back" {% if ev in selected_events %}checked{% endif %}> 50 Back</label>
+          {% set ev = '100 Back' %}
+          <label class="item ev-r2c2"><input type="checkbox" name="events" value="100 Back" {% if ev in selected_events %}checked{% endif %}> 100 Back</label>
+          {% set ev = '200 Back' %}
+          <label class="item ev-r2c3"><input type="checkbox" name="events" value="200 Back" {% if ev in selected_events %}checked{% endif %}> 200 Back</label>
+          {% set ev = '50 Breast' %}
+          <label class="item ev-r2c4"><input type="checkbox" name="events" value="50 Breast" {% if ev in selected_events %}checked{% endif %}> 50 Breast</label>
+          {% set ev = '100 Breast' %}
+          <label class="item ev-r2c5"><input type="checkbox" name="events" value="100 Breast" {% if ev in selected_events %}checked{% endif %}> 100 Breast</label>
+          {% set ev = '200 Breast' %}
+          <label class="item ev-r2c6"><input type="checkbox" name="events" value="200 Breast" {% if ev in selected_events %}checked{% endif %}> 200 Breast</label>
+
+          {% set ev = '50 Fly' %}
+          <label class="item ev-r3c1"><input type="checkbox" name="events" value="50 Fly" {% if ev in selected_events %}checked{% endif %}> 50 Fly</label>
+          {% set ev = '100 Fly' %}
+          <label class="item ev-r3c2"><input type="checkbox" name="events" value="100 Fly" {% if ev in selected_events %}checked{% endif %}> 100 Fly</label>
+          {% set ev = '200 Fly' %}
+          <label class="item ev-r3c3"><input type="checkbox" name="events" value="200 Fly" {% if ev in selected_events %}checked{% endif %}> 200 Fly</label>
+          {% set ev = '200 IM' %}
+          <label class="item ev-r3c4"><input type="checkbox" name="events" value="200 IM" {% if ev in selected_events %}checked{% endif %}> 200 IM</label>
+          {% set ev = '400 IM' %}
+          <label class="item ev-r3c5"><input type="checkbox" name="events" value="400 IM" {% if ev in selected_events %}checked{% endif %}> 400 IM</label>
+        </div>
+      </div>
+      <div class="summary-line">
+        <label class="item"><input type="checkbox" name="include_foreign" value="1" {% if include_foreign %}checked{% endif %}> Include Non-Malaysian Swimmers</label>
+      </div>
+      <div class="summary-line">
+        <strong>Results</strong>:
+        <label class="item"><input type="radio" name="results_mode" value="all" {% if results_mode != 'best' %}checked{% endif %}> Show all times</label>
+        <label class="item"><input type="radio" name="results_mode" value="best" {% if results_mode == 'best' %}checked{% endif %}> Show best times only</label>
+      </div>
+      <div class="summary-line">
+        <button type="button" class="apply-compact" id="resetFiltersBtn">Reset Filters</button>
+        <button type="submit" class="apply-compact">Apply Selection</button>
+        <button type="submit" class="apply-compact" formaction="export">Download XLSX</button>
+        <input type="hidden" name="sort_col" id="sort_col" value="">
+        <input type="hidden" name="sort_dir" id="sort_dir" value="">
+      </div>
+    </form>
+  </div>
+
+  
+  
+  <table style="border-collapse: collapse; width: 100%; margin-top: 12px; table-layout: fixed;">
+    <thead>
+      <tr>
+        {% for h in headers %}
+          <th
+            style="border:1px solid #ccc; padding:8px; text-align:left; background:#f5f5f5; position: relative;"
+            data-col="{{ loop.index }}"
+            class="{% if loop.index == 5 or loop.index == 7 or loop.index == 8 or loop.index == 9 or loop.index == 12 or loop.index == 13 %}sortable{% endif %}"
+          >
+            <div class="hdr-text">{{ h|safe }}</div>
+            {% if loop.index == 5 or loop.index == 7 or loop.index == 9 or loop.index == 12 or loop.index == 13 %}
+              <div class="arrow-row"><span class="arrow"></span></div>
+            {% endif %}
+          </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% if rows and rows|length %}
+        {% for r in rows %}
+          <tr>
+            {% for c in r %}
+              {% set cell_class = '' %}
+              {% if loop.index == 9 %}
+                {% set p = c|string %}
+                {% if p == '1' %}{% set cell_class = 'place-gold' %}{% elif p == '2' %}{% set cell_class = 'place-silver' %}{% elif p == '3' %}{% set cell_class = 'place-bronze' %}{% endif %}
+              {% endif %}
+              {% if loop.index == 3 %}
+                <td class="{{ cell_class }}" style="border:1px solid #ccc; padding:8px;" title="{{ c }}">{{ c }}</td>
+              {% else %}
+                <td class="{{ cell_class }}" style="border:1px solid #ccc; padding:8px;">{{ c }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="{{ headers|length }}" style="border:1px solid #ccc; padding:8px;">No data yet.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+    </div>
+    <aside class="sidebar">
+      <div class="ref-card">
+        <div class="ref-grid">
+          <a class="ref-btn" href="/map" target="_self">
+            <span class="ref-acr">MAP</span>
+            <span class="ref-desc">Malaysia Age Points</span>
+          </a>
+          <a class="ref-btn" href="/mot" target="_self">
+            <span class="ref-acr">MOT</span>
+            <span class="ref-desc">Malaysia On Track Tables</span>
+          </a>
+          <a class="ref-btn" href="/ltad" target="_self">
+            <span class="ref-acr">LTAD</span>
+            <span class="ref-desc">Long Term Athletic Development</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  
+  <script>
+    // Simple modal for MOT info (placeholder)
+    (function(){
+      const btn = document.getElementById('motInfoBtn');
+      if(btn){
+        btn.addEventListener('click', function(){
+          const overlay = document.createElement('div');
+          overlay.className = 'modal-overlay';
+          overlay.innerHTML = `
+            <div class="modal-box">
+              <div class="modal-header">
+                <strong>MOT Tables Info</strong>
+                <button class="close-btn" aria-label="Close">×</button>
+              </div>
+              <div class="modal-body">
+                <p>This panel will show the MOT tables and guidance. The first age listed in the MOT target table is the first age with statistically meaningful predictability for On Track targets. Younger ages (e.g., fast 9–12) do not reliably predict senior outcomes, while mid-teen performance (e.g., 16+) begins to show stronger correlation.</p>
+                <p>We will add the official table or a PDF view here.</p>
+              </div>
+            </div>`;
+          // Normalize title and close icon
+          const hdr = overlay.querySelector('.modal-header strong');
+          if(hdr){ hdr.textContent = 'Individual On Track Assessment'; }
+          const closeBtn = overlay.querySelector('.modal-header .close-btn');
+          if(closeBtn){ closeBtn.innerHTML = '&times;'; }
+          document.body.appendChild(overlay);
+          function close(){ overlay.remove(); }
+          overlay.addEventListener('click', (e)=>{ if(e.target === overlay) close(); });
+          overlay.querySelector('.close-btn').addEventListener('click', close);
+        });
+      }
+    })();
+
+
+    (function(){
+      function parseTime(s){
+        if(s===undefined || s===null) return null;
+        s = s.toString().trim().replace(',', '.');
+        if(!s) return null;
+        if(s.toUpperCase() === 'N/A') return null;
+        if(s.indexOf(':') >= 0){
+          const parts = s.split(':');
+          const nums = parts.map((p,i)=> i===parts.length-1 ? parseFloat(p) : parseInt(p,10));
+          if(nums.some(n => Number.isNaN(n))) return null;
+          if(nums.length===3){ const [h,m,ss]=nums; return h*3600 + m*60 + ss; }
+          if(nums.length===2){ const [m,ss]=nums; return m*60 + ss; }
+        }
+        const n = parseFloat(s);
+        return Number.isNaN(n) ? null : n;
+      }
+      function parseIntSafe(s){
+        if(s===undefined || s===null) return null;
+        s = s.toString().trim();
+        if(!s || s.toUpperCase()==='N/A') return null;
+        const n = parseInt(s,10);
+        return Number.isNaN(n) ? null : n;
+      }
+      function getCellText(row, idx){
+        const cell = row.children[idx];
+        return cell ? (cell.textContent || '') : '';
+      }
+      function sortTableBy(tbody, colIdx, type, ascending){
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const keyFn = (row) => {
+          const t = getCellText(row, colIdx);
+          return type==='time' ? parseTime(t) : parseIntSafe(t);
+        };
+        rows.sort((a,b)=>{
+          const ka = keyFn(a), kb = keyFn(b);
+          if(ka===null && kb===null) return 0;
+          if(ka===null) return 1;
+          if(kb===null) return -1;
+          return ascending ? (ka - kb) : (kb - ka);
+        });
+        rows.forEach(r => tbody.appendChild(r));
+      }
+      const table = document.querySelector('table');
+      if(!table) return;
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
+      const headers = Array.from(thead.querySelectorAll('th'));
+      const form = document.getElementById('filtersForm');
+      const sortColInput = document.getElementById('sort_col');
+      const sortDirInput = document.getElementById('sort_dir');
+      headers.forEach((th)=>{
+        const col = parseInt(th.getAttribute('data-col'), 10);
+        const sortable = th.classList.contains('sortable');
+        if(!sortable) return;
+        // Sorting state per header; default when activating a new column:
+        // Time/AQUA/Place = ascending; Track Gap (12) and Age Points (13) = descending
+        let ascending = true;
+        const defaultAsc = (c) => !(c === 12 || c === 13);
+        th.addEventListener('click', ()=>{
+          const type = (col === 7) ? 'time' : ((col === 5 || col === 8 || col === 9 || col === 12) ? 'int' : 'str');
+          const wasActive = th.classList.contains('sorted');
+          if(wasActive) {
+            // Toggle when clicking the same active column
+            ascending = !ascending;
+          } else {
+            // Activate a different column → use its default direction
+            ascending = defaultAsc(col);
+          }
+          // Reset other sortable headers to neutral diamond and clear active state
+          headers.forEach(h=>{
+            const span = h.querySelector('.arrow');
+            if(!span) return;
+            if(h === th) { span.textContent = ''; }
+            else if(h.classList.contains('sortable')) { span.textContent = '◇'; }
+            if(h !== th) { h.classList.remove('sorted'); h.setAttribute('aria-sort','none'); }
+          });
+          const arrow = th.querySelector('.arrow'); if(arrow) arrow.textContent = ascending ? '▲' : '▼';
+          th.classList.add('sorted');
+          th.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+          if(sortColInput && sortDirInput){ sortColInput.value = String(col); sortDirInput.value = ascending ? 'asc' : 'desc'; }
+          sortTableBy(tbody, col-1, type, ascending);
+        });
+      });
+
+      // Initialize neutral diamonds and set default active sort on Place (ascending)
+      headers.forEach(h => {
+        if(h.classList.contains('sortable')){
+          const a = h.querySelector('.arrow');
+          if(a) a.textContent = '◇';
+          h.setAttribute('aria-sort', 'none');
+          h.classList.remove('sorted');
+        }
+      });
+      const placeHeader = headers.find(h => parseInt(h.getAttribute('data-col'),10) === 9);
+      if(placeHeader){
+        placeHeader.classList.add('sorted');
+        placeHeader.setAttribute('aria-sort','ascending');
+        const arrow = placeHeader.querySelector('.arrow');
+        if(arrow) arrow.textContent = '▲';
+        if(sortColInput && sortDirInput){ sortColInput.value = '9'; sortDirInput.value = 'asc'; }
+      }
+    })();
+
+    // Reset Filters: uncheck all checkboxes, set Results to 'all', State to All, clear sorting, and submit
+    (function(){
+      const btn = document.getElementById('resetFiltersBtn');
+      const form = document.getElementById('filtersForm');
+      if(btn && form){
+        btn.addEventListener('click', function(){
+          // Uncheck all checkboxes
+          form.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+          // Results mode default: all
+          const allRadio = form.querySelector('input[type="radio"][name="results_mode"][value="all"]');
+          if(allRadio) allRadio.checked = true;
+          // State default: All (empty)
+          const stateSel = form.querySelector('select[name="state_code"]');
+          if(stateSel) stateSel.value = '';
+          // Clear sort hidden inputs
+          const sc = document.getElementById('sort_col'); if(sc) sc.value = '';
+          const sd = document.getElementById('sort_dir'); if(sd) sd.value = '';
+          // Submit
+          form.submit();
+        });
+      }
+    })();
+
+    // Age group logic:
+    // - Selecting OPEN deselects all specific groups
+    // - Selecting any specific group deselects OPEN
+    // - Selecting 13U deselects 12-13, 14-15, 16-18
+    // - Selecting 12-13/14-15/16-18 deselects 13U
+    (function(){
+      const boxes = Array.from(document.querySelectorAll('input[type="checkbox"][name="age_groups"]'));
+      if(!boxes.length) return;
+      const valU = (b) => ((b.value || '').toUpperCase());
+      const openBox = boxes.find(b => valU(b) === 'OPEN');
+      const u13Box = boxes.find(b => valU(b) === '13U');
+      const specifics = boxes.filter(b => valU(b) !== 'OPEN');
+      const specificsNon13U = specifics.filter(b => valU(b) !== '13U');
+
+      function normalize(){
+        // Keep mutual exclusivity rules consistent on load or generic changes
+        // If any non-13U specific is checked, clear 13U
+        if(specificsNon13U.some(b => b.checked)){
+          if(u13Box) u13Box.checked = false;
+        }
+        // If 13U is checked, clear other specific groups
+        if(u13Box && u13Box.checked){
+          specificsNon13U.forEach(b => b.checked = false);
+        }
+        // If any specific is checked, clear OPEN
+        if(specifics.some(b => b.checked)){
+          if(openBox) openBox.checked = false;
+        }
+      }
+
+      boxes.forEach(b => b.addEventListener('change', (e)=>{
+        const t = e.target;
+        // OPEN toggled on clears all specifics
+        if(openBox && t === openBox){
+          if(openBox.checked){ specifics.forEach(b => b.checked = false); }
+          return;
+        }
+        // Clicking 13U should clear 12-13/14-15/16-18 and select 13U
+        if(u13Box && t === u13Box){
+          if(u13Box.checked){
+            specificsNon13U.forEach(b => b.checked = false);
+            if(openBox) openBox.checked = false;
+          }
+          return;
+        }
+        // Clicking a specific (non-13U) should clear 13U and OPEN when checked
+        if(specificsNon13U.includes(t)){
+          if(t.checked){
+            if(u13Box) u13Box.checked = false;
+            if(openBox) openBox.checked = false;
+          }
+          return;
+        }
+        // Fallback
+        normalize();
+      }));
+      // Initial pass on load
+      normalize();
+    })();
+  </script>
+
+  <style>
+    /* Make table span full width; float sidebar over content on the right */
+    .page { display:block; }
+    .main { width: 100%; min-width: 0; box-sizing: border-box; }
+    .events-row { display:flex; flex-wrap:wrap; gap: 8px 12px; margin-top: 4px; }
+    .events-grid { display:grid; grid-template-columns: repeat(6, max-content); gap: 1px 12px; margin-top: 0; align-items: center; }
+    .events-grid .item { margin: 0; line-height: 1.0; }
+    .events-grid .item input { vertical-align: middle; }
+    .ev-r1c1 { grid-row:1; grid-column:1; }
+    .ev-r1c2 { grid-row:1; grid-column:2; }
+    .ev-r1c3 { grid-row:1; grid-column:3; }
+    .ev-r1c4 { grid-row:1; grid-column:4; }
+    .ev-r1c5 { grid-row:1; grid-column:5; }
+    .ev-r1c6 { grid-row:1; grid-column:6; }
+    .ev-r2c1 { grid-row:2; grid-column:1; }
+    .ev-r2c2 { grid-row:2; grid-column:2; }
+    .ev-r2c3 { grid-row:2; grid-column:3; }
+    .ev-r2c4 { grid-row:2; grid-column:4; }
+    .ev-r2c5 { grid-row:2; grid-column:5; }
+    .ev-r2c6 { grid-row:2; grid-column:6; }
+    .ev-r3c1 { grid-row:3; grid-column:1; }
+    .ev-r3c2 { grid-row:3; grid-column:2; }
+    .ev-r3c3 { grid-row:3; grid-column:3; }
+    .ev-r3c4 { grid-row:3; grid-column:4; }
+    .ev-r3c5 { grid-row:3; grid-column:5; }
+    .ev-r3c6 { grid-row:3; grid-column:6; }
+    /* Allow Age Points header to wrap */
+    th:nth-child(13) { white-space: normal; word-wrap: break-word; }
+    /* Sidebar scrolls with page (no overlay on scroll) */
+    .sidebar { position: absolute; right: 12px; top: 96px; width: 220px; z-index: 1; }
+    .ref-card { border:1px solid #ddd; border-radius:10px; padding:10px; background:#fafafa; box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+    .modal-box { background: #fff; border-radius: 10px; max-width: 720px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+    .modal-header { display:flex; align-items:center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #eee; }
+    .modal-body { padding: 16px; }
+    .close-btn { appearance:none; border:0; background:transparent; font-size: 20px; line-height: 1; cursor:pointer; }
+    /* Use MAS red for form controls when selected */
+    input[type="checkbox"], input[type="radio"] { accent-color: #cc0000; }
+    .ref-grid { display:grid; grid-template-columns: 1fr; gap: 8px; }
+    .ref-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:28px; padding:4px 10px; border-radius: 8px; background:#cc0000; color:#fff; text-decoration:none; }
+    .ref-btn:hover { background:#a60000; }
+    .ref-acr { font-weight:800; letter-spacing: 0.3px; font-size: 0.9rem; color:#fff; line-height: 1.05; }
+    .ref-desc { color:#fff; font-size: 0.68rem; line-height: 1.05; text-align:center; white-space: nowrap; }
+    /* Keep brand color even when disabled; just dim it */
+    .ref-btn[aria-disabled="true"] { background:#cc0000; color:#fff; pointer-events:none; }
+  </style>
+</body>
+</html>
+
+
+

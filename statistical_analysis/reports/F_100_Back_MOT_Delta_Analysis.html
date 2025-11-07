@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>F 100 Back MOT Delta Analysis</title>
+
+    <style>
+    body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:24px;max-width:1200px;color:#000;background:white}
+    h1{color:#CE1126;border-bottom:3px solid #CE1126;padding-bottom:8px}
+    h2{color:#000;margin-top:32px;border-bottom:2px solid #00247D;padding-bottom:6px}
+    h3{color:#000;margin-top:24px}
+    table{border-collapse:collapse;width:100%;margin:16px 0}
+    th,td{border:1px solid #ccc;padding:10px;font-size:14px;text-align:left;color:#000}
+    th{background:#CE1126;color:#fff;font-weight:600}
+    tr:nth-child(even){background:#fafafa}
+    .highlight{background:#fff9e6}
+    .summary-box{background:#fff;border-left:4px solid #CE1126;padding:16px;margin:20px 0}
+    .comparison-table{width:auto;margin:16px 0}
+    .comparison-table th{background:#CE1126;color:#fff}
+    .delta-positive{color:#008000;font-weight:600}
+    .delta-negative{color:#cc0000;font-weight:600}
+    .zscore-box{background:#fff9e6;border-left:4px solid #ffc107;padding:16px;margin:20px 0}
+    a{color:#CE1126;text-decoration:none}
+    a:hover{color:#000;text-decoration:underline}
+    </style>
+    </head>
+    <body>
+    
+<h1>F 100 Back: MOT Delta Determination Analysis</h1>
+<p><strong>Purpose:</strong> Analyze Canada On Track reference deltas and USA swimming improvement statistics to determine appropriate Malaysia On Track (MOT) deltas for F 100 Back transitions.</p>
+<div class='summary-box'>
+<h3 style='margin-top:0'>Quick Summary</h3>
+<ul>
+<li><strong>15→16 Transition:</strong> USA median = 0.920s (n=343)</li>
+<li><strong>16→17 Transition:</strong> USA median = 0.390s (n=363)</li>
+<li><strong>17→18 Transition:</strong> USA median = -0.305s (n=284)</li>
+</ul>
+</div>
+<h2>1. Canada On Track Reference Data</h2>
+<h3>Track 1 (Early Developers)
+ - Entry Age 13
+</h3>
+<table>
+<thead><tr><th>Age</th><th>Time (text)</th><th>Time (seconds)</th><th>Delta from Previous</th></tr></thead><tbody>
+<tr><td>13</td><td>1:05.85</td><td>65.85</td><td>—</td></tr>
+<tr><td>14</td><td>1:03.87</td><td>63.87</td><td><span class='delta-positive'>1.980s (13→14)</span></td></tr>
+<tr><td>15</td><td>1:02.34</td><td>62.34</td><td><span class='delta-positive'>1.530s (14→15)</span></td></tr>
+<tr><td>16</td><td>1:01.22</td><td>61.22</td><td><span class='delta-positive'>1.120s (15→16)</span></td></tr>
+<tr><td>17</td><td>1:00.46</td><td>60.46</td><td><span class='delta-positive'>0.760s (16→17)</span></td></tr>
+</tbody></table>
+<h3>Track 2 (Middle Developers)
+ - Entry Age 14
+</h3>
+<table>
+<thead><tr><th>Age</th><th>Time (text)</th><th>Time (seconds)</th><th>Delta from Previous</th></tr></thead><tbody>
+<tr><td>14</td><td>1:04.75</td><td>64.75</td><td>—</td></tr>
+<tr><td>15</td><td>1:03.20</td><td>63.20</td><td><span class='delta-positive'>1.550s (14→15)</span></td></tr>
+<tr><td>16</td><td>1:02.06</td><td>62.06</td><td><span class='delta-positive'>1.140s (15→16)</span></td></tr>
+<tr><td>17</td><td>1:01.29</td><td>61.29</td><td><span class='delta-positive'>0.770s (16→17)</span></td></tr>
+<tr><td>18</td><td>1:00.79</td><td>60.79</td><td><span class='delta-positive'>0.500s (17→18)</span></td></tr>
+<tr><td>19</td><td>1:00.46</td><td>60.46</td><td><span class='delta-positive'>0.330s (18→19)</span></td></tr>
+</tbody></table>
+<h3>Track 3 (Late Developers)
+ - Entry Age 15
+</h3>
+<table>
+<thead><tr><th>Age</th><th>Time (text)</th><th>Time (seconds)</th><th>Delta from Previous</th></tr></thead><tbody>
+<tr><td>15</td><td>1:03.66</td><td>63.66</td><td>—</td></tr>
+<tr><td>16</td><td>1:02.52</td><td>62.52</td><td><span class='delta-positive'>1.140s (15→16)</span></td></tr>
+<tr><td>17</td><td>1:01.74</td><td>61.74</td><td><span class='delta-positive'>0.780s (16→17)</span></td></tr>
+<tr><td>18</td><td>1:01.23</td><td>61.23</td><td><span class='delta-positive'>0.510s (17→18)</span></td></tr>
+<tr><td>19</td><td>1:00.90</td><td>60.90</td><td><span class='delta-positive'>0.330s (18→19)</span></td></tr>
+<tr><td>20</td><td>1:00.66</td><td>60.66</td><td><span class='delta-positive'>0.240s (19→20)</span></td></tr>
+<tr><td>21</td><td>1:00.46</td><td>60.46</td><td><span class='delta-positive'>0.200s (20→21)</span></td></tr>
+</tbody></table>
+<h3>Canada Delta Summary</h3>
+<table class='comparison-table'>
+<thead><tr><th>Transition</th>
+<th>Track 1 (Early Developers)</th>
+<th>Track 2 (Middle Developers)</th>
+<th>Track 3 (Late Developers)</th>
+</tr></thead><tbody>
+<tr><td><strong>13->14</strong></td>
+<td class='delta-positive'>1.980s</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr><td><strong>14->15</strong></td>
+<td class='delta-positive'>1.530s</td>
+<td class='delta-positive'>1.550s</td>
+<td>—</td>
+</tr>
+<tr><td><strong>15->16</strong></td>
+<td class='delta-positive'>1.120s</td>
+<td class='delta-positive'>1.140s</td>
+<td class='delta-positive'>1.140s</td>
+</tr>
+<tr><td><strong>16->17</strong></td>
+<td class='delta-positive'>0.760s</td>
+<td class='delta-positive'>0.770s</td>
+<td class='delta-positive'>0.780s</td>
+</tr>
+<tr><td><strong>17->18</strong></td>
+<td>—</td>
+<td class='delta-positive'>0.500s</td>
+<td class='delta-positive'>0.510s</td>
+</tr>
+<tr><td><strong>18->19</strong></td>
+<td>—</td>
+<td class='delta-positive'>0.330s</td>
+<td class='delta-positive'>0.330s</td>
+</tr>
+<tr><td><strong>19->20</strong></td>
+<td>—</td>
+<td>—</td>
+<td class='delta-positive'>0.240s</td>
+</tr>
+<tr><td><strong>20->21</strong></td>
+<td>—</td>
+<td>—</td>
+<td class='delta-positive'>0.200s</td>
+</tr>
+</tbody></table>
+<h2>2. USA Swimming Improvement Statistics</h2>
+<table>
+<thead><tr><th>Transition</th><th>Sample Size</th><th>Median Δ</th><th>Mean Δ</th><th>Std Dev</th><th>Q25</th><th>Q75</th></tr></thead><tbody>
+<tr>
+<td><strong>15→16</strong></td>
+<td>343 athletes</td>
+<td class='delta-positive'>0.920s</td>
+<td>0.953s</td>
+<td>1.268s</td>
+<td>0.150s</td>
+<td>1.645s</td>
+</tr>
+<tr>
+<td><strong>16→17</strong></td>
+<td>363 athletes</td>
+<td class='delta-positive'>0.390s</td>
+<td>0.434s</td>
+<td>1.174s</td>
+<td>-0.235s</td>
+<td>1.120s</td>
+</tr>
+<tr>
+<td><strong>17→18</strong></td>
+<td>284 athletes</td>
+<td class='delta-negative'>-0.305s</td>
+<td>-0.392s</td>
+<td>1.366s</td>
+<td>-1.195s</td>
+<td>0.490s</td>
+</tr>
+</tbody></table>
+<h2>3. Improvement Analysis by Performance Level (Z-Score)</h2>
+<h3>15→16 Transition: Improvement by Performance Level</h3>
+<table>
+<thead><tr><th>Performance Level (Z-Score Range)</th><th>Number of Athletes</th><th>Median Improvement</th><th>% Improving</th><th>% Getting Slower</th></tr></thead><tbody>
+<tr >
+<td>Top 2.5% (z ≥ 2.0)</td>
+<td>25</td>
+<td class='delta-positive'>0.700s</td>
+<td>76.0%</td>
+<td>20.0%</td>
+</tr>
+<tr class="highlight">
+<td>Top 6.7% (1.5 ≤ z < 2.0)</td>
+<td>15</td>
+<td class='delta-positive'>0.150s</td>
+<td>60.0%</td>
+<td>40.0%</td>
+</tr>
+<tr >
+<td>Top 15.9% (1.0 ≤ z < 1.5)</td>
+<td>28</td>
+<td class='delta-positive'>0.600s</td>
+<td>75.0%</td>
+<td>25.0%</td>
+</tr>
+<tr >
+<td>Above Average (0.5 ≤ z < 1.0)</td>
+<td>44</td>
+<td class='delta-positive'>0.500s</td>
+<td>61.4%</td>
+<td>38.6%</td>
+</tr>
+<tr >
+<td>Average (0 ≤ z < 0.5)</td>
+<td>64</td>
+<td class='delta-positive'>0.650s</td>
+<td>71.9%</td>
+<td>28.1%</td>
+</tr>
+<tr >
+<td>Below Average (-0.5 ≤ z < 0)</td>
+<td>71</td>
+<td class='delta-positive'>0.690s</td>
+<td>87.3%</td>
+<td>12.7%</td>
+</tr>
+<tr >
+<td>Lower (-1.0 ≤ z < -0.5)</td>
+<td>74</td>
+<td class='delta-positive'>1.575s</td>
+<td>93.2%</td>
+<td>6.8%</td>
+</tr>
+<tr >
+<td>Bottom 15.9% (z < -1.0)</td>
+<td>22</td>
+<td class='delta-positive'>1.585s</td>
+<td>100.0%</td>
+<td>0.0%</td>
+</tr>
+</tbody></table>
+<h3>16→17 Transition: Improvement by Performance Level</h3>
+<table>
+<thead><tr><th>Performance Level (Z-Score Range)</th><th>Number of Athletes</th><th>Median Improvement</th><th>% Improving</th><th>% Getting Slower</th></tr></thead><tbody>
+<tr >
+<td>Top 2.5% (z ≥ 2.0)</td>
+<td>23</td>
+<td class='delta-positive'>0.220s</td>
+<td>65.2%</td>
+<td>30.4%</td>
+</tr>
+<tr >
+<td>Top 6.7% (1.5 ≤ z < 2.0)</td>
+<td>21</td>
+<td class='delta-negative'>-0.080s</td>
+<td>42.9%</td>
+<td>52.4%</td>
+</tr>
+<tr >
+<td>Top 15.9% (1.0 ≤ z < 1.5)</td>
+<td>31</td>
+<td class='delta-positive'>0.100s</td>
+<td>54.8%</td>
+<td>45.2%</td>
+</tr>
+<tr >
+<td>Above Average (0.5 ≤ z < 1.0)</td>
+<td>46</td>
+<td class='delta-positive'>0.130s</td>
+<td>58.7%</td>
+<td>41.3%</td>
+</tr>
+<tr >
+<td>Average (0 ≤ z < 0.5)</td>
+<td>62</td>
+<td class='delta-positive'>0.135s</td>
+<td>51.6%</td>
+<td>46.8%</td>
+</tr>
+<tr >
+<td>Below Average (-0.5 ≤ z < 0)</td>
+<td>85</td>
+<td class='delta-positive'>0.400s</td>
+<td>62.4%</td>
+<td>37.6%</td>
+</tr>
+<tr >
+<td>Lower (-1.0 ≤ z < -0.5)</td>
+<td>59</td>
+<td class='delta-positive'>0.600s</td>
+<td>72.9%</td>
+<td>27.1%</td>
+</tr>
+<tr >
+<td>Bottom 15.9% (z < -1.0)</td>
+<td>36</td>
+<td class='delta-positive'>1.220s</td>
+<td>100.0%</td>
+<td>0.0%</td>
+</tr>
+</tbody></table>
+<h3>17→18 Transition: Improvement by Performance Level</h3>
+<table>
+<thead><tr><th>Performance Level (Z-Score Range)</th><th>Number of Athletes</th><th>Median Improvement</th><th>% Improving</th><th>% Getting Slower</th></tr></thead><tbody>
+<tr >
+<td>Top 2.5% (z ≥ 2.0)</td>
+<td>19</td>
+<td class='delta-negative'>-0.430s</td>
+<td>31.6%</td>
+<td>68.4%</td>
+</tr>
+<tr >
+<td>Top 6.7% (1.5 ≤ z < 2.0)</td>
+<td>13</td>
+<td class='delta-negative'>-0.040s</td>
+<td>46.2%</td>
+<td>53.8%</td>
+</tr>
+<tr >
+<td>Top 15.9% (1.0 ≤ z < 1.5)</td>
+<td>23</td>
+<td class='delta-negative'>-0.420s</td>
+<td>26.1%</td>
+<td>73.9%</td>
+</tr>
+<tr >
+<td>Above Average (0.5 ≤ z < 1.0)</td>
+<td>41</td>
+<td class='delta-negative'>-0.440s</td>
+<td>31.7%</td>
+<td>68.3%</td>
+</tr>
+<tr >
+<td>Average (0 ≤ z < 0.5)</td>
+<td>51</td>
+<td class='delta-negative'>-0.400s</td>
+<td>43.1%</td>
+<td>56.9%</td>
+</tr>
+<tr >
+<td>Below Average (-0.5 ≤ z < 0)</td>
+<td>53</td>
+<td class='delta-negative'>-0.300s</td>
+<td>43.4%</td>
+<td>56.6%</td>
+</tr>
+<tr >
+<td>Lower (-1.0 ≤ z < -0.5)</td>
+<td>55</td>
+<td class='delta-negative'>-0.150s</td>
+<td>40.0%</td>
+<td>56.4%</td>
+</tr>
+<tr >
+<td>Bottom 15.9% (z < -1.0)</td>
+<td>29</td>
+<td class='delta-negative'>-0.360s</td>
+<td>37.9%</td>
+<td>62.1%</td>
+</tr>
+</tbody></table>
+<h2>4. Swimmer Reappearance Analysis</h2>
+<div class='summary-box'>
+<p><strong>Understanding attrition and recovery patterns in elite swimming</strong></p>
+<h3>Dropout and Reappearance Statistics</h3>
+<table>
+<thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Swimmers who dropped out 15→16</strong></td><td>157</td></tr>
+<tr><td>Reappeared at age 17 or 18</td><td>53 (33.8%)</td></tr>
+<tr><td><strong>Swimmers who dropped out 16→17</strong></td><td>74</td></tr>
+<tr><td>Reappeared at age 18</td><td>19 (25.7%)</td></tr>
+</tbody></table>
+<h3>Interpretation</h3>
+<ul>
+<li><strong>33.8% of 15→16 dropouts reappear</strong>: Nearly one-third of swimmers who fall out of the top 500 at age 16 regain elite status by age 17 or 18.</li>
+<li><strong>25.7% of 16→17 dropouts reappear</strong>: About one-fifth of swimmers who drop out at 17 return by 18.</li>
+<li><strong>Implications:</strong> Temporary setbacks (injury, training changes, motivation) are common, but most dropouts (~70%) do not return to top-500 status.</li>
+<li><strong>MOT Consideration:</strong> Delta calculations may reflect 'survivor bias' - swimmers who maintain top-500 status consistently show different improvement patterns than those who drop out.</li>
+</ul>
+</div>
+<h2>5. Z-Score Pattern Analysis: The 1.5-2.0 Plateau</h2>
+<div class='zscore-box'>
+<p><strong>Identifying unique challenges for high-performing swimmers (93rd-98th percentile)</strong></p>
+<table>
+<thead><tr><th>Transition</th><th>1.5-2.0 Z Median</th><th>Other Ranges Avg</th><th>Difference</th><th>% Improving</th></tr></thead><tbody>
+<tr>
+<td><strong>16→17</strong></td>
+<td class='delta-negative'>-0.080s</td>
+<td>0.401s</td>
+<td class='delta-negative'>-0.481s</td>
+<td>42.9%</td>
+</tr>
+<tr>
+<td><strong>17→18</strong></td>
+<td class='delta-negative'>-0.040s</td>
+<td>-0.357s</td>
+<td class='delta-negative'>0.317s</td>
+<td>46.2%</td>
+</tr>
+</tbody></table>
+<h3>What This Means</h3>
+<ul>
+<li><strong>The 'Good But Not Great' Dilemma:</strong> Swimmers in the 1.5-2.0 z-score range (top 6.7%) face unique challenges - they're faster than most, but may be hitting their genetic/training ceiling.</li>
+<li><strong>Diminishing Returns:</strong> These swimmers may have already extracted most available improvement from training. Further gains require exceptional dedication or genetic advantages.</li>
+<li><strong>MOT Implication:</strong> Consider tiered MOT standards - swimmers in this range may need more modest improvement targets than those at lower performance levels.</li>
+</ul>
+</div>
+<h2>6. Comparison: USA vs Canada</h2>
+<table class='comparison-table'>
+<thead><tr><th>Transition</th><th>USA Median</th>
+<th>Canada Track 1 (Early Developers)</th>
+<th>Canada Track 2 (Middle Developers)</th>
+<th>Canada Track 3 (Late Developers)</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>15→16</strong></td>
+<td class='delta-positive'>0.920s</td>
+<td>1.120s <span class='delta-negative'>(diff: -0.200s)</span></td>
+<td>1.140s <span class='delta-negative'>(diff: -0.220s)</span></td>
+<td>1.140s <span class='delta-negative'>(diff: -0.220s)</span></td>
+</tr>
+<tr>
+<td><strong>16→17</strong></td>
+<td class='delta-positive'>0.390s</td>
+<td>0.760s <span class='delta-negative'>(diff: -0.370s)</span></td>
+<td>0.770s <span class='delta-negative'>(diff: -0.380s)</span></td>
+<td>0.780s <span class='delta-negative'>(diff: -0.390s)</span></td>
+</tr>
+<tr>
+<td><strong>17→18</strong></td>
+<td class='delta-negative'>-0.305s</td>
+<td>—</td>
+<td>0.500s <span class='delta-negative'>(diff: -0.805s)</span></td>
+<td>0.510s <span class='delta-negative'>(diff: -0.815s)</span></td>
+</tr>
+</tbody></table>
+<h2>7. Analysis & Recommendations for MOT Deltas</h2>
+<h3>15→16 Transition</h3>
+<div class='summary-box'>
+<ul>
+<li><strong>USA Median:</strong> 0.920s improvement (343 athletes)</li>
+<li><strong>Canada Track 1 (Early Developers):</strong> 1.120s improvement</li>
+<li><strong>Canada Track 2 (Middle Developers):</strong> 1.140s improvement</li>
+<li><strong>Canada Track 3 (Late Developers):</strong> 1.140s improvement</li>
+<li><strong>Difference:</strong> USA median is -0.213s compared to Canada average</li>
+</ul>
+</div>
+<h3>16→17 Transition</h3>
+<div class='summary-box'>
+<ul>
+<li><strong>USA Median:</strong> 0.390s improvement (363 athletes)</li>
+<li><strong>Canada Track 1 (Early Developers):</strong> 0.760s improvement</li>
+<li><strong>Canada Track 2 (Middle Developers):</strong> 0.770s improvement</li>
+<li><strong>Canada Track 3 (Late Developers):</strong> 0.780s improvement</li>
+<li><strong>Difference:</strong> USA median is -0.380s compared to Canada average</li>
+</ul>
+</div>
+<h3>17→18 Transition</h3>
+<div class='summary-box'>
+<ul>
+<li><strong>USA Median:</strong> -0.305s improvement (284 athletes)</li>
+<li><strong>Canada Track 2 (Middle Developers):</strong> 0.500s improvement</li>
+<li><strong>Canada Track 3 (Late Developers):</strong> 0.510s improvement</li>
+<li><strong>Difference:</strong> USA median is -0.810s compared to Canada average</li>
+</ul>
+</div>
+<h2>8. Event-Specific Insights & MOT Recommendations</h2>
+<div class='summary-box'>
+<h3>How This Event Compares to Overall Patterns</h3>
+<ul>
+<li><strong>Negative Improvements:</strong> This event shows 2 negative/zero improvements across z-score ranges, representing 1.2% of all negative improvements in the dataset.</li>
+<li><strong>Gender Pattern:</strong> As a female event, this contributes to the overall pattern where 72.1% of negative improvements occur in female events (vs 27.9% in male events).</li>
+<li><strong>Problematic Transitions:</strong> This event shows negative median improvements at: 17→18. This aligns with the universal pattern where 75.6% of all negative improvements occur at 17→18.</li>
+</ul>
+<h3>Direct MOT Delta Recommendations</h3>
+<table class='recommendation-table'>
+<thead><tr><th>Transition</th><th>Recommended Delta</th><th>Confidence</th><th>Rationale</th></tr></thead><tbody>
+<tr>
+<td><strong>15→16</strong></td>
+<td>0.920s</td>
+<td>High - Stable transition</td>
+<td>Healthy improvement pattern (0.920s, n=343). Recommend delta of 0.920s.</td>
+</tr>
+<tr>
+<td><strong>16→17</strong></td>
+<td>0.390s</td>
+<td>High - Stable transition</td>
+<td>Healthy improvement pattern (0.390s, n=363). Recommend delta of 0.390s.</td>
+</tr>
+<tr>
+<td><strong>17→18</strong></td>
+<td>0.000s</td>
+<td>Low - Regression observed</td>
+<td>Negative median (-0.305s) indicates regression. Recommend conservative expectation of 0.000s or maintenance. Note: USA median (-0.305s) differs significantly from Canada average (0.505s).</td>
+</tr>
+</tbody></table>
+<h3>Event-Specific Considerations</h3>
+<ul>
+<li><strong>Sprint Event:</strong> Sprint events show more frequent negative median deltas at the 17→18 transition than distance events (e.g., F 50 Free: -0.11s, F 100 Free: -0.15s at 17→18). This suggests sprint performance is less maintainable in the 15-18 age range, with swimmers often experiencing slight regression in the development phase even while world-class sprinters peak at older ages in their careers.</li>
+<li><strong>Stroke Event:</strong> Technical stroke events may show different progression patterns than freestyle due to form refinement opportunities. Consider technical improvements separate from physical development.</li>
+</ul>
+</div>
+<hr style='margin:40px 0;border:none;border-top:2px solid #ddd'>
+
+    <p style='color:#666;font-size:12px'><em>
+    Generated from statistical analysis database.<br>
+    Data sources: Canada On Track reference times from April 2025, and USA Swimming season rankings 
+    (top 500 per age/event/gender) from 2021-2022, 2022-2023, 2023-2024, and 2024-2025 seasons.<br>
+    USA Swimming ages are the age of the swimmer on the first day of competition, not their birth year age.
+    </em></p>
+    
+</body></html>

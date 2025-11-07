@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Meets</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container { max-width: 960px; margin: 0 auto; padding: 16px; }
+    .actions { margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Select Meets To Analyze</h1>
+    <form method="get" action="{{ url_for('index') }}">
+      {% for meet in available_meets %}
+        <div>
+          <label>
+            <input type="checkbox" name="meets" value="{{ meet.id }}" {% if meet.id == 'sukma2024' %}checked{% endif %}>
+            {{ meet.label }}
+          </label>
+        </div>
+      {% endfor %}
+      <div class="actions">
+        <button type="submit">Apply Selection</button>
+        <a href="{{ url_for('index') }}" style="margin-left:8px;">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+

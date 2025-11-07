@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Malaysia On Track Calculator</title>
+  <style>
+    .header-row { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .logos img { margin-right: 8px; }
+    .right-actions { white-space: nowrap; }
+    .mas-logo { height: 1em; vertical-align: middle; margin: 0 6px; }
+    /* Match AQUA header side padding across all headers; top-align headers */
+    table thead th { padding-left: 4px !important; padding-right: 4px !important; vertical-align: top; }
+    
+    /* Fix Name column (3rd) width to longest name + 3ch */
+    th:nth-child(3), td:nth-child(3) {
+      width: {{ name_col_ch }}ch;
+      max-width: {{ name_col_ch }}ch;
+      white-space: nowrap;
+    }
+    /* Explicit column widths based on longest expected strings */
+    /* 1: Gender (max "Female" => 6ch) */
+    th:nth-child(1), td:nth-child(1) { width: 6ch; max-width: 6ch; white-space: nowrap; }
+    /* 2: Event (max "200 Breast" => 10ch) */
+    th:nth-child(2), td:nth-child(2) { width: 10ch; max-width: 10ch; white-space: nowrap; }
+    /* 3: Name dynamic via name_col_ch (kept below) */
+    /* 4: Team (max "WPKL" => 4ch) */
+    th:nth-child(4), td:nth-child(4) { width: 4ch; max-width: 4ch; white-space: nowrap; }
+    /* 5: Age (max "Age" => 3ch) */
+    th:nth-child(5), td:nth-child(5) { width: 3ch; max-width: 3ch; }
+    /* 6: Meet (codes like SUK24) */
+    th:nth-child(6), td:nth-child(6) { width: 6ch; max-width: 6ch; white-space: nowrap; }
+    /* 7: Time (max like 17:54:02 => 8ch) */
+    th:nth-child(7), td:nth-child(7) { width: 8ch; max-width: 8ch; white-space: nowrap; }
+    /* Tighter Time header padding to give AQUA more room */
+    th:nth-child(7) { padding-left: 2px !important; padding-right: 2px !important; }
+    /* 8: AQUA (needs more room than 4ch) */
+    th:nth-child(8), td:nth-child(8) {
+      width: 6ch; max-width: 6ch; white-space: nowrap;
+      padding-left: 6px !important; padding-right: 6px !important;
+    }
+    /* 9: Place (compact, e.g., numeric or short text) */
+    th:nth-child(9), td:nth-child(9) { width: 4ch; max-width: 4ch; white-space: nowrap; }
+    /* Center Place header and contents */
+    th:nth-child(9) { text-align: center !important; }
+    td:nth-child(9) { text-align: center; }
+    /* 10: On Track Target Time (same width as Time => 8ch) */
+    th:nth-child(10) { width: 8ch; max-width: 8ch; white-space: normal; word-wrap: break-word; }
+    td:nth-child(10) { width: 8ch; max-width: 8ch; white-space: nowrap; }
+    /* Match AQUA header padding for On Track Target Time */
+    th:nth-child(10) { padding-left: 6px !important; padding-right: 6px !important; }
+    /* 11: On Track AQUA (fit "On Track" => 8ch) */
+    th:nth-child(11), td:nth-child(11) { width: 8ch; max-width: 8ch; }
+    /* 12: Difference (fit word on one line => 10ch) */
+    th:nth-child(12), td:nth-child(12) { width: 10ch; max-width: 10ch; }
+    th:nth-child(12) { white-space: nowrap; }
+    /* Tighten Difference header side padding (keep minimal) */
+    th:nth-child(12) { padding-left: 2px !important; padding-right: 2px !important; }
+
+    /* Allow On Track headers to wrap without widening widths */
+    th:nth-child(10), th:nth-child(11) { white-space: normal; word-wrap: break-word; }
+    /* Center only the two On Track column headers */
+    th:nth-child(10), th:nth-child(11) {
+      text-align: center !important;
+    }
+    /* Center Team (col 4) and Difference (col 12) headers */
+    th:nth-child(4), th:nth-child(12) { text-align: center !important; }
+    /* Center AQUA header (col 8) */
+    th:nth-child(8) { text-align: center !important; }
+    /* Increase AQUA header side padding for readability */
+    th:nth-child(8) { padding-left: 6px !important; padding-right: 6px !important; }
+    /* Center Time header (col 7) */
+    th:nth-child(7) { text-align: center !important; }
+    /* Center contents for AQUA (col 8) and On Track AQUA (col 11) only */
+    td:nth-child(8), td:nth-child(11) { text-align: center; }
+    
+    /* Center Age header and contents (col 5) */
+    th:nth-child(5) { text-align: center !important; }
+    td:nth-child(5) { text-align: center; }
+    /* Right-align time columns' data: Time (col 7) and On Track Target Time (col 10) */
+    td:nth-child(7), td:nth-child(10) { text-align: right; }
+    td:nth-child(12) { text-align: right; }
+    /* Sortable headers */
+    .sortable { cursor: pointer; user-select: none; }
+    .sortable .arrow { opacity: 0.5; font-size: 0.9em; }
+    .arrow-row { display: block; margin-top: 2px; text-align: left; }
+    /* Active sorted column header */
+    th.sorted { background: #eef6ff; font-weight: 600; }
+    th.sorted .arrow { opacity: 1; }
+    /* Place cell highlight colors (updated tones) */
+    .place-gold { background: #f1c232; }
+    .place-silver { background: #b7b7b7; }
+    .place-bronze { background: #bf9000; }
+  </style>
+  </head>
+<body>
+  <h1 style="text-align:center;">
+    <img class="mas-logo" src="{{ url_for('static', filename='MAS_Logo.png') }}" alt="MAS Logo">
+    Welcome to the Malasya On Track Calulator
+    <img class="mas-logo" src="{{ url_for('static', filename='MAS_Logo.png') }}" alt="MAS Logo">
+  </h1>
+  <div class="header-row">
+    <div class="logos">
+      <img src="{{ url_for('static', filename='SUKMA_2024_Logo.png') }}" alt="SUKMA 2024 Logo" height="60">
+      <img src="{{ url_for('static', filename='MIAG_2025_Logo.png') }}" alt="MIAG 2025 Logo" height="60">
+      <img src="{{ url_for('static', filename='MO_2025_Logo.png') }}" alt="Malaysia Open 2025 Logo" height="60">
+      <img src="{{ url_for('static', filename='SEA_Age_2025_Logo.png') }}" alt="SEA Age 2025 Logo" height="60">
+    </div>
+    <div class="right-actions"></div>
+  </div>
+
+  {% if missing_paths and missing_paths|length %}
+    <p style="color:#b00;">Missing required files:<br>{{ missing_paths|join('<br>')|safe }}</p>
+  {% endif %}
+
+  <style>
+    .summary { font-size: 0.9em; margin: 6px 0 8px 0; }
+    .summary-line { margin: 2px 0; }
+    .summary .item { margin-right: 10px; white-space: nowrap; }
+    .summary .icon { margin-right: 4px; }
+    .apply-compact { font-size: 0.9em; padding: 2px 10px; }
+  </style>
+  <div class="summary">
+    <form method="post" action="{{ url_for('index') }}" style="margin: 0;">
+      <div class="summary-line">
+        <strong>Meets</strong>:
+        {% for meet in available_meets %}
+          <label class="item">
+            <input type="checkbox" name="meets" value="{{ meet.id }}" {% if meet.id in selected_meet_ids %}checked{% endif %}>
+            {{ meet.label }}
+          </label>
+        {% endfor %}
+      </div>
+      <div class="summary-line">
+        <strong>Gender</strong>:
+        <label class="item"><input type="checkbox" name="genders" value="M" {% if 'M' in selected_genders %}checked{% endif %}> Male</label>
+        <label class="item"><input type="checkbox" name="genders" value="F" {% if 'F' in selected_genders %}checked{% endif %}> Female</label>
+      </div>
+      <div class="summary-line">
+        <strong>State</strong>:
+        <select name="state_code" class="item">
+          <option value="" {% if not state_filter %}selected{% endif %}>All States</option>
+          {% for sc in state_codes %}
+            <option value="{{ sc }}" {% if state_filter == sc %}selected{% endif %}>{{ sc }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="summary-line">
+        <strong>Events</strong>:
+        {% for ev in event_options %}
+          <label class="item">
+            <input type="checkbox" name="events" value="{{ ev }}" {% if ev in selected_events %}checked{% endif %}>
+            {{ ev }}
+          </label>
+        {% endfor %}
+      </div>
+      <div class="summary-line">
+        <label class="item"><input type="checkbox" name="include_foreign" value="1" {% if include_foreign %}checked{% endif %}> Include foreign swimmers</label>
+      </div>
+      <div class="summary-line">
+        <strong>Results</strong>:
+        <label class="item"><input type="radio" name="results_mode" value="all" {% if results_mode != 'best' %}checked{% endif %}> Show all times</label>
+        <label class="item"><input type="radio" name="results_mode" value="best" {% if results_mode == 'best' %}checked{% endif %}> Show best times only</label>
+      </div>
+      <div class="summary-line">
+        <button type="submit" class="apply-compact">Apply Selection</button>
+      </div>
+    </form>
+  </div>
+
+  
+
+  <table style="border-collapse: collapse; width: 100%; margin-top: 12px;">
+    <thead>
+      <tr>
+        {% for h in headers %}
+          <th
+            style="border:1px solid #ccc; padding:8px; text-align:left; background:#f5f5f5;"
+            data-col="{{ loop.index }}"
+            class="{% if loop.index == 5 or loop.index == 7 or loop.index == 8 or loop.index == 9 or loop.index == 12 %}sortable{% endif %}"
+          >
+            <div class="hdr-text">{{ h|safe }}</div>
+            {% if loop.index == 5 or loop.index == 7 or loop.index == 9 or loop.index == 12 %}
+              <div class="arrow-row"><span class="arrow"></span></div>
+            {% endif %}
+          </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% if rows and rows|length %}
+        {% for r in rows %}
+          <tr>
+            {% for c in r %}
+              {% set cell_class = '' %}
+              {% if loop.index == 9 %}
+                {% set p = c|string %}
+                {% if p == '1' %}{% set cell_class = 'place-gold' %}{% elif p == '2' %}{% set cell_class = 'place-silver' %}{% elif p == '3' %}{% set cell_class = 'place-bronze' %}{% endif %}
+              {% endif %}
+              <td class="{{ cell_class }}" style="border:1px solid #ccc; padding:8px;">{{ c }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="{{ headers|length }}" style="border:1px solid #ccc; padding:8px;">No data yet.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  
+  <script>
+    (function(){
+      function parseTime(s){
+        if(s===undefined || s===null) return null;
+        s = s.toString().trim().replace(',', '.');
+        if(!s) return null;
+        if(s.toUpperCase() === 'N/A') return null;
+        if(s.indexOf(':') >= 0){
+          const parts = s.split(':');
+          const nums = parts.map((p,i)=> i===parts.length-1 ? parseFloat(p) : parseInt(p,10));
+          if(nums.some(n => Number.isNaN(n))) return null;
+          if(nums.length===3){ const [h,m,ss]=nums; return h*3600 + m*60 + ss; }
+          if(nums.length===2){ const [m,ss]=nums; return m*60 + ss; }
+        }
+        const n = parseFloat(s);
+        return Number.isNaN(n) ? null : n;
+      }
+      function parseIntSafe(s){
+        if(s===undefined || s===null) return null;
+        s = s.toString().trim();
+        if(!s || s.toUpperCase()==='N/A') return null;
+        const n = parseInt(s,10);
+        return Number.isNaN(n) ? null : n;
+      }
+      function getCellText(row, idx){
+        const cell = row.children[idx];
+        return cell ? (cell.textContent || '') : '';
+      }
+      function sortTableBy(tbody, colIdx, type, ascending){
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const keyFn = (row) => {
+          const t = getCellText(row, colIdx);
+          return type==='time' ? parseTime(t) : parseIntSafe(t);
+        };
+        rows.sort((a,b)=>{
+          const ka = keyFn(a), kb = keyFn(b);
+          if(ka===null && kb===null) return 0;
+          if(ka===null) return 1;
+          if(kb===null) return -1;
+          return ascending ? (ka - kb) : (kb - ka);
+        });
+        rows.forEach(r => tbody.appendChild(r));
+      }
+      const table = document.querySelector('table');
+      if(!table) return;
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
+      const headers = Array.from(thead.querySelectorAll('th'));
+      headers.forEach((th)=>{
+        const col = parseInt(th.getAttribute('data-col'), 10);
+        const sortable = th.classList.contains('sortable');
+        if(!sortable) return;
+        // Sorting state per header; default when activating a new column:
+        // Time/AQUA/Place = ascending; Difference = descending
+        let ascending = true;
+        const defaultAsc = (c) => (c !== 12);
+        th.addEventListener('click', ()=>{
+          const type = (col === 7) ? 'time' : ((col === 5 || col === 8 || col === 9 || col === 12) ? 'int' : 'str');
+          const wasActive = th.classList.contains('sorted');
+          if(wasActive) {
+            // Toggle when clicking the same active column
+            ascending = !ascending;
+          } else {
+            // Activate a different column → use its default direction
+            ascending = defaultAsc(col);
+          }
+          // Reset other sortable headers to neutral diamond and clear active state
+          headers.forEach(h=>{
+            const span = h.querySelector('.arrow');
+            if(!span) return;
+            if(h === th) { span.textContent = ''; }
+            else if(h.classList.contains('sortable')) { span.textContent = '◇'; }
+            if(h !== th) { h.classList.remove('sorted'); h.setAttribute('aria-sort','none'); }
+          });
+          const arrow = th.querySelector('.arrow'); if(arrow) arrow.textContent = ascending ? '▲' : '▼';
+          th.classList.add('sorted');
+          th.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+          sortTableBy(tbody, col-1, type, ascending);
+        });
+      });
+
+      // Initialize neutral diamonds and set default active sort on Place (ascending)
+      headers.forEach(h => {
+        if(h.classList.contains('sortable')){
+          const a = h.querySelector('.arrow');
+          if(a) a.textContent = '◇';
+          h.setAttribute('aria-sort', 'none');
+          h.classList.remove('sorted');
+        }
+      });
+      const placeHeader = headers.find(h => parseInt(h.getAttribute('data-col'),10) === 9);
+      if(placeHeader){
+        placeHeader.classList.add('sorted');
+        placeHeader.setAttribute('aria-sort','ascending');
+        const arrow = placeHeader.querySelector('.arrow');
+        if(arrow) arrow.textContent = '▲';
+      }
+    })();
+  </script>
+</body>
+</html>
+

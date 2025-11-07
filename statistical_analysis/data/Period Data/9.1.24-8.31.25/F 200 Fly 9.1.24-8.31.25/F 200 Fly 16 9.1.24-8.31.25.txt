@@ -1,0 +1,501 @@
+Rank	Swim Time	Name	Foreign	Age	Event	LSC	Team	Meet	Time Standard
+1	2:07.57	Audrey Derivaux		16	200 FL LCM	MA	Jersey Wahoos	2025 World Junior Champs	2025 Winter US Open (LCM)
+2	2:12.31	Emily Wolf		16	200 FL LCM	IN	Fishers Area Swimming Tigers	2025 Speedo Junior National Championships	2025 Winter US Open (LCM)
+3	2:13.60	Alyce Lehman		16	200 FL LCM	MA	Jersey Wahoos	2025 IN Central Zone Speedo Sectional 2025	2025 Summer Nationals (LCM)
+4	2:13.66	Ines Arnall		16	200 FL LCM	MR	Westchester Aquatic Club	2025 Futures Championships - Greensboro	2025 Winter US Open (LCM)
+5	2:14.15	Lexi Byrn		16	200 FL LCM	CO	Flatiron Athletic Club	2025 Speedo Junior National Championships	2025 Winter US Open (LCM)
+6	2:14.26	Emerson Callis		16	200 FL LCM	VA	Quest Swimming	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	2025 Summer Nationals (LCM)
+7	2:14.77	Faith Gorey		16	200 FL LCM	IN	Carmel Swim Club	2025 Speedo Junior National Championships	2025 Winter US Open (LCM)
+8	2:14.83	Nikki Nixon		16	200 FL LCM	NC	TAC Titans	2025 Futures Championships - Greensboro	2025 Winter US Open (LCM)
+9	2:15.02	Kayla Han		16	200 FL LCM	CA	La Mirada Armada	2025 CA RMDA Road to LA28 - LCM	2025 Summer Nationals (LCM)
+10	2:15.26	Ava Jochims		16	200 FL LCM	AM	Racer X Aquatics	2025 Speedo Junior National Championships	2025 Winter US Open (LCM)
+11	2:15.48	Lilliana Krstolic		16	200 FL LCM	FL	Laker Swim	2025 Speedo Junior National Championships - Time Trials	2025 Winter US Open (LCM)
+12	2:15.49	Ariel Kong	Yes	16	200 FL LCM	NC	SwimMAC Carolina	2025 NC SwimMAC Martha McKee Charlotte Open	2025 Summer Nationals (LCM)
+13	2:15.60	Zara Kocak		16	200 FL LCM	SE	Excel Aquatics	2025 GBR AP Race London International	2025 Winter US Open (LCM)
+14	2:15.65	Alba Arnall		16	200 FL LCM	MR	Westchester Aquatic Club	2025 MR TYR Senior Met Summer Championships	2025 Winter US Open (LCM)
+15	2:15.83	Maya Hetland		16	200 FL LCM	PC	Palo Alto Stanford Aquatics	2025 TYR Pro Swim Series - Westmont	2025 Winter US Open (LCM)
+16	2:16.22	Samantha Villacis		16	200 FL LCM	NJ	Peddie Aquatic Association	2025 NJ 2025 LC Gold Championships	2025 Winter US Open (LCM)
+17	2:16.31	Serena Dickey		16	200 FL LCM	NJ	Lakeland Hills YMCA	2025 FL YMCA National Long Course Swimming Championships	2025 Winter US Open (LCM)
+18	2:16.39	Greta Myers		16	200 FL LCM	GA	SwimAtlanta	2025 SE AUB Richard Quick Invitational	2025 Winter US Open (LCM)
+19	2:16.46	Paige Downey		16	200 FL LCM	AZ	Gold Medal Swim Club	2025 Toyota National Championships - Time Trials	2025 Winter US Open (LCM)
+20	2:17.09	Emilia Trailov		16	200 FL LCM	SE	Ensworth Aquatics	2025 SE AUB Richard Quick Invitational	2025 Summer Juniors (LCM)
+21	2:17.10	Lindsay Forebaugh		16	200 FL LCM	IL	FMC Aquatic	2025 NT Duel in the Pool Invite	2025 Summer Juniors (LCM)
+22	2:17.28	Sydney Schoeck		16	200 FL LCM	OZ	CSP Tideriders	2025 MV EKC Rose Memorial	2025 Summer Juniors (LCM)
+23	2:17.58	Kate Guenther		16	200 FL LCM	NC	Aquatic Team Of Mecklenburg	2025 NC EAC Independence Invitational	2025 Summer Juniors (LCM)
+24	2:17.61	Faith Lamah		16	200 FL LCM	MN	Edina Swim Club	2025 MN AQJT Summer Spectacular Invite	2025 Summer Juniors (LCM)
+25	2:17.68	Caroline Mallard		16	200 FL LCM	NC	SwimMAC Carolina	2025 NC SwimMAC Novant Invitational	2025 Summer Juniors (LCM)
+26	2:17.99	Gigi Munoz-Rodriguez		16	200 FL LCM	CC	Roadrunner Aquatic	2025 CC TYR GO Challenge	2025 Summer Juniors (LCM)
+27	2:18.04	London Hughes		16	200 FL LCM	SI	South Bay Aquatics	2025 SI Splash & Dash	2025 Summer Juniors (LCM)
+28	2:18.16	Taylor Klein		16	200 FL LCM	NC	Mecklenburg Swim Association	2024 NC MAC LC/SC Invite	2025 Summer Juniors (LCM)
+29	2:18.24	Kendall Jollands		16	200 FL LCM	LA	Crescent City Swim Club	2025 LA Senior LC State Championships	2025 Summer Juniors (LCM)
+30	2:18.29	Shannon Conway		16	200 FL LCM	MD	North Baltimore Aquatic Club	2025 MD NBAC MID SUMMER CLASSIC MEET	2025 Summer Juniors (LCM)
+31	2:18.32	Maria Champion		16	200 FL LCM	NC	SwimMAC Carolina	2025 Speedo Junior National Championships	2025 Winter Juniors (SCY)
+32	2:18.38	Lily Wiles		16	200 FL LCM	GU	The Woodlands Swim Team	2025 Futures Championships - Justin	2025 Summer Juniors (LCM)
+32	2:18.38	Lauren Fanucchi		16	200 FL LCM	PC	Alto Swim Club	2025 PC Speedo Sectionals - Novato	2025 Summer Juniors (LCM)
+34	2:18.78	Emma Bronson		16	200 FL LCM	OR	Bend Swim Club	2025 OR Howard Jones Open	2025 Futures (LCM)
+35	2:18.98	Sadie Buckley		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 VA NCAP Elite Qualifier	2025 Futures (LCM)
+36	2:19.03	Calleigh Hooper		16	200 FL LCM	NT	Mansfield Aquatic Club	2025 NT IRON Senior Qualifier	2025 Futures (LCM)
+37	2:19.18	Daisy Collins		16	200 FL LCM	NC	North Carolina Aquatic Club	2025 NC EAC Independence Invitational	2025 Futures (LCM)
+38	2:19.36	Serene Jourdy		16	200 FL LCM	MR	Westchester Aquatic Club	2025 MR TYR Senior Met Summer Championships	2025 Futures (LCM)
+39	2:19.37	Audrey Hill		16	200 FL LCM	CC	Clovis Swim Club	2025 Speedo Junior National Championships	AAAA
+40	2:19.53	Sofie Vanyo		16	200 FL LCM	VA	Atlantic Coast Athletic Clubs of VA, Inc.	2025 VA LY Commonwealth Games	2025 Futures (LCM)
+41	2:19.56	Lydia Cameron		16	200 FL LCM	MN	Edina Swim Club	2025 IN Central Zone Speedo Sectional 2025	2025 Futures (LCM)
+42	2:19.62	Annabeth Town		16	200 FL LCM	CO	Highlands Ranch Aquatics	2025 Futures Championships - Sacramento	AAAA
+43	2:19.70	Cara McDonald		16	200 FL LCM	MR	Long Island Aquatic Club	2025 NJ SCAR Memorial Invite	2025 Futures (LCM)
+44	2:19.76	Tila Tometich		16	200 FL LCM	AZ	Gold Medal Swim Club	2025 AZ SUN Devil Open	2025 Futures (LCM)
+45	2:19.82	Margot Levesque		16	200 FL LCM	NE	Bluefish Swim Club	2025 MR LIAC Speedo LI Challenge Invitational	2025 Futures (LCM)
+46	2:19.89	Emily Schneider		16	200 FL LCM	SC	Team Greenville	2025 SE NCSA Summer Swimming Championships	AAAA
+47	2:19.92	Emma Cigna		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 VA NOVA LC Winter Invitational	2025 Futures (LCM)
+48	2:19.94	Hannah Parkin		16	200 FL LCM	FL	Fast Falcons	2025 Futures Championships - Ocala	AAAA
+49	2:20.01	Summer Mudadu	Yes	16	200 FL LCM	CA	Sandpipers Of Nevada	2025 SE NCSA Summer Swimming Championships	AAAA
+50	2:20.08	Rylee Hutchinson		16	200 FL LCM	PC	Pleasanton Seahawks	2025 TYR Pro Swim Series - Westmont	2025 Futures (LCM)
+51	2:20.11	Ava Shopbell		16	200 FL LCM	VA	Lynchburg YMCA Swim Team	2025 FL YMCA National Long Course Swimming Championships	AAAA
+52	2:20.13	Angelina Lista		16	200 FL LCM	FL	Sarasota Sharks	2025 Futures Championships - Ocala	AAAA
+53	2:20.22	Margaret Lietzau		16	200 FL LCM	IL	New Trier Aquatics	2025 SE NCSA Summer Swimming Championships	AAAA
+54	2:20.27	Erika Brown		16	200 FL LCM	MV	Missouri State Aquatics	2025 MV Region VIII Speedo Summer Sectionals	2025 Futures (LCM)
+55	2:20.37	Sarah Carrico		16	200 FL LCM	SE	Excel Aquatics	2025 SE NCSA Summer Swimming Championships	AAAA
+56	2:20.44	Susan Seeley		16	200 FL LCM	SC	Team Greenville	2025 SE NCSA Summer Swimming Championships	AAAA
+57	2:20.45	Miya Klatt		16	200 FL LCM	CA	Irvine Novaquatics	2025 CA Los Angeles Invite	2025 Futures (LCM)
+58	2:20.46	Victoria Core		16	200 FL LCM	AZ	Flagstaff Snow Sharks Inc	2025 AZ MAC Narwhal Invite	2025 Futures (LCM)
+59	2:20.49	Alison Stalfort		16	200 FL LCM	MA	York YMCA	2025 FL YMCA National Long Course Swimming Championships	AAAA
+60	2:20.50	Isabella Muir		16	200 FL LCM	GU	The Woodlands Swim Team	2025 Futures Championships - Justin	AAAA
+60	2:20.50	Liv Doruk-Olsen		16	200 FL LCM	MR	Westchester Aquatic Club	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	2025 Futures (LCM)
+62	2:20.53	Lily Yung		16	200 FL LCM	PC	Orinda Aquatics	2025 PC Summer Far Western Championships	AAAA
+63	2:20.57	Mia Su		16	200 FL LCM	PC	Santa Clara Swim Club	2025 CC TYR GO Challenge	2025 Futures (LCM)
+64	2:20.76	Melissa Geiger		16	200 FL LCM	CT	Greenwich YWCA Dolphins Swm Tm	2025 SE NCSA Summer Swimming Championships	AAAA
+65	2:20.78	Emma Liebler		16	200 FL LCM	VA	757 Swim	2025 VA LY Commonwealth Games	2025 Futures (LCM)
+66	2:20.89	Sophie Oldham		16	200 FL LCM	FL	Bolles School Sharks	2025 Futures Championships - Ocala	AAAA
+67	2:20.95	Lori Awad		16	200 FL LCM	GU	Swim Streamline at Northampton	2025 GU FCST Summer Splash	2025 Futures (LCM)
+68	2:21.02	Jenna Frost		16	200 FL LCM	FL	Sporting Jax Aquatic Club	2025 Futures Championships - Greensboro	AAA
+69	2:21.07	Sophia Pero		16	200 FL LCM	NC	SwimMAC Carolina	2025 NC SwimMAC Novant Invitational	2025 Futures (LCM)
+69	2:21.07	Lena Dwyer		16	200 FL LCM	GU	Dads Club Swim Team	2025 SE NCSA Summer Swimming Championships	AAA
+71	2:21.18	Sophia Richard		16	200 FL LCM	GU	Unattached	2025 COL CONVOCATORIA CAMPEONATO NACIONAL INTERLIGAS IBAGUE	2025 Futures (LCM)
+72	2:21.29	Ali Sadri		16	200 FL LCM	OHO	M.E. Lyons/Anderson Barracudas	2025 FL YMCA National Long Course Swimming Championships	AAA
+73	2:21.36	Alisa Shmidt		16	200 FL LCM	GA	Chattahoochee Gold Swim Club	2025 GA Long Couse Senior State Championships	AAA
+74	2:21.42	Sofia McAfee		16	200 FL LCM	AR	Razorback Aquatic Club Aquahawgs	2025 Futures Championships - Justin	AAA
+75	2:21.47	Jordyn Glassley		16	200 FL LCM	IN	Fort Wayne Swim Team	2025 IN Indy Summer Cup	2025 Futures (LCM)
+76	2:21.50	Amelia Gipson		16	200 FL LCM	MA	Germantown Academy Aquatic Club	2025 SE NCSA Summer Swimming Championships	AAA
+77	2:21.54	Kate Canales		16	200 FL LCM	ST	Alamo Area Aquatic Association	2025 ST TXLA Speedo Southern Zone LC Sectionals	2025 Futures (LCM)
+78	2:21.77	Emma Tannehill		16	200 FL LCM	GA	SwimAtlanta	2025 Futures Championships - Ocala	AAA
+79	2:21.80	Sadie Davidoff		16	200 FL LCM	MR	Long Island Aquatic Club	2025 MR TYR Senior Met Summer Championships	2025 Futures (LCM)
+79	2:21.80	Joey Dumm		16	200 FL LCM	IL	New Trier Aquatics	2025 SE NCSA Summer Swimming Championships	AAA
+81	2:21.84	Irene Kim		16	200 FL LCM	CA	La Mirada Armada	2025 CA NOVA Speedo 29th Annual Grand Challenge	2025 Futures (LCM)
+82	2:21.85	Olivia Meyer		16	200 FL LCM	WI	Ozaukee Aquatics	2025 WI PX3-WEST 13 &O LC STATE CHAMPIONSHIP	AAA
+83	2:21.99	Quincy Taliaferro		16	200 FL LCM	OR	Lake Oswego Swim Club	2025 OR SPEEDO SECTIONALS - MT HOOD	AAA
+83	2:21.99	Makenna Bowen		16	200 FL LCM	FL	Bolles School Sharks	2025 FL Summer Senior Championships	AAA
+85	2:22.05	Macy Williams		16	200 FL LCM	GU	Blue Tide Aquatics	2025 ST TXLA Speedo Southern Zone LC Sectionals	AAA
+86	2:22.09	Alicia Czosnyka		16	200 FL LCM	IL	RISE Aquatic Club	2025 MN UOFM CZ North Speedo Sectionals	AAA
+87	2:22.22	Angelica Mom		16	200 FL LCM	CA	La Mirada Armada	2025 CA Los Angeles Invite	AAA
+88	2:22.30	Katie Shaps		16	200 FL LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA NOVA LC Winter Invitational	AAA
+89	2:22.42	Stella Suchy		16	200 FL LCM	MN	Edina Swim Club	2025 SE NCSA Summer Swimming Championships	AAA
+90	2:22.55	Aubrey Yancey		16	200 FL LCM	OZ	CSP Tideriders	2025 SE NCSA Summer Swimming Championships	AAA
+90	2:22.55	Zetta Grace Bartee		16	200 FL LCM	NC	Mecklenburg Swim Association	2024 NC MAC LC/SC Invite	AAA
+92	2:22.63	Meredith Carricato		16	200 FL LCM	KY	Lakeside Swim Team	2025 SE NCSA Summer Swimming Championships	AAA
+93	2:22.68	Brooke Frushour		16	200 FL LCM	ST	Nitro Swimming	2025 ST TXLA Speedo Southern Zone LC Sectionals	AAA
+94	2:22.84	Chloe Yip		16	200 FL LCM	PC	Santa Clara Swim Club	2025 PC Summer Far Western Championships	AAA
+95	2:22.86	Alex Kauffman		16	200 FL LCM	CA	Sandpipers Of Nevada	2025 SE NCSA Summer Swimming Championships	AAA
+96	2:22.91	Laine Frost		16	200 FL LCM	AM	Team Pittsburgh Elite Aquatics	2025 SE NCSA Summer Swimming Championships	AAA
+97	2:22.92	Bella Zurolo		16	200 FL LCM	CT	West Hartford Aquatic Team	2025 Futures Championships - Madison	AAA
+97	2:22.92	Riley Christensen		16	200 FL LCM	CA	Sandpipers Of Nevada	2025 CA NOVA Speedo 29th Annual Grand Challenge	AAA
+99	2:23.05	Myah Rayburn		16	200 FL LCM	GU	Hydro Elite Aquatics Team	2025 GU LC Senior Championships	AAA
+99	2:23.05	Ella Dziobak		16	200 FL LCM	MI	dROP Aquatics	2025 IN Central Zone Speedo Sectional 2025	AAA
+101	2:23.09	Jane Wheeler		16	200 FL LCM	NE	Crimson Aquatics	2025 TYR Pro Swim Series - Fort Lauderdale	AAA
+102	2:23.12	Teagan Markott		16	200 FL LCM	GA	Dynamo Swim Club	2025 IN Central Zone Speedo Sectional 2025	AAA
+103	2:23.15	Allie Casanovas		16	200 FL LCM	IL	Academy Bullets Swim Club	2025 NT Duel in the Pool Invite	AAA
+104	2:23.26	Natalie Wu		16	200 FL LCM	MR	Long Island Aquatic Club	2025 NJ TYR LC Winter Invitational	AAA
+105	2:23.33	Naomi Avnur		16	200 FL LCM	PC	Santa Clara Swim Club	2025 Futures Championships - Sacramento	AAA
+106	2:23.37	Maya Earley		16	200 FL LCM	PC	Palo Alto Stanford Aquatics	2025 PC Summer Far Western Championships	AAA
+107	2:23.43	Dasha Dzreeva		16	200 FL LCM	CA	Santa Barbara Swim Club	2025 CA Los Angeles Invite	AAA
+108	2:23.48	Brynn Sundell		16	200 FL LCM	WI	Madison Aquatic Club	2025 MN AQJT Summer Spectacular Invite	AAA
+109	2:23.56	Carson Broadbent		16	200 FL LCM	NC	TAC Titans	2025 NC NCS LC Senior Championships	AAA
+109	2:23.56	Sofia Torres		16	200 FL LCM	MR	Westchester Aquatic Club	2025 NJ Jeffrey S. Mace Memorial Summer Sizzle XXXIII	AAA
+111	2:23.62	Cheryn Cho		16	200 FL LCM	NJ	Scarlet Aquatics	2025 NJ 2025 LC Gold Championships	AAA
+112	2:23.63	Karina Conover-Hui		16	200 FL LCM	PC	Palo Alto Stanford Aquatics	2025 Futures Championships - Sacramento	AAA
+113	2:23.71	Ornella Giuliano	Yes	16	200 FL LCM	FG	Azura Florida Aquatics	2025 Puerto Rico International Swimming Open	AAA
+114	2:23.86	Makenna Sherman		16	200 FL LCM	CA	Sandpipers Of Nevada	2025 AZ MAC Narwhal Invite	AAA
+115	2:23.97	Sofia Oliveira		16	200 FL LCM	NE	Charles River Aquatics	2025 NE CRA Long Course Specialty Meet	AAA
+116	2:24.03	Cailin Maley		16	200 FL LCM	MA	Delaware Swim Team	2025 MA MASI LC Senior Championships CC	AAA
+117	2:24.04	Zoe Defabrique		16	200 FL LCM	CA	Unattached	2025 CA MVN Fran Crippen Memorial Swim Meet of Champions	AAA
+118	2:24.20	Lila Gregory		16	200 FL LCM	OHO	Mason Manta Rays	2025 OH LC Senior Championship Meet	AAA
+119	2:24.29	Kayda Geyer		16	200 FL LCM	NC	Mecklenburg Swim Association	2025 VA NOVA LC Winter Invitational	AAA
+120	2:24.38	Nola Meekins		16	200 FL LCM	NC	TAC Titans	2025 Futures Championships - Greensboro	AAA
+121	2:24.43	Selena Nicor-Pereira		16	200 FL LCM	FL	Saint Petersburg Aquatics	2025 FL Summer Senior Championships	AAA
+122	2:24.47	Kendall Kryszon		16	200 FL LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA LC Senior Champs	AAA
+123	2:24.54	Amy Pala		16	200 FL LCM	NT	Texas Ford Aquatics	2025 NT MTRO American Long Course MEET FULL	AAA
+124	2:24.69	Lila Sherman		16	200 FL LCM	PV	The Fish	2025 PV FISH June LC Invitational	AAA
+125	2:24.79	Lydia Smutny		16	200 FL LCM	FG	South Florida Aquatic Club	2025 FL Southern Zone South Sectional Championships	AAA
+126	2:24.81	Charlotte Milkie		16	200 FL LCM	CA	Circle City Aquatics	2025 CA SCS RAA June Age Group Championships	AAA
+127	2:24.82	Sarah Warren		16	200 FL LCM	VA	Lynchburg YMCA Swim Team	2025 FL YMCA National Long Course Swimming Championships	AAA
+127	2:24.82	Yuna Lee		16	200 FL LCM	MR	Long Island Aquatic Club	2025 SE NCSA Summer Swimming Championships	AAA
+129	2:24.86	Morgan Harlan		16	200 FL LCM	MA	Upper Main Line YMCA	2025 MA 11th Annual Cure for Cam	AAA
+130	2:25.00	Sloane Bryant		16	200 FL LCM	CA	TSM Aquatics	2025 CA SCS/NOVA June Age Group Championships	AAA
+131	2:25.07	Ellie McNamara		16	200 FL LCM	MA	Upper Main Line YMCA	2025 MA LAC Longing For Summer	AAA
+132	2:25.16	Cam Robertson		16	200 FL LCM	NC	Enfinity Aquatic Club	2025 NC EAC Independence Invitational	AAA
+133	2:25.29	Caroline Wanezek		16	200 FL LCM	WI	Elmbrook Swim Club	2025 WI SSTY BIG CHEESE MEET	AAA
+133	2:25.29	Diana Bobiv		16	200 FL LCM	IL	Academy Bullets Swim Club	2025 IL Illinois Swimming Summer Senior Championships	AAA
+135	2:25.31	Maria Zhu	Yes	16	200 FL LCM	CA	Rose Bowl Aquatics	2025 CA SCS/BREA Summer Age Group Championships	AAA
+136	2:25.32	Lien Nguyen		16	200 FL LCM	PV	Potomac Marlins	2025 PV LC Open Championships	AAA
+137	2:25.40	Sarah-jane Osborne		16	200 FL LCM	CC	Roadrunner Aquatic	2025 Futures Championships - Sacramento	AAA
+138	2:25.45	Ava Terella		16	200 FL LCM	CO	Denver Swim Academy	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+139	2:25.48	Arista Kusuma		16	200 FL LCM	CA	Irvine Novaquatics	2025 CA Los Angeles Invite	AAA
+139	2:25.48	Viri Henikman		16	200 FL LCM	AZ	Flying Fish Arizona Swim Team	2025 AZ AZSI LC Senior State Championship @NEP	AAA
+141	2:25.50	Clara Pruski		16	200 FL LCM	MD	Severna Park Stingrays	2025 MD SPEEDO MARYLAND LONG COURSE CHAMPIONSHIP MEET	AAA
+142	2:25.52	Anika Cai		16	200 FL LCM	PV	Rockville Montgomery Swim Club	2025 Futures Championships - Greensboro	AAA
+143	2:25.54	Alexis Schaaf		16	200 FL LCM	VA	Virginia Gators	2025 VA LY Commonwealth Games	AAA
+144	2:25.60	Sasha Volkova		16	200 FL LCM	AZ	Gold Medal Swim Club	2025 AZ AZSI LC Senior State Championship @NEP	AAA
+145	2:25.67	Gabby Hawver		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 PV LC Open Championships	AAA
+146	2:25.69	Makala Milburn		16	200 FL LCM	FL	Sarasota Sharks	2025 FG Southern Zone South Sectional Championships	AAA
+147	2:25.74	Ashley Glime		16	200 FL LCM	MI	Atlantis Swimming	2025 OH CZ Speedo Sectional East	AAA
+148	2:25.82	Caroline Friess		16	200 FL LCM	PV	PAVA Panthers Swim Club	2025 PV LC Open Championships	AAA
+149	2:25.89	Sarah Pflueger		16	200 FL LCM	SI	Sea to Desert Swim Association	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+150	2:25.91	Quinn Schureck		16	200 FL LCM	OHO	Cincinnati Marlins	2025 KY LAK 97th Annual Ohio Valley Champs	AAA
+151	2:25.97	Elizabeth Urban		16	200 FL LCM	MT	Helena Lions Swim Team	2025 Futures Championships - Madison	AAA
+152	2:25.98	Sienna Zauder		16	200 FL LCM	CA	Sandpipers Of Nevada	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AAA
+153	2:26.06	Paige Burkey		16	200 FL LCM	OHO	Greater Toledo Aquatic Club	2025 MI Eric Namesnik Memorial Open	AAA
+154	2:26.08	Sam Borus		16	200 FL LCM	OR	Multnomah Athletic Club	2025 OR OSI Arena 11&O LC CHAMPIONSHIPS	AAA
+154	2:26.08	Harper Rushton		16	200 FL LCM	PV	All Star Aquatics	2025 Futures Championships - Greensboro	AAA
+156	2:26.28	Whitney Kane		16	200 FL LCM	MA	Upper Main Line YMCA	2025 MA MASI LC Senior Championships CC	AAA
+156	2:26.28	Sofia Kovalenko		16	200 FL LCM	MN	Riptide	2025 MN UOFM CZ North Speedo Sectionals	AAA
+158	2:26.32	Harper Feyen		16	200 FL LCM	MI	Saline Swim Team	2025 OH CZ Speedo Sectional East	AAA
+159	2:26.34	Ellie Druhan		16	200 FL LCM	NC	Mecklenburg Swim Association	2025 VA NOVA LC Winter Invitational	AAA
+160	2:26.44	Maegan Grisanti		16	200 FL LCM	CT	Westport Weston Family Y Water Rat Swim Team	2025 CT Senior Championships	AAA
+161	2:26.54	Bessie Hassell	Yes	16	200 FL LCM	NC	Marlins Of Raleigh	2025 NC NCAC LC Tar Heel States	AAA
+162	2:26.59	Audrey Sorensen		16	200 FL LCM	MD	North Baltimore Aquatic Club	2025 NI LC Eastern Zone Sectionals	AAA
+163	2:26.65	Parker Kruzel		16	200 FL LCM	NT	Lakeside Aquatic Club	2025 SE TNAQ Senior Summer Showdown	AAA
+164	2:26.81	Lily Hansen		16	200 FL LCM	FL	SwimRise Aquatics	2025 FL Summer Senior Championships	AAA
+165	2:26.82	Ella Propper		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 PV LC Open Championships	AAA
+166	2:26.96	Charlotte Ames		16	200 FL LCM	OR	Multnomah Athletic Club	2025 OR Howard Jones Open	AAA
+167	2:26.98	Josepha Mody		16	200 FL LCM	MN	Edina Swim Club	2025 MN UOFM CZ North Speedo Sectionals	AAA
+168	2:27.00	Eloisa Tovar		16	200 FL LCM	MA	PDR Swimming for Success	2025 NJ Jeffrey S. Mace Memorial Summer Sizzle XXXIII	AAA
+169	2:27.01	Melina Megaly	Yes	16	200 FL LCM	NC	TAC Titans	2025 Futures Championships - Greensboro	AAA
+170	2:27.02	Zoey Tinker		16	200 FL LCM	SN	California Capital Aquatics	2025 PC Speedo Sectionals - Novato TIME TRIALS	AAA
+171	2:27.07	Elizabeth Gregory		16	200 FL LCM	VA	Williamsburg Aquatic Club	2025 VA SRVA Success Bell	AAA
+172	2:27.08	Josie Marino		16	200 FL LCM	NJ	Wyckoff YMCA	2025 NJ GSCY Long Course Cup	AAA
+173	2:27.17	Lilly Jayne Allison		16	200 FL LCM	ST	Longhorn Aquatics	2025 ST TXLA 11&O End of School Splash	AAA
+173	2:27.17	Anelle Guglielmello		16	200 FL LCM	GU	The Woodlands Swim Team	2025 NT MTRO American Long Course MEET FULL	AAA
+175	2:27.18	Rebekah Williams		16	200 FL LCM	OR	Bend Swim Club	2025 NT MTRO American Long Course MEET FULL	AAA
+176	2:27.29	Rhea Orazem		16	200 FL LCM	PN	Seattle Metropolitan Aquatic Club	2025 PN 13&O Long Course Championships	AAA
+177	2:27.37	Mya Ernsberger		16	200 FL LCM	IN	Concord Swim Club	2025 IN CGAC Mid Summer Spectacular	AAA
+178	2:27.42	Samira Leung		16	200 FL LCM	PC	Tri Valley Aquatics	2025 PC Speedo Sectionals - Novato	AAA
+178	2:27.42	Rowyn Wilber		16	200 FL LCM	CC	Clovis Swim Club	2025 CC Super League Championships	AAA
+180	2:27.44	Brooke Olson		16	200 FL LCM	MN	Minnetonka Swim Club	2025 MN WOLF Huff n Puff Invite	AAA
+181	2:27.49	Dabney Bond		16	200 FL LCM	GA	SwimAtlanta	2025 GA CODA Classic	AAA
+182	2:27.52	Lily Sisson		16	200 FL LCM	MN	Riptide	2025 MN UOFM CZ North Speedo Sectionals	AAA
+183	2:27.56	Karrington Hansen		16	200 FL LCM	FL	Saint Petersburg Aquatics	2025 FL Saint Pete's 2nd Long Course Meet	AAA
+184	2:27.60	Maris Marchione		16	200 FL LCM	VA	Tide Swimming	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	AA
+185	2:27.61	Vicky Olivares	Yes	16	200 FL LCM	GU	The Woodlands Swim Team	2025 ST TXLA Speedo Southern Zone LC Sectionals	AA
+186	2:27.66	Alice Xiao		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 PV AAC LC Invitational	AA
+186	2:27.66	Ainsley Holden		16	200 FL LCM	NC	Mecklenburg Swim Association	2025 Futures Championships - Greensboro	AA
+188	2:27.70	Rainie Moran		16	200 FL LCM	UT	Olympus Aquatics	2025 Futures Championships - Sacramento	AA
+189	2:27.71	Morgan Farmer		16	200 FL LCM	GA	SwimAtlanta	2025 GA Betsy Dunbar	AA
+189	2:27.71	Maddie Mug		16	200 FL LCM	OZ	CSP Tideriders	2025 MV Region VIII Speedo Summer Sectionals	AA
+191	2:27.78	Emily Scargill		16	200 FL LCM	WI	Rocket Aquatics	2025 WI LAKE WESTERN GREAT LAKES OPEN INVITATIONAL	AA
+191	2:27.78	Hadley D'Agostino		16	200 FL LCM	NE	Crimson Aquatics	2025 NE CRIM June Team Specialty Meet w/ Distance	AA
+193	2:27.86	Kendall Bagley		16	200 FL LCM	MD	Ocean Pines Swim Team	2025 MD SPEEDO MARYLAND LONG COURSE CHAMPIONSHIP MEET	AA
+194	2:27.88	Riley Scherman		16	200 FL LCM	NT	Lakeside Aquatic Club	2025 SE TNAQ Senior Summer Showdown	AA
+194	2:27.88	Maren Byrne		16	200 FL LCM	PC	Alto Swim Club	2025 Alto Endless Summer Block Party	AA
+196	2:27.93	Maddie Nurenberg		16	200 FL LCM	CT	New Canaan YMCA Caimans	2025 FL YMCA National Long Course Swimming Championships	AA
+197	2:27.95	Emma Hackett		16	200 FL LCM	SE	Tennessee Aquatics	2025 SE TNAQ Senior Summer Showdown	AA
+198	2:27.96	Lily Janowiak		16	200 FL LCM	IL	Wheaton Swim Club, Inc.	2025 SE NCSA Summer Swimming Championships	AA
+199	2:27.99	Eleanor Hardy		16	200 FL LCM	OHO	Powel Crosley, Jr. YMCA	2025 FL YMCA National Long Course Swimming Championships	AA
+200	2:28.01	Zoey Aydin		16	200 FL LCM	MR	Phoenix Aquatic Club USA LLC	2025 MR PAC Summer Classic Invitational	AA
+201	2:28.05	Ilse Fedoronko		16	200 FL LCM	CT	Greenwich YWCA Dolphins Swm Tm	2025 CT Senior Championships	AA
+202	2:28.06	Cassidy Masters		16	200 FL LCM	NT	Lakeside Aquatic Club	2025 SE TNAQ Senior Summer Showdown	AA
+203	2:28.14	Riley Hollingsworth		16	200 FL LCM	OHO	Upper Arlington Swim Club	2025 OH BGSC June Invite	AA
+204	2:28.15	Piper Jones-Campbell		16	200 FL LCM	AZ	Gold Medal Swim Club	2025 AZ AZSI LC Senior State Championship @NEP	AA
+205	2:28.22	Mckinley Scobie		16	200 FL LCM	PC	Unattached	2025 PC OAPB Long Course Senior Open	AA
+205	2:28.22	Emma Wood		16	200 FL LCM	MN	St Croix Swim Club	2025 ND 2025 ND MN Senior LC State Championship	AA
+207	2:28.23	Sophia Krutiy		16	200 FL LCM	NE	Charles River Aquatics	2025 Futures Championships - Ocala	AA
+208	2:28.26	Elizabeth Kern		16	200 FL LCM	NC	SwimMAC Carolina	2025 Futures Championships - Greensboro	AA
+209	2:28.27	Julia Anderson		16	200 FL LCM	MN	St Croix Swim Club	2025 MN UOFM CZ North Speedo Sectionals	AA
+210	2:28.41	Maddie Staley		16	200 FL LCM	KY	Northern KY Clippers Swimming	2025 SE TNAQ Senior Summer Showdown	AA
+211	2:28.48	Emery Vannah		16	200 FL LCM	CA	Sandpipers Of Nevada	2025 AZ MAC Narwhal Invite	AA
+212	2:28.52	Caroline Hepper		16	200 FL LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA LC Senior Champs	AA
+213	2:28.55	Ella Lee		16	200 FL LCM	GU	Cypress Fairbanks Swim Club	2025 GU LC Senior Championships	AA
+214	2:28.57	Emi Hukkanen		16	200 FL LCM	NE	Crimson Aquatics	2025 FL Southern Zone South Sectional Championships	AA
+215	2:28.61	Emily Connors		16	200 FL LCM	NC	SwimMAC Carolina	2025 NC GSA Eastern Invitational	AA
+215	2:28.61	McKenzie Vasquez		16	200 FL LCM	AR	Razorback Aquatic Club Aquahawgs	2025 SE NAC Summer Sizzler	AA
+217	2:28.63	Abi Paton		16	200 FL LCM	IN	Fishers Area Swimming Tigers	2025 IN Central Zone Speedo Sectional 2025	AA
+218	2:28.67	Johanna Godfrey		16	200 FL LCM	CA	Aquazot Swim Club	2025 CA SCS/RAA Sumer Age Group Championships	AA
+219	2:28.70	Anna Horwath		16	200 FL LCM	IL	Mundelein Mustang Swim Club	2025 IL Illinois Swimming Summer Senior Championships	AA
+220	2:28.72	Abigail Landers		16	200 FL LCM	SN	Sierra Marlins Swim Team	2025 CC TYR GO Challenge	AA
+221	2:28.73	Addy Moore		16	200 FL LCM	AR	Springfield Aquatics	2025 MV Region VIII Speedo Summer Sectionals	AA
+222	2:28.74	Sofia Caravello		16	200 FL LCM	MA	Jersey Wahoos	2025 MA MASI LC Senior Championships CC	AA
+223	2:28.76	Lana Pham		16	200 FL LCM	GU	Cypress Fairbanks Swim Club	2025 GU LC Senior Championships	AA
+224	2:28.78	Greta Olberding		16	200 FL LCM	MW	Norfolk YMCA Aquajet Swim Team	2025 MV Region VIII Speedo Summer Sectionals	AA
+225	2:28.79	Sophie Chang		16	200 FL LCM	CA	TSM Aquatics	2025 CA NOVA Speedo 29th Annual Grand Challenge	AA
+226	2:28.87	Mallie Whiteley		16	200 FL LCM	KY	Cardinal Aquatics	2025 IN CGAC Mid Summer Spectacular	AA
+227	2:28.89	Madison Abinuman		16	200 FL LCM	FG	Wahoo's of Wellington	2025 FG LCM Senior Championships	AA
+228	2:28.98	Ariana Larsen		16	200 FL LCM	GU	Aggie Swim Club	2025 Futures Championships - Greensboro	AA
+229	2:29.08	Gemma Gledhill		16	200 FL LCM	FL	Sarasota Sharks	2025 FL Sarasota Shark Open	AA
+230	2:29.12	McKenzie Jenny		16	200 FL LCM	GA	SwimAtlanta	2025 FL BSS TYR June Classic	AA
+231	2:29.13	Abbey Brown	Yes	16	200 FL LCM	IL	Fox Valley Swim Team	2025 IL Illinois Swimming Summer Senior Championships	AA
+232	2:29.16	Jill Williams		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 PV LC Open Championships	AA
+233	2:29.29	Elise Flanagan		16	200 FL LCM	MA	Radnor Aquatic Club	2025 MA MASI LC Senior Championships CC	AA
+234	2:29.35	Cedar Gallaudet		16	200 FL LCM	MD	Naval Academy Aquatic Club	2025 FL ISCA Summer Senior Blast	AA
+235	2:29.38	Claire Roussakis		16	200 FL LCM	MA	Upper Main Line YMCA	2025 MA MASI LC Senior Championships CC	AA
+235	2:29.38	Mia Briant		16	200 FL LCM	CO	Univ of Denver Hilltoppers	2025 CO Zone 2 DU Meet	AA
+235	2:29.38	Anna Michael Driesse		16	200 FL LCM	FL	Planet Swim Aquatics	2025 FL 14th Annual JAX 50 Sprint Dual Challenge	AA
+235	2:29.38	Maddie Dicks		16	200 FL LCM	MI	dROP Aquatics	2025 IN Central Zone Speedo Sectional 2025	AA
+239	2:29.41	Jenna Naroski		16	200 FL LCM	PN	Issaquah Swim Team	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+240	2:29.54	Ayla Vodak		16	200 FL LCM	OR	Bend Swim Club	2025 Futures Championships - Sacramento	AA
+241	2:29.58	Savannah Duffy		16	200 FL LCM	VA	Stingrays Swim Team	2025 VA SRVA Summer Invitational	AA
+241	2:29.58	Sandy Finn		16	200 FL LCM	SE	Ensworth Aquatics	2025 Futures Championships - Ocala	AA
+243	2:29.67	Olivia Lee		16	200 FL LCM	CA	Rose Bowl Aquatics	2025 CA SCS/BREA Summer Age Group Championships	AA
+243	2:29.67	Cailyn D'Onofrio		16	200 FL LCM	NC	SwimMAC Carolina	2025 NC GSA Eastern Invitational	AA
+245	2:29.73	Lucy Hadley		16	200 FL LCM	CA	Irvine Novaquatics	2025 CA SCS/NOVA June Age Group Championships	AA
+246	2:29.77	Gianna Cook		16	200 FL LCM	MA	Jersey Wahoos	2025 VA SRVA East Coast Summerfest	AA
+247	2:29.80	Davia Richardson	Yes	16	200 FL LCM	MR	Middies Wave Ryders	2025 NJ TYR LC Winter Invitational	AA
+248	2:29.81	Dru Landis		16	200 FL LCM	MA	Lancaster Aquatic Club	2025 MA MASI LC Senior Championships CC	AA
+249	2:29.83	Elise Nguyen		16	200 FL LCM	ST	Nitro Swimming	2025 ST TXLA 11&O Long Course Kick Off	AA
+250	2:29.84	Julia Oleksy		16	200 FL LCM	IL	Reach Aquatics Swim Club	2025 WI MMSC-IL LAST DANCE	AA
+251	2:29.86	Isabella Zarkos		16	200 FL LCM	CA	Sandpipers Of Nevada	2025 AZ MAC Narwhal Invite	AA
+252	2:29.89	KK Sullivan		16	200 FL LCM	MD	Naval Academy Aquatic Club	2025 VA SRVA Summer Invitational	AA
+253	2:29.90	Josie Tran		16	200 FL LCM	GU	Cypress Fairbanks Swim Club	2025 GU LC Senior Championships	AA
+254	2:29.98	Anna Kate Barr		16	200 FL LCM	SC	Team Greenville	2025 SC TG Dash & Splash	AA
+255	2:29.99	Ellie Patla		16	200 FL LCM	IL	Reach Aquatics Swim Club	2025 IL Illinois Swimming Summer Senior Championships	AA
+256	2:30.00	Avery Domitrovich		16	200 FL LCM	SE	Ensworth Aquatics	2025 SE XCEL Firecracker Invitational	AA
+256	2:30.00	Cecelia Russell		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 VA NCAP Elite Qualifier	AA
+258	2:30.01	Grier Gordon		16	200 FL LCM	OHO	Mason Manta Rays	2025 OH PCY Spring LC Invitational	AA
+259	2:30.06	Josephine Ferrari		16	200 FL LCM	NC	SwimMAC Carolina	2025 NC GSA Eastern Invitational	AA
+260	2:30.09	Mira Guo		16	200 FL LCM	PN	Issaquah Swim Team	2025 PN 13&O Long Course Championships	AA
+261	2:30.11	Audrey Ginsburg		16	200 FL LCM	CA	Canyons Aquatic Club	2025 CA SCS/CANY Summer Age Group Championships	AA
+262	2:30.14	Lelah Lewis		16	200 FL LCM	FG	Boca Raton Swim Team	2025 XXXVIII Carifta Aquatic Championships - Trinidad	AA
+263	2:30.16	Holly Tinson		16	200 FL LCM	GU	South Shore Sails	2025 NT MTRO American Long Course MEET FULL	AA
+264	2:30.17	Sienna Plutzer		16	200 FL LCM	NJ	Scarlet Aquatics	2025 CA Los Angeles Invite	AA
+265	2:30.23	Claire Coe		16	200 FL LCM	IN	Greater Evansville Swimming Inc	2025 IN Central Zone Speedo Sectional 2025	AA
+266	2:30.24	Alexa Chang		16	200 FL LCM	PC	Burlingame Aquatic Club	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+267	2:30.28	Lucy Velte		16	200 FL LCM	MV	Empire KC Swim Club	2025 MV TST IM TUFF Sat Tri-Meet	AA
+268	2:30.29	Lily Hyslop		16	200 FL LCM	OHO	Greater Columbus Swim Tm Of Oh	2025 OH CZ Speedo Sectional East	AA
+269	2:30.37	Margaret Chambless		16	200 FL LCM	SE	Nashville Aquatic Club	2025 SE TNAQ Senior Summer Showdown	AA
+270	2:30.39	Emma Nowakowski		16	200 FL LCM	PN	Olympic Cascade Aquatics	2025 PC Summer Far Western Championships	AA
+271	2:30.44	Kylie Perkins		16	200 FL LCM	MA	Diamond State Aquatics	2025 Futures Championships - Greensboro	AA
+272	2:30.45	Angela McCoy		16	200 FL LCM	MV	Kansas City Blazers	2025 MV KCB KC Cup	AA
+273	2:30.46	Alina Ayala		16	200 FL LCM	IN	Munster Swim Club	2025 IN ISI Senior LC Champs	AA
+274	2:30.47	Jessica Bassett		16	200 FL LCM	MR	Long Island Aquatic Club	2025 NJ SCAR Memorial Invite	AA
+275	2:30.61	Ella Rosenfeld		16	200 FL LCM	PC	Alto Swim Club	2025 PC Summer Far Western Championships	AA
+275	2:30.61	Sloane Stapleton		16	200 FL LCM	GU	Houston Bridge Bats	2025 MS Southern Zone Senior Championship Meet	AA
+277	2:30.74	Ainsley Stephan		16	200 FL LCM	FL	Bolles School Sharks	2025 FL BSS April Classic	AA
+278	2:30.75	Emma Gallant	Yes	16	200 FL LCM	VA	Tide Swimming	2025 VA LC Senior Champs	AA
+279	2:30.78	Abby Schneider		16	200 FL LCM	SC	Team Greenville	2025 SC TG Dash & Splash	AA
+280	2:30.83	Logan Jones		16	200 FL LCM	ST	Whitecaps of Westlake	2025 ST SRG Arena Summer Sizzler	AA
+281	2:30.85	Cailee Turk		16	200 FL LCM	CO	Castle Rock Swimming	2025 AZ PSC Summer Invite	AA
+282	2:30.92	Lacey Huston		16	200 FL LCM	IN	Southeastern Swim Club	2025 IN Central Zone Speedo Sectional 2025	AA
+283	2:30.93	Alexia Brockmann		16	200 FL LCM	IL	Chicago Wolfpack Aquatic Club	2025 IL CWAC Summer Sizzle	AA
+284	2:30.94	Laynie Hornsby		16	200 FL LCM	SE	Huntsville Swim Association	2025 SE Southeastern Summer LC Championships	AA
+285	2:30.95	Ava Berl		16	200 FL LCM	NC	Mecklenburg Swim Association	2025 SC TG Dash & Splash	AA
+286	2:31.07	Caitlin Groves		16	200 FL LCM	PV	All Star Aquatics	2025 PV LC Open Championships	AA
+287	2:31.09	Olivia Crock		16	200 FL LCM	OHO	Pau Hana Swim Team	2025 IN Central Zone Speedo Sectional 2025	AA
+288	2:31.14	Lyndel Laudencia		16	200 FL LCM	SE	Excel Aquatics	2025 SE NCSA Summer Swimming Championships	AA
+289	2:31.16	Hannah Cooper		16	200 FL LCM	AZ	Flying Fish Arizona Swim Team	2025 AZ AZSI LC Senior State Championship @NEP	AA
+290	2:31.23	Zoe Frith		16	200 FL LCM	GU	Blue Tide Aquatics	2025 ST TXLA Speedo Southern Zone LC Sectionals	AA
+290	2:31.23	Riley Souza		16	200 FL LCM	CA	Circle City Aquatics	2025 CA SCS/RAA Sumer Age Group Championships	AA
+292	2:31.32	Isabella Stewart		16	200 FL LCM	SC	Y-Spartaquatics Swim Club	2025 SC GAME South Carolina Long Course Senior LSC Championship	AA
+293	2:31.35	Mady Seay		16	200 FL LCM	VA	Quest Swimming	2025 VA LC Senior Champs	AA
+294	2:31.37	Addy Begley		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 VA NOVA LC Winter Invitational	AA
+295	2:31.45	Keira Cottingham		16	200 FL LCM	MA	Upper Dublin Aquatic Club	2025 MA MASI LC Senior Championships CC	AA
+295	2:31.45	Maggie Thompson		16	200 FL LCM	MI	North Kent Aquatic Team	2025 MI 15th Annual Big Red Challenge	AA
+297	2:31.46	Rylee Tomaszewski		16	200 FL LCM	SE	Nashville Aquatic Club	2025 SE NAC Summer Sizzler	AA
+298	2:31.55	Maggie Wright		16	200 FL LCM	VA	Old Dominion Aquatic Club	2025 VA TIDE Spring Shockwave	AA
+299	2:31.56	Chloe Hamilton		16	200 FL LCM	CC	Clovis Swim Club	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	AA
+300	2:31.60	Niobe Guilanians		16	200 FL LCM	PN	PRO Swimming	2025 PN 13&O Long Course Championships	AA
+300	2:31.60	Megan Lemler		16	200 FL LCM	PC	Unattached	2025 CA MVN Fran Crippen Memorial Swim Meet of Champions	AA
+300	2:31.60	Harper Mae Penny		16	200 FL LCM	SC	Y-Spartaquatics Swim Club	2025 SC GAME South Carolina Long Course Senior LSC Championship	AA
+303	2:31.62	Taylor Tabino		16	200 FL LCM	IE	Spokane Waves Aquatic Team	2025 IE TCCC Tri-City Invitational	AA
+304	2:31.65	Aubrey Whalen		16	200 FL LCM	MD	Naval Academy Aquatic Club	2025 NI LC Eastern Zone Sectionals	AA
+305	2:31.67	Annie Superchi		16	200 FL LCM	CT	Cheshire Y Sea Dog Swim Club	2025 CT Senior Championships	AA
+306	2:31.72	Riley Kleinfelder		16	200 FL LCM	OHO	Mason Manta Rays	2025 OH RAYS Senior Intrasquad	AA
+306	2:31.72	Alana Hauser		16	200 FL LCM	FL	West Florida Lightning Aquatic	2025 FL Summer Senior Championships	AA
+308	2:31.77	Elsa Horcher		16	200 FL LCM	GA	Aiken-Augusta Swim League	2025 GA Long Couse Senior State Championships	AA
+309	2:31.80	Ava Grace Gipson		16	200 FL LCM	SE	McCallie / GPS Aquatics	2025 SE AUB Richard Quick Invitational	AA
+310	2:31.83	Madison Kwok		16	200 FL LCM	PC	Palo Alto Stanford Aquatics	2025 PC BAC Long Course CBA+	AA
+311	2:31.84	Gracie Alley		16	200 FL LCM	IN	Westfield Aquatics	2025 IN ISI Senior LC Champs	AA
+312	2:32.15	Paige Blom		16	200 FL LCM	OZ	Parkway Swim Club	2025 MV Region VIII Speedo Summer Sectionals	AA
+313	2:32.18	Story Mackey		16	200 FL LCM	SE	Huntsville Swim Association	2025 SE Southeastern Summer LC Championships	AA
+313	2:32.18	Avery Hearon		16	200 FL LCM	GU	South Shore Sails	2025 NT MTRO American Long Course MEET FULL	AA
+315	2:32.22	Adel Berlin		16	200 FL LCM	WI	Schroeder YMCA Swim Team	2025 WI PX3-WEST 13 &O LC STATE CHAMPIONSHIP	AA
+316	2:32.23	Maddie Light		16	200 FL LCM	NC	SwimMAC Carolina	2025 NC SwimMAC Novant Invitational	AA
+317	2:32.24	Sofia Jorge		16	200 FL LCM	FG	Gulliver Swim Club	2025 FG Gulliver Summer Classic	AA
+318	2:32.28	Sarah Paisley Owen		16	200 FL LCM	GA	Metro Atlanta Aquatic Club	2025 GA CODA Classic	AA
+318	2:32.28	Allison Alfeo		16	200 FL LCM	NT	Metroplex Aquatics	2025 NT MTRO American Long Course MEET FULL	AA
+320	2:32.37	Victoria Larson		16	200 FL LCM	AZ	Phoenix Swim Club	2025 AZ PSC May Cray	AA
+321	2:32.51	Gracie Mork		16	200 FL LCM	MN	Great Wolf Swim Team	2025 ND 2025 ND MN Senior LC State Championship	AA
+322	2:32.56	Sunny Chen		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 VA NCAP Elite Qualifier	AA
+323	2:32.65	Taylor Jerousek		16	200 FL LCM	IN	Munster Swim Club	2025 IN ISI Senior LC Champs	AA
+324	2:32.68	Claire Kalinowski		16	200 FL LCM	AZ	Scottsdale Aquatic Club	2025 AZ SAC Cactus Classic	AA
+325	2:32.70	Maddie Saccameno		16	200 FL LCM	IL	Academy Bullets Swim Club	2025 SE NAC Summer Sizzler	AA
+326	2:32.73	Emerson Choudry		16	200 FL LCM	MA	Germantown Academy Aquatic Club	2025 MA JW Spring Derby A/BB/C	AA
+327	2:32.75	Madison Hem		16	200 FL LCM	CA	Circle City Aquatics	2025 CA SCS RAA June Age Group Championships	AA
+328	2:32.77	Amelia Bissell		16	200 FL LCM	AM	Richard G. Snyder YMCA	2025 AM LC Age Group Champs	AA
+328	2:32.77	Fynn Minus		16	200 FL LCM	ST	Alamo Area Aquatic Association	2025 ST ASC Firecracker	AA
+330	2:32.85	Huiju Kim	Yes	16	200 FL LCM	MN	Foxjets Swim Team	2025 ND 2025 ND MN Senior LC State Championship	AA
+331	2:32.95	Anna Read McCormack		16	200 FL LCM	GA	SwimAtlanta	2025 GA Betsy Dunbar	AA
+332	2:32.96	Aidyn Reese		16	200 FL LCM	FL	Laker Swim	2025 FL FAST May Invitational	AA
+333	2:32.99	Nora Sperry		16	200 FL LCM	IN	Westfield Aquatics	2025 IN ISI Senior LC Champs	AA
+334	2:33.00	Alex Orris		16	200 FL LCM	ST	Austin Swim Club	2025 ST ASC Firecracker	AA
+335	2:33.05	Yasemin Erdal		16	200 FL LCM	MR	Twisters Swim Club	2025 MR MR Junior Metropolitan Championship	AA
+336	2:33.09	Ava Kiser		16	200 FL LCM	NC	Enfinity Aquatic Club	2025 NC STAR Andrew Hartle Invitational	AA
+337	2:33.20	Mia Seidl		16	200 FL LCM	MN	South East Metro Sharks	2025 MN WOLF Huff n Puff Invite	AA
+338	2:33.22	Meital Hailpern		16	200 FL LCM	IL	Wildkit Swimming Organization	2025 IL Illinois Swimming Summer Senior Championships	AA
+339	2:33.30	Bailey Heustis		16	200 FL LCM	VA	Old Dominion Aquatic Club	2025 NC GSA Eastern Invitational	AA
+340	2:33.31	Hazel Huilman		16	200 FL LCM	CO	Elevation Athletics	2025 CO ACES Spring Invite	AA
+340	2:33.31	Nora Sandy		16	200 FL LCM	MA	Jersey Wahoos	2025 MA Jersey Wahoos Closed Summer Solstice	AA
+342	2:33.32	Zoe Xiao		16	200 FL LCM	CA	SOCAL Aquatics Association	2025 Futures Championships - Sacramento	AA
+343	2:33.34	Nella Duty		16	200 FL LCM	FL	Sarasota Sharks	2025 FL 10th Annual Matt & Karen Hohne Memorial Invitational	AA
+344	2:33.35	Mady Tulloch		16	200 FL LCM	FL	Unattached	2025 FL Planet Swim Summer Championships	AA
+345	2:33.40	Hannah Song	Yes	16	200 FL LCM	NE	Phoenix Swimming	2025 NE SAC America's Cup	AA
+346	2:33.44	Katie Kitlowski		16	200 FL LCM	SC	City of Charleston Southern Marlins Racing Team	2025 SC GAME Summer Classic	AA
+347	2:33.53	Payton Menely		16	200 FL LCM	IL	Palatine Park Dist Swim Team	2025 IN ELK Summer Bash Invitational	AA
+348	2:33.54	Reagan Edquid		16	200 FL LCM	AZ	Aquabear Swim Club	2025 AZ RIO LC Season Opener	AA
+349	2:33.57	Hanna Fritts		16	200 FL LCM	PN	West Coast Aquatics	2025 PN 13&O Long Course Championships	AA
+349	2:33.57	Aimee Qi		16	200 FL LCM	NE	Phoenix Swimming	2025 NE CS Senior Championships	AA
+351	2:33.60	Stella Mastroianni		16	200 FL LCM	PV	Arlington Aquatic Club	2025 PV LC Open Championships	AA
+352	2:33.61	Jessica Block		16	200 FL LCM	PV	Nation's Capital Swim Club	2025 VA NCAP Elite Qualifier	AA
+353	2:33.70	Sarah Beaty Coker		16	200 FL LCM	SC	Columbia Swimming	2025 SC GAME South Carolina Long Course Senior LSC Championship	AA
+354	2:33.72	Abby Feldmann		16	200 FL LCM	CO	Highlands Ranch Aquatics	2025 SE TNAQ June Invite	AA
+355	2:33.78	Emma Medei		16	200 FL LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	AA
+356	2:33.80	Elisabeth Miller		16	200 FL LCM	PV	Machine Aquatics	2025 FL ISCA Summer Senior Blast	AA
+356	2:33.80	Peyton Brooks		16	200 FL LCM	FL	Gator Swim Club	2025 FL EAJ's Spring into Long Course	AA
+356	2:33.80	Daniela Delarue		16	200 FL LCM	ST	Streamline Aquatics	2025 ST AAAA Salute to the Troops	AA
+359	2:33.82	Sarah Roerig		16	200 FL LCM	FL	Blue Dolfins	2025 FL Patriot Aquatics Long Course Invitational	AA
+359	2:33.82	Amber Klingensmith		16	200 FL LCM	AM	Team Pittsburgh Elite Aquatics	2025 WV Club Mountaineer Mid-Summer Invite	AA
+361	2:33.84	Cate Kadden		16	200 FL LCM	SN	Rocklin Swim Team	2025 SN Long Course Championships ‘The Bill Rose Classic’	AA
+361	2:33.84	Evie Preston		16	200 FL LCM	OHO	Cincinnati Aquatic Club	2025 IN CGAC Mid Summer Spectacular	AA
+363	2:33.87	Melissa Wojcik		16	200 FL LCM	VA	Coast Guard Blue Dolphins	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	AA
+364	2:33.90	Livia Whitaker		16	200 FL LCM	GU	Ambush Swimming	2025 ST TXLA Speedo Southern Zone LC Sectionals	AA
+365	2:33.92	Addison Kiesel		16	200 FL LCM	MA	South Jersey Aquatic Club	2025 MA MASI LC Senior Championships CC	AA
+366	2:33.97	Ellison Charette		16	200 FL LCM	CT	YMCA Of Greenwich Marlins	2025 CT GRYM June LCM Invite	AA
+367	2:34.02	Josie Stanczak		16	200 FL LCM	AM	Fox Chapel Killer Whales	2025 FL ISCA Summer Senior Blast	AA
+368	2:34.08	Annika Byyny		16	200 FL LCM	CO	Univ of Denver Hilltoppers	2025 SE TNAQ Senior Summer Showdown	AA
+369	2:34.10	Sophia Tayco		16	200 FL LCM	PC	Quicksilver Swimming	2025 SN Summer Sanders LCM Meet	AA
+370	2:34.21	Wendy Zeiss		16	200 FL LCM	CA	BLAST Sharks	2025 CA BLST Pacific Committee Championships	AA
+371	2:34.25	Sarah McGann		16	200 FL LCM	MA	Ridley Area YMCA Stingrays	2025 MA 11th Annual Cure for Cam	AA
+372	2:34.26	Finley White		16	200 FL LCM	MR	Westchester Aquatic Club	2025 MR TYR Senior Met Summer Championships	AA
+373	2:34.27	Julia Bartula		16	200 FL LCM	IL	Academy Bullets Swim Club	2025 IL FMC Spring Into Season LC Swim Meet	AA
+374	2:34.28	Penny Brereton		16	200 FL LCM	IL	Palatine Park Dist Swim Team	2025 IL Illinois Swimming Summer Senior Championships	AA
+375	2:34.32	Angela Prado		16	200 FL LCM	SI	Coronado Swim -Team Elite	2025 CA RMDA Road to LA28 - LCM	A
+376	2:34.42	Olivia Bright		16	200 FL LCM	SN	Northern Sierra Swimming	2025 PC Speedo Sectionals - Novato TIME TRIALS	A
+376	2:34.42	Bella Manuel		16	200 FL LCM	CA	Sandpipers Of Nevada	2025 CC Central California Swimming Renee and Jim Patterson Classic	A
+378	2:34.50	Grace Bell		16	200 FL LCM	MA	Germantown Academy Aquatic Club	2025 MA Jersey Wahoos Closed Summer Solstice	A
+379	2:34.55	Grace Gallardo		16	200 FL LCM	CA	Monterey Park Manta Rays	2025 CA SCS/RAA Sumer Age Group Championships	A
+380	2:34.64	Zoe Gruber		16	200 FL LCM	FL	Sarasota Sharks	2025 FL 10th Annual Matt & Karen Hohne Memorial Invitational	A
+381	2:34.66	Mia Levey		16	200 FL LCM	CT	New Canaan YMCA Caimans	2025 FL RAFC Last Splash Invitational	A
+382	2:34.68	Morgan Gloier		16	200 FL LCM	NT	Lakeside Aquatic Club	2025 NT MAC Senior May Meet	A
+382	2:34.68	Arden Keitel		16	200 FL LCM	MA	Germantown Academy Aquatic Club	2025 MA Jersey Wahoos Closed Summer Solstice	A
+384	2:34.71	Ellie McCorkle		16	200 FL LCM	IA	Ames Cyclone Aquatics Club	2025 IA IASI Long Course Championships	A
+385	2:34.73	Summer Rousseau		16	200 FL LCM	PC	AC Swim Club	2025 PC Speedo Sectionals - Novato TIME TRIALS	A
+386	2:34.75	Tegan Evans		16	200 FL LCM	MA	Parkland Aquatic Club	2025 MA LAC Longing For Summer	A
+386	2:34.75	Natalie Gilbert		16	200 FL LCM	NI	PACK Swim Team of Pittsford	2025 NI Long Course Champs	A
+388	2:34.85	Caroline Gies		16	200 FL LCM	CT	ZEUS Swim Team	2025 CT Senior Championships	A
+389	2:34.87	Ella Hare		16	200 FL LCM	IN	Fishers Area Swimming Tigers	2025 IN Central Zone Speedo Sectional 2025	A
+390	2:34.90	Greyson Connor		16	200 FL LCM	NC	Aquatic Team Of Mecklenburg	2025 NC NCS LC Senior Championships	A
+391	2:34.94	Anna Lasher		16	200 FL LCM	SE	Excel Aquatics	2025 SE Southeastern Summer LC Championships	A
+392	2:34.98	Logan Havermann		16	200 FL LCM	MN	South East Metro Sharks	2025 MN WOLF Huff n Puff Invite	A
+392	2:34.98	Addison Pfeiffer		16	200 FL LCM	OZ	Rockwood Swim Club	2025 MV Region VIII Speedo Summer Sectionals	A
+394	2:34.99	Sylvia Deliduka		16	200 FL LCM	IL	New Trier Aquatics	2025 IL RISE Endless Summer	A
+395	2:35.11	Sophie Terriquez		16	200 FL LCM	AZ	Flagstaff Snow Sharks Inc	2025 AZ DTAC Starlight ABC Invite	A
+396	2:35.13	Stella Green		16	200 FL LCM	CT	Cheshire Y Sea Dog Swim Club	2025 CT Senior Championships	A
+397	2:35.14	Kira Hunter		16	200 FL LCM	IN	Zionsville Swim Club	2025 IN CGAC vs ZSC Splash	A
+398	2:35.20	Kylie Coffey		16	200 FL LCM	MI	Jenison Area Wildcat Swimming	2025 MI West Michigan Classic	A
+399	2:35.24	Liv Wallace		16	200 FL LCM	OHO	Cincinnati Marlins	2025 OH CM Spring Invitational	A
+400	2:35.25	Scarlet Urick		16	200 FL LCM	MN	Great Wolf Swim Team	2025 ND 2025 ND MN Senior LC State Championship	A
+401	2:35.32	Mabel Walborn		16	200 FL LCM	MA	Lancaster Aquatic Club	2025 MA MASI LC Senior Championships CC	A
+402	2:35.40	Elliott Murphy		16	200 FL LCM	SC	Wahoo Aquatic Club	2025 SC GAME Summer Classic	A
+403	2:35.45	Julia Udrys		16	200 FL LCM	NT	Texas Ford Aquatics	2025 NT Texas Senior Circuit Long Course Meet	A
+404	2:35.47	Jenna Khalaf		16	200 FL LCM	NT	Lakeside Aquatic Club	2025 NT IRON Senior Qualifier	A
+405	2:35.51	Rachel Hui		16	200 FL LCM	MR	Long Island Express	2025 MR TYR Senior Met Summer Championships	A
+406	2:35.52	Harper Lucas		16	200 FL LCM	NC	Raleigh Swimming Association	2025 FL Planet Swim Summer Championships	A
+407	2:35.56	Anna Young		16	200 FL LCM	OK	Bartlesville Splash Club	2025 OK JTSC Spring Invite	A
+408	2:35.58	Emilia Surma		16	200 FL LCM	IA	Bettendorf Aquatics	2025 IA IASI Long Course Championships	A
+409	2:35.59	Mae Winardi		16	200 FL LCM	NC	Mecklenburg Swim Association	2025 NC ATOM Beach Bash	A
+410	2:35.65	Helen Russell		16	200 FL LCM	OHO	Powel Crosley, Jr. YMCA	2025 OH AP SWOYSL LC Championships	A
+411	2:35.68	Kaela Haycraft		16	200 FL LCM	MN	Aquajets Swim Team	2025 ND 2025 ND MN Senior LC State Championship	A
+412	2:35.69	Emi Reinvik		16	200 FL LCM	PN	Olympic Cascade Aquatics	2025 PC Summer Far Western Championships	A
+412	2:35.69	Madi Hertzig		16	200 FL LCM	NC	Mecklenburg Swim Association	2025 NC ATOM Beach Bash	A
+414	2:35.70	Kaitlyn Knowles		16	200 FL LCM	CT	New Canaan YMCA Caimans	2025 FL YMCA National Long Course Swimming Championships	A
+414	2:35.70	Ella Whitney		16	200 FL LCM	NT	Dallas Mustangs	2025 NT MTRO American Long Course MEET FULL	A
+416	2:35.76	Hannah Ellis		16	200 FL LCM	VA	Stingrays Swim Team	2025 VA EZ LC Speedo Super Sectional Champs-Cap Reached	A
+417	2:35.81	Kinley Meislahn		16	200 FL LCM	FL	Sarasota Sharks	2025 FL Summer Senior Championships	A
+418	2:35.84	Elizabeth Bryan		16	200 FL LCM	PV	Machine Aquatics	2025 VA NOVA LC Winter Invitational	A
+419	2:35.88	Maris Williams		16	200 FL LCM	IN	Fort Wayne Swim Team	2025 IN FORT Spring Splash	A
+420	2:35.90	Aaliyah Minkin		16	200 FL LCM	AZ	Scottsdale Aquatic Club	2025 AZ MAC Narwhal Invite	A
+421	2:35.92	Abigaile Mais		16	200 FL LCM	CT	ZEUS Swim Team	2025 FL ISCA Summer Senior Blast	A
+422	2:35.96	Skylar Kenderdine		16	200 FL LCM	MA	Jersey Wahoos	2025 MA Jersey Wahoos Closed Summer Solstice	A
+423	2:35.97	Julia Misicko		16	200 FL LCM	VA	Virginia Gators	2025 VA LC Senior Champs	A
+424	2:36.09	Ella Fraley		16	200 FL LCM	AD	Sharks Swim Club	2025 VA SRVA East Coast Summerfest	A
+425	2:36.10	Sofia Diviacchi		16	200 FL LCM	IL	Mundelein Mustang Swim Club	2025 IL HOSC WHTN Great American Splash	A
+426	2:36.11	Baylee Corden		16	200 FL LCM	MD	Monocacy Aquatic Club	2025 MD RAC Abby Seeger Memorial SwimMeet	A
+427	2:36.12	Aubrey Ashman		16	200 FL LCM	MA	Wilmington Aquatic Club	2025 MA MASI LC Senior Championships CC	A
+427	2:36.12	Jane Johnson		16	200 FL LCM	WI	Elmbrook Swim Club	2025 FG Swim Fort Lauderdale Speedo Summer Classic	A
+429	2:36.15	Harper Husbands		16	200 FL LCM	OK	King Marlin Swim Club	2025 OK SSC June Bugs and Fireflies	A
+429	2:36.15	Eila Tauzell		16	200 FL LCM	VA	H2okie Aquatics	2025 VA LC Senior Champs	A
+431	2:36.16	Peyton Khan		16	200 FL LCM	GU	The Woodlands Swim Team	2025 GU Fleet Last Chance Meet	A
+432	2:36.20	Andraya Giagios		16	200 FL LCM	MR	Sachem Swim Club	2025 FL ISCA Summer Senior Blast	A
+433	2:36.22	Kayeleagh Stahl		16	200 FL LCM	VA	Stingrays Swim Team	2025 VA SRVA Summer Invitational	A
+434	2:36.24	Cami Schwartz		16	200 FL LCM	MA	Lancaster Aquatic Club	2025 PV AAC LC Invitational	A
+434	2:36.24	Brooklyn Miller		16	200 FL LCM	CO	Loveland Swim Club	2025 AZ MAC Narwhal Invite	A
+436	2:36.31	D Hernandez-Silva		16	200 FL LCM	OK	American Energy Swim Club	2025 MV Region VIII Speedo Summer Sectionals	A
+437	2:36.32	Alison Okopny		16	200 FL LCM	MI	Club Wolverine	2025 MI Eric Namesnik Memorial Open	A
+438	2:36.33	Bella Pitts		16	200 FL LCM	SI	Sea to Desert Swim Association	2025 SI CA/NV Speedo Summer Sectionals	A
+439	2:36.36	Clara Hughes		16	200 FL LCM	MN	New Hope Crystal Plymouth Swim Club	2025 MN TUNA Minnesota Regional Championship	A
+440	2:36.40	Sarah Meza		16	200 FL LCM	NT	Texas Ford Aquatics	2025 NT IRON Senior Qualifier	A
+441	2:36.42	Lorelai Bremer		16	200 FL LCM	MI	Michigan Lakeshore Aquatics	2025 MI 15th Annual Big Red Challenge	A
+442	2:36.46	Sarah Fedoruk		16	200 FL LCM	GU	The Woodlands Swim Team	2025 NT MTRO American Long Course MEET FULL	A
+443	2:36.53	Lily Grieve		16	200 FL LCM	NC	O'Neal Aquatics Club	2025 NC NCS LC Senior Championships	A
+444	2:36.55	Taylor King		16	200 FL LCM	CO	North Jeffco Swim Team	2025 OR SPEEDO SECTIONALS - MT HOOD	A
+445	2:36.57	Ava Robertson		16	200 FL LCM	PN	Issaquah Swim Team	2025 PN 13&O Long Course Championships	A
+445	2:36.57	Natalie Reubi		16	200 FL LCM	AM	Allegheny North Swim Club	2025 AM LC Age Group Champs	A
+447	2:36.58	Madelyn Gebhard		16	200 FL LCM	MR	Long Island Express	2025 MR MR Junior Metropolitan Championship	A
+448	2:36.59	Zoe Bitterman		16	200 FL LCM	NJ	Princeton Tiger Aquatic Club	2025 NJ Jeffrey S. Mace Memorial Summer Sizzle XXXIII	A
+449	2:36.79	Kona Flanagan		16	200 FL LCM	HI	Kamehameha Swim Club	2025 HI 14th Annual Wada Rainbow Invitational (LCM)	A
+450	2:36.83	Tamara Kret		16	200 FL LCM	IL	NASA Wildcat Aquatics	2025 IL RISE Endless Summer	A
+450	2:36.83	Tiffany Ho	Yes	16	200 FL LCM	PC	Alto Swim Club	2025 CAN BC Summer Provincial Championships	A
+452	2:36.89	Kylie Coles		16	200 FL LCM	FL	Tampa Elite Aquatics	2025 FL Kent B. Holdren Memorial Meet	A
+453	2:36.92	Isabella Robaina		16	200 FL LCM	NT	Mansfield Aquatic Club	2025 NT MAC A/BB April LCM Meet	A
+454	2:36.94	Jayden Lai		16	200 FL LCM	MR	Long Island Aquatic Club	2025 NJ SCAR Memorial Invite	A
+455	2:36.95	Avery Martin		16	200 FL LCM	NC	SwimMAC Carolina	2025 NC GSA Eastern Invitational	A
+456	2:36.99	Cora Shea		16	200 FL LCM	NE	Bluefish Swim Club	2025 NE SAC America's Cup	A
+457	2:37.02	Phoebe Rodriguez		16	200 FL LCM	NJ	Greater Somerset County YMCA Storm	2025 NJ July Heat Wave	A
+457	2:37.02	Luna Al-Ramahi		16	200 FL LCM	GU	HTX Swims	2025 GU LC Senior Championships	A
+459	2:37.05	Layla Eberle		16	200 FL LCM	VA	Tide Swimming	2025 FL ISCA Summer Senior Blast	A
+460	2:37.06	Ella Kingsland		16	200 FL LCM	MT	Great Falls Swim Team	2025 CC WESTERN ZONE SENIOR CHAMPIONSHIPS	A
+461	2:37.10	Caroline Ball		16	200 FL LCM	IN	Michiana Marlins Swim Club	2025 IN ISI Senior LC Champs	A
+462	2:37.12	Caroline Trotman		16	200 FL LCM	AR	Springfield Aquatics	2025 AR Long Course Championships	A
+463	2:37.14	Laney Hendrickson		16	200 FL LCM	MN	Foxjets Swim Team	2025 ND 2025 ND MN Senior LC State Championship	A
+464	2:37.38	Phoebe Risch		16	200 FL LCM	NI	Clarence Swim Club	2025 NI Long Course Champs	A
+465	2:37.39	Maddie Wentzel		16	200 FL LCM	MN	Riptide	2025 MN STRM Minnesota Regional Championship	A
+466	2:37.43	Kasey Schrecongost		16	200 FL LCM	AM	Racer X Aquatics	2025 WV 4th Annual Renee McCutchan	A
+467	2:37.44	Sophia Floyd		16	200 FL LCM	IN	Carmel Swim Club	2025 IN CSC vs FAST 13 & Over Session	A
+468	2:37.47	Evie Holmes		16	200 FL LCM	MN	Hurricanes Swim Team	2025 MN AQJT Summer Spectacular Invite	A
+469	2:37.48	Courtney Carter		16	200 FL LCM	VA	NOVA of Virginia Aquatics, Inc	2025 VA LC Senior Champs	A
+469	2:37.48	Sofie Dewan		16	200 FL LCM	MR	Asphalt Green Unified Aquatics	2025 MR TYR Senior Met Summer Championships	A
+471	2:37.54	Clara Ivey		16	200 FL LCM	GU	The Woodlands Swim Team	2025 NT MTRO American Long Course MEET FULL	A
+472	2:37.57	Piper Strach		16	200 FL LCM	VA	Tide Swimming	2025 VA LC Senior Champs	A
+473	2:37.58	Mina Sanford		16	200 FL LCM	SE	Ensworth Aquatics	2025 SE ENSW Officially Summer Invite	A
+474	2:37.66	Sammie Reiss		16	200 FL LCM	IL	Hinsdale Swim Club	2025 SE AUB Richard Quick Invitational	A
+475	2:37.69	Emma Pewitt		16	200 FL LCM	NT	COR Swimming	2025 NT MTRO American Long Course MEET FULL	A
+476	2:37.73	Leah Romanowski		16	200 FL LCM	MD	Richard A. Henson Family YMCA	2025 VA NOVA LC Firecracker Meet	A
+477	2:37.75	Johanna Ransom		16	200 FL LCM	WI	Madison Aquatic Club	2025 WI MAC LONG COURSE MIDWEST INVITATIONAL	A
+478	2:37.79	Stephanie Mills		16	200 FL LCM	CA	Team Rebel Aquatics	2025 CA SAND John Sullivan Firecracker Invite	A
+479	2:37.80	Payton Clark		16	200 FL LCM	IN	Carmel Swim Club	2025 SE NAC Summer Sizzler	A
+480	2:37.87	Reese Graveline		16	200 FL LCM	NE	Commonwealth Swimming	2025 NE CS South Summer Fiesta	A
+481	2:37.88	Victoria Buffum		16	200 FL LCM	NC	Marlins Of Raleigh	2025 SC TG Dash & Splash	A
+482	2:37.92	Ohanna Liu		16	200 FL LCM	NE	Bluefish Swim Club	2025 NE CS Silver Championship	A
+483	2:37.94	Sydney Gray		16	200 FL LCM	VA	Tide Swimming	2025 FL ISCA Summer Senior Blast	A
+484	2:37.99	Addie Cooper		16	200 FL LCM	MA	Upper Main Line YMCA	2025 MA 11th Annual Cure for Cam	A
+485	2:38.05	Caitlin Taylor		16	200 FL LCM	PC	Douglas Dolfins Swim Team	2025 CC Central California Swimming Renee and Jim Patterson Classic	A
+485	2:38.05	Emma Morrow		16	200 FL LCM	AR	Northwest Arkansas Aquatics	2025 MV BZRK TYR RAGNAROK	A
+487	2:38.23	Tabitha Tallman		16	200 FL LCM	IA	Iowa Flyers Swim Club	2025 MI Eric Namesnik Memorial Open	A
+488	2:38.29	Anya Atkinson		16	200 FL LCM	IE	Spokane Sea Serpents	2025 IE Long Course Championships	A
+489	2:38.33	Stephanie Frank		16	200 FL LCM	PV	Rockville Montgomery Swim Club	2025 PV LC Open Championships	A
+490	2:38.41	Ellie Martin		16	200 FL LCM	MV	Kansas City Swim Academy	2025 MV LCM Senior Championships	A
+491	2:38.43	Ava Sgarra		16	200 FL LCM	MA	Upper Main Line YMCA	2025 MA RAYS LC Stakes	A
+492	2:38.45	Triana Fraija		16	200 FL LCM	GU	Katy Aquatic Team For Youth	2025 SE TNAQ Senior Summer Showdown	A
+493	2:38.48	Emma Landon		16	200 FL LCM	VA	East Coast Aquatic Team	2025 VA LC Senior Champs	A
+493	2:38.48	Lily Glasgow		16	200 FL LCM	ST	Streamline Aquatics	2025 ST AAAA 22nd Annual Cinco De Mayo Invitational (LCM)	A
+495	2:38.49	Matilda Noble		16	200 FL LCM	FL	Hydro Swim Club	2025 FL Planet Swim Summer Championships	A
+495	2:38.49	Audrey Alberts		16	200 FL LCM	NE	Bluefish Swim Club	2025 NE CRA/USC Timed Final & Prelim/Final Meet	A
+497	2:38.51	Maddie Shapiro		16	200 FL LCM	MA	Upper Dublin Aquatic Club	2025 MA LAC Arena Classic	A
+498	2:38.60	Jossy Thompson		16	200 FL LCM	GA	Georgia Coastal Aquatic Team	2025 GA Eric Wayner IMExtreme	A
+499	2:38.64	Maddie Schlereth		16	200 FL LCM	MR	Condors Swim Club	2025 FL ISCA Summer Senior Blast	A
+500	2:38.76	Bella Muyres		16	200 FL LCM	MN	St Croix Swim Club	2025 MN MAN Minnesota Regional Championship	A

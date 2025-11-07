@@ -29,3 +29,13 @@ print(f"\nTotal meets: {total}")
 conn.close()
 
 
+
+
+
+
+
+
+
+
+
+
