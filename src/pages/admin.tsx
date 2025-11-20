@@ -10,29 +10,6 @@ interface ConversionResult {
   meets: number;
 }
 
-interface ValidationIssueDetail {
-  sheet?: string;
-  row?: string;
-  [key: string]: string | undefined;
-}
-
-type ValidationIssues = Record<string, ValidationIssueDetail[]>;
-
-type UploadStatus = 'pending' | 'processing' | 'success' | 'error';
-
-interface UploadSummary {
-  filename: string;
-  status: UploadStatus;
-  message: string;
-  metrics?: {
-    athletes: number;
-    results: number;
-    events: number;
-    meets: number;
-  };
-  issues?: ValidationIssues;
-}
-
 interface Meet {
   id: string;
   name: string;
@@ -66,20 +43,7 @@ interface ManualResult {
   place: number | null;
 }
 
-const ISSUE_LABELS: Record<string, string> = {
-  missing_athletes: 'Missing Athletes',
-  birthdate_mismatches: 'Birthdate Mismatches',
-  nation_mismatches: 'Nation Mismatches',
-  gender_mismatches: 'Gender Mismatches',
-  club_misses: 'Club / Team Lookups',
-  event_misses: 'Event Mapping Issues',
-  time_errors: 'Time Parsing Issues',
-  course_errors: 'Course Issues',
-  general_errors: 'Other Validation Notes',
-};
-
 export default function AdminPage() {
-  const API_BASE = 'http://127.0.0.1:8000';
   try {
     console.log('🔵 AdminPage component rendering...');
   } catch (e) {
@@ -97,17 +61,11 @@ export default function AdminPage() {
   const [loadingMeets, setLoadingMeets] = useState(false);
   
   // Manual entry state
-const [activeTab, setActiveTab] = useState<'upload' | 'manual' | 'manage' | 'athleteinfo' | 'clubinfo'>('upload');
+  const [activeTab, setActiveTab] = useState<'upload' | 'manual' | 'manage'>('upload');
   const [manualStep, setManualStep] = useState<1 | 2 | 3>(1);
-const [clubUploading, setClubUploading] = useState(false);
-const [clubResult, setClubResult] = useState<any>(null);
-const [athleteInfoUploading, setAthleteInfoUploading] = useState(false);
-const [athleteInfoAnalysis, setAthleteInfoAnalysis] = useState<any>(null);
-const [clubUploadMessage, setClubUploadMessage] = useState<string | null>(null);
-const [athleteInfoMessage, setAthleteInfoMessage] = useState<string | null>(null);
-const [athleteSearchQuery, setAthleteSearchQuery] = useState('');
-const [athleteSearchResults, setAthleteSearchResults] = useState<Athlete[]>([]);
-const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
+  const [athleteSearchQuery, setAthleteSearchQuery] = useState('');
+  const [athleteSearchResults, setAthleteSearchResults] = useState<Athlete[]>([]);
+  const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
   const [meetName, setMeetName] = useState('');
   const [meetDate, setMeetDate] = useState('');
   const [meetCity, setMeetCity] = useState('');
@@ -116,8 +74,6 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
   const [selectedEvents, setSelectedEvents] = useState<{distance: number, stroke: string, gender: string}[]>([]);
   const [manualResults, setManualResults] = useState<ManualResult[]>([]);
   const [searchingAthletes, setSearchingAthletes] = useState(false);
-  const [uploadSummaries, setUploadSummaries] = useState<UploadSummary[]>([]);
-  const [expandedIssueKeys, setExpandedIssueKeys] = useState<Record<string, boolean>>({});
 
   const router = useRouter();
 
@@ -407,162 +363,60 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
     setUploading(true);
     setError('');
     setConversionResult(null);
-    setUploadSummaries(
-      uploadedFiles.map((file) => ({
-        filename: file.name,
-        status: 'pending',
-        message: 'Waiting to process…',
-      }))
-    );
-    setExpandedIssueKeys({});
 
     try {
-      let anySuccessful = false;
-
-      for (let index = 0; index < uploadedFiles.length; index += 1) {
-        const file = uploadedFiles[index];
-
-        setUploadSummaries((prev) =>
-          prev.map((summary, idx) =>
-            idx === index
-              ? {
-                  ...summary,
-                  status: 'processing',
-                  message: 'Uploading…',
-                }
-              : summary
-          )
-        );
-
-        const formData = new FormData();
-        formData.append('file', file);
-
-        console.log(`Submitting ${file.name} to convert-excel endpoint`);
-
-        let response: Response;
-        let parsed: any = null;
-
-        try {
-          response = await fetch('http://localhost:8000/api/admin/convert-excel', {
-            method: 'POST',
-            body: formData,
-          });
-          try {
-            parsed = await response.json();
-          } catch (jsonErr) {
-            console.warn('Failed to parse JSON response for', file.name, jsonErr);
-          }
-        } catch (networkError: any) {
-          console.error('Network error during meet upload:', networkError);
-          setUploadSummaries((prev) =>
-            prev.map((summary, idx) =>
-              idx === index
-                ? {
-                    ...summary,
-                    status: 'error',
-                    message:
-                      networkError?.message ||
-                      'Network error while uploading this workbook.',
-                  }
-                : summary
-            )
-          );
-          setError('Network error while uploading. Please check your connection and try again.');
-          continue;
+      const formData = new FormData();
+      
+      console.log('Creating FormData with files:', uploadedFiles.length);
+      
+      // Add all uploaded files - gender will be auto-detected from file contents
+      for (const file of uploadedFiles) {
+        if (!file || !(file instanceof File)) {
+          console.error('Invalid file object:', file);
+          setError(`Invalid file detected: ${file}`);
+          setUploading(false);
+          return;
         }
-
-        if (response.ok && parsed) {
-          anySuccessful = true;
-          const successSummary: UploadSummary = {
-            filename: file.name,
-            status: 'success',
-            message: parsed.message || 'Conversion completed.',
-            metrics: {
-              athletes: parsed.athletes ?? 0,
-              results: parsed.results ?? 0,
-              events: parsed.events ?? 0,
-              meets: parsed.meets ?? 0,
-            },
-          };
-
-          setUploadSummaries((prev) =>
-            prev.map((summary, idx) => (idx === index ? successSummary : summary))
-          );
-          setConversionResult(parsed);
-        } else if (response.status === 422 && parsed?.detail) {
-          const detail = parsed.detail;
-          const message =
-            detail.message || 'Validation issues detected. Please review the details.';
-          const issues: ValidationIssues | undefined = detail.issues;
-
-          setUploadSummaries((prev) =>
-            prev.map((summary, idx) =>
-              idx === index
-                ? {
-                    ...summary,
-                    status: 'error',
-                    message,
-                    issues,
-                  }
-                : summary
-            )
-          );
-          setError(
-            'One or more files require review. Scroll down to the validation summary for specifics.'
-          );
-        } else {
-          const serverMessage =
-            parsed?.detail?.message ||
-            parsed?.detail ||
-            parsed?.message ||
-            'Conversion failed.';
-
-          setUploadSummaries((prev) =>
-            prev.map((summary, idx) =>
-              idx === index
-                ? {
-                    ...summary,
-                    status: 'error',
-                    message: serverMessage,
-                    issues: parsed?.detail?.issues,
-                  }
-                : summary
-            )
-          );
-          setError(serverMessage);
-        }
+        console.log(`Adding file to FormData: ${file.name} (${file.size} bytes)`);
+        formData.append('files', file);
       }
+      
+      console.log('FormData created, sending request...');
 
-      // Reset file picker regardless of outcome
-      const fileInput = document.getElementById('meet-files') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
-      setUploadedFiles([]);
+      const response = await fetch('http://localhost:8000/api/admin/convert-excel', {
+        method: 'POST',
+        body: formData,
+      });
 
-      if (anySuccessful) {
+      const result = await response.json();
+
+      if (response.ok) {
+        setConversionResult(result);
+        // Reset form
+        setUploadedFiles([]);
+        // Reset file input
+        const fileInput = document.getElementById('meet-files') as HTMLInputElement;
+        if (fileInput) fileInput.value = '';
+        // Refresh meets list
         await fetchMeets();
+      } else {
+        setError(result.detail || result.message || 'Conversion failed');
       }
     } catch (err: any) {
-      console.error('Unexpected error during upload:', err);
       setError(err.message || 'Upload failed');
     } finally {
       setUploading(false);
     }
-  };
-  const toggleIssueGroup = (key: string) => {
-    setExpandedIssueKeys((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
   };
 
   if (!isAuthenticated) {
     return (
       <div style={{ 
         fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: '#f5f5f5'
       }}>
         <div style={{
@@ -570,7 +424,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
           padding: '2rem',
           borderRadius: '8px',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            width: '100%',
+          width: '100%',
           maxWidth: '400px'
         }}>
           <h1 style={{ 
@@ -598,27 +452,27 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
               }}>
                 Password:
               </label>
-            <input
-              type="password"
-              value={password}
+              <input
+                type="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              style={{
-                width: '100%',
+                style={{
+                  width: '100%',
                   padding: '0.75rem',
                   border: '1px solid #ddd',
                   borderRadius: '4px',
                   fontSize: '1rem'
-              }}
-              required
+                }}
+                required
               />
             </div>
             
             {error && (
               <div style={{
                 color: '#dc2626',
-                  marginBottom: '1rem',
+                marginBottom: '1rem',
                 padding: '0.5rem',
-                  backgroundColor: '#fef2f2',
+                backgroundColor: '#fef2f2',
                 borderRadius: '4px',
                 border: '1px solid #fecaca'
               }}>
@@ -783,24 +637,24 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
             Admin Panel - Meet Management
           </h1>
           <div>
-              <button
-                onClick={() => router.push('/')}
-                style={{
+            <button
+              onClick={() => router.push('/')}
+              style={{
                 padding: '0.4rem 0.8rem',
                 marginRight: '0.5rem',
                 backgroundColor: '#6b7280',
                 color: 'white',
                 border: 'none',
                 borderRadius: '4px',
-                  cursor: 'pointer',
+                cursor: 'pointer',
                 fontSize: '0.85rem'
-                }}
-              >
+              }}
+            >
               Back to Main
-              </button>
-              <button
-                onClick={handleLogout}
-                style={{
+            </button>
+            <button
+              onClick={handleLogout}
+              style={{
                 padding: '0.4rem 0.8rem',
                 backgroundColor: '#dc2626',
                 color: 'white',
@@ -808,12 +662,12 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer'
-                }}
-              >
-                Logout
-              </button>
-            </div>
+              }}
+            >
+              Logout
+            </button>
           </div>
+        </div>
 
         {/* Tab Selection */}
         <div style={{ 
@@ -822,26 +676,26 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
           marginBottom: '1rem',
           borderBottom: '2px solid #e5e5e5'
         }}>
-                <button
+          <button
             type="button"
             onClick={() => {
               setActiveTab('upload');
               setError('');
             }}
-                  style={{
+            style={{
               padding: '0.5rem 1rem',
               backgroundColor: activeTab === 'upload' ? '#cc0000' : '#ffcccc',
               color: activeTab === 'upload' ? 'white' : '#000',
               border: activeTab === 'upload' ? 'none' : '1px solid #cc0000',
               borderBottom: activeTab === 'upload' ? '3px solid #cc0000' : '3px solid transparent',
               borderRadius: '4px 4px 0 0',
-                    cursor: 'pointer',
+              cursor: 'pointer',
               fontSize: '0.9rem',
               fontWeight: activeTab === 'upload' ? '600' : '400'
-                  }}
-                >
+            }}
+          >
             File Upload
-                </button>
+          </button>
           <button
             type="button"
             onClick={() => {
@@ -883,47 +737,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
           >
             Manage Existing Meets
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('athleteinfo');
-              setError('');
-            }}
-            style={{
-              padding: '0.5rem 1rem',
-              backgroundColor: activeTab === 'athleteinfo' ? '#cc0000' : '#ffcccc',
-              color: activeTab === 'athleteinfo' ? 'white' : '#000',
-              border: activeTab === 'athleteinfo' ? 'none' : '1px solid #cc0000',
-              borderBottom: activeTab === 'athleteinfo' ? '3px solid #cc0000' : '3px solid transparent',
-              borderRadius: '4px 4px 0 0',
-              cursor: 'pointer',
-              fontSize: '0.9rem',
-              fontWeight: activeTab === 'athleteinfo' ? '600' : '400'
-            }}
-          >
-            Athlete Info
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('clubinfo');
-              setError('');
-            }}
-            style={{
-              padding: '0.5rem 1rem',
-              backgroundColor: activeTab === 'clubinfo' ? '#cc0000' : '#ffcccc',
-              color: activeTab === 'clubinfo' ? 'white' : '#000',
-              border: activeTab === 'clubinfo' ? 'none' : '1px solid #cc0000',
-              borderBottom: activeTab === 'clubinfo' ? '3px solid #cc0000' : '3px solid transparent',
-              borderRadius: '4px 4px 0 0',
-              cursor: 'pointer',
-              fontSize: '0.9rem',
-              fontWeight: activeTab === 'clubinfo' ? '600' : '400'
-            }}
-          >
-            Club Info
-          </button>
-      </div>
+        </div>
 
         {/* File Upload Tab */}
         {activeTab === 'upload' && (
@@ -1177,7 +991,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                         <div
                           key={athlete.id}
                           onClick={() => handleAddAthlete(athlete)}
-        style={{
+                          style={{
                             padding: '0.75rem',
                             marginBottom: '0.5rem',
                             backgroundColor: '#f8f9fa',
@@ -1236,10 +1050,10 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                               {athlete.gender} | {athlete.birth_date || 'No DOB'}
                             </div>
                           </div>
-          <button
-            type="button"
+                          <button
+                            type="button"
                             onClick={() => handleRemoveAthlete(athlete.id)}
-            style={{
+                            style={{
                               padding: '0.25rem 0.75rem',
                               backgroundColor: '#dc2626',
                               color: 'white',
@@ -1250,10 +1064,10 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                             }}
                           >
                             Remove
-          </button>
-        </div>
+                          </button>
+                        </div>
                       ))}
-      </div>
+                    </div>
                   </div>
                 )}
 
@@ -1301,7 +1115,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                       }}
                       required
                     />
-        </div>
+                  </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
                       Meet Date <span style={{ color: '#dc2626' }}>*</span>:
@@ -1438,10 +1252,10 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
           </div>
           
                 <div style={{ display: 'flex', gap: '1rem' }}>
-          <button
-            type="button"
+                  <button
+                    type="button"
                     onClick={() => setManualStep(1)}
-            style={{
+                    style={{
                       flex: 1,
                       padding: '0.75rem',
                       backgroundColor: '#6b7280',
@@ -1453,12 +1267,12 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                     }}
                   >
                     ← Back
-          </button>
-          <button
-            type="button"
+                  </button>
+                  <button
+                    type="button"
                     onClick={handleNextToStep3}
                     disabled={!meetName || !meetDate || selectedEvents.length === 0}
-            style={{
+                    style={{
                       flex: 2,
                       padding: '0.75rem',
                       backgroundColor: (!meetName || !meetDate || selectedEvents.length === 0) ? '#9ca3af' : '#cc0000',
@@ -1470,9 +1284,9 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                     }}
                   >
                     Next: Enter Times ({selectedEvents.length} event{selectedEvents.length !== 1 ? 's' : ''} selected)
-          </button>
-        </div>
-      </div>
+                  </button>
+                </div>
+              </div>
             )}
 
             {/* Step 3: Time Entry */}
@@ -1497,15 +1311,15 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                         <th style={{ padding: '0.75rem', textAlign: 'left' }}>Event</th>
                         <th style={{ padding: '0.75rem', textAlign: 'left' }}>Time (MM:SS.ss or SS.ss)</th>
                         <th style={{ padding: '0.75rem', textAlign: 'left' }}>Place</th>
-              </tr>
-            </thead>
-            <tbody>
+                      </tr>
+                    </thead>
+                    <tbody>
                       {manualResults.map((result, idx) => (
                         <tr key={idx} style={{ borderBottom: '1px solid #e2e8f0' }}>
                           <td style={{ padding: '0.75rem' }}>{result.athlete_name}</td>
                           <td style={{ padding: '0.75rem' }}>
                             {result.event_gender} {result.event_distance}m {result.event_stroke}
-                  </td>
+                          </td>
                           <td style={{ padding: '0.75rem' }}>
                             <input
                               type="text"
@@ -1525,7 +1339,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                               }}
                               required
                             />
-                  </td>
+                          </td>
                           <td style={{ padding: '0.75rem' }}>
                             <input
                               type="number"
@@ -1537,7 +1351,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                               }}
                               placeholder="Optional"
                               min="1"
-                      style={{
+                              style={{
                                 width: '100%',
                                 padding: '0.5rem',
                                 border: '1px solid #ddd',
@@ -1545,11 +1359,11 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                                 fontSize: '0.9rem'
                               }}
                             />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
             </div>
 
                 <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
@@ -1587,8 +1401,8 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                     {uploading ? 'Submitting...' : `Submit ${manualResults.length} Results`}
                   </button>
                 </div>
-        </div>
-      )}
+              </div>
+            )}
           </div>
         )}
 
@@ -1641,186 +1455,6 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
           </div>
         )}
 
-        {/* Per-file upload summaries */}
-        {activeTab === 'upload' && uploadSummaries.length > 0 && (
-          <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {uploadSummaries.map((summary) => {
-              const statusColor =
-                summary.status === 'success'
-                  ? '#166534'
-                  : summary.status === 'processing'
-                  ? '#854d0e'
-                  : summary.status === 'pending'
-                  ? '#1f2937'
-                  : '#b91c1c';
-              const borderColor =
-                summary.status === 'success'
-                  ? '#bbf7d0'
-                  : summary.status === 'processing'
-                  ? '#fcd34d'
-                  : summary.status === 'pending'
-                  ? '#d1d5db'
-                  : '#fecaca';
-
-              return (
-                <div
-                  key={summary.filename}
-                  style={{
-                    border: `1px solid ${borderColor}`,
-                    borderRadius: '6px',
-                    padding: '1rem',
-                    backgroundColor: '#fff',
-                    boxShadow: '0 1px 2px rgba(15, 23, 42, 0.08)',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                      gap: '1rem',
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontWeight: 600, color: '#111827' }}>{summary.filename}</div>
-                      <div style={{ fontSize: '0.9rem', color: statusColor, marginTop: '0.25rem' }}>
-                        {summary.message}
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        fontSize: '0.75rem',
-                        padding: '0.25rem 0.5rem',
-                        borderRadius: '9999px',
-                        backgroundColor:
-                          summary.status === 'success'
-                            ? '#dcfce7'
-                            : summary.status === 'processing'
-                            ? '#fef3c7'
-                            : summary.status === 'pending'
-                            ? '#e5e7eb'
-                            : '#fee2e2',
-                        color: statusColor,
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                      }}
-                    >
-                      {summary.status}
-                    </div>
-                  </div>
-
-                  {summary.metrics && (
-                    <div
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-                        gap: '0.75rem',
-                        marginTop: '0.75rem',
-                      }}
-                    >
-                      {[
-                        { label: 'Athletes', value: summary.metrics.athletes },
-                        { label: 'Results', value: summary.metrics.results },
-                        { label: 'Events', value: summary.metrics.events },
-                        { label: 'Meets', value: summary.metrics.meets },
-                      ].map((metric) => (
-                        <div key={metric.label} style={{ textAlign: 'center' }}>
-                          <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#cc0000' }}>
-                            {metric.value}
-                          </div>
-                          <div style={{ fontSize: '0.8rem', color: '#6b7280' }}>{metric.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {summary.issues && (
-                    <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {Object.entries(summary.issues)
-                        .filter(([, items]) => Array.isArray(items) && items.length > 0)
-                        .map(([issueKey, items]) => {
-                          const label = ISSUE_LABELS[issueKey] || issueKey.replace(/_/g, ' ');
-                          const expandKey = `${summary.filename}__${issueKey}`;
-                          const isExpanded = !!expandedIssueKeys[expandKey];
-
-                          return (
-                            <div
-                              key={expandKey}
-                              style={{
-                                border: '1px solid #e5e7eb',
-                                borderRadius: '4px',
-                                backgroundColor: '#f9fafb',
-                              }}
-                            >
-                              <button
-                                type="button"
-                                onClick={() => toggleIssueGroup(expandKey)}
-                                style={{
-                                  width: '100%',
-                                  textAlign: 'left',
-                                  padding: '0.5rem 0.75rem',
-                                  background: 'none',
-                                  border: 'none',
-                                  cursor: 'pointer',
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
-                                  fontWeight: 600,
-                                  color: '#1f2937',
-                                }}
-                              >
-                                <span>
-                                  {label} ({items.length})
-                                </span>
-                                <span style={{ fontSize: '0.9rem', color: '#6b7280' }}>
-                                  {isExpanded ? '−' : '+'}
-                                </span>
-                              </button>
-                              {isExpanded && (
-                                <div style={{ padding: '0.5rem 0.75rem', borderTop: '1px solid #e5e7eb' }}>
-                                  <ul style={{ margin: 0, paddingLeft: '1rem', color: '#374151', fontSize: '0.85rem' }}>
-                                    {items.map((issue, idx) => {
-                                      const rowInfo = [
-                                        issue.sheet ? `Sheet ${issue.sheet}` : null,
-                                        issue.row ? `Row ${issue.row}` : null,
-                                      ]
-                                        .filter(Boolean)
-                                        .join(' • ');
-
-                                      const extraFields = Object.entries(issue)
-                                        .filter(([fieldKey]) => fieldKey !== 'sheet' && fieldKey !== 'row')
-                                        .map(([fieldKey, fieldValue]) => `${fieldKey}: ${fieldValue}`)
-                                        .join(' | ');
-
-  return (
-                                        <li key={`${expandKey}-${idx}`} style={{ marginBottom: '0.35rem' }}>
-        <div>
-                                            {rowInfo && <strong>{rowInfo}</strong>}
-                                            {extraFields && (
-                                              <span style={{ marginLeft: rowInfo ? '0.5rem' : 0 }}>
-                                                {extraFields}
-                                              </span>
-                                            )}
-                                            {!rowInfo && !extraFields && <span>No additional detail provided.</span>}
-        </div>
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-
         {/* Manage Existing Meets Tab */}
         {activeTab === 'manage' && (
         <div>
@@ -1834,14 +1468,14 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
               Manage Existing Meets {loadingMeets && '(Loading...)'} {meets.length > 0 && `(${meets.length} meets)`}
             </h2>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <button
+              <button
                 onClick={() => {
                   console.log('Manual refresh triggered');
                   console.log('Current state - loadingMeets:', loadingMeets, 'meets:', meets.length);
                   setLoadingMeets(false);
                   setTimeout(() => fetchMeets(), 100);
                 }}
-          style={{
+                style={{
                   padding: '0.5rem 1rem',
                   backgroundColor: '#cc0000',
                   color: 'white',
@@ -1852,7 +1486,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                 }}
               >
                 Force Refresh
-        </button>
+              </button>
             </div>
           </div>
 
@@ -1899,9 +1533,9 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                     <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: '600' }}>Date</th>
                     <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: '600' }}>City</th>
                     <th style={{ padding: '0.75rem', textAlign: 'center', fontWeight: '600' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
+                  </tr>
+                </thead>
+                <tbody>
                   {meets.map((meet) => (
                     <tr key={meet.id} style={{ 
                       borderBottom: '1px solid #e2e8f0',
@@ -1909,13 +1543,13 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                     }}>
                       <td style={{ padding: '0.75rem' }}>
                         {meet.name || '(No name)'}
-                    </td>
+                      </td>
                       <td style={{ padding: '0.75rem' }}>
                         {editingAlias[meet.id] !== undefined ? (
                           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                          <input
-                            type="text"
-                            value={editingAlias[meet.id]}
+                            <input
+                              type="text"
+                              value={editingAlias[meet.id]}
                               onChange={(e) => setEditingAlias({ ...editingAlias, [meet.id]: e.target.value })}
                               style={{
                                 padding: '0.5rem',
@@ -1929,8 +1563,8 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                                   handleUpdateAlias(meet.id, editingAlias[meet.id]);
                                 }
                               }}
-                          />
-                          <button
+                            />
+                            <button
                               onClick={() => handleUpdateAlias(meet.id, editingAlias[meet.id])}
                               style={{
                                 padding: '0.25rem 0.5rem',
@@ -1943,8 +1577,8 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                               }}
                             >
                               ✓
-                          </button>
-                          <button
+                            </button>
+                            <button
                               onClick={() => {
                                 const newEditing = { ...editingAlias };
                                 delete newEditing[meet.id];
@@ -1961,17 +1595,17 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                               }}
                             >
                               ✕
-                          </button>
-                        </div>
-                      ) : (
+                            </button>
+                          </div>
+                        ) : (
                           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                             <span style={{ 
                               fontWeight: meet.alias ? '500' : 'normal',
                               color: meet.alias ? '#1e293b' : '#9ca3af'
                             }}>
                               {meet.alias || '(No alias)'}
-                          </span>
-                          <button
+                            </span>
+                            <button
                               onClick={() => setEditingAlias({ ...editingAlias, [meet.id]: meet.alias || '' })}
                               style={{
                                 padding: '0.25rem 0.5rem',
@@ -1983,12 +1617,12 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                                 fontSize: '0.75rem'
                               }}
                               title="Edit alias"
-                          >
-                            Edit
-                          </button>
-                        </div>
-                      )}
-                    </td>
+                            >
+                              Edit
+                            </button>
+                          </div>
+                        )}
+                      </td>
                       <td style={{ padding: '0.75rem', color: '#666' }}>
                         {meet.date ? new Date(meet.date).toLocaleDateString() : '-'}
                       </td>
@@ -1997,7 +1631,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                       </td>
                       <td style={{ padding: '0.75rem', textAlign: 'center' }}>
                         <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
-                      <button
+                          <button
                             onClick={async () => {
                               try {
                                 // Generate PDF and open in new window
@@ -2007,7 +1641,7 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                                 alert(`Error generating PDF: ${error.message}`);
                               }
                             }}
-                        style={{
+                            style={{
                               padding: '0.5rem 1rem',
                               backgroundColor: '#059669',
                               color: 'white',
@@ -2024,171 +1658,29 @@ const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
                             onClick={() => handleDeleteMeet(meet.id, meet.name)}
                             style={{
                               padding: '0.5rem 1rem',
-                          backgroundColor: '#dc2626',
+                              backgroundColor: '#dc2626',
                               color: 'white',
                               border: 'none',
                               borderRadius: '4px',
-                          cursor: 'pointer',
+                              cursor: 'pointer',
                               fontSize: '0.85rem'
-                        }}
+                            }}
                             title={`Delete ${meet.name} and all its results`}
-                      >
-                        Delete
-                      </button>
+                          >
+                            Delete
+                          </button>
                         </div>
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
                   ))}
-            </tbody>
-          </table>
+                </tbody>
+              </table>
             </div>
           ) : null}
         </div>
-      )}
-
-        {activeTab === 'athleteinfo' && (
-          <div style={{ marginTop: '1.5rem' }}>
-            <h2 style={{ marginBottom: '1rem', color: '#333' }}>Athlete Info Management</h2>
-            <div style={{ marginBottom: '1.5rem', padding: '1rem', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
-              <h3 style={{ marginTop: 0, marginBottom: '0.75rem', color: '#1f2937' }}>Upload Athlete Info Workbook</h3>
-              <p style={{ marginBottom: '0.75rem', color: '#6b7280', fontSize: '0.9rem' }}>
-                Upload an Excel file containing athlete info so we can review/merge records.
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <input
-                  id="athlete-info-file-input"
-                  type="file"
-                  accept=".xlsx,.xls"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    (window as any).__athleteInfoFile = file || null;
-                  }}
-                  disabled={athleteInfoUploading}
-                  style={{
-                    padding: '0.5rem',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '4px',
-                    fontSize: '0.9rem',
-                    flex: '1',
-                    minWidth: '200px'
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={async () => {
-                    const input = document.getElementById('athlete-info-file-input') as HTMLInputElement;
-                    const file = input?.files?.[0] || (window as any).__athleteInfoFile;
-                    if (!file) {
-                      alert('Please select a file to upload first.');
-                      return;
-                    }
-                    setAthleteInfoMessage(null);
-                    await handleAthleteInfoUpload(file);
-                    setAthleteInfoMessage('Upload complete. Review the analysis below.');
-                  }}
-                  disabled={athleteInfoUploading}
-        style={{
-                    padding: '0.5rem 1.5rem',
-                    backgroundColor: '#0d6efd',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '0.9rem',
-                    cursor: athleteInfoUploading ? 'not-allowed' : 'pointer'
-                  }}
-                >
-                  {athleteInfoUploading ? 'Analyzing…' : 'Upload & Analyze'}
-                </button>
-              </div>
-              {athleteInfoMessage && (
-                <p style={{ marginTop: '0.75rem', color: '#047857', fontSize: '0.9rem' }}>{athleteInfoMessage}</p>
-        )}
-      </div>
-            {athleteInfoAnalysis && (
-              <div style={{ marginTop: '1rem', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '1rem', backgroundColor: 'white' }}>
-                <h3 style={{ marginTop: 0, color: '#1f2937' }}>Workbook Analysis</h3>
-                <p style={{ color: '#6b7280', fontSize: '0.9rem' }}>File: {athleteInfoAnalysis.filename} — Sheets: {athleteInfoAnalysis.sheet_count}</p>
-                {athleteInfoAnalysis.sheets?.map((sheet: any, idx: number) => (
-                  <div key={idx} style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#f9fafb', borderRadius: '4px' }}>
-                    <strong style={{ color: '#1f2937' }}>Sheet: {sheet.name}</strong>
-                    <p style={{ color: '#6b7280', fontSize: '0.85rem' }}>Rows: {sheet.row_count}, Columns: {sheet.column_count}</p>
-                    <strong>Headers:</strong>
-                    <ul style={{ color: '#6b7280', fontSize: '0.85rem' }}>
-                      {sheet.headers?.map((header: string) => <li key={header}>{header}</li>)}
-                </ul>
-              </div>
-                ))}
-          </div>
-        )}
-      </div>
         )}
 
-        {activeTab === 'clubinfo' && (
-          <div style={{ marginTop: '1.5rem' }}>
-            <h2 style={{ marginBottom: '1rem', color: '#333' }}>Club Info Management</h2>
-            <div style={{ marginBottom: '1.5rem', padding: '1rem', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
-              <h3 style={{ marginTop: 0, marginBottom: '0.75rem', color: '#1f2937' }}>Upload Clubs_By_State.xlsx</h3>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-        <input
-                  id="club-file-input"
-                  type="file"
-                  accept=".xlsx,.xls"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    (window as any).__clubFile = file || null;
-                  }}
-                  disabled={clubUploading}
-          style={{
-                    padding: '0.5rem',
-            border: '1px solid #d1d5db',
-                    borderRadius: '4px',
-                    fontSize: '0.9rem',
-                    flex: '1',
-                    minWidth: '200px'
-                  }}
-                />
-                    <button
-                      type="button"
-                  onClick={async () => {
-                    const input = document.getElementById('club-file-input') as HTMLInputElement;
-                    const file = input?.files?.[0] || (window as any).__clubFile;
-                    if (!file) {
-                      alert('Please select a file to upload first.');
-                      return;
-                    }
-                    setClubUploadMessage(null);
-                    await handleClubUpload(file);
-                    setClubUploadMessage('Club data processed. Check summary below.');
-                  }}
-                  disabled={clubUploading}
-                      style={{
-                    padding: '0.5rem 1.5rem',
-                    backgroundColor: '#0d6efd',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '0.9rem',
-                    cursor: clubUploading ? 'not-allowed' : 'pointer'
-                  }}
-                >
-                  {clubUploading ? 'Uploading…' : 'Upload & Convert'}
-                    </button>
-              </div>
-              {clubUploadMessage && (
-                <p style={{ marginTop: '0.75rem', color: '#047857', fontSize: '0.9rem' }}>{clubUploadMessage}</p>
-              )}
-              </div>
-            {clubResult && (
-              <div style={{ marginTop: '1rem', border: '1px solid #e5e7eb', borderRadius: '6px', padding: '1rem', backgroundColor: clubResult.success ? '#ecfdf5' : '#fef2f2' }}>
-                <strong style={{ color: clubResult.success ? '#047857' : '#b91c1c' }}>
-                  {clubResult.success ? 'Upload Successful' : 'Upload Failed'}
-                </strong>
-                <p style={{ color: '#4b5563', fontSize: '0.9rem' }}>{clubResult.message}</p>
-              </div>
-            )}
-            </div>
-          )}
-
+        {/* Instructions - Condensed */}
         {activeTab === 'upload' && (
         <div style={{
           marginTop: '1rem',
