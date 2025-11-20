@@ -2446,17 +2446,13 @@ async def analyze_athlete_info(file: UploadFile = File(...)):
 @router.get("/admin/athletes/export-excel")
 async def export_athletes_excel():
     """Export all athletes from database as Excel file"""
-    from fastapi.responses import FileResponse
+    from fastapi.responses import StreamingResponse
     import openpyxl
     from openpyxl.styles import Font, PatternFill
     from io import BytesIO
     import sys
-    import os
 
     try:
-        print("DEBUG: Starting export", flush=True)
-        sys.stdout.flush()
-
         conn = get_database_connection()
         cursor = conn.cursor()
 
@@ -2472,8 +2468,6 @@ async def export_athletes_excel():
 
         athletes = cursor.fetchall()
         conn.close()
-        print(f"DEBUG: Fetched {len(athletes)} athletes", flush=True)
-        sys.stdout.flush()
 
         # Create workbook
         wb = openpyxl.Workbook()
@@ -2506,27 +2500,16 @@ async def export_athletes_excel():
         output = BytesIO()
         wb.save(output)
         output.seek(0)
-        print("DEBUG: Workbook created successfully", flush=True)
-        sys.stdout.flush()
 
         # Generate filename with timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"athletes_export_{timestamp}.xlsx"
 
-        # Write to temp file using tempfile module (Windows compatible)
-        temp_dir = tempfile.gettempdir()
-        temp_path = os.path.join(temp_dir, f"athletes_export_{timestamp}.xlsx")
-
-        with open(temp_path, 'wb') as f:
-            f.write(output.getvalue())
-        print(f"DEBUG: Temp file created at {temp_path}", flush=True)
-        sys.stdout.flush()
-
-        # Return as FileResponse
-        return FileResponse(
-            temp_path,
+        # Return as StreamingResponse (no temp file needed)
+        return StreamingResponse(
+            iter([output.getvalue()]),
             media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            filename=filename
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
         )
 
     except Exception as e:
