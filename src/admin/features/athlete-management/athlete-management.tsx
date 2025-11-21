@@ -214,7 +214,7 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
 
         {searchingAthletes && <p style={{ color: '#666' }}>Searching...</p>}
 
-        {athleteSearchResults.length > 0 && (
+        {athleteSearchResults.length > 0 && !selectedAthlete && (
           <div style={{
             border: '1px solid #ddd',
             borderRadius: '4px',
@@ -237,85 +237,50 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
                 style={{
                   padding: '0.75rem',
                   borderBottom: '1px solid #eee',
-                  backgroundColor: selectedAthlete?.id === athlete.id ? '#fff3cd' : '#ffffff',
+                  backgroundColor: '#ffffff',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s'
+                  transition: 'background-color 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem'
                 }}
                 onClick={() => handleSelectAthlete(athlete)}
               >
-                <div style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <input
-                    type="radio"
-                    name="athlete-selection"
-                    checked={selectedAthlete?.id === athlete.id}
-                    onChange={() => handleSelectAthlete(athlete)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  <div style={{ fontWeight: '600', fontSize: '0.875rem', color: '#111' }}>
+                <input
+                  type="radio"
+                  name="athlete-selection"
+                  checked={false}
+                  onChange={() => handleSelectAthlete(athlete)}
+                  style={{ cursor: 'pointer', flexShrink: 0 }}
+                />
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  fontSize: '0.75rem',
+                  flex: 1
+                }}>
+                  <div style={{ fontWeight: '600', fontSize: '0.875rem', color: '#111', minWidth: '150px' }}>
                     {athlete.name}
                   </div>
-                </div>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '0.75rem',
-                  fontSize: '0.75rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  <div>
-                    <div style={{ color: '#666', fontSize: '0.7rem', marginBottom: '0.2rem', fontWeight: '500' }}>ID</div>
-                    <div style={{
-                      fontFamily: 'monospace',
-                      color: '#cc0000',
-                      fontWeight: '600',
-                      wordBreak: 'break-all',
-                      fontSize: '0.75rem'
-                    }}>
-                      {athlete.id}
-                    </div>
+                  <div style={{
+                    fontFamily: 'monospace',
+                    color: '#cc0000',
+                    fontWeight: '600',
+                    fontSize: '0.75rem'
+                  }}>
+                    ID: {athlete.id}
                   </div>
-                  <div>
-                    <div style={{ color: '#666', fontSize: '0.7rem', marginBottom: '0.2rem', fontWeight: '500' }}>BIRTHDATE</div>
-                    <div style={{ fontWeight: '500', color: '#333', fontSize: '0.75rem' }}>
-                      {athlete.birth_date || '-'}
-                    </div>
+                  <div style={{ fontWeight: '500', color: '#333' }}>
+                    DOB: {athlete.birth_date || '-'}
+                  </div>
+                  <div style={{ fontWeight: '500', color: '#333' }}>
+                    {athlete.gender || '-'}
+                  </div>
+                  <div style={{ fontWeight: '500', color: '#333' }}>
+                    {athlete.club_name || '-'}
                   </div>
                 </div>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '0.75rem',
-                  fontSize: '0.75rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  <div>
-                    <div style={{ color: '#666', fontSize: '0.7rem', marginBottom: '0.2rem', fontWeight: '500' }}>GENDER</div>
-                    <div style={{ fontWeight: '500', color: '#333', fontSize: '0.75rem' }}>
-                      {athlete.gender || '-'}
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ color: '#666', fontSize: '0.7rem', marginBottom: '0.2rem', fontWeight: '500' }}>CLUB</div>
-                    <div style={{ fontWeight: '500', color: '#333', fontSize: '0.75rem' }}>
-                      {athlete.club_name || '-'}
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={() => handleCopyId(athlete.id)}
-                  style={{
-                    padding: '0.3rem 0.6rem',
-                    backgroundColor: '#cc0000',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '3px',
-                    cursor: 'pointer',
-                    fontSize: '0.7rem',
-                    fontWeight: '500'
-                  }}
-                >
-                  Copy ID
-                </button>
               </div>
             ))}
           </div>
