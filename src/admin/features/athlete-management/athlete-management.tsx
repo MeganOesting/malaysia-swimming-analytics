@@ -14,6 +14,8 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
+  const [fieldsToEdit, setFieldsToEdit] = useState<Set<string>>(new Set());
+  const [isEditingMode, setIsEditingMode] = useState(false);
   const [editForm, setEditForm] = useState<{
     name: string;
     gender: string;
@@ -29,6 +31,15 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
     state_code: '',
     nation: '',
   });
+
+  const availableFields = [
+    { key: 'name', label: 'Name' },
+    { key: 'gender', label: 'Gender' },
+    { key: 'birth_date', label: 'Birthdate' },
+    { key: 'club_name', label: 'Club Name' },
+    { key: 'state_code', label: 'State Code' },
+    { key: 'nation', label: 'Nation' },
+  ];
 
   const searchAthletes = async (query: string) => {
     if (query.length < 2) {
@@ -92,6 +103,8 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
 
   const handleSelectAthlete = (athlete: Athlete) => {
     setSelectedAthlete(athlete);
+    setFieldsToEdit(new Set());
+    setIsEditingMode(false);
     setEditForm({
       name: athlete.name || '',
       gender: athlete.gender || '',
@@ -102,6 +115,24 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
     });
     setError('');
     setSuccess('');
+  };
+
+  const toggleFieldSelection = (fieldKey: string) => {
+    const newFields = new Set(fieldsToEdit);
+    if (newFields.has(fieldKey)) {
+      newFields.delete(fieldKey);
+    } else {
+      newFields.add(fieldKey);
+    }
+    setFieldsToEdit(newFields);
+  };
+
+  const handleStartEditing = () => {
+    if (fieldsToEdit.size === 0) {
+      setError('Please select at least one field to edit');
+      return;
+    }
+    setIsEditingMode(true);
   };
 
   const handleUpdateAthlete = async () => {
@@ -300,125 +331,212 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
       </div>
 
       {/* Edit Selected Athlete Section */}
-      {selectedAthlete && (
+      {selectedAthlete && !isEditingMode && (
+        <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '2px solid #ddd' }}>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '1rem', color: '#111' }}>
+            Select Fields to Edit: {selectedAthlete.name}
+          </h3>
+
+          <div style={{ marginBottom: '1.5rem' }}>
+            <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '0.75rem' }}>
+              Check the fields you want to edit, then click "Continue to Editing"
+            </p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '0.75rem',
+              padding: '1rem',
+              backgroundColor: '#f9fafb',
+              borderRadius: '4px',
+              border: '1px solid #ddd'
+            }}>
+              {availableFields.map(field => (
+                <label key={field.key} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  cursor: 'pointer',
+                  fontSize: '0.875rem'
+                }}>
+                  <input
+                    type="checkbox"
+                    checked={fieldsToEdit.has(field.key)}
+                    onChange={() => toggleFieldSelection(field.key)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  {field.label}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={handleStartEditing}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#cc0000',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}
+            >
+              Continue to Editing
+            </button>
+            <button
+              onClick={() => setSelectedAthlete(null)}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#9ca3af',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Form Section */}
+      {selectedAthlete && isEditingMode && (
         <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '2px solid #ddd' }}>
           <h3 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '1rem', color: '#111' }}>
             Edit Athlete: {selectedAthlete.name}
           </h3>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                Name
-              </label>
-              <input
-                type="text"
-                value={editForm.name}
-                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '0.5rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '0.875rem',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                Gender
-              </label>
-              <select
-                value={editForm.gender}
-                onChange={(e) => setEditForm({ ...editForm, gender: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '0.5rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '0.875rem',
-                  boxSizing: 'border-box'
-                }}
-              >
-                <option value="">Select Gender</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-              </select>
-            </div>
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                Birthdate
-              </label>
-              <input
-                type="text"
-                placeholder="YYYY-MM-DD"
-                value={editForm.birth_date}
-                onChange={(e) => setEditForm({ ...editForm, birth_date: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '0.5rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '0.875rem',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                Club Name
-              </label>
-              <input
-                type="text"
-                value={editForm.club_name}
-                onChange={(e) => setEditForm({ ...editForm, club_name: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '0.5rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '0.875rem',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                State Code
-              </label>
-              <input
-                type="text"
-                value={editForm.state_code}
-                onChange={(e) => setEditForm({ ...editForm, state_code: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '0.5rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '0.875rem',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                Nation
-              </label>
-              <input
-                type="text"
-                value={editForm.nation}
-                onChange={(e) => setEditForm({ ...editForm, nation: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '0.5rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '0.875rem',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
+            {fieldsToEdit.has('name') && (
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                  Name
+                </label>
+                <input
+                  type="text"
+                  value={editForm.name}
+                  onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '0.875rem',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+            )}
+            {fieldsToEdit.has('gender') && (
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                  Gender
+                </label>
+                <select
+                  value={editForm.gender}
+                  onChange={(e) => setEditForm({ ...editForm, gender: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '0.875rem',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+              </div>
+            )}
+            {fieldsToEdit.has('birth_date') && (
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                  Birthdate
+                </label>
+                <input
+                  type="text"
+                  placeholder="YYYY-MM-DD"
+                  value={editForm.birth_date}
+                  onChange={(e) => setEditForm({ ...editForm, birth_date: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '0.875rem',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+            )}
+            {fieldsToEdit.has('club_name') && (
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                  Club Name
+                </label>
+                <input
+                  type="text"
+                  value={editForm.club_name}
+                  onChange={(e) => setEditForm({ ...editForm, club_name: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '0.875rem',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+            )}
+            {fieldsToEdit.has('state_code') && (
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                  State Code
+                </label>
+                <input
+                  type="text"
+                  value={editForm.state_code}
+                  onChange={(e) => setEditForm({ ...editForm, state_code: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '0.875rem',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+            )}
+            {fieldsToEdit.has('nation') && (
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                  Nation
+                </label>
+                <input
+                  type="text"
+                  value={editForm.nation}
+                  onChange={(e) => setEditForm({ ...editForm, nation: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '0.875rem',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -437,6 +555,21 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
               }}
             >
               {isUpdating ? 'Updating...' : 'Update Athlete'}
+            </button>
+            <button
+              onClick={() => setIsEditingMode(false)}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#9ca3af',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}
+            >
+              Back to Fields
             </button>
             <button
               onClick={() => setSelectedAthlete(null)}
