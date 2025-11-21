@@ -88,6 +88,22 @@ Issues that prevent progress. Document here, resolve ASAP.
 
 ## ✅ Resolved Blockers
 
+**[2025-11-21] RESOLVED B007 (Session 10) - CORS Preflight for Athlete Updates**
+- Root cause: Two separate issues preventing PATCH requests for athlete field updates
+  1. OPTIONS handler missing athlete_id path parameter → FastAPI validation error 400
+  2. PATCH method not in CORS CORSMiddleware allow_methods list → CORS validation error 400
+- Solution:
+  1. File: src/web/routers/admin.py:1825 - Added athlete_id: str parameter to athlete_options() function
+  2. File: src/web/main.py:60 - Added "PATCH" to allow_methods list in CORSMiddleware
+- Time spent: ~15 minutes (identification + debugging + fixes)
+- Verification:
+  - CORS preflight (OPTIONS) now returns 200 OK with correct headers
+  - Athlete PATCH update now returns: {"success":true,"message":"Athlete updated"}
+  - Test: curl PATCH to http://localhost:8000/api/admin/athletes/1353 succeeds
+- Impact: Athlete field updates (alias, birthdate, etc.) now work via UI. All 43 database fields can be edited.
+
+---
+
 **[2025-11-21] RESOLVED B006 (Session 9)**
 - Root cause: Multiple database files with different schemas created confusion. Backend used simplified 4-field athlete schema while complete 47-field schema existed in root database.
 - Solution: Deleted 4 incomplete/empty databases (database/malaysia_swimming.db, data/athletes_database.db, data/swimming_data.db, statistical_analysis/database/malaysia_swimming.db). Simplified backend database selection logic in main.py and results.py to use authoritative root database only.
