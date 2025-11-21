@@ -3,7 +3,7 @@
 Malaysia Swimming Analytics - FastAPI Main Application
 """
 
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -13,24 +13,25 @@ import os
 import sys
 import sqlite3
 from pathlib import Path
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Add the project root to the Python path
 project_root = Path(__file__).parent.parent.parent
 sys.path.append(str(project_root))
 
-# Database path - works for both Docker and local development
+# Database path - authoritative source: /malaysia_swimming.db (root)
 def get_db_path():
-    """Get database path, checking multiple possible locations"""
-    # Try root directory first (local development)
+    """Get database path - uses single authoritative database"""
+    # Production database location (root directory)
     root_db = project_root / "malaysia_swimming.db"
     if root_db.exists():
         return str(root_db)
-    # Try database folder
-    db_folder_db = project_root / "database" / "malaysia_swimming.db"
-    if db_folder_db.exists():
-        return str(db_folder_db)
-    # Docker path (fallback)
-    return "/app/database/malaysia_swimming.db"
+    # Docker/container fallback (if not in local environment)
+    return "/app/malaysia_swimming.db"
 
 # Import routers
 from src.web.routers import results, admin
@@ -48,14 +49,31 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "http://127.0.0.1:3000",
         "http://localhost:3001",
-        "http://127.0.0.1:3001"
+        "http://localhost:3002",
+        "http://localhost:3003",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:3001",
+        "http://127.0.0.1:3002",
+        "http://127.0.0.1:3003",
     ],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    allow_credentials=False,
+    expose_headers=["*"],
 )
+
+# Request logging middleware
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    logger.info(f"→ {request.method} {request.url.path} from {request.client.host if request.client else 'unknown'}")
+    try:
+        response = await call_next(request)
+        logger.info(f"← {response.status_code} for {request.method} {request.url.path}")
+        return response
+    except Exception as e:
+        logger.error(f"✗ Error in {request.method} {request.url.path}: {e}")
+        raise
 
 # Include routers
 app.include_router(results.router, prefix="/api")
@@ -112,9 +130,11 @@ async def create_meet(meet_data: dict, current_user: dict = Depends(get_current_
 async def get_simple_results():
     """Get simple results with direct mapping columns only."""
     try:
-        # Simple SQLite connection
+        # Simple SQLite connection with WAL mode and timeout
         db_path = get_db_path()
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect(db_path, timeout=30.0)
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA busy_timeout=30000")
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         
@@ -192,7 +212,9 @@ async def get_results_stats():
     """Get basic statistics for the results."""
     try:
         db_path = get_db_path()
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect(db_path, timeout=30.0)
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA busy_timeout=30000")
         cursor = conn.cursor()
         
         # Get basic stats

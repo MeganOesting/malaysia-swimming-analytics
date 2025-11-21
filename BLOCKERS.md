@@ -10,7 +10,6 @@ Issues that prevent progress. Document here, resolve ASAP.
 
 | ID | Blocker | Impact | Owner | Status | Workaround |
 |----|---------|--------|-------|--------|-----------|
-| B006 | Multiple database files - no single source of truth | Schema unclear, data consistency issues, can't reliably update records | [You] | 🔍 Investigating | Use currently active DB (`database/malaysia_swimming.db`) temporarily |
 | B002 | RevenueMonster integration undefined | Can't build payment system | [You] | ⏳ Waiting | Research & document API |
 
 ---
@@ -88,6 +87,15 @@ Issues that prevent progress. Document here, resolve ASAP.
 ---
 
 ## ✅ Resolved Blockers
+
+**[2025-11-21] RESOLVED B006 (Session 9)**
+- Root cause: Multiple database files with different schemas created confusion. Backend used simplified 4-field athlete schema while complete 47-field schema existed in root database.
+- Solution: Deleted 4 incomplete/empty databases (database/malaysia_swimming.db, data/athletes_database.db, data/swimming_data.db, statistical_analysis/database/malaysia_swimming.db). Simplified backend database selection logic in main.py and results.py to use authoritative root database only.
+- Time spent: ~30 minutes (analysis + cleanup + code updates)
+- Verification: Confirmed `/malaysia_swimming.db` is only active database with 3,526 athletes (47 fields), 5,174 aliases, 47 meets. Backend updated to use root DB exclusively.
+- Impact: Database consolidation complete. Athlete management panel can now access full schema.
+
+---
 
 **[2025-11-21] RESOLVED B001 (Session 8)**
 - Root cause: Python module not reloading after code changes - `match_athlete_by_name()` function existed but wasn't being called due to stale imports in uvicorn process

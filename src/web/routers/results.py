@@ -1,10 +1,49 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from sqlalchemy import text
+from datetime import datetime
+from typing import Optional
+
+from fastapi import APIRouter
 import sqlite3
-from typing import List, Dict, Any
+
+# Import date validation utility
+from ..utils.date_validator import parse_and_validate_date
 
 router = APIRouter()
+
+
+def _compute_age(
+    year_age: Optional[int],
+    day_age: Optional[int],
+    birthdate: Optional[str],
+    meet_date: Optional[str],
+) -> Optional[int]:
+    """
+    Compute athlete age at time of meet.
+    Priority: year_age → day_age → computed from birthdate + meet_date
+
+    Note: Dates must be in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ)
+    """
+    if year_age is not None:
+        return year_age
+
+    if day_age is not None:
+        return day_age
+
+    if not birthdate or not meet_date:
+        return None
+
+    try:
+        # Parse ISO 8601 dates
+        birth_dt = datetime.strptime(birthdate.rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
+        meet_dt = datetime.strptime(meet_date.rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
+
+        years = meet_dt.year - birth_dt.year
+        if (meet_dt.month, meet_dt.day) < (birth_dt.month, birth_dt.day):
+            years -= 1
+        return years
+    except (ValueError, AttributeError):
+        # Invalid date format - should be caught by validation earlier
+        return None
+
 
 def get_db():
     # Simple SQLite connection for now
@@ -20,18 +59,13 @@ def get_db():
     # parent.parent.parent.parent = project root
     project_root = Path(__file__).parent.parent.parent.parent
     
-    # Try root directory first (local development)
+    # Use authoritative database in root directory
     root_db = project_root / "malaysia_swimming.db"
     if root_db.exists():
         db_path = str(root_db)
     else:
-        # Try database folder
-        db_folder_db = project_root / "database" / "malaysia_swimming.db"
-        if db_folder_db.exists():
-            db_path = str(db_folder_db)
-        else:
-            # Docker path (fallback)
-            db_path = '/app/database/malaysia_swimming.db'
+        # Docker path (fallback)
+        db_path = '/app/malaysia_swimming.db'
     
     # Ensure the directory exists
     db_dir = Path(db_path).parent
@@ -42,7 +76,9 @@ def get_db():
         # File doesn't exist - raise an error
         raise FileNotFoundError(f"Database file not found: {db_path}")
     
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(db_path, timeout=30.0)
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA busy_timeout=30000")
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -66,42 +102,48 @@ async def get_simple_results():
         if has_meet_date:
             query = """
             SELECT 
-                a.name,
-                a.gender,
-                COALESCE(r.year_age, a.age) as age,
+                COALESCE(a.FULLNAME, '') AS full_name,
+                COALESCE(a.Gender, '') AS gender,
+                r.year_age,
+                r.day_age,
+                a.BIRTHDATE AS birthdate,
+                m.meet_date AS meet_date,
                 e.distance,
                 e.stroke,
                 r.time_string,
                 r.place,
                 r.aqua_points,
-                m.id as meet_id,
-                m.name as meet_name,
-                m.meet_type as meet_code
+                COALESCE(r.meet_id, m.id) AS meet_id,
+                m.name AS meet_name,
+                m.meet_type AS meet_code
             FROM results r
-            JOIN athletes a ON r.athlete_id = a.id
-            JOIN events e ON r.event_id = e.id
-            JOIN meets m ON r.meet_id = m.id
-            ORDER BY m.meet_date DESC, e.distance, e.stroke, COALESCE(r.time_seconds, 999999)
+            LEFT JOIN athletes a ON r.athlete_id = a.id
+            LEFT JOIN events e ON r.event_id = e.id
+            LEFT JOIN meets m ON r.meet_id = m.id
+            ORDER BY COALESCE(m.meet_date, '2099-12-31') DESC, e.distance, e.stroke, COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)
             """
         else:
             query = """
             SELECT 
-                a.name,
-                a.gender,
-                COALESCE(r.year_age, a.age) as age,
+                COALESCE(a.FULLNAME, '') AS full_name,
+                COALESCE(a.Gender, '') AS gender,
+                r.year_age,
+                r.day_age,
+                a.BIRTHDATE AS birthdate,
+                m.meet_date AS meet_date,
                 e.distance,
                 e.stroke,
                 r.time_string,
                 r.place,
                 r.aqua_points,
-                m.id as meet_id,
-                m.name as meet_name,
-                m.meet_type as meet_code
+                COALESCE(r.meet_id, m.id) AS meet_id,
+                m.name AS meet_name,
+                m.meet_type AS meet_code
             FROM results r
-            JOIN athletes a ON r.athlete_id = a.id
-            JOIN events e ON r.event_id = e.id
-            JOIN meets m ON r.meet_id = m.id
-            ORDER BY e.distance, e.stroke, COALESCE(r.time_seconds, 999999)
+            LEFT JOIN athletes a ON r.athlete_id = a.id
+            LEFT JOIN events e ON r.event_id = e.id
+            LEFT JOIN meets m ON r.meet_id = m.id
+            ORDER BY e.distance, e.stroke, COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)
             """
         
         cursor.execute(query)
@@ -111,17 +153,17 @@ async def get_simple_results():
         data = []
         for row in results:
             data.append({
-                "name": row[0],
-                "gender": row[1],
-                "age": row[2],
-                "distance": row[3],
-                "stroke": row[4],
-                "time": row[5],
-                "place": row[6],
-                "aqua_points": row[7],
-                "meet_id": row[8],  # meet_id
-                "meet": row[9],  # meet_name
-                "meet_code": row[10]  # meet_code
+                "name": row["full_name"] or "Unknown",
+                "gender": row["gender"] or "U",
+                "age": _compute_age(row["year_age"], row["day_age"], row["birthdate"], row["meet_date"]),
+                "distance": row["distance"],
+                "stroke": row["stroke"],
+                "time": row["time_string"],
+                "place": row["place"],
+                "aqua_points": row["aqua_points"],
+                "meet_id": row["meet_id"],
+                "meet": row["meet_name"],
+                "meet_code": row["meet_code"]
             })
         
         conn.close()
@@ -158,21 +200,25 @@ async def get_filtered_results(
         # Use year_age with fallback to athlete age
         base_query = """
             SELECT 
-                a.name,
-                a.gender,
-                COALESCE(r.year_age, a.age) as age,
+                COALESCE(a.FULLNAME, '') AS full_name,
+                COALESCE(a.Gender, '') AS gender,
+                r.year_age,
+                r.day_age,
+                a.BIRTHDATE AS birthdate,
+                m.meet_date AS meet_date,
                 e.distance,
                 e.stroke,
                 r.time_string,
                 r.place,
                 r.aqua_points,
-                m.id as meet_id,
-                m.name as meet_name,
-                m.meet_type as meet_code
+                COALESCE(r.meet_id, m.id) AS meet_id,
+                m.name AS meet_name,
+                m.meet_type AS meet_code,
+                COALESCE(a.NATION, '') AS nation
             FROM results r
-            JOIN athletes a ON r.athlete_id = a.id
-            JOIN events e ON r.event_id = e.id
-            JOIN meets m ON r.meet_id = m.id
+            LEFT JOIN athletes a ON r.athlete_id = a.id
+            LEFT JOIN events e ON r.event_id = e.id
+            LEFT JOIN meets m ON r.meet_id = m.id
         """
         
         # Build WHERE clause
@@ -183,30 +229,16 @@ async def get_filtered_results(
         if meet_ids:
             meet_id_list = [m.strip() for m in meet_ids.split(',') if m.strip()]
             if meet_id_list:
-                # Check if STATE25 is in the list
-                if 'STATE25' in meet_id_list:
-                    # Remove STATE25 and add individual state meet IDs
-                    meet_id_list.remove('STATE25')
-                    # Get state meet IDs from the meets endpoint logic
-                    cursor.execute("""
-                        SELECT id FROM meets WHERE meet_type LIKE '%State%'
-                    """)
-                    state_meets = cursor.fetchall()
-                    for sm in state_meets:
-                        if sm[0] not in meet_id_list:
-                            meet_id_list.append(sm[0])
-                
-                if meet_id_list:
-                    placeholders = ','.join(['?' for _ in meet_id_list])
-                    where_conditions.append(f"m.id IN ({placeholders})")
-                    params.extend(meet_id_list)
+                placeholders = ','.join(['?' for _ in meet_id_list])
+                where_conditions.append(f"m.id IN ({placeholders})")
+                params.extend(meet_id_list)
         
         # Filter by genders
         if genders:
             gender_list = [g.strip().upper() for g in genders.split(',') if g.strip()]
             if gender_list:
                 placeholders = ','.join(['?' for _ in gender_list])
-                where_conditions.append(f"a.gender IN ({placeholders})")
+                where_conditions.append(f"UPPER(COALESCE(a.Gender, '')) IN ({placeholders})")
                 params.extend(gender_list)
         
         # Filter by events
@@ -277,7 +309,7 @@ async def get_filtered_results(
         
         # Filter out foreign athletes if needed
         if not include_foreign:
-            where_conditions.append("a.is_foreign = 0")
+            where_conditions.append("UPPER(COALESCE(a.NATION, 'MAS')) = 'MAS'")
         
         # Combine WHERE conditions
         if where_conditions:
@@ -287,9 +319,9 @@ async def get_filtered_results(
         
         # Add ORDER BY
         if has_meet_date:
-            query += " ORDER BY m.meet_date DESC, e.distance, e.stroke, COALESCE(r.time_seconds, 999999)"
+            query += " ORDER BY COALESCE(m.meet_date, '2099-12-31') DESC, e.distance, e.stroke, COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)"
         else:
-            query += " ORDER BY e.distance, e.stroke, COALESCE(r.time_seconds, 999999)"
+            query += " ORDER BY e.distance, e.stroke, COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)"
         
         cursor.execute(query, params)
         results = cursor.fetchall()
@@ -298,17 +330,17 @@ async def get_filtered_results(
         data = []
         for row in results:
             data.append({
-                "name": row[0],
-                "gender": row[1],
-                "age": row[2],
-                "distance": row[3],
-                "stroke": row[4],
-                "time": row[5],
-                "place": row[6],
-                "aqua_points": row[7],
-                "meet_id": row[8],
-                "meet": row[9],
-                "meet_code": row[10]
+                "name": row["full_name"] or "Unknown",
+                "gender": row["gender"] or "U",
+                "age": _compute_age(row["year_age"], row["day_age"], row["birthdate"], row["meet_date"]),
+                "distance": row["distance"],
+                "stroke": row["stroke"],
+                "time": row["time_string"],
+                "place": row["place"],
+                "aqua_points": row["aqua_points"],
+                "meet_id": row["meet_id"],
+                "meet": row["meet_name"],
+                "meet_code": row["meet_code"]
             })
         
         conn.close()
@@ -328,120 +360,34 @@ async def get_meets():
         conn = get_db()
         cursor = conn.cursor()
         
-        # Get all meets with dates in a single query - much faster!
+        # Get all meets with dates in a single query
         cursor.execute("""
             SELECT id, name, meet_type, COALESCE(meet_date, '2099-12-31') as meet_date
-            FROM meets 
+            FROM meets
             ORDER BY COALESCE(meet_date, '2099-12-31') DESC, name
         """)
         meets = cursor.fetchall()
-        
-        # Identify state meets by name patterns (excluding national meets)
-        state_meet_patterns = [
-            "Selangor", "Sarawak", "Sabah", "Pasa", "Perak", "Johor", 
-            "Milo/Akl", "Kedah", "Pahang", "Kelantan", "Melaka", "Negeri",
-            "Terengganu", "Penang"
-        ]
-        
-        # Exclude these national meets (they should NOT be treated as state meets)
-        national_meet_patterns = [
-            "Malaysia Age Group", "MIAG", "Southeast Asian", "SEA Age"
-        ]
-        
-        # Map specific meet names to their codes
-        meet_name_to_code = {
-            "47th Southeast Asian Age Group Aquatics Championships": "SEAG25",
-            "67th Malaysian Open Championships": "MO25",
-            "60th Malaysia Age Group Championships": "MIAG25",
-            "Sukan Malaysia XXI Msn": "SUK24",
-            # Other non-state meets
-            "Mattioli Victorian Open": "VIC25",
-            "Open Championships": "OPEN25",
-            "Asian Open Schools Invitational Championships": "AIS25",
-        }
-        
-        # Separate state meets from other meets - process in memory
-        state_meet_ids = []
-        other_meets = []
-        
+
+        # Process all meets - return all individual meets
+        all_meets = []
+
         for meet in meets:
             meet_id = meet[0]
             db_name = meet[1]
-            db_type = meet[2] if len(meet) > 2 and meet[2] else None
+            meet_code = meet[2]  # Use meet_type directly from database
             meet_date = meet[3] if len(meet) > 3 else "2099-12-31"
-            
-            # Check if this is a national meet (exclude from state meets)
-            is_national_meet = any(pattern.lower() in db_name.lower() for pattern in national_meet_patterns)
-            
-            # Check if this is a state meet (must match state pattern AND not be a national meet)
-            is_state_meet = (not is_national_meet) and (
-                any(pattern.lower() in db_name.lower() for pattern in state_meet_patterns) or 
-                (db_type and "State" in db_type and "Malaysia" not in db_name)
-            )
-            
-            if is_state_meet:
-                state_meet_ids.append(meet_id)
-            else:
-                # Get code for non-state meets
-                display_code = meet_name_to_code.get(db_name)
-                if not display_code:
-                    # Fallback codes
-                    if "Southeast Asian" in db_name or "SEA" in db_name:
-                        display_code = "SEAG25"
-                    elif "Malaysia Open" in db_name or "Malaysian Open" in db_name:
-                        display_code = "MO25"
-                    elif "Malaysia Age Group" in db_name or "MIAG" in db_name:
-                        display_code = "MIAG25"
-                    elif "Sukan Malaysia" in db_name or "SUKMA" in db_name:
-                        display_code = "SUK24"
-                    else:
-                        display_code = db_name[:6].upper() if db_name else ""
-                
-                other_meets.append({
-                    "id": meet_id,
-                    "name": db_name,
-                    "meet_code": display_code,
-                    "meet_date": meet_date
-                })
-        
-        # Build final data list
-        data = []
-        
-        # Combine state meets group and other meets, then sort by date
-        all_meets_with_dates = []
-        
-        # Add state meets as a single grouped entry
-        if state_meet_ids:
-            # Find earliest date from state meets - calculate from already fetched data
-            state_dates = []
-            for meet in meets:
-                if meet[0] in state_meet_ids:
-                    state_date = meet[3] if len(meet) > 3 else "2099-12-31"
-                    if state_date != "2099-12-31":
-                        state_dates.append(state_date)
-            
-            state_min_date = min(state_dates) if state_dates else "2099-12-31"
-            
-            all_meets_with_dates.append({
-                "id": "STATE25",
-                "name": "State Meets",
-                "meet_code": "STATE25",
-                "meet_date": state_min_date,
-                "state_meet_ids": state_meet_ids
+
+            all_meets.append({
+                "id": meet_id,
+                "name": db_name,
+                "meet_code": meet_code,
+                "meet_date": meet_date
             })
-        
-        # Add other meets (already have dates from initial query)
-        all_meets_with_dates.extend(other_meets)
-        
+
         # Sort by date descending (most recent first), then by name
-        all_meets_with_dates.sort(key=lambda x: (x.get("meet_date", "2099-12-31"), x.get("name", "")), reverse=True)
-        
-        # Remove meet_date from output (only used for sorting)
-        for meet in all_meets_with_dates:
-            if "meet_date" in meet:
-                del meet["meet_date"]
-        
-        data = all_meets_with_dates
+        all_meets.sort(key=lambda x: (x.get("meet_date", "2099-12-31"), x.get("name", "")), reverse=True)
+
+        data = all_meets
         
         conn.close()
         return {"meets": data}
