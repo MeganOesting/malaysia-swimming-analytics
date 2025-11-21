@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
 import { Athlete } from '../../shared/types/admin';
-import { Button, AlertBox } from '../../shared/components';
+import { Button } from '../../shared/components';
+
+// Helper function to format dates as dd MMM yyyy (e.g., 15 Mar 1998)
+const formatDateDDMMMYYYY = (dateString: string | null | undefined): string => {
+  if (!dateString) return '-';
+  try {
+    // Handle ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DD)
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '-';
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const monthAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${day} ${monthAbbr} ${year}`;
+  } catch {
+    return '-';
+  }
+};
 
 interface AthleteManagementProps {
   isAuthenticated: boolean;
@@ -17,34 +35,149 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
   const [fieldsToEdit, setFieldsToEdit] = useState<Set<string>>(new Set());
   const [isEditingMode, setIsEditingMode] = useState(false);
   const [editForm, setEditForm] = useState<{
-    name: string;
-    gender: string;
-    birth_date: string;
-    club_name: string;
-    state_code: string;
-    nation: string;
+    FULLNAME: string;
+    FIRSTNAME: string;
+    LASTNAME: string;
+    MIDDLEINITIAL: string;
+    SUFFIX: string;
+    IC: string;
+    NATION: string;
+    MembEmail: string;
+    PreferredName: string;
+    Phone: string;
+    AcctFirstName: string;
+    AcctLastName: string;
+    AcctMiddleInitial: string;
+    Address: string;
+    Address2: string;
+    City: string;
+    EmergencyContact: string;
+    EmergencyPhone: string;
+    Guardian1FirstName: string;
+    Guardian1HomePhone: string;
+    Guardian1LastName: string;
+    Guardian1MobilePhone: string;
+    Guardian1WorkPhone: string;
+    Guardian2FirstName: string;
+    Guardian2HomePhone: string;
+    Guardian2LastName: string;
+    Guardian2MobilePhone: string;
+    Guardian2WorkPhone: string;
+    AcctIC: string;
+    Gender: string;
+    ClubCode: string;
+    ClubName: string;
     athlete_alias_1: string;
     athlete_alias_2: string;
+    passport_number: string;
+    shoe_size: string;
+    tshirt_size: string;
+    tracksuit_size: string;
+    cap_name: string;
+    School_University_Name: string;
+    School_University_Address: string;
+    passport_expiry_date: string;
+    BIRTHDATE: string;
   }>({
-    name: '',
-    gender: '',
-    birth_date: '',
-    club_name: '',
-    state_code: '',
-    nation: '',
+    FULLNAME: '',
+    FIRSTNAME: '',
+    LASTNAME: '',
+    MIDDLEINITIAL: '',
+    SUFFIX: '',
+    IC: '',
+    NATION: '',
+    MembEmail: '',
+    PreferredName: '',
+    Phone: '',
+    AcctFirstName: '',
+    AcctLastName: '',
+    AcctMiddleInitial: '',
+    Address: '',
+    Address2: '',
+    City: '',
+    EmergencyContact: '',
+    EmergencyPhone: '',
+    Guardian1FirstName: '',
+    Guardian1HomePhone: '',
+    Guardian1LastName: '',
+    Guardian1MobilePhone: '',
+    Guardian1WorkPhone: '',
+    Guardian2FirstName: '',
+    Guardian2HomePhone: '',
+    Guardian2LastName: '',
+    Guardian2MobilePhone: '',
+    Guardian2WorkPhone: '',
+    AcctIC: '',
+    Gender: '',
+    ClubCode: '',
+    ClubName: '',
     athlete_alias_1: '',
     athlete_alias_2: '',
+    passport_number: '',
+    shoe_size: '',
+    tshirt_size: '',
+    tracksuit_size: '',
+    cap_name: '',
+    School_University_Name: '',
+    School_University_Address: '',
+    passport_expiry_date: '',
+    BIRTHDATE: '',
   });
 
   const availableFields = [
-    { key: 'name', label: 'Name' },
-    { key: 'gender', label: 'Gender' },
-    { key: 'birth_date', label: 'Birthdate' },
-    { key: 'club_name', label: 'Club Name' },
-    { key: 'state_code', label: 'State Code' },
-    { key: 'nation', label: 'Nation' },
+    // Core Information
+    { key: 'FULLNAME', label: 'Full Name' },
+    { key: 'FIRSTNAME', label: 'First Name' },
+    { key: 'LASTNAME', label: 'Last Name' },
+    { key: 'MIDDLEINITIAL', label: 'Middle Initial' },
+    { key: 'SUFFIX', label: 'Suffix' },
+    { key: 'Gender', label: 'Gender' },
+    { key: 'BIRTHDATE', label: 'Birthdate' },
+    // Contact Information
+    { key: 'MembEmail', label: 'Member Email' },
+    { key: 'Phone', label: 'Phone' },
+    { key: 'PreferredName', label: 'Preferred Name' },
+    { key: 'EmergencyContact', label: 'Emergency Contact' },
+    { key: 'EmergencyPhone', label: 'Emergency Phone' },
+    // Identification
+    { key: 'IC', label: 'IC Number' },
+    { key: 'AcctIC', label: 'Account IC' },
+    { key: 'passport_number', label: 'Passport Number' },
+    { key: 'passport_expiry_date', label: 'Passport Expiry Date' },
+    // Account Information
+    { key: 'AcctFirstName', label: 'Account First Name' },
+    { key: 'AcctLastName', label: 'Account Last Name' },
+    { key: 'AcctMiddleInitial', label: 'Account Middle Initial' },
+    // Address Information
+    { key: 'Address', label: 'Address' },
+    { key: 'Address2', label: 'Address 2' },
+    { key: 'City', label: 'City' },
+    // Guardian Information
+    { key: 'Guardian1FirstName', label: 'Guardian 1 First Name' },
+    { key: 'Guardian1LastName', label: 'Guardian 1 Last Name' },
+    { key: 'Guardian1HomePhone', label: 'Guardian 1 Home Phone' },
+    { key: 'Guardian1MobilePhone', label: 'Guardian 1 Mobile Phone' },
+    { key: 'Guardian1WorkPhone', label: 'Guardian 1 Work Phone' },
+    { key: 'Guardian2FirstName', label: 'Guardian 2 First Name' },
+    { key: 'Guardian2LastName', label: 'Guardian 2 Last Name' },
+    { key: 'Guardian2HomePhone', label: 'Guardian 2 Home Phone' },
+    { key: 'Guardian2MobilePhone', label: 'Guardian 2 Mobile Phone' },
+    { key: 'Guardian2WorkPhone', label: 'Guardian 2 Work Phone' },
+    // Club & Nation
+    { key: 'ClubCode', label: 'Club Code' },
+    { key: 'ClubName', label: 'Club Name' },
+    { key: 'NATION', label: 'Nation' },
+    // Athlete Aliases
     { key: 'athlete_alias_1', label: 'Alias 1' },
     { key: 'athlete_alias_2', label: 'Alias 2' },
+    // Size Information
+    { key: 'shoe_size', label: 'Shoe Size' },
+    { key: 'tshirt_size', label: 'T-Shirt Size' },
+    { key: 'tracksuit_size', label: 'Tracksuit Size' },
+    { key: 'cap_name', label: 'Cap Name' },
+    // Education
+    { key: 'School_University_Name', label: 'School/University Name' },
+    { key: 'School_University_Address', label: 'School/University Address' },
   ];
 
   const searchAthletes = async (query: string) => {
@@ -112,14 +245,49 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
     setFieldsToEdit(new Set());
     setIsEditingMode(false);
     setEditForm({
-      name: athlete.name || '',
-      gender: athlete.gender || '',
-      birth_date: athlete.birth_date || '',
-      club_name: athlete.club_name || '',
-      state_code: athlete.state_code || '',
-      nation: athlete.nation || '',
+      FULLNAME: (athlete as any).FULLNAME || '',
+      FIRSTNAME: (athlete as any).FIRSTNAME || '',
+      LASTNAME: (athlete as any).LASTNAME || '',
+      MIDDLEINITIAL: (athlete as any).MIDDLEINITIAL || '',
+      SUFFIX: (athlete as any).SUFFIX || '',
+      IC: (athlete as any).IC || '',
+      NATION: athlete.nation || '',
+      MembEmail: (athlete as any).MembEmail || '',
+      PreferredName: (athlete as any).PreferredName || '',
+      Phone: (athlete as any).Phone || '',
+      AcctFirstName: (athlete as any).AcctFirstName || '',
+      AcctLastName: (athlete as any).AcctLastName || '',
+      AcctMiddleInitial: (athlete as any).AcctMiddleInitial || '',
+      Address: (athlete as any).Address || '',
+      Address2: (athlete as any).Address2 || '',
+      City: (athlete as any).City || '',
+      EmergencyContact: (athlete as any).EmergencyContact || '',
+      EmergencyPhone: (athlete as any).EmergencyPhone || '',
+      Guardian1FirstName: (athlete as any).Guardian1FirstName || '',
+      Guardian1HomePhone: (athlete as any).Guardian1HomePhone || '',
+      Guardian1LastName: (athlete as any).Guardian1LastName || '',
+      Guardian1MobilePhone: (athlete as any).Guardian1MobilePhone || '',
+      Guardian1WorkPhone: (athlete as any).Guardian1WorkPhone || '',
+      Guardian2FirstName: (athlete as any).Guardian2FirstName || '',
+      Guardian2HomePhone: (athlete as any).Guardian2HomePhone || '',
+      Guardian2LastName: (athlete as any).Guardian2LastName || '',
+      Guardian2MobilePhone: (athlete as any).Guardian2MobilePhone || '',
+      Guardian2WorkPhone: (athlete as any).Guardian2WorkPhone || '',
+      AcctIC: (athlete as any).AcctIC || '',
+      Gender: athlete.gender || '',
+      ClubCode: (athlete as any).ClubCode || '',
+      ClubName: athlete.club_name || '',
       athlete_alias_1: (athlete as any).athlete_alias_1 || '',
       athlete_alias_2: (athlete as any).athlete_alias_2 || '',
+      passport_number: (athlete as any).passport_number || '',
+      shoe_size: (athlete as any).shoe_size || '',
+      tshirt_size: (athlete as any).tshirt_size || '',
+      tracksuit_size: (athlete as any).tracksuit_size || '',
+      cap_name: (athlete as any).cap_name || '',
+      School_University_Name: (athlete as any).School_University_Name || '',
+      School_University_Address: (athlete as any).School_University_Address || '',
+      passport_expiry_date: (athlete as any).passport_expiry_date || '',
+      BIRTHDATE: athlete.birth_date || '',
     });
     setError('');
     setSuccess('');
@@ -148,13 +316,19 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
 
     setIsUpdating(true);
     try {
+      // Only send the fields that were selected for editing
+      const updateData: Record<string, any> = {};
+      fieldsToEdit.forEach(fieldKey => {
+        updateData[fieldKey] = (editForm as any)[fieldKey];
+      });
+
       const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
       const response = await fetch(`${apiBase}/api/admin/athletes/${selectedAthlete.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editForm),
+        body: JSON.stringify(updateData),
       });
 
       if (!response.ok) {
@@ -162,7 +336,7 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
         throw new Error(`Failed to update athlete: ${response.status} ${errorText}`);
       }
 
-      setSuccess(`Athlete "${editForm.name}" updated successfully!`);
+      setSuccess(`Athlete "${editForm.FULLNAME || selectedAthlete.name}" updated successfully!`);
       // Update the selected athlete and search results
       const updated = { ...selectedAthlete, ...editForm };
       setSelectedAthlete(updated);
@@ -179,12 +353,15 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
 
   return (
     <div>
-      {error && <AlertBox type="error" message={error} onClose={() => setError('')} />}
-      {success && <AlertBox type="success" message={success} onClose={() => setSuccess('')} />}
+      {success && (
+        <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#ecfdf5', color: '#065f46', fontSize: '0.875rem', borderRadius: '4px' }}>
+          ✓ {success}
+        </div>
+      )}
 
       {/* Export Athletes Section */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.75rem', color: '#111' }}>
+      <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#111', margin: 0 }}>
           Export Athletes
         </h3>
         <Button onClick={handleExportAthletes} variant="primary">
@@ -280,13 +457,10 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
                     ID: {athlete.id}
                   </div>
                   <div style={{ fontWeight: '500', color: '#333' }}>
-                    DOB: {athlete.birth_date || '-'}
+                    DOB: {formatDateDDMMMYYYY(athlete.birth_date)}
                   </div>
                   <div style={{ fontWeight: '500', color: '#333' }}>
                     {athlete.gender || '-'}
-                  </div>
-                  <div style={{ fontWeight: '500', color: '#333' }}>
-                    {athlete.club_name || '-'}
                   </div>
                 </div>
               </div>
@@ -295,11 +469,9 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
         )}
 
         {athleteSearchQuery.length > 0 && !searchingAthletes && athleteSearchResults.length === 0 && (
-          <AlertBox
-            type="info"
-            message={`No athletes found matching "${athleteSearchQuery}"`}
-            onClose={() => {}}
-          />
+          <div style={{ padding: '0.75rem', backgroundColor: '#eff6ff', color: '#1e40af', fontSize: '0.875rem', borderRadius: '4px' }}>
+            ℹ No athletes found matching "{athleteSearchQuery}"
+          </div>
         )}
       </div>
 
@@ -386,170 +558,59 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
           </h3>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-            {fieldsToEdit.has('name') && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={editForm.name}
-                  onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
-            )}
-            {fieldsToEdit.has('gender') && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                  Gender
-                </label>
-                <select
-                  value={editForm.gender}
-                  onChange={(e) => setEditForm({ ...editForm, gender: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    boxSizing: 'border-box'
-                  }}
-                >
-                  <option value="">Select Gender</option>
-                  <option value="M">Male</option>
-                  <option value="F">Female</option>
-                </select>
-              </div>
-            )}
-            {fieldsToEdit.has('birth_date') && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                  Birthdate
-                </label>
-                <input
-                  type="text"
-                  placeholder="YYYY-MM-DD"
-                  value={editForm.birth_date}
-                  onChange={(e) => setEditForm({ ...editForm, birth_date: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
-            )}
-            {fieldsToEdit.has('club_name') && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                  Club Name
-                </label>
-                <input
-                  type="text"
-                  value={editForm.club_name}
-                  onChange={(e) => setEditForm({ ...editForm, club_name: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
-            )}
-            {fieldsToEdit.has('state_code') && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                  State Code
-                </label>
-                <input
-                  type="text"
-                  value={editForm.state_code}
-                  onChange={(e) => setEditForm({ ...editForm, state_code: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
-            )}
-            {fieldsToEdit.has('nation') && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                  Nation
-                </label>
-                <input
-                  type="text"
-                  value={editForm.nation}
-                  onChange={(e) => setEditForm({ ...editForm, nation: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
-            )}
-            {fieldsToEdit.has('athlete_alias_1') && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                  Alias 1
-                </label>
-                <input
-                  type="text"
-                  value={editForm.athlete_alias_1}
-                  onChange={(e) => setEditForm({ ...editForm, athlete_alias_1: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
-            )}
-            {fieldsToEdit.has('athlete_alias_2') && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
-                  Alias 2
-                </label>
-                <input
-                  type="text"
-                  value={editForm.athlete_alias_2}
-                  onChange={(e) => setEditForm({ ...editForm, athlete_alias_2: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
-            )}
+            {availableFields.map(field => {
+              if (!fieldsToEdit.has(field.key)) return null;
+
+              // Gender field - dropdown
+              if (field.key === 'Gender') {
+                return (
+                  <div key={field.key}>
+                    <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                      {field.label}
+                    </label>
+                    <select
+                      value={(editForm as any)[field.key] || ''}
+                      onChange={(e) => setEditForm({ ...editForm, [field.key]: e.target.value })}
+                      style={{
+                        width: '100%',
+                        padding: '0.5rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '0.875rem',
+                        boxSizing: 'border-box'
+                      }}
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                    </select>
+                  </div>
+                );
+              }
+
+              // All other fields - text input
+              return (
+                <div key={field.key}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                    {field.label}
+                  </label>
+                  <input
+                    type={field.key.includes('date') || field.key.includes('Date') ? 'text' : 'text'}
+                    placeholder={field.key.includes('date') || field.key.includes('Date') ? 'YYYY-MM-DD' : ''}
+                    value={(editForm as any)[field.key] || ''}
+                    onChange={(e) => setEditForm({ ...editForm, [field.key]: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '0.5rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '0.875rem',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem' }}>

@@ -5,7 +5,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { Meet, UploadSummary, ValidationIssueDetail } from '../../shared/types/admin';
-import { Button, AlertBox } from '../../shared/components';
+import { Button } from '../../shared/components';
 import { useNotification } from '../../shared/hooks';
 import * as api from './api';
 
@@ -29,6 +29,10 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
   const [uploading, setUploading] = useState(false);
   const [fileType, setFileType] = useState<'swimrankings' | 'seag'>('swimrankings');
   const [seagYear, setSeagYear] = useState<string>('2025');
+  const [meetCity, setMeetCity] = useState<string>('');
+  const [meetName, setMeetName] = useState<string>('');
+  const [meetMonth, setMeetMonth] = useState<string>('01');
+  const [meetDay, setMeetDay] = useState<string>('01');
   const [uploadSummaries, setUploadSummaries] = useState<UploadSummary[]>([]);
   const [expandedIssueKeys, setExpandedIssueKeys] = useState<Record<string, boolean>>({});
 
@@ -63,8 +67,6 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
           );
           return [...prevFiles, ...uniqueNewFiles];
         });
-
-        success(`Added ${newFiles.length} file(s)`);
       }
 
       // Reset input to allow re-selecting same file
@@ -134,9 +136,8 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
           );
         }
 
-        if (errorCount === summaries.length) {
-          error('All files failed to upload. Check the error details below for validation issues.');
-        }
+        // Silently handle case where all files failed
+        // (errors will be shown in the upload summaries below)
       } catch (err) {
         const errorMsg = err instanceof Error ? err.message : 'Upload failed';
         error(`Upload failed: ${errorMsg}. Check the browser console (F12) for more details.`);
@@ -282,14 +283,16 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
   return (
     <div className="space-y-6">
       {/* Notifications */}
-      {notifications.map(notification => (
-        <AlertBox
-          key={notification.id}
-          type={notification.type}
-          message={notification.message}
-          onClose={() => clear(notification.id)}
-        />
-      ))}
+      {notifications.map(notification => {
+        const bgColor = notification.type === 'success' ? '#ecfdf5' : notification.type === 'error' ? '#fef2f2' : '#fef3c7';
+        const textColor = notification.type === 'success' ? '#065f46' : notification.type === 'error' ? '#7f1d1d' : '#92400e';
+        const icon = notification.type === 'success' ? '✓' : notification.type === 'error' ? '✕' : '⚠';
+        return (
+          <div key={notification.id} style={{ padding: '0.75rem', marginBottom: '0.75rem', backgroundColor: bgColor, color: textColor, fontSize: '0.875rem', borderRadius: '4px' }}>
+            {icon} {notification.message}
+          </div>
+        );
+      })}
 
       {/* Upload Meet Files Form */}
       <div className="sticky top-0 z-10 bg-white border-2 border-green-600 rounded-lg p-6 shadow-md">
@@ -338,10 +341,94 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
                   border: '1px solid #ccc',
                   borderRadius: '4px',
                   fontSize: '0.9em',
-                  width: '60px',
+                  width: '40px',
                   marginRight: '8px'
                 }}
               />
+            )}
+
+            {/* SEAG Meet City Input */}
+            {fileType === 'seag' && (
+              <input
+                type="text"
+                value={meetCity}
+                onChange={(e) => setMeetCity(e.target.value)}
+                placeholder="Meet City"
+                style={{
+                  padding: '2px 10px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '0.9em',
+                  width: '100px',
+                  marginRight: '8px'
+                }}
+              />
+            )}
+
+            {/* SEAG Meet Name Input */}
+            {fileType === 'seag' && (
+              <input
+                type="text"
+                value={meetName}
+                onChange={(e) => setMeetName(e.target.value)}
+                placeholder="Meet Name"
+                style={{
+                  padding: '2px 10px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '0.9em',
+                  width: '150px',
+                  marginRight: '8px'
+                }}
+              />
+            )}
+
+            {/* SEAG 1st Day of Meet - Month/Day Dropdowns */}
+            {fileType === 'seag' && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginRight: '8px' }}>
+                <label style={{ fontSize: '0.9em', fontWeight: '500' }}>1st Day:</label>
+                <select
+                  value={meetMonth}
+                  onChange={(e) => setMeetMonth(e.target.value)}
+                  style={{
+                    padding: '2px 6px',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px',
+                    fontSize: '0.9em',
+                    width: '70px'
+                  }}
+                >
+                  <option value="01">Jan</option>
+                  <option value="02">Feb</option>
+                  <option value="03">Mar</option>
+                  <option value="04">Apr</option>
+                  <option value="05">May</option>
+                  <option value="06">Jun</option>
+                  <option value="07">Jul</option>
+                  <option value="08">Aug</option>
+                  <option value="09">Sep</option>
+                  <option value="10">Oct</option>
+                  <option value="11">Nov</option>
+                  <option value="12">Dec</option>
+                </select>
+                <select
+                  value={meetDay}
+                  onChange={(e) => setMeetDay(e.target.value)}
+                  style={{
+                    padding: '2px 6px',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px',
+                    fontSize: '0.9em',
+                    width: '60px'
+                  }}
+                >
+                  {Array.from({ length: 31 }, (_, i) => (
+                    <option key={i + 1} value={String(i + 1).padStart(2, '0')}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
             )}
 
             {/* Red Choose Files button - Main page style */}

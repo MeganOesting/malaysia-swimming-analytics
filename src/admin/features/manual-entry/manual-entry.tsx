@@ -10,7 +10,7 @@ import {
   ManualResult,
   ManualResultPayload,
 } from '../../shared/types/admin';
-import { Button, AlertBox, SearchBox } from '../../shared/components';
+import { Button, SearchBox } from '../../shared/components';
 import { useNotification } from '../../shared/hooks';
 import { searchAthletes } from '../athlete-management/api';
 import * as api from './api';
@@ -200,14 +200,16 @@ export const ManualEntry: React.FC<ManualEntryProps> = ({
   return (
     <div className="space-y-6">
       {/* Notifications */}
-      {notifications.map(notification => (
-        <AlertBox
-          key={notification.id}
-          type={notification.type}
-          message={notification.message}
-          onClose={() => clear(notification.id)}
-        />
-      ))}
+      {notifications.map(notification => {
+        const bgColor = notification.type === 'success' ? '#ecfdf5' : notification.type === 'error' ? '#fef2f2' : '#fef3c7';
+        const textColor = notification.type === 'success' ? '#065f46' : notification.type === 'error' ? '#7f1d1d' : '#92400e';
+        const icon = notification.type === 'success' ? '✓' : notification.type === 'error' ? '✕' : '⚠';
+        return (
+          <div key={notification.id} style={{ padding: '0.75rem', marginBottom: '0.75rem', backgroundColor: bgColor, color: textColor, fontSize: '0.875rem', borderRadius: '4px' }}>
+            {icon} {notification.message}
+          </div>
+        );
+      })}
 
       {/* Step Indicator */}
       <div className="flex gap-2">
