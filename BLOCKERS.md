@@ -10,7 +10,7 @@ Issues that prevent progress. Document here, resolve ASAP.
 
 | ID | Blocker | Impact | Owner | Status | Workaround |
 |----|---------|--------|-------|--------|-----------|
-| B001 | SEAG 2025 athletes not in database (0/221 match) | Can't upload SEAG results without pre-loaded roster | [You] | 🔴 CRITICAL | Need athlete roster pre-load or name mapping |
+| B006 | Multiple database files - no single source of truth | Schema unclear, data consistency issues, can't reliably update records | [You] | 🔍 Investigating | Use currently active DB (`database/malaysia_swimming.db`) temporarily |
 | B002 | RevenueMonster integration undefined | Can't build payment system | [You] | ⏳ Waiting | Research & document API |
 
 ---
@@ -32,14 +32,70 @@ Issues that prevent progress. Document here, resolve ASAP.
 
 ---
 
+---
+
+## 📋 BLOCKER B006 DETAILS: Database Consolidation
+
+### What We Know
+**6 Database Files Found:**
+```
+1. data/athletes_database.db
+2. data/swimming_data.db
+3. database/malaysia_swimming.db          ← Currently used by backend (src/web/main.py:30-34)
+4. malaysia_swimming.db                   ← Root directory
+5. statistical_analysis/database/malaysia_swimming.db
+6. statistical_analysis/database/statistical.db
+```
+
+### What Needs to Be Determined
+1. **Which database is authoritative?**
+   - Which has most complete/correct athlete data?
+   - Which has all tables needed (athletes, meets, results, clubs, coaches)?
+   - Which is currently in use by the web application?
+
+2. **Schema comparison needed:**
+   - Get PRAGMA table_info for 'athletes' table in each DB
+   - Get list of ALL tables in each DB
+   - Identify which fields exist in which databases
+   - Check for duplicates/conflicts
+
+3. **Data ownership:**
+   - athletes_database.db vs swimming_data.db: what's the difference?
+   - Why are there variants of malaysia_swimming.db in different folders?
+   - Which records are "source of truth"?
+
+4. **Consolidation strategy:**
+   - Keep one DB, migrate all data?
+   - Merge all data into single DB?
+   - Or separate by domain (statistical vs operational)?
+
+### References Needed for Next Session
+- [ ] Query each DB for table_info('athletes') schema
+- [ ] Get list of tables in each DB via `SELECT name FROM sqlite_master`
+- [ ] Get row count for 'athletes' table in each DB
+- [ ] Check backend code (src/web/main.py) for which DB path is used
+- [ ] Review any data migration scripts or database creation scripts
+- [ ] Check if statistical_analysis databases are separate by design (R project data?)
+
+### Task for Next Fresh Context Session
+**PRIMARY TASK: DATABASE CONSOLIDATION ANALYSIS**
+1. Analyze all 6 databases (schema, tables, row counts)
+2. Create comparison report: similarities/differences
+3. Determine which should be the authoritative database
+4. Plan consolidation strategy (if needed)
+5. Document database structure for future reference
+
+---
+
 ## ✅ Resolved Blockers
 
-**[2025-11-21] CLARIFIED B001 (Session 7)**
-- Root cause: SEAG 2025 athletes file has 221 rows, but 0 athletes found in database
-- Investigation: Used test script to diagnose - database schema is correct, but athletes simply don't exist
-- Findings: Either athletes need pre-loaded from official SEAG roster, or database has different name formats
-- Next steps: Determine source of SEAG 2025 athlete data (where should it come from?), implement pre-load or name mapping
-- Status: **CRITICAL BLOCKER** - blocks entire SEAG upload workflow until resolved
+**[2025-11-21] RESOLVED B001 (Session 8)**
+- Root cause: Python module not reloading after code changes - `match_athlete_by_name()` function existed but wasn't being called due to stale imports in uvicorn process
+- Solution: Force killed uvicorn server and restarted fresh instance. Verified word-based matching algorithm works correctly with minimum 3 matching words threshold.
+- Time spent: ~2.5 hours (debugging + implementation)
+- Verification: SEAG upload now matches 203/221 athletes (92% success rate). Verified Dhuha example: CSV "MUHAMMAD DHUHA BIN ZULFIKRY" matches DB "BIN ZULFIKRY, Muhd Dhuha" with 3 matching words {bin, dhuha, zulfikry}.
+- Next step: Analyze remaining 18 unmatched athletes to determine if names need normalization or athletes are missing from database. Implement optional name mapping for edge cases.
+- Status: **UPGRADED FROM CRITICAL** - blocker largely resolved with 92% match rate. Only 18 athletes need manual review/mapping.
 
 ---
 
