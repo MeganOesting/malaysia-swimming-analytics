@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Athlete } from '../../shared/types/admin';
+import { Button, AlertBox } from '../../shared/components';
 
 interface AthleteManagementProps {
   isAuthenticated: boolean;
@@ -9,7 +10,25 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
   const [athleteSearchQuery, setAthleteSearchQuery] = useState('');
   const [athleteSearchResults, setAthleteSearchResults] = useState<Athlete[]>([]);
   const [searchingAthletes, setSearchingAthletes] = useState(false);
+  const [selectedAthlete, setSelectedAthlete] = useState<Athlete | null>(null);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [editForm, setEditForm] = useState<{
+    name: string;
+    gender: string;
+    birth_date: string;
+    club_name: string;
+    state_code: string;
+    nation: string;
+  }>({
+    name: '',
+    gender: '',
+    birth_date: '',
+    club_name: '',
+    state_code: '',
+    nation: '',
+  });
 
   const searchAthletes = async (query: string) => {
     if (query.length < 2) {
@@ -71,47 +90,78 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
     setTimeout(() => feedback.remove(), 2000);
   };
 
-  return (
-    <div style={{ padding: '1rem' }}>
-      <h2 style={{ marginBottom: '1.5rem', color: '#333' }}>Athlete Management</h2>
+  const handleSelectAthlete = (athlete: Athlete) => {
+    setSelectedAthlete(athlete);
+    setEditForm({
+      name: athlete.name || '',
+      gender: athlete.gender || '',
+      birth_date: athlete.birth_date || '',
+      club_name: athlete.club_name || '',
+      state_code: athlete.state_code || '',
+      nation: athlete.nation || '',
+    });
+    setError('');
+    setSuccess('');
+  };
 
-      {error && (
-        <div style={{
-          color: '#dc2626',
-          marginBottom: '1rem',
-          padding: '0.75rem',
-          backgroundColor: '#fef2f2',
-          borderRadius: '4px'
-        }}>
-          {error}
-        </div>
-      )}
+  const handleUpdateAthlete = async () => {
+    if (!selectedAthlete) return;
+
+    setIsUpdating(true);
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/athletes/${selectedAthlete.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editForm),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to update athlete: ${response.status} ${errorText}`);
+      }
+
+      setSuccess(`Athlete "${editForm.name}" updated successfully!`);
+      // Update the selected athlete and search results
+      const updated = { ...selectedAthlete, ...editForm };
+      setSelectedAthlete(updated);
+      setAthleteSearchResults(
+        athleteSearchResults.map(a => (a.id === selectedAthlete.id ? updated : a))
+      );
+    } catch (err: any) {
+      setError(`Failed to update athlete: ${err.message}`);
+      console.error('Update error:', err);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  return (
+    <div>
+      {error && <AlertBox type="error" message={error} onClose={() => setError('')} />}
+      {success && <AlertBox type="success" message={success} onClose={() => setSuccess('')} />}
 
       {/* Export Athletes Section */}
-      <div style={{ marginBottom: '2rem' }}>
-        <h3 style={{ marginBottom: '1rem', color: '#666' }}>Export All Athletes</h3>
-        <button
-          onClick={handleExportAthletes}
-          style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#059669',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
+      <div style={{ marginBottom: '1.5rem' }}>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.75rem', color: '#111' }}>
+          Export Athletes
+        </h3>
+        <Button onClick={handleExportAthletes} variant="primary">
           Download Excel
-        </button>
+        </Button>
       </div>
 
       {/* Search Athletes Section */}
       <div>
-        <h3 style={{ marginBottom: '1rem', color: '#666' }}>Search Athletes by Name</h3>
-        <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '1rem' }}>
-          Enter partial name words to find potential matches (useful for matching SEAG athletes)
+        <h3 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.5rem', color: '#111' }}>
+          Search Athletes by Name
+        </h3>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '0.75rem' }}>
+          Enter partial name words to find potential matches
         </p>
-        <div style={{ marginBottom: '1rem' }}>
+        <div style={{ marginBottom: '0.75rem' }}>
           <input
             type="text"
             value={athleteSearchQuery}
@@ -122,10 +172,10 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
             placeholder="e.g., MUHAMMAD or DHUHA or CHNG..."
             style={{
               width: '100%',
-              padding: '0.75rem',
+              padding: '0.5rem',
               border: '1px solid #ddd',
               borderRadius: '4px',
-              fontSize: '1rem',
+              fontSize: '0.875rem',
               boxSizing: 'border-box'
             }}
           />
@@ -137,14 +187,14 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
           <div style={{
             border: '1px solid #ddd',
             borderRadius: '4px',
-            maxHeight: '500px',
+            maxHeight: '400px',
             overflowY: 'auto'
           }}>
             <div style={{
-              padding: '0.75rem',
+              padding: '0.5rem',
               backgroundColor: '#f9fafb',
               borderBottom: '1px solid #ddd',
-              fontSize: '0.85rem',
+              fontSize: '0.75rem',
               color: '#666',
               fontWeight: '500'
             }}>
@@ -154,71 +204,82 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
               <div
                 key={athlete.id}
                 style={{
-                  padding: '1rem',
+                  padding: '0.75rem',
                   borderBottom: '1px solid #eee',
-                  backgroundColor: '#ffffff'
+                  backgroundColor: selectedAthlete?.id === athlete.id ? '#fff3cd' : '#ffffff',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s'
                 }}
+                onClick={() => handleSelectAthlete(athlete)}
               >
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <div style={{ fontWeight: '600', fontSize: '1rem', color: '#111' }}>
+                <div style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="radio"
+                    name="athlete-selection"
+                    checked={selectedAthlete?.id === athlete.id}
+                    onChange={() => handleSelectAthlete(athlete)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  <div style={{ fontWeight: '600', fontSize: '0.875rem', color: '#111' }}>
                     {athlete.name}
                   </div>
                 </div>
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
-                  gap: '1rem',
-                  fontSize: '0.85rem',
-                  marginBottom: '0.75rem'
+                  gap: '0.75rem',
+                  fontSize: '0.75rem',
+                  marginBottom: '0.5rem'
                 }}>
                   <div>
-                    <div style={{ color: '#666', fontSize: '0.75rem', marginBottom: '0.25rem' }}>ATHLETE ID</div>
+                    <div style={{ color: '#666', fontSize: '0.7rem', marginBottom: '0.2rem', fontWeight: '500' }}>ID</div>
                     <div style={{
                       fontFamily: 'monospace',
                       color: '#cc0000',
                       fontWeight: '600',
-                      wordBreak: 'break-all'
+                      wordBreak: 'break-all',
+                      fontSize: '0.75rem'
                     }}>
                       {athlete.id}
                     </div>
                   </div>
                   <div>
-                    <div style={{ color: '#666', fontSize: '0.75rem', marginBottom: '0.25rem' }}>BIRTHDATE</div>
-                    <div style={{ fontWeight: '500', color: '#333' }}>
-                      {athlete.birth_date || 'Not recorded'}
+                    <div style={{ color: '#666', fontSize: '0.7rem', marginBottom: '0.2rem', fontWeight: '500' }}>BIRTHDATE</div>
+                    <div style={{ fontWeight: '500', color: '#333', fontSize: '0.75rem' }}>
+                      {athlete.birth_date || '-'}
                     </div>
                   </div>
                 </div>
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
-                  gap: '1rem',
-                  fontSize: '0.85rem',
-                  marginBottom: '0.75rem'
+                  gap: '0.75rem',
+                  fontSize: '0.75rem',
+                  marginBottom: '0.5rem'
                 }}>
                   <div>
-                    <div style={{ color: '#666', fontSize: '0.75rem', marginBottom: '0.25rem' }}>GENDER</div>
-                    <div style={{ fontWeight: '500', color: '#333' }}>
+                    <div style={{ color: '#666', fontSize: '0.7rem', marginBottom: '0.2rem', fontWeight: '500' }}>GENDER</div>
+                    <div style={{ fontWeight: '500', color: '#333', fontSize: '0.75rem' }}>
                       {athlete.gender || '-'}
                     </div>
                   </div>
                   <div>
-                    <div style={{ color: '#666', fontSize: '0.75rem', marginBottom: '0.25rem' }}>CLUB</div>
-                    <div style={{ fontWeight: '500', color: '#333' }}>
-                      {athlete.club_name || 'N/A'}
+                    <div style={{ color: '#666', fontSize: '0.7rem', marginBottom: '0.2rem', fontWeight: '500' }}>CLUB</div>
+                    <div style={{ fontWeight: '500', color: '#333', fontSize: '0.75rem' }}>
+                      {athlete.club_name || '-'}
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => handleCopyId(athlete.id)}
                   style={{
-                    padding: '0.4rem 0.8rem',
+                    padding: '0.3rem 0.6rem',
                     backgroundColor: '#cc0000',
                     color: 'white',
                     border: 'none',
                     borderRadius: '3px',
                     cursor: 'pointer',
-                    fontSize: '0.85rem',
+                    fontSize: '0.7rem',
                     fontWeight: '500'
                   }}
                 >
@@ -230,18 +291,171 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
         )}
 
         {athleteSearchQuery.length > 0 && !searchingAthletes && athleteSearchResults.length === 0 && (
-          <div style={{
-            padding: '1rem',
-            backgroundColor: '#fef3f2',
-            border: '1px solid #fecaca',
-            borderRadius: '4px',
-            color: '#991b1b',
-            fontSize: '0.9rem'
-          }}>
-            No athletes found matching "{athleteSearchQuery}". Try different name variations or partial words.
-          </div>
+          <AlertBox
+            type="info"
+            message={`No athletes found matching "${athleteSearchQuery}"`}
+            onClose={() => {}}
+          />
         )}
       </div>
+
+      {/* Edit Selected Athlete Section */}
+      {selectedAthlete && (
+        <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '2px solid #ddd' }}>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '1rem', color: '#111' }}>
+            Edit Athlete: {selectedAthlete.name}
+          </h3>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+            <div>
+              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                Name
+              </label>
+              <input
+                type="text"
+                value={editForm.name}
+                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '0.875rem',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                Gender
+              </label>
+              <select
+                value={editForm.gender}
+                onChange={(e) => setEditForm({ ...editForm, gender: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '0.875rem',
+                  boxSizing: 'border-box'
+                }}
+              >
+                <option value="">Select Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            </div>
+            <div>
+              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                Birthdate
+              </label>
+              <input
+                type="text"
+                placeholder="YYYY-MM-DD"
+                value={editForm.birth_date}
+                onChange={(e) => setEditForm({ ...editForm, birth_date: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '0.875rem',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                Club Name
+              </label>
+              <input
+                type="text"
+                value={editForm.club_name}
+                onChange={(e) => setEditForm({ ...editForm, club_name: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '0.875rem',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                State Code
+              </label>
+              <input
+                type="text"
+                value={editForm.state_code}
+                onChange={(e) => setEditForm({ ...editForm, state_code: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '0.875rem',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+            <div>
+              <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                Nation
+              </label>
+              <input
+                type="text"
+                value={editForm.nation}
+                onChange={(e) => setEditForm({ ...editForm, nation: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: '0.875rem',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={handleUpdateAthlete}
+              disabled={isUpdating}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: isUpdating ? '#9ca3af' : '#cc0000',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: isUpdating ? 'not-allowed' : 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}
+            >
+              {isUpdating ? 'Updating...' : 'Update Athlete'}
+            </button>
+            <button
+              onClick={() => setSelectedAthlete(null)}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#9ca3af',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
