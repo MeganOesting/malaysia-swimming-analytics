@@ -23,6 +23,8 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
     club_name: string;
     state_code: string;
     nation: string;
+    athlete_alias_1: string;
+    athlete_alias_2: string;
   }>({
     name: '',
     gender: '',
@@ -30,6 +32,8 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
     club_name: '',
     state_code: '',
     nation: '',
+    athlete_alias_1: '',
+    athlete_alias_2: '',
   });
 
   const availableFields = [
@@ -39,6 +43,8 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
     { key: 'club_name', label: 'Club Name' },
     { key: 'state_code', label: 'State Code' },
     { key: 'nation', label: 'Nation' },
+    { key: 'athlete_alias_1', label: 'Alias 1' },
+    { key: 'athlete_alias_2', label: 'Alias 2' },
   ];
 
   const searchAthletes = async (query: string) => {
@@ -112,6 +118,8 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
       club_name: athlete.club_name || '',
       state_code: athlete.state_code || '',
       nation: athlete.nation || '',
+      athlete_alias_1: (athlete as any).athlete_alias_1 || '',
+      athlete_alias_2: (athlete as any).athlete_alias_2 || '',
     });
     setError('');
     setSuccess('');
@@ -491,6 +499,46 @@ export const AthleteManagement: React.FC<AthleteManagementProps> = ({ isAuthenti
                   type="text"
                   value={editForm.nation}
                   onChange={(e) => setEditForm({ ...editForm, nation: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '0.875rem',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+            )}
+            {fieldsToEdit.has('athlete_alias_1') && (
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                  Alias 1
+                </label>
+                <input
+                  type="text"
+                  value={editForm.athlete_alias_1}
+                  onChange={(e) => setEditForm({ ...editForm, athlete_alias_1: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '0.5rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    fontSize: '0.875rem',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+            )}
+            {fieldsToEdit.has('athlete_alias_2') && (
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: '500', color: '#666', display: 'block', marginBottom: '0.3rem' }}>
+                  Alias 2
+                </label>
+                <input
+                  type="text"
+                  value={editForm.athlete_alias_2}
+                  onChange={(e) => setEditForm({ ...editForm, athlete_alias_2: e.target.value })}
                   style={{
                     width: '100%',
                     padding: '0.5rem',
