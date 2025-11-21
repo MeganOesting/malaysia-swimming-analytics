@@ -19,6 +19,9 @@ import logging
 # Date validation
 from ..utils.date_validator import parse_and_validate_date
 
+# Name matching
+from ..utils.name_matcher import match_athlete_by_name
+
 logger = logging.getLogger(__name__)
 
 # Add project root to path
@@ -93,12 +96,49 @@ class AthleteSearchResponse(BaseModel):
 
 
 class AthleteUpdateRequest(BaseModel):
-    name: str
-    gender: Optional[str] = None
-    birth_date: Optional[str] = None
-    club_name: Optional[str] = None
-    state_code: Optional[str] = None
-    nation: Optional[str] = None
+    FULLNAME: Optional[str] = None
+    FIRSTNAME: Optional[str] = None
+    LASTNAME: Optional[str] = None
+    MIDDLEINITIAL: Optional[str] = None
+    SUFFIX: Optional[str] = None
+    IC: Optional[str] = None
+    NATION: Optional[str] = None
+    MembEmail: Optional[str] = None
+    PreferredName: Optional[str] = None
+    Phone: Optional[str] = None
+    AcctFirstName: Optional[str] = None
+    AcctLastName: Optional[str] = None
+    AcctMiddleInitial: Optional[str] = None
+    Address: Optional[str] = None
+    Address2: Optional[str] = None
+    City: Optional[str] = None
+    EmergencyContact: Optional[str] = None
+    EmergencyPhone: Optional[str] = None
+    Guardian1FirstName: Optional[str] = None
+    Guardian1HomePhone: Optional[str] = None
+    Guardian1LastName: Optional[str] = None
+    Guardian1MobilePhone: Optional[str] = None
+    Guardian1WorkPhone: Optional[str] = None
+    Guardian2FirstName: Optional[str] = None
+    Guardian2HomePhone: Optional[str] = None
+    Guardian2LastName: Optional[str] = None
+    Guardian2MobilePhone: Optional[str] = None
+    Guardian2WorkPhone: Optional[str] = None
+    AcctIC: Optional[str] = None
+    Gender: Optional[str] = None
+    ClubCode: Optional[str] = None
+    ClubName: Optional[str] = None
+    athlete_alias_1: Optional[str] = None
+    athlete_alias_2: Optional[str] = None
+    passport_number: Optional[str] = None
+    shoe_size: Optional[str] = None
+    tshirt_size: Optional[str] = None
+    tracksuit_size: Optional[str] = None
+    cap_name: Optional[str] = None
+    School_University_Name: Optional[str] = None
+    School_University_Address: Optional[str] = None
+    passport_expiry_date: Optional[str] = None
+    BIRTHDATE: Optional[str] = None
 
 class ClubCreateRequest(BaseModel):
     club_name: str
@@ -402,6 +442,176 @@ async def upload_seag(file: UploadFile = File(...), year: str = Form("2025")):
             os.unlink(temp_file_path)
         except:
             pass
+
+
+@router.post("/admin/test-seag-upload")
+async def test_seag_upload(file: UploadFile = File(...)):
+    """TEST SEAG upload - Check athlete matching WITHOUT writing to database"""
+    print(f"\n[TEST SEAG] Received: {file.filename}")
+
+    # Validate file type
+    if not file.filename.lower().endswith(('.xlsx', '.xls')):
+        raise HTTPException(status_code=400, detail="Only Excel files (.xlsx, .xls) are supported")
+
+    # Save uploaded file temporarily
+    print(f"[TEST SEAG] Saving file to temporary location...")
+    with tempfile.NamedTemporaryFile(delete=False, suffix=Path(file.filename).suffix) as temp_file:
+        temp_file_path = temp_file.name
+        while True:
+            chunk = await file.read(1024 * 1024)
+            if not chunk:
+                break
+            temp_file.write(chunk)
+
+    print(f"[TEST SEAG] File saved, starting test...")
+
+    try:
+        import pandas as pd
+
+        # Read Excel file
+        try:
+            df = pd.read_excel(temp_file_path, sheet_name="Sheet", skiprows=[0], header=0)
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Failed to read Excel file: {str(e)}",
+                "matched_count": 0,
+                "unmatched_count": 0,
+                "invalid_count": 0,
+                "matched_athletes": [],
+                "unmatched_athletes": [],
+                "invalid_rows": []
+            }
+
+        print(f"[TEST SEAG] Loaded {len(df)} rows from Excel")
+
+        # Get database connection (READ ONLY for testing)
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        # Import the normalize_name function for word extraction
+        from ..utils.name_matcher import normalize_name
+
+        # Test data matching
+        matched_athletes = []
+        unmatched_athletes = []
+        invalid_rows = []
+
+        for idx, row in df.iterrows():
+            try:
+                # Extract data
+                gender = str(row.get('GENDER', '')).strip().upper()[0] if pd.notna(row.get('GENDER')) else None
+                distance = int(row.get('DISTANCE', 0)) if pd.notna(row.get('DISTANCE')) else None
+                stroke = str(row.get('STROKE', '')).strip().upper() if pd.notna(row.get('STROKE')) else None
+                fullname = str(row.get('FULLNAME', '')).strip() if pd.notna(row.get('FULLNAME')) else None
+                time_str = str(row.get('SWIMTIME', '')).strip() if pd.notna(row.get('SWIMTIME')) else None
+                year_age = int(row.get('AGE', 0)) if pd.notna(row.get('AGE')) else None
+
+                # Validate required fields
+                if not all([gender, distance, stroke, fullname, time_str]):
+                    invalid_rows.append({
+                        'row': idx + 2,
+                        'fullname': fullname or '(missing)',
+                        'gender': gender or '(missing)',
+                        'distance': distance,
+                        'stroke': stroke or '(missing)',
+                        'time': time_str or '(missing)',
+                        'reason': 'Missing required field'
+                    })
+                    continue
+
+                # Look up athlete using centralized name matcher (READ ONLY)
+                # Uses word-based matching by default (most sophisticated)
+                athlete_id = match_athlete_by_name(conn, fullname, gender)
+
+                if not athlete_id:
+                    csv_norm = normalize_name(fullname)
+                    csv_words = set(w for w in csv_norm.split() if w.strip())
+                    unmatched_athletes.append({
+                        'row': idx + 2,
+                        'fullname': fullname,
+                        'gender': gender,
+                        'distance': distance,
+                        'stroke': stroke,
+                        'time': time_str,
+                        'age': year_age,
+                        'csv_words': csv_words
+                    })
+                    print(f"  [NOT FOUND] Row {idx+2}: {fullname} ({gender}) - {distance} {stroke}")
+                    print(f"    CSV Words: {csv_words}", flush=True)
+                else:
+                    matched_athletes.append({
+                        'row': idx + 2,
+                        'fullname': fullname,
+                        'gender': gender,
+                        'distance': distance,
+                        'stroke': stroke,
+                        'time': time_str,
+                        'athlete_id': athlete_id
+                    })
+                    print(f"  [MATCH] Row {idx+2}: {fullname} ({gender}) - {distance} {stroke}")
+
+            except Exception as e:
+                invalid_rows.append({
+                    'row': idx + 2,
+                    'fullname': row.get('FULLNAME', '(unknown)'),
+                    'reason': f'Error: {str(e)}'
+                })
+
+        # Print detailed info for unmatched athletes
+        if unmatched_athletes:
+            print(f"\n[UNMATCHED DETAIL] === {len(unmatched_athletes)} UNMATCHED ATHLETES ===", flush=True)
+            for unmatched in unmatched_athletes:
+                print(f"\n[UNMATCHED] Row {unmatched['row']}: {unmatched['fullname']} ({unmatched['gender']})", flush=True)
+                print(f"  CSV Words: {unmatched['csv_words']}", flush=True)
+
+                # Try to find similar athletes in database by searching for last name
+                name_parts = unmatched['fullname'].split()
+                if name_parts:
+                    search_term = name_parts[-1] if len(name_parts) > 1 else name_parts[0]
+                    cursor.execute(
+                        "SELECT id, FULLNAME FROM athletes WHERE UPPER(FULLNAME) LIKE ? AND GENDER = ? LIMIT 3",
+                        (f"%{search_term.upper()}%", unmatched['gender'])
+                    )
+                    potential_matches = cursor.fetchall()
+                    if potential_matches:
+                        print(f"  Potential DB Matches:", flush=True)
+                        for match_id, match_name in potential_matches:
+                            match_norm = normalize_name(match_name)
+                            match_words = set(w for w in match_norm.split() if w.strip())
+                            print(f"    ID {match_id}: {match_name}", flush=True)
+                            print(f"      DB Words: {match_words}", flush=True)
+                    else:
+                        print(f"  No DB matches found for search term: '{search_term}'", flush=True)
+
+        conn.close()
+
+        print(f"\n[TEST SEAG] Results: {len(matched_athletes)} matched, {len(unmatched_athletes)} unmatched, {len(invalid_rows)} invalid")
+
+        return {
+            "success": True,
+            "message": f"Test complete: {len(matched_athletes)} matched, {len(unmatched_athletes)} unmatched",
+            "matched_count": len(matched_athletes),
+            "unmatched_count": len(unmatched_athletes),
+            "invalid_count": len(invalid_rows),
+            "matched_athletes": matched_athletes,
+            "unmatched_athletes": unmatched_athletes,
+            "invalid_rows": invalid_rows,
+            "note": "NO CHANGES MADE TO DATABASE - This is a diagnostic test only"
+        }
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Test failed: {str(e)}")
+
+    finally:
+        # Clean up temporary file
+        try:
+            os.unlink(temp_file_path)
+        except:
+            pass
+
 
 @router.get("/admin/meets")
 async def get_meets():
@@ -1490,6 +1700,97 @@ async def search_athletes(q: str = ""):
         conn.close()
 
 
+@router.get("/admin/athletes/export-excel")
+async def export_athletes_excel():
+    """Export all athletes from database as Excel file"""
+    from fastapi.responses import StreamingResponse
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill
+    from io import BytesIO
+    import sys
+
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        # Fetch all athletes with FULLNAME, BIRTHDATE, and id
+        cursor.execute("""
+            SELECT
+                id,
+                FULLNAME,
+                BIRTHDATE
+            FROM athletes
+            ORDER BY FULLNAME ASC
+        """)
+
+        athletes = cursor.fetchall()
+        conn.close()
+
+        # Create workbook
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Athletes"
+
+        # Add headers
+        headers = ["Athlete ID", "Full Name", "Birthdate"]
+        ws.append(headers)
+
+        # Style header row
+        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+
+        # Add data rows
+        for athlete in athletes:
+            athlete_id, fullname, birthdate = athlete
+            # Format birthdate to dd.mm.yyyy
+            if birthdate:
+                try:
+                    from datetime import datetime
+                    # Handle ISO format (YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DD)
+                    if 'T' in str(birthdate):
+                        date_obj = datetime.fromisoformat(str(birthdate).replace('Z', '+00:00'))
+                    else:
+                        date_obj = datetime.strptime(str(birthdate), '%Y-%m-%d')
+                    formatted_date = date_obj.strftime('%d.%m.%Y')
+                except Exception:
+                    formatted_date = birthdate
+            else:
+                formatted_date = ""
+            ws.append([athlete_id, fullname, formatted_date])
+
+        # Adjust column widths
+        ws.column_dimensions['A'].width = 12
+        ws.column_dimensions['B'].width = 30
+        ws.column_dimensions['C'].width = 15
+
+        # Write to BytesIO
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        # Generate filename with timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"athletes_export_{timestamp}.xlsx"
+
+        # Return as StreamingResponse (no temp file needed)
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except Exception as e:
+        import traceback
+        print(f"DEBUG: Exception occurred: {str(e)}", flush=True)
+        traceback.print_exc(file=sys.stdout)
+        sys.stdout.flush()
+        raise HTTPException(status_code=500, detail=f"Export failed: {str(e)}")
+
+
 @router.get("/admin/athletes/{athlete_id}")
 async def get_athlete_detail(athlete_id: str):
     conn = get_database_connection()
@@ -1520,6 +1821,11 @@ async def get_athlete_detail(athlete_id: str):
         conn.close()
 
 
+@router.options("/admin/athletes/{athlete_id}")
+async def athlete_options(athlete_id: str):
+    """Handle CORS preflight for athlete update endpoint"""
+    return {}
+
 @router.patch("/admin/athletes/{athlete_id}")
 async def update_athlete(athlete_id: str, payload: AthleteUpdateRequest):
     conn = get_database_connection()
@@ -1529,27 +1835,38 @@ async def update_athlete(athlete_id: str, payload: AthleteUpdateRequest):
         if not cursor.fetchone():
             raise HTTPException(status_code=404, detail="Athlete not found")
 
-        cursor.execute(
-            """
+        # Build dynamic UPDATE query based on provided fields
+        update_fields = []
+        update_values = []
+
+        payload_dict = payload.model_dump(exclude_none=False)
+
+        for field_name, field_value in payload_dict.items():
+            if field_value is not None:
+                # Strip whitespace and handle case sensitivity for specific fields
+                if isinstance(field_value, str):
+                    cleaned_value = field_value.strip()
+                    # Uppercase specific fields
+                    if field_name in ['NATION', 'NATION', 'Gender']:
+                        cleaned_value = cleaned_value.upper() if cleaned_value else None
+                else:
+                    cleaned_value = field_value
+
+                update_fields.append(f"{field_name} = ?")
+                update_values.append(cleaned_value if cleaned_value else None)
+
+        if not update_fields:
+            raise HTTPException(status_code=400, detail="No fields to update")
+
+        update_values.append(athlete_id)
+
+        sql_query = f"""
             UPDATE athletes
-            SET name = ?,
-                gender = ?,
-                birth_date = ?,
-                club_name = ?,
-                state_code = ?,
-                nation = ?
+            SET {', '.join(update_fields)}
             WHERE id = ?
-            """,
-            (
-                payload.name.strip(),
-                (payload.gender or "").strip() or None,
-                payload.birth_date.strip() if payload.birth_date else None,
-                payload.club_name.strip() if payload.club_name else None,
-                payload.state_code.strip().upper() if payload.state_code else None,
-                payload.nation.strip().upper() if payload.nation else None,
-                athlete_id,
-            ),
-        )
+        """
+
+        cursor.execute(sql_query, update_values)
         conn.commit()
         return {"success": True, "message": "Athlete updated"}
     except HTTPException:
@@ -2441,83 +2758,6 @@ async def analyze_athlete_info(file: UploadFile = File(...)):
                 os.unlink(temp_file_path)
             except Exception as e:
                 print(f"[athlete info analysis] Error cleaning up temporary file: {e}")
-
-
-@router.get("/admin/athletes/export-excel")
-async def export_athletes_excel():
-    """Export all athletes from database as Excel file"""
-    from fastapi.responses import StreamingResponse
-    import openpyxl
-    from openpyxl.styles import Font, PatternFill
-    from io import BytesIO
-    import sys
-
-    try:
-        conn = get_database_connection()
-        cursor = conn.cursor()
-
-        # Fetch all athletes with FULLNAME, BIRTHDATE, and id
-        cursor.execute("""
-            SELECT
-                id,
-                FULLNAME,
-                BIRTHDATE
-            FROM athletes
-            ORDER BY FULLNAME ASC
-        """)
-
-        athletes = cursor.fetchall()
-        conn.close()
-
-        # Create workbook
-        wb = openpyxl.Workbook()
-        ws = wb.active
-        ws.title = "Athletes"
-
-        # Add headers
-        headers = ["Athlete ID", "Full Name", "Birthdate"]
-        ws.append(headers)
-
-        # Style header row
-        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
-        header_font = Font(bold=True, color="FFFFFF")
-
-        for cell in ws[1]:
-            cell.fill = header_fill
-            cell.font = header_font
-
-        # Add data rows
-        for athlete in athletes:
-            athlete_id, fullname, birthdate = athlete
-            ws.append([athlete_id, fullname, birthdate])
-
-        # Adjust column widths
-        ws.column_dimensions['A'].width = 12
-        ws.column_dimensions['B'].width = 30
-        ws.column_dimensions['C'].width = 15
-
-        # Write to BytesIO
-        output = BytesIO()
-        wb.save(output)
-        output.seek(0)
-
-        # Generate filename with timestamp
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"athletes_export_{timestamp}.xlsx"
-
-        # Return as StreamingResponse (no temp file needed)
-        return StreamingResponse(
-            iter([output.getvalue()]),
-            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            headers={"Content-Disposition": f"attachment; filename={filename}"}
-        )
-
-    except Exception as e:
-        import traceback
-        print(f"DEBUG: Exception occurred: {str(e)}", flush=True)
-        traceback.print_exc(file=sys.stdout)
-        sys.stdout.flush()
-        raise HTTPException(status_code=500, detail=f"Export failed: {str(e)}")
 
 
 @router.post("/admin/manual-results")
