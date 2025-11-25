@@ -22,6 +22,9 @@ from ..utils.date_validator import parse_and_validate_date
 # Name matching
 from ..utils.name_matcher import match_athlete_by_name
 
+# Stroke normalization
+from ..utils.stroke_normalizer import normalize_stroke, display_stroke, validate_stroke
+
 logger = logging.getLogger(__name__)
 
 # Add project root to path
@@ -58,7 +61,7 @@ class ConversionResult(BaseModel):
     events: int = 0
     meets: int = 0
     unmatched_clubs: List[Dict[str, Any]] = []  # List of unmatched club names from upload (unique names only)
-    club_misses: List[Dict[str, Any]] = []  # Full list of club misses with context (meet_name, meet_city, etc.)
+    club_misses: List[Dict[str, Any]] = []  # Full list of club misses with context 
     name_format_mismatches: List[Dict[str, Any]] = []  # List of name format mismatches with athlete_id
     missing_athletes: List[Dict[str, Any]] = []  # List of missing athletes that need to be added to database
 
@@ -76,7 +79,7 @@ class SEAGUploadResult(BaseModel):
     success: bool
     message: str
     meet_id: Optional[str] = None
-    meet_name: str = "SEA AGE Group Aquatics Championships"
+    meet_name: str
     results_inserted: int = 0
     unmatched_athletes: List[Dict[str, Any]] = []  # Athletes not found in database
     errors: List[str] = []  # Any parsing errors
@@ -177,13 +180,13 @@ class ManualResult(BaseModel):
     stroke: str
     event_gender: str
     time_string: str
-    place: Optional[int] = None
+    comp_place: Optional[int] = None
 
 
 class ManualResultsSubmission(BaseModel):
     meet_name: str
     meet_date: str
-    meet_city: str
+    meetcity: str
     meet_course: str
     meet_alias: str
     results: List[ManualResult]
@@ -263,7 +266,13 @@ async def convert_excel(
             pass
 
 @router.post("/admin/upload-seag", response_model=SEAGUploadResult)
-async def upload_seag(file: UploadFile = File(...), year: str = Form("2025")):
+async def upload_seag(file: UploadFile = File(...), 
+
+    meet_name: str = Form(...),
+    meetcity: str = Form(...),
+    meet_month: str = Form(...),
+    meet_day: str = Form(...),
+   year: str = Form(...)):
     """Upload SEAG results from Excel file - matches athletes by name"""
     print(f"\n[SEAG UPLOAD] Received: {file.filename}")
 
@@ -285,6 +294,7 @@ async def upload_seag(file: UploadFile = File(...), year: str = Form("2025")):
 
     try:
         import pandas as pd
+        from src.web.utils.calculation_utils import parse_time_to_seconds, calculate_aqua_points
 
         # Read Excel file
         try:
@@ -305,26 +315,16 @@ async def upload_seag(file: UploadFile = File(...), year: str = Form("2025")):
         cursor = conn.cursor()
 
         # Create or get SEAG meet
-        meet_name = f"SEA AGE Group Aquatics Championships {year}"
-        meet_id = f"seag_{year.lower()}"
-        meet_date = None
-
-        # Try to extract meet date from first row if available
-        if len(df) > 0 and 'MEETDATE' in df.columns:
-            try:
-                meet_date_raw = df.iloc[0].get('MEETDATE')
-                if pd.notna(meet_date_raw):
-                    meet_date = parse_and_validate_date(str(meet_date_raw), field_name="MEETDATE")
-            except:
-                pass
+        meet_id = f"SEAG_{year}"
+        result_meet_date = f"{year}-{meet_month.zfill(2)}-{meet_day.zfill(2)}T00:00:00Z"
 
         # Ensure meet exists
         cursor.execute("SELECT id FROM meets WHERE id = ?", (meet_id,))
         if not cursor.fetchone():
             cursor.execute("""
-                INSERT INTO meets (id, name, meet_type, meet_date, location, city)
+                INSERT INTO meets (id, meet_name, meet_type, meet_date, location, meet_city)
                 VALUES (?, ?, ?, ?, ?, ?)
-            """, (meet_id, meet_name, "International", meet_date, "Singapore", "Singapore"))
+            """, (meet_id, meet_name, "International", result_meet_date, meetcity, meetcity))
             conn.commit()
             print(f"[SEAG UPLOAD] Created meet: {meet_id}")
         else:
@@ -340,90 +340,172 @@ async def upload_seag(file: UploadFile = File(...), year: str = Form("2025")):
                 # Extract data
                 gender = str(row.get('GENDER', '')).strip().upper()[0] if pd.notna(row.get('GENDER')) else None
                 distance = int(row.get('DISTANCE', 0)) if pd.notna(row.get('DISTANCE')) else None
-                stroke = str(row.get('STROKE', '')).strip().upper() if pd.notna(row.get('STROKE')) else None
+                stroke_raw = str(row.get('STROKE', '')).strip() if pd.notna(row.get('STROKE')) else None
                 fullname = str(row.get('FULLNAME', '')).strip() if pd.notna(row.get('FULLNAME')) else None
                 time_str = str(row.get('SWIMTIME', '')).strip() if pd.notna(row.get('SWIMTIME')) else None
-                year_age = int(row.get('AGE', 0)) if pd.notna(row.get('AGE')) else None
+                place = int(row.get('PLACE', 0)) if pd.notna(row.get('PLACE')) else None
+                # Extract rudolph points from file (if present)
+                rudolph_points = int(row.get('PTS_RUDOLPH', 0)) if pd.notna(row.get('PTS_RUDOLPH')) else None
+                # Accept meet_course (standard) or COURSE (SwimRankings legacy)
+                raw_course = row.get('meet_course') if pd.notna(row.get('meet_course')) else row.get('COURSE')
+                meet_course = str(raw_course).strip().upper() if pd.notna(raw_course) else 'LCM'
+                # Accept club_name (standard) or CLUBNAME (legacy)
+                raw_club_name = row.get('club_name') if pd.notna(row.get('club_name')) else row.get('CLUBNAME')
+                club_name = str(raw_club_name).strip() if pd.notna(raw_club_name) else None
+                # Accept club_code (standard) or CLUBCODE (legacy)
+                raw_club_code = row.get('club_code') if pd.notna(row.get('club_code')) else row.get('CLUBCODE')
+                club_code = str(raw_club_code).strip() if pd.notna(raw_club_code) else None
+                # Accept nation (standard) or NATION (legacy)
+                raw_nation = row.get('nation') if pd.notna(row.get('nation')) else row.get('NATION')
+                nation = str(raw_nation).strip() if pd.notna(raw_nation) else None
 
                 # Validate required fields
-                if not all([gender, distance, stroke, fullname, time_str]):
+                if not all([gender, distance, stroke_raw, fullname, time_str]):
+                    missing = []
+                    if not gender: missing.append('GENDER')
+                    if not distance: missing.append('DISTANCE')
+                    if not stroke_raw: missing.append('STROKE')
+                    if not fullname: missing.append('FULLNAME')
+                    if not time_str: missing.append('SWIMTIME')
+                    error_msg = f"Row {idx+2}: Missing fields: {', '.join(missing)}"
+                    print(f"[SEAG UPLOAD] {error_msg}")
+                    errors.append(error_msg)
                     continue
 
-                # Look up athlete
-                cursor.execute("""
-                    SELECT id FROM athletes
-                    WHERE UPPER(TRIM(FULLNAME)) = ?
-                    AND GENDER = ?
-                    LIMIT 1
-                """, (fullname.upper(), gender))
-                athlete_row = cursor.fetchone()
+                # Normalize stroke using global normalizer
+                stroke_name = normalize_stroke(stroke_raw)
 
-                if not athlete_row:
-                    unmatched_athletes.append({
-                        'fullname': fullname,
-                        'gender': gender,
-                        'distance': distance,
-                        'stroke': stroke,
-                        'time': time_str
-                    })
-                    continue
-
-                athlete_id = athlete_row[0]
-
-                # Convert time to seconds
-                try:
-                    if ':' in time_str:
-                        parts = time_str.split(':')
-                        if len(parts) == 2:
-                            minutes, seconds = parts
-                            time_seconds = float(minutes) * 60 + float(seconds)
-                        else:
-                            continue
-                    else:
-                        time_seconds = float(time_str)
-                except:
-                    continue
-
-                # Get or create event
-                stroke_map = {"FR": "Free", "BK": "Back", "BR": "Breast", "FLY": "Fly", "IM": "IM"}
-                stroke_name = stroke_map.get(stroke, stroke)
-
+                # Look up event first (needed for unmatched alert)
                 cursor.execute("""
                     SELECT id FROM events
-                    WHERE distance = ? AND stroke = ? AND gender = ?
+                    WHERE event_distance = ? AND event_stroke = ? AND gender = ?
                     LIMIT 1
                 """, (distance, stroke_name, gender))
                 event_row = cursor.fetchone()
+                event_id = event_row[0] if event_row else None
+                event_desc = event_id or f"{distance} {stroke_name} {gender}"
 
-                if event_row:
-                    event_id = event_row[0]
-                else:
+                # Look up athlete using flexible name matching
+                athlete_id = match_athlete_by_name(conn, fullname, gender)
+
+                if not athlete_id:
+                    # Track unmatched with FULLNAME and EVENT
+                    unmatched_athletes.append({
+                        'fullname': fullname,
+                        'event': event_desc,
+                        'row': idx + 2
+                    })
+                    continue
+
+                # Create event if it doesn't exist
+                if not event_id:
                     event_id = str(uuid.uuid4())
                     cursor.execute("""
-                        INSERT INTO events (id, distance, stroke, gender)
-                        VALUES (?, ?, ?, ?)
-                    """, (event_id, distance, stroke_name, gender))
+                        INSERT INTO events (id, event_distance, event_stroke, gender, event_course)
+                        VALUES (?, ?, ?, ?, ?)
+                    """, (event_id, distance, stroke_name, gender, meet_course))
 
-                # Insert result
+                # Convert time to seconds using shared utility
+                time_seconds = parse_time_to_seconds(time_str)
+                if not time_seconds:
+                    error_msg = f"Row {idx+2}: Invalid time format: {time_str}"
+                    errors.append(error_msg)
+                    continue
+
+                # Calculate AQUA points (DO NOT read from file for SEAG)
+                aqua_points = calculate_aqua_points(conn, gender, distance, stroke_name, time_seconds)
+
+                # Get athlete details for age calculation
+                year_age = None
+                day_age = None
+                team_name = club_name
+                team_code = club_code
+                team_state_code = None
+                team_nation = nation
+
+                cursor.execute("""
+                    SELECT club_name, state_code, nation, BIRTHDATE
+                    FROM athletes WHERE id = ?
+                """, (athlete_id,))
+                athlete_data = cursor.fetchone()
+                if athlete_data:
+                    team_name = athlete_data[0] or club_name
+                    team_state_code = athlete_data[1]
+                    team_nation = athlete_data[2] or nation
+                    athlete_birthdate = athlete_data[3]
+
+                    # Calculate ages from athlete birthdate
+                    if athlete_birthdate:
+                        try:
+                            from dateutil import parser as date_parser
+                            birth_dt = date_parser.parse(str(athlete_birthdate))
+                            # Make birth_dt naive (remove timezone) for comparison
+                            if birth_dt.tzinfo is not None:
+                                birth_dt = birth_dt.replace(tzinfo=None)
+                            meet_dt = datetime(int(year), int(meet_month), int(meet_day))
+                            year_age = meet_dt.year - birth_dt.year
+                            if (meet_dt.month, meet_dt.day) < (birth_dt.month, birth_dt.day):
+                                year_age -= 1
+                            day_age = (meet_dt - birth_dt).days
+                        except Exception:
+                            pass
+
+                # Check for duplicate before inserting (same athlete, event, meet, time)
+                cursor.execute("""
+                    SELECT id FROM results
+                    WHERE athlete_id = ? AND event_id = ? AND meet_id = ? AND time_seconds = ?
+                    LIMIT 1
+                """, (athlete_id, event_id, meet_id, time_seconds))
+                existing = cursor.fetchone()
+                if existing:
+                    # Skip duplicate - already in database
+                    continue
+
+                # Insert result with all fields (matching preview columns exactly)
                 result_id = str(uuid.uuid4())
                 cursor.execute("""
                     INSERT INTO results (
-                        id, meet_id, athlete_id, event_id, time_seconds, place, course, year_age
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """, (result_id, meet_id, athlete_id, event_id, time_seconds, None, 'LCM', year_age))
+                        id, meet_id, athlete_id, event_id, time_seconds, time_string,
+                        aqua_points, rudolph_points, meet_course, meet_date,
+                        day_age, year_age, club_name, club_code, state_code,
+                        nation, is_relay, comp_place, meet_name, meet_city
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (result_id, meet_id, athlete_id, event_id, time_seconds, time_str,
+                      aqua_points, rudolph_points, meet_course, result_meet_date,
+                      day_age, year_age, team_name, team_code, team_state_code,
+                      team_nation, 0, place, meet_name, meetcity))
 
                 results_inserted += 1
 
             except Exception as e:
-                errors.append(f"Row {idx+2}: {str(e)}")
+                error_msg = f"Row {idx+2}: {str(e)}"
+                print(f"[SEAG UPLOAD ERROR] {error_msg}")
+                errors.append(error_msg)
+                import traceback
+                traceback.print_exc()
                 continue
 
         conn.commit()
         conn.close()
 
+        # Build detailed message with all error counts
+        message_parts = [f"Results loaded: {results_inserted}"]
+        if unmatched_athletes:
+            message_parts.append(f"Unmatched athletes: {len(unmatched_athletes)}")
+        if errors:
+            message_parts.append(f"Errors: {len(errors)}")
+
+        message = "SEAG upload complete - " + " | ".join(message_parts) if message_parts else "SEAG upload complete - No results inserted"
+
+        # Print first few errors for debugging
+        if errors:
+            print(f"\n[SEAG UPLOAD] First 5 errors:")
+            for err in errors[:5]:
+                print(f"  {err}")
+
         return SEAGUploadResult(
             success=True,
-            message=f"SEAG upload complete: {results_inserted} results inserted",
+            message=message,
             meet_id=meet_id,
             meet_name=meet_name,
             results_inserted=results_inserted,
@@ -435,6 +517,679 @@ async def upload_seag(file: UploadFile = File(...), year: str = Form("2025")):
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"SEAG upload failed: {str(e)}")
+
+    finally:
+        # Clean up temporary file
+        try:
+            os.unlink(temp_file_path)
+        except:
+            pass
+
+
+@router.post("/admin/preview-seag-upload")
+async def preview_seag_upload(
+    file: UploadFile = File(...),
+    meet_name: str = Form(...),
+    meetcity: str = Form(...),
+    meet_month: str = Form(...),
+    meet_day: str = Form(...),
+    year: str = Form(...)):
+    """Generate preview Excel file showing what data would be uploaded"""
+    print(f"\n[PREVIEW SEAG] Received: {file.filename}")
+
+    # Validate file type
+    if not file.filename.lower().endswith(('.xlsx', '.xls')):
+        raise HTTPException(status_code=400, detail="Only Excel files (.xlsx, .xls) are supported")
+
+    # Save uploaded file temporarily
+    print(f"[PREVIEW SEAG] Saving file to temporary location...")
+    with tempfile.NamedTemporaryFile(delete=False, suffix=Path(file.filename).suffix) as temp_file:
+        temp_file_path = temp_file.name
+        while True:
+            chunk = await file.read(1024 * 1024)
+            if not chunk:
+                break
+            temp_file.write(chunk)
+
+    print(f"[PREVIEW SEAG] File saved, starting processing...")
+
+    try:
+        import pandas as pd
+        import openpyxl
+        from openpyxl import Workbook
+        from openpyxl.styles import Font, PatternFill, Alignment
+        import io
+        from datetime import datetime
+
+        # Read Excel file
+        try:
+            df = pd.read_excel(temp_file_path, sheet_name="Sheet", skiprows=[0], header=0)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Failed to read Excel file: {str(e)}")
+
+        print(f"[PREVIEW SEAG] Loaded {len(df)} rows from Excel")
+
+        # Import time parser and AQUA points calculator
+        from src.web.utils.calculation_utils import parse_time_to_seconds, calculate_aqua_points
+
+        # Get database connection
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        # Build meet date from user input
+        result_meet_date = f"{year}-{meet_month.zfill(2)}-{meet_day.zfill(2)}T00:00:00Z"
+
+        # Process rows to collect preview data matching results table format
+        preview_rows = []
+        unmatched_athletes = []  # Track unmatched athletes for alert
+        row_num = 0
+
+        # Log actual columns for debugging
+        print(f"[PREVIEW SEAG] Excel columns: {list(df.columns)}")
+
+        for idx, row in df.iterrows():
+            try:
+                # Extract data from standard SwimRankings/SEAG format columns
+                gender = str(row.get('GENDER', '')).strip().upper()[0] if pd.notna(row.get('GENDER')) else None
+                distance = int(row.get('DISTANCE', 0)) if pd.notna(row.get('DISTANCE')) else None
+                stroke_raw = str(row.get('STROKE', '')).strip() if pd.notna(row.get('STROKE')) else None
+                fullname = str(row.get('FULLNAME', '')).strip() if pd.notna(row.get('FULLNAME')) else None
+                time_str = str(row.get('SWIMTIME', '')).strip() if pd.notna(row.get('SWIMTIME')) else None
+                # DO NOT read PTS_FINA from file for SEAG - calculate it instead
+                rudolph_points = int(row.get('PTS_RUDOLPH', 0)) if pd.notna(row.get('PTS_RUDOLPH')) else None
+                place = int(row.get('PLACE', 0)) if pd.notna(row.get('PLACE')) else None
+                # Accept meet_course (standard) or COURSE (SwimRankings legacy)
+                raw_course = row.get('meet_course') if pd.notna(row.get('meet_course')) else row.get('COURSE')
+                meet_course = str(raw_course).strip().upper() if pd.notna(raw_course) else 'LCM'
+                # Accept club_name (standard) or CLUBNAME (legacy)
+                raw_club_name = row.get('club_name') if pd.notna(row.get('club_name')) else row.get('CLUBNAME')
+                club_name = str(raw_club_name).strip() if pd.notna(raw_club_name) else None
+                # Accept club_code (standard) or CLUBCODE (legacy)
+                raw_club_code = row.get('club_code') if pd.notna(row.get('club_code')) else row.get('CLUBCODE')
+                club_code = str(raw_club_code).strip() if pd.notna(raw_club_code) else None
+                # Accept nation (standard) or NATION (legacy)
+                raw_nation = row.get('nation') if pd.notna(row.get('nation')) else row.get('NATION')
+                nation = str(raw_nation).strip() if pd.notna(raw_nation) else None
+
+                # Skip rows missing required fields
+                if not all([gender, distance, stroke_raw, fullname, time_str]):
+                    if idx == 0:
+                        print(f"[PREVIEW SEAG] First row missing data: gender={gender}, distance={distance}, stroke={stroke_raw}, fullname={fullname}, time={time_str}")
+                    continue
+
+                row_num += 1
+
+                # Normalize stroke using global normalizer
+                stroke_name = normalize_stroke(stroke_raw)
+
+                # Look up athlete
+                athlete_id = match_athlete_by_name(conn, fullname, gender)
+
+                # Look up event
+                cursor.execute("""
+                    SELECT id FROM events
+                    WHERE event_distance = ? AND event_stroke = ? AND gender = ?
+                    LIMIT 1
+                """, (distance, stroke_name, gender))
+                event_result = cursor.fetchone()
+                event_id = event_result[0] if event_result else None
+
+                # Build event description for unmatched alert
+                event_desc = event_id or f"{distance} {stroke_name} {gender}"
+
+                # Track unmatched athletes for alert
+                if not athlete_id:
+                    unmatched_athletes.append({
+                        'fullname': fullname,
+                        'distance': distance,
+                        'stroke': stroke_name,
+                        'gender': gender,
+                        'event': event_desc,
+                        'row': idx + 2  # Excel row number (1-indexed + header)
+                    })
+
+                # Get athlete details if matched (age calc only works when matched)
+                team_name = club_name
+                team_code = club_code
+                team_state_code = None
+                team_nation = nation
+                year_age = None
+                day_age = None
+                athlete_birthdate = None
+
+                if athlete_id:
+                    cursor.execute("""
+                        SELECT club_name, state_code, nation, BIRTHDATE
+                        FROM athletes WHERE id = ?
+                    """, (athlete_id,))
+                    athlete_data = cursor.fetchone()
+                    if athlete_data:
+                        team_name = athlete_data[0] or club_name
+                        team_state_code = athlete_data[1]
+                        team_nation = athlete_data[2] or nation
+                        athlete_birthdate = athlete_data[3]
+
+                        # Calculate year_age and day_age from athlete birthdate and meet date
+                        if athlete_birthdate:
+                            try:
+                                from dateutil import parser as date_parser
+                                birth_dt = date_parser.parse(str(athlete_birthdate))
+                                # Make birth_dt naive (remove timezone) for comparison
+                                if birth_dt.tzinfo is not None:
+                                    birth_dt = birth_dt.replace(tzinfo=None)
+                                meet_year = int(year)
+                                meet_month_int = int(meet_month)
+                                meet_day_int = int(meet_day)
+                                meet_dt = datetime(meet_year, meet_month_int, meet_day_int)
+                                # Calculate age in years
+                                year_age = meet_dt.year - birth_dt.year
+                                if (meet_dt.month, meet_dt.day) < (birth_dt.month, birth_dt.day):
+                                    year_age -= 1
+                                # Calculate day_age (days between birthdate and meet date)
+                                day_age = (meet_dt - birth_dt).days
+                            except Exception as age_err:
+                                print(f"[PREVIEW SEAG] Could not calculate age for {fullname}: {age_err}")
+
+                # Calculate time in seconds
+                time_seconds = parse_time_to_seconds(time_str)
+
+                # Calculate AQUA points using the calculator (DO NOT read from file for SEAG)
+                aqua_points = None
+                if time_seconds and time_seconds > 0 and stroke_name and distance and gender:
+                    aqua_points = calculate_aqua_points(conn, gender, distance, stroke_name, time_seconds)
+
+                # Generate preview row ID
+                preview_id = f"PREVIEW_{row_num}"
+
+                # Build row matching results table columns exactly
+                preview_rows.append({
+                    'id': preview_id,
+                    'meet_id': f"SEAG_{year}",
+                    'athlete_id': athlete_id or f"UNMATCHED: {fullname}",
+                    'event_id': event_id or f"MISSING: {distance} {stroke_name} {gender}",
+                    'time_seconds': time_seconds,
+                    'time_string': time_str,
+                    'aqua_points': aqua_points,
+                    'rudolph_points': rudolph_points,
+                    'meet_course': meet_course,
+                    'meet_date': result_meet_date,
+                    'day_age': day_age,
+                    'year_age': year_age,
+                    'club_name': team_name,
+                    'club_code': team_code,
+                    'state_code': team_state_code,
+                    'nation': team_nation,
+                    'is_relay': 0,
+                    'comp_place': place,
+                    'meet_name': meet_name,
+                    'meet_city': meetcity,
+                })
+
+            except Exception as e:
+                import traceback
+                print(f"[PREVIEW SEAG] Row {idx+2} error: {str(e)}")
+                traceback.print_exc()
+
+        # Print match summary
+        total_rows = len(preview_rows)
+        matched_count = total_rows - len(unmatched_athletes)
+        unmatched_count = len(unmatched_athletes)
+
+        print(f"\n{'='*60}")
+        print(f"[SEAG PREVIEW] MATCH SUMMARY")
+        print(f"{'='*60}")
+        print(f"Total athletes processed: {total_rows}")
+        print(f"Matched athletes: {matched_count}")
+        print(f"Unmatched athletes: {unmatched_count}")
+
+        if unmatched_athletes:
+            print(f"\n[SEAG PREVIEW] UNMATCHED ATHLETES:")
+            print(f"{'-'*60}")
+            for u in unmatched_athletes:
+                print(f"  - {u['fullname']} | {u['distance']}m {u['stroke']} ({u['gender']})")
+
+        print(f"{'='*60}\n")
+
+        # Create Excel workbook matching results export format
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Results Data"
+
+        # Headers matching results table columns exactly
+        headers = [
+            'id', 'meet_id', 'athlete_id', 'event_id', 'time_seconds', 'time_string',
+            'aqua_points', 'rudolph_points', 'meet_course',
+            'meet_date', 'day_age', 'year_age', 'club_name',
+            'club_code', 'state_code', 'nation', 'is_relay',
+            'comp_place', 'meet_name', 'meet_city'
+        ]
+
+        # Write headers with red styling (matching results export)
+        ws.append(headers)
+        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+
+        # Write data rows
+        for preview_row in preview_rows:
+            row_data = [preview_row.get(h, '') for h in headers]
+            ws.append(row_data)
+
+        # Auto-adjust column widths
+        for i, column in enumerate(ws.columns, 1):
+            max_length = max(len(str(cell.value or '')) for cell in column)
+            ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = min(max_length + 2, 50)
+
+        # Add Unmatched Athletes alert sheet if any unmatched
+        if unmatched_athletes:
+            ws_unmatched = wb.create_sheet(title="UNMATCHED ATHLETES")
+
+            # Headers for unmatched sheet
+            unmatched_headers = ['FULLNAME', 'EVENT', 'EXCEL ROW']
+            ws_unmatched.append(unmatched_headers)
+
+            # Style headers with warning color (orange/red)
+            warning_fill = PatternFill(start_color="FF6600", end_color="FF6600", fill_type="solid")
+            for cell in ws_unmatched[1]:
+                cell.fill = warning_fill
+                cell.font = header_font
+
+            # Write unmatched athlete data
+            for unmatched in unmatched_athletes:
+                ws_unmatched.append([
+                    unmatched.get('fullname', ''),
+                    unmatched.get('event', ''),
+                    unmatched.get('row', '')
+                ])
+
+            # Auto-adjust column widths for unmatched sheet
+            for i, column in enumerate(ws_unmatched.columns, 1):
+                max_length = max(len(str(cell.value or '')) for cell in column)
+                ws_unmatched.column_dimensions[openpyxl.utils.get_column_letter(i)].width = min(max_length + 2, 50)
+
+        # Save to bytes
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        # Return as Excel file download
+        from fastapi.responses import StreamingResponse
+        filename = f"seag_{year}_preview.xlsx"
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Preview generation failed: {str(e)}")
+
+    finally:
+        # Clean up temporary file
+        try:
+            os.unlink(temp_file_path)
+        except:
+            pass
+
+
+@router.post("/admin/preview-swimrankings-upload")
+async def preview_swimrankings_upload(file: UploadFile = File(...)):
+    """Generate preview Excel file for SwimRankings upload - extracts meet info from file"""
+    print(f"\n[PREVIEW SWIMRANKINGS] Received: {file.filename}")
+
+    # Validate file type
+    if not file.filename.lower().endswith(('.xlsx', '.xls')):
+        raise HTTPException(status_code=400, detail="Only Excel files (.xlsx, .xls) are supported")
+
+    # Save uploaded file temporarily
+    print(f"[PREVIEW SWIMRANKINGS] Saving file to temporary location...")
+    with tempfile.NamedTemporaryFile(delete=False, suffix=Path(file.filename).suffix) as temp_file:
+        temp_file_path = temp_file.name
+        while True:
+            chunk = await file.read(1024 * 1024)
+            if not chunk:
+                break
+            temp_file.write(chunk)
+
+    print(f"[PREVIEW SWIMRANKINGS] File saved, starting processing...")
+
+    try:
+        import openpyxl
+        from openpyxl import Workbook
+        from openpyxl.styles import Font, PatternFill
+        import io
+        import pandas as pd
+        from datetime import datetime
+        from src.web.utils.calculation_utils import parse_time_to_seconds
+
+        # PREVIEW reads Excel directly - we need ALL rows, not just matched athletes
+        # process_meet_file_simple skips unmatched athletes, so we can't use it for preview
+
+        # Get database connection for athlete matching
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        # Read Excel file directly
+        # TEMPORARY DEBUG: Only process "50m Fr" sheet for quick testing
+        # TODO: Remove sheet_filter constraint after debugging is complete
+        debug_sheet_filter = ["50m Fr"]  # TEMPORARY - remove after debugging
+        print(f"[PREVIEW] DEBUG MODE: Only processing sheets: {debug_sheet_filter}")
+
+        excel = pd.ExcelFile(temp_file_path)
+        sheets_to_process = [s for s in excel.sheet_names if s in debug_sheet_filter] if debug_sheet_filter else excel.sheet_names
+
+        # Process results into preview rows
+        preview_rows = []
+        unmatched_athletes = []
+
+        for sheet_name in sheets_to_process:
+            print(f"[PREVIEW] Processing sheet: '{sheet_name}'")
+
+            # Read sheet - row 0 has meet info, row 1 has headers, data starts row 2
+            df = pd.read_excel(temp_file_path, sheet_name=sheet_name, header=1)
+            print(f"[PREVIEW] Sheet has {len(df)} data rows, columns: {list(df.columns)}")
+
+            for idx, row in df.iterrows():
+                try:
+                    # Extract data from row using SwimRankings column names
+                    fullname = str(row.get('FULLNAME', '') or '').strip()
+                    gender = str(row.get('GENDER', '') or '').upper()[:1]
+                    distance = row.get('DISTANCE')
+                    stroke_raw = str(row.get('STROKE', '') or '').strip()
+                    time_str = str(row.get('SWIMTIME', '') or '').strip()
+                    meet_name = str(row.get('MEETNAME', '') or 'Unknown Meet').strip()
+                    meet_city = str(row.get('MEETCITY', '') or '').strip()
+                    meet_date_raw = row.get('MEETDATE')
+                    meet_course = str(row.get('COURSE', 'LCM') or 'LCM').upper()
+                    place = row.get('PLACE')
+                    # SwimRankings files have FINA/AQUA points already calculated
+                    aqua_points = row.get('PTS_FINA')
+                    rudolph_points = row.get('PTS_RUDOLPH')
+                    club_name = str(row.get('CLUBNAME', '') or '').strip()
+                    club_code = str(row.get('CLUBCODE', '') or '').strip()
+                    nation = str(row.get('NATION', '') or '').strip()
+                    # Get birthdate from file (for unmatched athlete tracking)
+                    file_birthdate = row.get('BIRTHDATE')
+
+                    # Skip rows with missing essential data
+                    if not fullname or not gender or pd.isna(distance) or not stroke_raw:
+                        continue
+
+                    # Convert distance to int
+                    try:
+                        distance = int(distance)
+                    except (ValueError, TypeError):
+                        continue
+
+                    # Format birthdate for display
+                    birthdate_str = ''
+                    if file_birthdate and not pd.isna(file_birthdate):
+                        try:
+                            if hasattr(file_birthdate, 'strftime'):
+                                birthdate_str = file_birthdate.strftime('%Y-%m-%d')
+                            else:
+                                birthdate_str = str(file_birthdate)
+                        except:
+                            birthdate_str = str(file_birthdate)
+
+                    # Format meet_date
+                    meet_date = ''
+                    if meet_date_raw and not pd.isna(meet_date_raw):
+                        try:
+                            if hasattr(meet_date_raw, 'strftime'):
+                                meet_date = meet_date_raw.strftime('%Y-%m-%dT00:00:00Z')
+                            else:
+                                from dateutil import parser as date_parser
+                                parsed = date_parser.parse(str(meet_date_raw))
+                                meet_date = parsed.strftime('%Y-%m-%dT00:00:00Z')
+                        except:
+                            meet_date = str(meet_date_raw)
+
+                    # Normalize stroke
+                    stroke_name = normalize_stroke(stroke_raw)
+
+                    # Look up athlete
+                    athlete_id = match_athlete_by_name(conn, fullname, gender)
+
+                    # Look up event
+                    cursor.execute("""
+                        SELECT id FROM events
+                        WHERE event_distance = ? AND event_stroke = ? AND gender = ?
+                        LIMIT 1
+                    """, (distance, stroke_name, gender))
+                    event_result = cursor.fetchone()
+                    event_id = event_result[0] if event_result else None
+
+                    event_desc = event_id or f"{distance} {stroke_name} {gender}"
+
+                    # Track unmatched athletes with FULL FILE RECORD for debugging
+                    if not athlete_id:
+                        unmatched_athletes.append({
+                            'row': idx + 3,  # +3 because: row 0 = meet info, row 1 = headers, data starts row 2
+                            'fullname': fullname,
+                            'birthdate': birthdate_str,
+                            'gender': gender,
+                            'distance': distance,
+                            'stroke': stroke_raw,
+                            'time': time_str,
+                            'meet_name': meet_name,
+                            'meet_date': meet_date,
+                            'club_name': club_name,
+                            'nation': nation,
+                            'event_lookup': event_desc,
+                        })
+
+                    # Get athlete details if matched
+                    team_name_final = club_name
+                    team_code_final = club_code
+                    team_state_code = None
+                    team_nation = nation
+                    year_age = None
+                    day_age = None
+
+                    if athlete_id:
+                        cursor.execute("""
+                            SELECT club_name, state_code, nation, BIRTHDATE
+                            FROM athletes WHERE id = ?
+                        """, (athlete_id,))
+                        athlete_data = cursor.fetchone()
+                        if athlete_data:
+                            team_name_final = athlete_data[0] or club_name
+                            team_state_code = athlete_data[1]
+                            team_nation = athlete_data[2] or nation
+                            athlete_birthdate = athlete_data[3]
+
+                            # Calculate ages if we have birthdate and meet_date
+                            if athlete_birthdate and meet_date:
+                                try:
+                                    from dateutil import parser as date_parser
+                                    birth_dt = date_parser.parse(str(athlete_birthdate))
+                                    if birth_dt.tzinfo is not None:
+                                        birth_dt = birth_dt.replace(tzinfo=None)
+                                    meet_dt = date_parser.parse(str(meet_date))
+                                    if meet_dt.tzinfo is not None:
+                                        meet_dt = meet_dt.replace(tzinfo=None)
+                                    year_age = meet_dt.year - birth_dt.year
+                                    if (meet_dt.month, meet_dt.day) < (birth_dt.month, birth_dt.day):
+                                        year_age -= 1
+                                    day_age = (meet_dt - birth_dt).days
+                                except Exception:
+                                    pass
+
+                    # Calculate time in seconds
+                    time_seconds = parse_time_to_seconds(time_str)
+
+                    # Build preview row - ALL rows included (matched and unmatched)
+                    preview_rows.append({
+                        'id': f"PREVIEW_{len(preview_rows) + 1}",
+                        'meet_id': f"PREVIEW_{meet_name[:20] if meet_name else 'Unknown'}",
+                        'athlete_id': athlete_id or f"UNMATCHED: {fullname}",
+                        'event_id': event_id or f"MISSING: {distance} {stroke_name} {gender}",
+                        'time_seconds': time_seconds,
+                        'time_string': time_str,
+                        'aqua_points': aqua_points,
+                        'rudolph_points': rudolph_points,
+                        'meet_course': meet_course,
+                        'meet_date': meet_date,
+                        'day_age': day_age,
+                        'year_age': year_age,
+                        'club_name': team_name_final,
+                        'club_code': team_code_final,
+                        'state_code': team_state_code,
+                        'nation': team_nation,
+                        'is_relay': 0,
+                        'comp_place': place,
+                        'meet_name': meet_name,
+                        'meet_city': meet_city,
+                    })
+
+                except Exception as e:
+                    print(f"[PREVIEW] Row {idx} error: {str(e)}")
+                    continue
+
+        conn.close()
+
+        # Print match summary
+        total_rows = len(preview_rows)
+        matched_count = total_rows - len(unmatched_athletes)
+        print(f"\n[SWIMRANKINGS PREVIEW] Total: {total_rows}, Matched: {matched_count}, Unmatched: {len(unmatched_athletes)}")
+
+        # Create Excel workbook
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Results Data"
+
+        # Headers matching results table columns exactly
+        headers = [
+            'id', 'meet_id', 'athlete_id', 'event_id', 'time_seconds', 'time_string',
+            'aqua_points', 'rudolph_points', 'meet_course',
+            'meet_date', 'day_age', 'year_age', 'club_name',
+            'club_code', 'state_code', 'nation', 'is_relay',
+            'comp_place', 'meet_name', 'meet_city'
+        ]
+
+        # Write headers with red styling
+        ws.append(headers)
+        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+
+        # Write data rows
+        for preview_row in preview_rows:
+            row_data = [preview_row.get(h, '') for h in headers]
+            ws.append(row_data)
+
+        # Auto-adjust column widths
+        for i, column in enumerate(ws.columns, 1):
+            max_length = max(len(str(cell.value or '')) for cell in column)
+            ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = min(max_length + 2, 50)
+
+        # Add SUMMARY sheet first (will appear as first sheet after Results)
+        ws_summary = wb.create_sheet(title="SUMMARY", index=0)
+        matched_count = total_rows - len(unmatched_athletes)
+        summary_data = [
+            ['PREVIEW SUMMARY', ''],
+            ['', ''],
+            ['Total Results in File:', total_rows],
+            ['Results MATCHED (will upload):', matched_count],
+            ['Results UNMATCHED (will NOT upload):', len(unmatched_athletes)],
+            ['', ''],
+            ['NOTE: Unmatched athletes listed in "UNMATCHED ATHLETES" sheet'],
+            ['', ''],
+            ['DEBUG MODE:', 'Only processing sheet "50m Fr"'],
+            ['TODO:', 'Remove sheet filter after debugging'],
+        ]
+        for row in summary_data:
+            ws_summary.append(row)
+
+        # Style summary headers
+        summary_fill = PatternFill(start_color="0066CC", end_color="0066CC", fill_type="solid")
+        ws_summary['A1'].fill = summary_fill
+        ws_summary['A1'].font = Font(bold=True, color="FFFFFF", size=14)
+        ws_summary.column_dimensions['A'].width = 35
+        ws_summary.column_dimensions['B'].width = 20
+
+        # Add Unmatched Athletes sheet with FULL FILE RECORD for debugging
+        if unmatched_athletes:
+            ws_unmatched = wb.create_sheet(title="UNMATCHED ATHLETES")
+            unmatched_headers = ['ROW', 'FULLNAME', 'BIRTHDATE', 'GENDER', 'DISTANCE', 'STROKE', 'TIME', 'MEET_NAME', 'MEET_DATE', 'CLUB_NAME', 'NATION', 'EVENT_LOOKUP']
+            ws_unmatched.append(unmatched_headers)
+            warning_fill = PatternFill(start_color="FF6600", end_color="FF6600", fill_type="solid")
+            for cell in ws_unmatched[1]:
+                cell.fill = warning_fill
+                cell.font = header_font
+            for unmatched in unmatched_athletes:
+                ws_unmatched.append([
+                    unmatched.get('row', ''),
+                    unmatched.get('fullname', ''),
+                    unmatched.get('birthdate', ''),
+                    unmatched.get('gender', ''),
+                    unmatched.get('distance', ''),
+                    unmatched.get('stroke', ''),
+                    unmatched.get('time', ''),
+                    unmatched.get('meet_name', ''),
+                    unmatched.get('meet_date', ''),
+                    unmatched.get('club_name', ''),
+                    unmatched.get('nation', ''),
+                    unmatched.get('event_lookup', ''),
+                ])
+            # Auto-adjust column widths
+            ws_unmatched.column_dimensions['A'].width = 6   # ROW
+            ws_unmatched.column_dimensions['B'].width = 35  # FULLNAME
+            ws_unmatched.column_dimensions['C'].width = 12  # BIRTHDATE
+            ws_unmatched.column_dimensions['D'].width = 8   # GENDER
+            ws_unmatched.column_dimensions['E'].width = 10  # DISTANCE
+            ws_unmatched.column_dimensions['F'].width = 8   # STROKE
+            ws_unmatched.column_dimensions['G'].width = 10  # TIME
+            ws_unmatched.column_dimensions['H'].width = 35  # MEET_NAME
+            ws_unmatched.column_dimensions['I'].width = 12  # MEET_DATE
+            ws_unmatched.column_dimensions['J'].width = 30  # CLUB_NAME
+            ws_unmatched.column_dimensions['K'].width = 8   # NATION
+            ws_unmatched.column_dimensions['L'].width = 25  # EVENT_LOOKUP
+
+        # Save to bytes
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        # Return as Excel file download with summary headers for frontend
+        from fastapi.responses import StreamingResponse
+        filename = f"swimrankings_preview.xlsx"
+
+        # Print summary to backend console for visibility
+        print(f"\n{'='*60}")
+        print(f"[SWIMRANKINGS PREVIEW] SUMMARY")
+        print(f"  Total Results: {total_rows}")
+        print(f"  MATCHED (will upload): {matched_count}")
+        print(f"  UNMATCHED (will NOT upload): {len(unmatched_athletes)}")
+        print(f"{'='*60}\n")
+
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={
+                "Content-Disposition": f"attachment; filename={filename}",
+                "X-Preview-Total": str(total_rows),
+                "X-Preview-Matched": str(matched_count),
+                "X-Preview-Unmatched": str(len(unmatched_athletes)),
+                "Access-Control-Expose-Headers": "X-Preview-Total, X-Preview-Matched, X-Preview-Unmatched"
+            }
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Preview generation failed: {str(e)}")
 
     finally:
         # Clean up temporary file
@@ -620,16 +1375,16 @@ async def get_meets():
     try:
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT 
-                m.id, 
-                m.name, 
-                m.meet_type as alias, 
-                m.meet_date as date, 
-                m.city,
+            SELECT
+                m.id,
+                m.meet_name,
+                m.meet_type as alias,
+                m.meet_date as date,
+                m.meet_city,
                 COUNT(r.id) as result_count
             FROM meets m
             LEFT JOIN results r ON m.id = r.meet_id
-            GROUP BY m.id, m.name, m.meet_type, m.meet_date, m.city
+            GROUP BY m.id, m.meet_name, m.meet_type, m.meet_date, m.meet_city
             ORDER BY m.meet_date DESC
         """)
         meets_data = cursor.fetchall()
@@ -782,12 +1537,12 @@ async def get_meet_pdf(meet_id: str):
         cursor = conn.cursor()
         
         # Get meet info
-        cursor.execute("SELECT id, name, meet_type, meet_date, location, city FROM meets WHERE id = ?", (meet_id,))
+        cursor.execute("SELECT id, meet_name, meet_type, meet_date, location, meet_city FROM meets WHERE id = ?", (meet_id,))
         meet = cursor.fetchone()
         if not meet:
             raise HTTPException(status_code=404, detail="Meet not found")
-        
-        meet_name = meet[1]
+
+        meet_name = meet[1] or ""
         meet_type = meet[2] or ""
         meet_date = meet[3] or ""
         location = meet[4] or ""
@@ -802,28 +1557,28 @@ async def get_meet_pdf(meet_id: str):
         # Build query with detected column names
         # Note: Gender should come from events table (e.gender) as it represents the event's gender category
         query = f"""
-            SELECT 
+            SELECT
                 a.FULLNAME as athlete_name,
                 COALESCE(e.gender, a."{athlete_gender_col}") as gender,
-                e.distance,
-                e.stroke,
+                e.event_distance,
+                e.event_stroke,
                 r.time_string,
-                r.place,
+                r.comp_place,
                 r.day_age,
-                CASE 
+                CASE
                     WHEN r.year_age IS NOT NULL THEN r.year_age
-                    WHEN a.BIRTHDATE IS NOT NULL AND r.result_meet_date IS NOT NULL THEN 
-                        CAST(substr(r.result_meet_date,1,4) AS INTEGER) - CAST(substr(a.BIRTHDATE,1,4) AS INTEGER)
+                    WHEN a.BIRTHDATE IS NOT NULL AND r.meet_date IS NOT NULL THEN
+                        CAST(substr(r.meet_date,1,4) AS INTEGER) - CAST(substr(a.BIRTHDATE,1,4) AS INTEGER)
                     ELSE NULL
                 END as year_age,
-                r.course
+                r.meet_course
             FROM results r
             LEFT JOIN athletes a ON r.athlete_id = a.id
             LEFT JOIN events e ON r.event_id = e.id
             WHERE r.meet_id = ?
               AND r.athlete_id IS NOT NULL
               AND r.event_id IS NOT NULL
-            ORDER BY e.distance, e.stroke, e.gender, r.time_seconds_numeric ASC
+            ORDER BY e.event_distance, e.event_stroke, e.gender, r.time_seconds ASC
         """
         cursor.execute(query, (meet_id,))
         results = cursor.fetchall()
@@ -833,7 +1588,7 @@ async def get_meet_pdf(meet_id: str):
         # Group results by event
         events_dict = {}
         for row in results:
-            # row structure: (athlete_name, gender, distance, stroke, time_string, place, day_age, year_age, course)
+            # row structure: (athlete_name, gender, distance, stroke, time_string, comp_place, day_age, year_age, course)
             # Handle None values for event grouping
             distance = row[2] if row[2] is not None else 0
             stroke = row[3] if row[3] is not None else ''
@@ -860,10 +1615,10 @@ async def get_meet_pdf(meet_id: str):
             events_dict[event_key]['results'].append({
                 'athlete_name': athlete_name,
                 'time_string': time_string,
-                'place': row[5],
+                'comp_place': row[5],
                 'day_age': row[6],
                 'year_age': row[7],
-                'course': row[8]
+                'meet_course': row[8]
             })
         
         # Generate fixed-width text format HTML
@@ -922,29 +1677,8 @@ async def get_meet_pdf(meet_id: str):
      <div class="columns">
 """
         
-        # Stroke abbreviation mapping (matching frontend display)
-        stroke_map = {
-            'Fr': 'Free',
-            'FR': 'Free',
-            'FRE': 'Free',
-            'Freestyle': 'Free',
-            'Bk': 'Back',
-            'BK': 'Back',
-            'BAC': 'Back',
-            'Backstroke': 'Back',
-            'Br': 'Breast',
-            'BR': 'Breast',
-            'BRE': 'Breast',
-            'Breaststroke': 'Breast',
-            'Bu': 'Fly',
-            'BU': 'Fly',
-            'FLY': 'Fly',
-            'Butterfly': 'Fly',
-            'Me': 'IM',
-            'ME': 'IM',
-            'IM': 'IM',
-            'Medley': 'IM'
-        }
+        # Stroke normalization uses global normalize_stroke() function
+        # Database format: Free, Back, Breast, Fly, Medley
         
         # Gender mapping - handle various formats
         gender_map = {
@@ -958,26 +1692,26 @@ async def get_meet_pdf(meet_id: str):
         
         # Custom sorting function for events
         def event_sort_key(event_key):
-            """Sort by: 1) Gender (M before F), 2) Stroke (Free, Back, Breast, Fly, IM), 3) Distance (short to long)"""
+            """Sort by: 1) Gender (M before F), 2) Stroke (Free, Back, Breast, Fly, Medley), 3) Distance (short to long)"""
             event_data = events_dict[event_key]
             stroke = event_data.get('stroke')
             distance = event_data.get('distance')
             gender = event_data.get('gender')
-            
+
             # Handle None values
             stroke_str = (stroke or '').upper() if stroke is not None else ''
             gender_str = (gender or '').upper() if gender is not None else ''
-            
+
             # Convert distance to int for proper numeric sorting (short to long)
             try:
                 distance_int = int(distance) if distance is not None else 0
             except (ValueError, TypeError):
                 distance_int = 0
-            
-            # Stroke order: Free=0, Back=1, Breast=2, Fly=3, IM=4
-            # Events table uses full stroke names: "Free", "Back", "Breast", "Fly", "IM"
+
+            # Stroke order: Free=0, Back=1, Breast=2, Fly=3, Medley=4
+            # Events table uses stroke names: "Free", "Back", "Breast", "Fly", "Medley"
             stroke_lower = stroke_str.lower()
-            
+
             # Determine stroke priority based on common patterns
             if stroke_lower.startswith('free') or stroke_lower in ('fr', 'fre', 'freestyle'):
                 stroke_priority = 0  # Free
@@ -987,16 +1721,16 @@ async def get_meet_pdf(meet_id: str):
                 stroke_priority = 2  # Breast
             elif stroke_lower.startswith('fly') or stroke_lower.startswith('butter') or stroke_lower in ('bu', 'fly', 'butterfly'):
                 stroke_priority = 3  # Fly
-            elif stroke_lower.startswith('im') or stroke_lower.startswith('medley') or stroke_lower in ('me', 'im', 'med', 'medley'):
-                stroke_priority = 4  # IM
+            elif stroke_lower.startswith('medley') or stroke_lower in ('me', 'im', 'med', 'medley'):
+                stroke_priority = 4  # Medley
             else:
                 stroke_priority = 5  # Unknown strokes go last
-            
+
             # Gender priority: M=0 (Men's first), F=1 (Women's second)
             gender_priority = 0 if gender_str == 'M' else 1
-            
+
             # Return sort tuple: (gender, stroke, distance)
-            # This sorts: Men's before Women's, then Free/Back/Breast/Fly/IM, then short to long distance
+            # This sorts: Men's before Women's, then Free/Back/Breast/Fly/Medley, then short to long distance
             return (gender_priority, stroke_priority, distance_int)
         
         # Sort only the keys using the key function
@@ -1004,7 +1738,7 @@ async def get_meet_pdf(meet_id: str):
         for event_key in sorted_event_keys:
             event_data = events_dict[event_key]
             # Get course from first result (all results in same event have same course)
-            course = event_data['results'][0]['course'] if event_data['results'] else 'LCM'
+            course = event_data['results'][0]['meet_course'] if event_data['results'] else 'LCM'
             course_str = course if course else 'LCM'
             
             # Format: "Men's 50m Freestyle LCM"
@@ -1018,7 +1752,11 @@ async def get_meet_pdf(meet_id: str):
             
             distance_val = event_data.get('distance') or 0
             
-            stroke_full = stroke_map.get(stroke_val, stroke_val) if stroke_val else 'Unknown'
+            # Normalize stroke using global function - handles any input format
+            try:
+                stroke_full = normalize_stroke(stroke_val) if stroke_val else 'Unknown'
+            except ValueError:
+                stroke_full = stroke_val or 'Unknown'
             
             # Map gender - check mappings with normalized value
             if gender_val:
@@ -1041,13 +1779,13 @@ async def get_meet_pdf(meet_id: str):
         <div class="results-text">"""
             for idx, result in enumerate(event_data['results'], start=1):
                 # Compute meet-specific place within this event (1..N), ignoring stored place from source
-                place_str = str(idx).rjust(4)
+                comp_place_str = str(idx).rjust(4)
                 name_str = (result['athlete_name'] or '').ljust(30)[:30]  # Truncate or pad to 30 chars
                 time_str = (result['time_string'] or '').rjust(8)[:8]  # Right-align to 8 chars
                 age_val = result.get('year_age')
                 age_str = (str(age_val).rjust(2) if age_val is not None else '  ')
                 
-                html += f"{place_str} {name_str} {age_str}  {time_str}\n"
+                html += f"{comp_place_str} {name_str} {age_str}  {time_str}\n"
             
             html += """</div>
     </div>
@@ -1197,7 +1935,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
             print(f"[DB] [{idx}/{len(results_by_meet)}] Processing meet: '{name}' ({len(group)} results)")
             # Determine earliest date and city from group
             # Earliest date
-            raw_dates = [r.get('result_meet_date') for r in group if r.get('result_meet_date')]
+            raw_dates = [r.get('meet_date') for r in group if r.get('meet_date')]
             parsed = []
             for d in raw_dates:
                 for fmt in ('%Y-%m-%d','%d/%m/%Y','%d.%m.%Y','%Y/%m/%d','%d-%m-%Y'):
@@ -1404,7 +2142,6 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                         sheet = mismatch.get("sheet", "Unknown")
                         row = mismatch.get("row", "?")
                         full_name = mismatch.get("full_name", "Unknown")
-                        excel_bday = mismatch.get("workbook_birthdate", "(blank)")
                         db_bday = mismatch.get("database_birthdate", "(blank)")
                         athlete_id = mismatch.get("athlete_id", "(unknown)")
                         lines.append(f"    • {sheet} row {row}: {full_name} (athlete_id: {athlete_id}) - Excel: {excel_bday} ≠ Database: {db_bday}")
@@ -1418,7 +2155,6 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                         sheet = mismatch.get("sheet", "Unknown")
                         row = mismatch.get("row", "?")
                         full_name = mismatch.get("full_name", "Unknown")
-                        excel_nation = mismatch.get("workbook_nation", "(blank)")
                         db_nation = mismatch.get("database_nation", "(blank)")
                         athlete_id = mismatch.get("athlete_id", "(unknown)")
                         lines.append(f"    • {sheet} row {row}: {full_name} (athlete_id: {athlete_id}) - Excel: {excel_nation} ≠ Database: {db_nation}")
@@ -1675,7 +2411,7 @@ async def search_athletes(q: str = ""):
         pattern = f"%{query.upper()}%"
         cursor.execute(
             """
-            SELECT id, FULLNAME, Gender, BIRTHDATE, ClubName, ClubCode, NATION
+            SELECT id, FULLNAME, Gender, BIRTHDATE, club_name, club_code, nation
             FROM athletes
             WHERE UPPER(FULLNAME) LIKE ?
             ORDER BY FULLNAME
@@ -1700,6 +2436,351 @@ async def search_athletes(q: str = ""):
         conn.close()
 
 
+@router.get("/admin/events/export-excel")
+async def export_events_excel():
+    """Export all events from the database with display-formatted stroke names."""
+    from fastapi.responses import StreamingResponse
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill
+    from io import BytesIO
+    from datetime import datetime
+
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT id, event_distance, event_stroke, gender, event_course, event_type, created_at
+            FROM events
+            ORDER BY event_course, gender, event_stroke, event_distance
+        """)
+
+        events = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        # Create Excel workbook
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Events"
+
+        # Headers
+        headers = ["ID", "Distance", "Stroke", "Gender", "Course", "Event Type", "Created At"]
+        ws.append(headers)
+
+        # Style headers (red background, white text)
+        header_font = Font(bold=True, color="FFFFFF")
+        header_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+
+        for cell in ws[1]:
+            cell.font = header_font
+            cell.fill = header_fill
+
+        # Add data with display-formatted strokes
+        for event in events:
+            event_id = event[0]
+            distance = event[1]
+            stroke_db = event[2]  # Database value (Fr, Bk, Br, Bu, Me)
+            gender = event[3]
+            course = event[4]
+            event_type = event[5]
+            created_at = event[6]
+
+            # Convert stroke to display format for output
+            stroke_display = display_stroke(stroke_db) or stroke_db
+
+            ws.append([event_id, distance, stroke_display, gender, course, event_type, created_at])
+
+        # Save to BytesIO
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"events_export_{timestamp}.xlsx"
+
+        return StreamingResponse(
+            output,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to export events: {str(e)}")
+
+
+@router.get("/admin/events/filter")
+async def filter_events(course: str = None, gender: str = None):
+    """
+    Filter events by course and/or gender.
+
+    Parameters:
+    - course: Filter by course (LCM, SCM, YD) - required first
+    - gender: Filter by gender (M, F, X) - optional, narrows results further
+
+    Returns: List of event objects with all properties needed for display/editing
+    """
+    conn = get_database_connection()
+    cursor = conn.cursor()
+
+    # Build query - filter by course first, then gender if provided
+    query = "SELECT id, event_distance, event_stroke, gender, event_course, event_type FROM events WHERE 1=1"
+    params = []
+
+    if course:
+        query += " AND event_course = ?"
+        params.append(course)
+
+    if gender:
+        query += " AND gender = ?"
+        params.append(gender)
+
+    query += " ORDER BY id"
+
+    cursor.execute(query, params)
+    events = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    # Convert to list of objects (keep database format, no reformatting)
+    event_list = []
+    for row in events:
+        event_list.append({
+            "id": row[0],
+            "distance": row[1],
+            "stroke": row[2],
+            "gender": row[3],
+            "course": row[4],
+            "event_type": row[5]
+        })
+
+    return {"events": event_list}
+
+
+@router.options("/admin/events/{event_id}")
+async def event_options(event_id: str):
+    """CORS preflight handler for event updates."""
+    return {}
+
+
+@router.patch("/admin/events/{event_id}")
+async def update_event(event_id: str, distance: int = None, stroke: str = None, gender: str = None, course: str = None):
+    """
+    Update an event's fields.
+
+    Supports updating:
+    - distance: Event distance in meters (50, 100, 200, 400, 800, 1500)
+    - stroke: Event stroke (Fr, Bk, Br, Bu, Me) - accepts any case format
+    - gender: Event gender (M, F, X)
+    - course: Event course (LCM, SCM, YD)
+
+    Event ID is regenerated if distance, stroke, or gender changes.
+    Duplicate ID check prevents conflicts.
+    """
+    from datetime import datetime
+
+    if not any([distance, stroke, gender, course]):
+        raise HTTPException(status_code=400, detail="At least one field to update is required")
+
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        # Get current event
+        cursor.execute("SELECT id, event_distance, event_stroke, gender, event_course FROM events WHERE id = ?", (event_id,))
+        current_event = cursor.fetchone()
+
+        if not current_event:
+            conn.close()
+            raise HTTPException(status_code=404, detail=f"Event not found: {event_id}")
+
+        # Use current values if not updating
+        new_distance = distance if distance is not None else current_event[1]
+        new_stroke = stroke if stroke is not None else current_event[2]
+        new_gender = gender if gender is not None else current_event[3]
+        new_course = course if course is not None else current_event[4]
+
+        # If stroke provided, normalize it
+        if stroke is not None:
+            try:
+                new_stroke = normalize_stroke(stroke)
+            except ValueError as e:
+                conn.close()
+                raise HTTPException(status_code=400, detail=str(e))
+
+        # Check if regenerating ID (distance, stroke, or gender changed)
+        id_changed = (distance is not None and distance != current_event[1]) or \
+                     (stroke is not None and stroke != current_event[2]) or \
+                     (gender is not None and gender != current_event[3])
+
+        new_event_id = event_id
+        if id_changed:
+            # Generate new ID: {COURSE}_{STROKE}_{DISTANCE}_{GENDER}
+            new_event_id = f"{new_course}_{new_stroke}_{new_distance}_{new_gender}"
+
+            # Check for duplicates
+            cursor.execute("SELECT id FROM events WHERE id = ? AND id != ?", (new_event_id, event_id))
+            if cursor.fetchone():
+                conn.close()
+                raise HTTPException(
+                    status_code=409,
+                    detail=f"Event ID already exists: {new_event_id}. Cannot update to create duplicate."
+                )
+
+        # Update the event
+        if id_changed:
+            # If ID changed: delete old, insert new (to maintain referential integrity)
+            # First, get the event_type before deleting
+            cursor.execute("SELECT event_type FROM events WHERE id = ?", (event_id,))
+            event_type_result = cursor.fetchone()
+            event_type = event_type_result[0] if event_type_result else "Individual"
+
+            # Update any results that reference this event
+            cursor.execute("UPDATE results SET event_id = ? WHERE event_id = ?", (new_event_id, event_id))
+
+            # Delete old event
+            cursor.execute("DELETE FROM events WHERE id = ?", (event_id,))
+
+            # Insert new event with preserved event_type
+            cursor.execute("""
+                INSERT INTO events (id, event_distance, event_stroke, gender, event_course, event_type, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (new_event_id, new_distance, new_stroke, new_gender, new_course, event_type, datetime.now().isoformat() + 'Z'))
+        else:
+            # If only non-ID fields changed, just update
+            update_fields = []
+            update_values = []
+
+            if distance is not None:
+                update_fields.append("event_distance = ?")
+                update_values.append(new_distance)
+
+            if stroke is not None:
+                update_fields.append("event_stroke = ?")
+                update_values.append(new_stroke)
+
+            if gender is not None:
+                update_fields.append("gender = ?")
+                update_values.append(new_gender)
+
+            if course is not None:
+                update_fields.append("event_course = ?")
+                update_values.append(new_course)
+
+            if update_fields:
+                update_values.append(event_id)
+                query = f"UPDATE events SET {', '.join(update_fields)} WHERE id = ?"
+                cursor.execute(query, update_values)
+
+        conn.commit()
+        conn.close()
+
+        message = f"Event updated successfully"
+        if id_changed:
+            message += f". Event ID changed from {event_id} to {new_event_id}"
+
+        return {
+            "success": True,
+            "message": message,
+            "event_id": new_event_id,
+            "distance": new_distance,
+            "stroke": new_stroke,
+            "gender": new_gender,
+            "course": new_course,
+            "id_changed": id_changed
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to update event: {str(e)}")
+
+
+@router.get("/admin/results/export-excel")
+async def export_results_excel():
+    """Export all results from the database as an exact replica of the results table."""
+    from fastapi.responses import StreamingResponse
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill
+    from io import BytesIO
+    from datetime import datetime
+    import sys
+
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        # Fetch all columns and data from the results table (CORRECT QUERY)
+        cursor.execute("SELECT * FROM results")
+        
+        results = cursor.fetchall()
+        
+        # Get column names (headers) from the cursor description
+        if not results:
+            # If the table is empty, use the known headers
+            headers = [
+                'ID', 'Meet ID', 'Athlete ID', 'Event ID', 'Time (Seconds)', 'Time (String)', 
+                'Time (Seconds Numeric)', 'comp_place', 'Aqua Points', 'Rudolph Points', 
+                'Course', 'Result Meet Date', 'Day Age', 'Year Age', 'Created At', 
+                'Team Name', 'Team Code', 'Team State Code', 'Team Nation', 
+                'Is Relay'
+            ]
+        else:
+            # Use the actual column names returned by the database (which use underscores, e.g., 'time_seconds')
+            headers = [description[0].replace('_', ' ').title() for description in cursor.description]
+
+        conn.close()
+
+        # Create workbook
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Results Data"
+
+        # Add headers
+        ws.append(headers)
+
+        # Style header row (using the same red/white style as the athlete export)
+        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+
+        # Add data rows
+        for row in results:
+            ws.append(row)
+
+        # Adjust widths for readability (optional, based on column count)
+        for i, column in enumerate(ws.columns, 1):
+            length = max(len(str(cell.value or '')) for cell in column)
+            ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = length + 2
+
+        # Write to BytesIO
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        # Generate filename with timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"results_export_{timestamp}.xlsx"
+
+        # Return as StreamingResponse
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except Exception as e:
+        import traceback
+        print(f"DEBUG: Exception occurred in results export: {str(e)}", flush=True)
+        traceback.print_exc(file=sys.stdout)
+        sys.stdout.flush()
+        raise HTTPException(status_code=500, detail=f"Export failed: {str(e)}")
+    
 @router.get("/admin/athletes/export-excel")
 async def export_athletes_excel():
     """Export all athletes from database as Excel file"""
@@ -1839,6 +2920,13 @@ async def update_athlete(athlete_id: str, payload: AthleteUpdateRequest):
         update_fields = []
         update_values = []
 
+        # Map API field names to database column names
+        field_name_map = {
+            'ClubCode': 'club_code',
+            'ClubName': 'club_name',
+            'NATION': 'nation',
+        }
+
         payload_dict = payload.model_dump(exclude_none=False)
 
         for field_name, field_value in payload_dict.items():
@@ -1847,12 +2935,14 @@ async def update_athlete(athlete_id: str, payload: AthleteUpdateRequest):
                 if isinstance(field_value, str):
                     cleaned_value = field_value.strip()
                     # Uppercase specific fields
-                    if field_name in ['NATION', 'NATION', 'Gender']:
+                    if field_name in ['NATION', 'Gender']:
                         cleaned_value = cleaned_value.upper() if cleaned_value else None
                 else:
                     cleaned_value = field_value
 
-                update_fields.append(f"{field_name} = ?")
+                # Map API field name to database column name
+                db_column_name = field_name_map.get(field_name, field_name)
+                update_fields.append(f"{db_column_name} = ?")
                 update_values.append(cleaned_value if cleaned_value else None)
 
         if not update_fields:
@@ -1886,17 +2976,17 @@ async def get_unmatched_clubs():
     cursor = conn.cursor()
     
     try:
-        # Get unique club names from results where team_name is NULL (unmatched)
+        # Get unique club names from results where club_name is NULL (unmatched)
         # But we need to track what the original club name was
         # For now, let's get clubs that appear in results but not in clubs table
         cursor.execute("""
-            SELECT DISTINCT r.team_name as unmatched_name, r.team_state_code
+            SELECT DISTINCT r.club_name as unmatched_name, r.state_code
             FROM results r
-            LEFT JOIN clubs c ON UPPER(TRIM(r.team_name)) = UPPER(TRIM(c.club_name))
-            WHERE r.team_name IS NOT NULL 
-            AND r.team_name != ''
+            LEFT JOIN clubs c ON UPPER(TRIM(r.club_name)) = UPPER(TRIM(c.club_name))
+            WHERE r.club_name IS NOT NULL
+            AND r.club_name != ''
             AND c.club_name IS NULL
-            ORDER BY r.team_name
+            ORDER BY r.club_name
         """)
         
         unmatched = []
@@ -1930,12 +3020,12 @@ async def create_club(club: ClubCreateRequest):
         # Check if alias column exists
         cursor.execute("PRAGMA table_info(clubs)")
         columns = {row[1].lower() for row in cursor.fetchall()}
-        has_alias = 'alias' in columns
+        has_alias = 'club_alias' in columns
         
         # Insert new club
         if has_alias:
             cursor.execute("""
-                INSERT INTO clubs (club_name, club_code, state_code, nation, alias)
+                INSERT INTO clubs (club_name, club_code, state_code, club_nation, club_alias)
                 VALUES (?, ?, ?, ?, ?)
             """, (
                 club.club_name.strip(),
@@ -1946,7 +3036,7 @@ async def create_club(club: ClubCreateRequest):
             ))
         else:
             cursor.execute("""
-                INSERT INTO clubs (club_name, club_code, state_code, nation)
+                INSERT INTO clubs (club_name, club_code, state_code, club_nation)
                 VALUES (?, ?, ?, ?)
             """, (
                 club.club_name.strip(),
@@ -1975,25 +3065,25 @@ async def list_clubs(state_code: Optional[str] = None):
         # Check if alias column exists
         cursor.execute("PRAGMA table_info(clubs)")
         columns = {row[1].lower() for row in cursor.fetchall()}
-        has_alias = 'alias' in columns
+        has_alias = 'club_alias' in columns
         
         # Build query with optional state filter
         if state_code:
             if has_alias:
                 cursor.execute(
-                    "SELECT club_name, club_code, state_code, nation, alias FROM clubs WHERE state_code = ? ORDER BY club_name",
+                    "SELECT club_name, club_code, state_code, club_nation, club_alias FROM clubs WHERE state_code = ? ORDER BY club_name",
                     (state_code.upper(),)
                 )
             else:
                 cursor.execute(
-                    "SELECT club_name, club_code, state_code, nation FROM clubs WHERE state_code = ? ORDER BY club_name",
+                    "SELECT club_name, club_code, state_code, club_nation FROM clubs WHERE state_code = ? ORDER BY club_name",
                     (state_code.upper(),)
                 )
         else:
             if has_alias:
-                cursor.execute("SELECT club_name, club_code, state_code, nation, alias FROM clubs ORDER BY club_name")
+                cursor.execute("SELECT club_name, club_code, state_code, club_nation, club_alias FROM clubs ORDER BY club_name")
             else:
-                cursor.execute("SELECT club_name, club_code, state_code, nation FROM clubs ORDER BY club_name")
+                cursor.execute("SELECT club_name, club_code, state_code, club_nation FROM clubs ORDER BY club_name")
         
         clubs = []
         for row in cursor.fetchall():
@@ -2046,7 +3136,7 @@ async def update_club(club_name: str, club: ClubCreateRequest):
         # Check if alias column exists
         cursor.execute("PRAGMA table_info(clubs)")
         columns = {row[1].lower() for row in cursor.fetchall()}
-        has_alias = 'alias' in columns
+        has_alias = 'club_alias' in columns
         
         # Update club
         if has_alias:
@@ -2159,8 +3249,8 @@ async def create_coach(coach: CoachCreateRequest):
     try:
         cursor.execute("""
             INSERT INTO coaches (
-                club_name, name, role, email, whatsapp,
-                passport_photo, passport_number, ic, shoe_size, tshirt_size, tracksuit_size,
+                club_name, coach_name, coach_role, coach_email, coach_whatsapp,
+                coach_passport_photo, coach_passport_number, coach_ic, shoe_size, tshirt_size, tracksuit_size,
                 course_level_1_sport_specific, course_level_2, course_level_3,
                 course_level_1_isn, course_level_2_isn, course_level_3_isn,
                 seminar_oct_2024, other_courses, state_coach, logbook_file
@@ -2260,7 +3350,7 @@ async def delete_coach(coach_id: int):
     cursor = conn.cursor()
     
     try:
-        cursor.execute("SELECT name FROM coaches WHERE id = ?", (coach_id,))
+        cursor.execute("SELECT coach_name FROM coaches WHERE id = ?", (coach_id,))
         coach = cursor.fetchone()
         if not coach:
             raise HTTPException(status_code=404, detail=f"Coach with id {coach_id} not found")
@@ -2338,22 +3428,22 @@ async def resolve_club_miss(resolution: ClubResolutionRequest):
                 raise HTTPException(status_code=400, detail="existing_club_name required for add_alias action")
             
             # Get current alias
-            cursor.execute("SELECT alias FROM clubs WHERE club_name = ?", (resolution.existing_club_name,))
+            cursor.execute("SELECT club_alias FROM clubs WHERE club_name = ?", (resolution.existing_club_name,))
             row = cursor.fetchone()
             if not row:
                 raise HTTPException(status_code=404, detail=f"Club '{resolution.existing_club_name}' not found")
-            
+
             current_alias = row[0] or ""
             # The "read-in name" should be passed as new_club_name (the name from Excel)
             new_alias = resolution.new_club_name or ""
-            
+
             if new_alias:
                 if current_alias:
                     updated_alias = f"{current_alias}, {new_alias}"
                 else:
                     updated_alias = new_alias
-                
-                cursor.execute("UPDATE clubs SET alias = ? WHERE club_name = ?", (updated_alias, resolution.existing_club_name))
+
+                cursor.execute("UPDATE clubs SET club_alias = ? WHERE club_name = ?", (updated_alias, resolution.existing_club_name))
                 conn.commit()
                 return {"success": True, "message": f"Added '{new_alias}' as alias to '{resolution.existing_club_name}'"}
         
@@ -2368,22 +3458,22 @@ async def resolve_club_miss(resolution: ClubResolutionRequest):
                 raise HTTPException(status_code=400, detail=f"Club '{resolution.new_club_name}' already exists")
             
             # Get current alias
-            cursor.execute("SELECT alias FROM clubs WHERE club_name = ?", (resolution.existing_club_name,))
+            cursor.execute("SELECT club_alias FROM clubs WHERE club_name = ?", (resolution.existing_club_name,))
             row = cursor.fetchone()
             if not row:
                 raise HTTPException(status_code=404, detail=f"Club '{resolution.existing_club_name}' not found")
-            
+
             current_alias = row[0] or ""
             # Add old club_name to alias
             if current_alias:
                 updated_alias = f"{current_alias}, {resolution.existing_club_name}"
             else:
                 updated_alias = resolution.existing_club_name
-            
-            # Update club_name and alias
+
+            # Update club_name and club_alias
             cursor.execute("""
-                UPDATE clubs 
-                SET club_name = ?, alias = ?
+                UPDATE clubs
+                SET club_name = ?, club_alias = ?
                 WHERE club_name = ?
             """, (resolution.new_club_name, updated_alias, resolution.existing_club_name))
             conn.commit()
@@ -2400,7 +3490,7 @@ async def resolve_club_miss(resolution: ClubResolutionRequest):
                 raise HTTPException(status_code=400, detail=f"Club '{resolution.new_club_name}' already exists")
             
             cursor.execute("""
-                INSERT INTO clubs (club_name, club_code, state_code, nation, alias)
+                INSERT INTO clubs (club_name, club_code, state_code, club_nation, club_alias)
                 VALUES (?, ?, ?, ?, ?)
             """, (
                 resolution.new_club_name,
@@ -2512,19 +3602,19 @@ async def get_athlete_results(athlete_id: str, start_date: Optional[str] = None,
             SELECT 
                 r.id,
                 r.time_string,
-                r.place,
+                r.comp_place,
                 r.aqua_points,
                 r.year_age,
                 r.day_age,
-                e.distance,
-                e.stroke,
+                e.event_distance,
+                e.event_stroke,
                 e.gender as event_gender,
                 m.id as meet_id,
-                m.name as meet_name,
+                m.meet_name as meet_name,
                 m.meet_type as meet_code,
                 m.meet_date,
-                r.team_name as club_name,
-                r.team_state_code as state_code,
+                r.club_name as club_name,
+                r.state_code as state_code,
                 a.FULLNAME as athlete_name,
                 a.BIRTHDATE as birthdate
             FROM results r
@@ -2547,8 +3637,8 @@ async def get_athlete_results(athlete_id: str, start_date: Optional[str] = None,
         # For best times, we need to group by event and get the best time
         if best_only:
             base_query += """
-                ORDER BY e.distance, e.stroke, e.gender, 
-                         COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)
+                ORDER BY e.event_distance, e.event_stroke, e.gender,
+                         COALESCE(r.time_seconds, 999999)
             """
             cursor.execute(base_query, params)
             all_results = cursor.fetchall()
@@ -2569,7 +3659,7 @@ async def get_athlete_results(athlete_id: str, start_date: Optional[str] = None,
             
             results = list(best_results.values())
         else:
-            base_query += " ORDER BY m.meet_date DESC, e.distance, e.stroke"
+            base_query += " ORDER BY m.meet_date DESC, e.event_distance, e.event_stroke"
             cursor.execute(base_query, params)
             results = cursor.fetchall()
         
@@ -2579,7 +3669,7 @@ async def get_athlete_results(athlete_id: str, start_date: Optional[str] = None,
             data.append({
                 "result_id": row[0],
                 "time": row[1],
-                "place": row[2],
+                "comp_place": row[2],
                 "aqua_points": row[3],
                 "year_age": row[4],
                 "day_age": row[5],
@@ -2622,7 +3712,7 @@ async def get_club_roster(club_name: str, meet_id: Optional[str] = None):
             FROM results r
             LEFT JOIN athletes a ON r.athlete_id = a.id
             LEFT JOIN meets m ON r.meet_id = m.id
-            WHERE r.team_name = ?
+            WHERE r.club_name = ?
         """
         params = [club_name]
         
@@ -2801,7 +3891,7 @@ async def submit_manual_results(submission: ManualResultsSubmission):
                 submission.meet_name.strip(),
                 submission.meet_alias.strip() or "Manual Entry",
                 validated_meet_date,
-                submission.meet_city.strip(),
+                submission.meetcity.strip(),
                 submission.meet_course.strip()
             ))
             conn.commit()
@@ -2826,7 +3916,7 @@ async def submit_manual_results(submission: ManualResultsSubmission):
                 # Find or create event
                 cursor.execute("""
                     SELECT id FROM events
-                    WHERE distance = ? AND stroke = ? AND gender = ?
+                    WHERE event_distance = ? AND event_stroke = ? AND gender = ?
                 """, (result.distance, result.stroke.upper(), result.event_gender.upper()))
 
                 event_row = cursor.fetchone()
@@ -2839,15 +3929,15 @@ async def submit_manual_results(submission: ManualResultsSubmission):
                 # Insert result
                 cursor.execute("""
                     INSERT INTO results (
-                        athlete_id, event_id, meet_id, time_string, place,
-                        team_name, team_state_code
+                        athlete_id, event_id, meet_id, time_string, comp_place,
+                        club_name, state_code
                     ) VALUES (?, ?, ?, ?, ?, NULL, NULL)
                 """, (
                     result.athlete_id,
                     event_id,
                     meet_id,
                     result.time_string.strip(),
-                    result.place
+                    result.comp_place
                 ))
                 inserted_count += 1
 

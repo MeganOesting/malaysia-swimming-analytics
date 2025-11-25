@@ -2,24 +2,22 @@
 
 Issues that prevent progress. Document here, resolve ASAP.
 
-**Last Updated:** 2025-11-21
+**Last Updated:** 2025-11-25 (Session 12 - No new blockers, 501 athletes imported)
 
 ---
 
 ## 🔴 Critical (Blocking Development)
 
-| ID | Blocker | Impact | Owner | Status | Workaround |
-|----|---------|--------|-------|--------|-----------|
+| ID | Blocker | Impact | Owner | Status | Notes |
+|----|---------|--------|-------|--------|-------|
 | B002 | RevenueMonster integration undefined | Can't build payment system | [You] | ⏳ Waiting | Research & document API |
+| B003 | SEAG_2025_ALL.xlsx not uploaded to database | Need complete SEA Games data for athlete tracking | [You] | ⏳ Ready | B013 resolved - can now test SEAG upload |
 
 ---
 
 ## 🟡 High (Slowing Progress)
 
-| ID | Blocker | Impact | Owner | Status | Workaround |
-|----|---------|--------|-------|--------|-----------|
-| B003 | SEAG_2025_ALL.xlsx not uploaded to database | Need complete SEA Games data for athlete tracking | [You] | ⏳ Pending | Upload via admin panel when ready |
-| B005 | Feature components need integration test | Can't confirm modular architecture works end-to-end | [You] | ✅ RESOLVED | Authentication works, all features render correctly |
+(none currently)
 
 ---
 
@@ -30,6 +28,139 @@ Issues that prevent progress. Document here, resolve ASAP.
 | (none yet) | — | — | — | — | — |
 
 ---
+
+## 📋 BLOCKER B011 DETAILS: Results Export Endpoint Missing
+
+### What We Know
+**Issue:** Frontend calls `/api/admin/results/export-excel` endpoint but it doesn't exist in backend
+- File: `src/admin/features/meet-management/meet-management.tsx:91-114`
+- Function: `handleExportResults()` fetches from endpoint and downloads Excel
+- Current error: HTTP 404 when Export Results Table button clicked
+- Expected: Excel file download with all results data
+
+**Root Cause:**
+- Session 8 notes claim: "Created Export Results Table feature with API endpoint (/api/admin/results/export-excel)"
+- Thorough search of `src/web/routers/admin.py` shows NO such endpoint exists
+- Only found: `export_athletes_excel` at line 1731
+- Only results-related endpoints: GET `/admin/athletes/{athlete_id}/results` (line 2531) and POST `/admin/manual-results` (line 2791)
+
+**Impact:**
+- Cannot export results to Excel from Meet Management panel
+- Frontend throws 404 error and shows "Export failed" message
+- User cannot get results data for analysis
+
+**Solution:**
+1. Create new function `export_results_excel()` in `src/web/routers/admin.py`
+2. Map to endpoint: `@router.get("/admin/results/export-excel")`
+3. Model after `export_athletes_excel` (line 1731) with:
+   - Query `results` table with LEFT JOINs to athletes, events, meets
+   - Include columns: athlete_name, event (distance+stroke), time_string, meet_name, meet_date, etc.
+   - Format dates to dd.mm.yyyy
+   - Return Excel file with StreamingResponse
+4. Suggested columns:
+   - Athlete ID
+   - Athlete Name
+   - Event (distance + stroke + gender)
+   - Time
+   - Place
+   - Meet Name
+   - Meet Date
+   - Club Name (if available)
+   - Meet Code
+
+---
+
+## 📋 BLOCKER B013 DETAILS: SEAG Preview Query Failing on state_code
+
+**STATUS: RESOLVED** (Session 11, 2025-11-25)
+
+### Root Cause
+The SQL query was referencing old column names (`ClubName`, `NATION`) that were renamed during the database column standardization housekeeping:
+- `ClubName` → `club_name`
+- `NATION` → `nation`
+- `state_code` remained unchanged
+
+### Solution
+Updated all SQL queries in admin.py to use the new column names:
+```python
+# Old (failing):
+SELECT ClubName, state_code, NATION, BIRTHDATE FROM athletes WHERE id = ?
+
+# New (working):
+SELECT club_name, state_code, nation, BIRTHDATE FROM athletes WHERE id = ?
+```
+
+### Verification
+- Confirmed `club_name`, `state_code`, `nation` columns exist in athletes table
+- Test query executes successfully
+- B003 (SEAG upload) is now unblocked
+
+---
+
+## 📋 BLOCKER B012 DETAILS: Database Has "IM" Instead of "Medley"
+
+**STATUS: RESOLVED** (Session 11, 2025-11-25)
+
+Migration completed successfully:
+- 10 events updated (stroke: "IM" → "Medley")
+- 10 event IDs updated (e.g., `LCM_IM_200_F` → `LCM_Medley_200_F`)
+- 35 results updated (event_id references)
+- Verification: 0 "IM" references remain in database
+
+---
+
+## 📋 BLOCKER B009 DETAILS: Stroke Name Mismatch in Event Lookups
+
+**STATUS: RESOLVED** (Session 11, 2025-11-25)
+
+See resolved blockers section for details. Code now uses `normalize_stroke()` globally and outputs `Free/Back/Breast/Fly/Medley` format.
+
+---
+
+## 📋 BLOCKER B008 DETAILS: Background Color Styling Not Rendering
+
+### What We Know
+**Issue:** Added bg-gray-50 and bg-white Tailwind classes to Meet Management component sections, but colors are not displaying visually despite:
+- Page reloading after changes
+- Code compiling successfully with 0 TypeScript errors
+- All other styling changes (tables, buttons, text colors) working correctly
+
+**Attempted Solutions:**
+1. Added bg-gray-50 to main component container (space-y-6)
+2. Added px-6 padding to enable background visibility
+3. Wrapped Meet Management section in bg-white p-6 rounded-lg
+4. Wrapped table section in bg-gray-50 p-6 rounded-lg
+5. Added bg-gray-50 to parent <main> element in admin.tsx
+6. Changed from full padding (p-6) to horizontal only (px-6)
+7. Added w-full to white background wrapper
+
+**Current State:**
+- Meet Management header still appears on gray background instead of white
+- Table section still appears on gray background instead of gray
+- Checkbox grid still appears on gray background instead of white
+- All other UI elements (buttons, tables, text) display correctly
+
+### Hypotheses
+1. **Parent container cascade:** admin.tsx <main> element or wrapper has styling that overrides child backgrounds
+2. **CSS specificity:** Tailwind classes may be getting overridden by inherited styles
+3. **Component architecture issue:** Feature components may need to be isolated from parent styling entirely
+4. **Browser cache:** (Attempted hard refresh, did not resolve)
+
+### Investigation Needed
+- [ ] Check browser DevTools to see what CSS is actually applied to elements
+- [ ] Verify if Tailwind classes are present in compiled CSS
+- [ ] Check if parent admin container has conflicting background styles
+- [ ] Determine if background colors need to be inline styles instead of Tailwind classes
+- [ ] Review whether feature components need separate wrapper div outside parent container
+
+### Decision Point
+**User's hypothesis:** "Each feature needs its own code as something outside might be blocking this minor change"
+
+Possible solutions:
+1. Wrap entire component in a `<div style={{ background: '#f3f4f6' }}>` using inline styles instead of Tailwind
+2. Apply backgrounds at the feature component level rather than relying on parent container
+3. Use !important CSS rule to force background colors
+4. Restructure component hierarchy so backgrounds are independent of parent admin styling
 
 ---
 
@@ -88,7 +219,68 @@ Issues that prevent progress. Document here, resolve ASAP.
 
 ## ✅ Resolved Blockers
 
-**[2025-11-21] RESOLVED B007 (Session 10) - CORS Preflight for Athlete Updates**
+**[2025-11-25] RESOLVED B013 (Session 11) - SEAG Preview Query Failing on state_code**
+- Root cause: SQL queries in admin.py were referencing old column names (`ClubName`, `NATION`) that were renamed during database column standardization
+- Solution: Updated all SQL queries to use new column names (`club_name`, `nation`). Part of major database column rename housekeeping that standardized 28 column names across 8 tables.
+- Time spent: Fixed as part of column rename project (~2 hours total)
+- Verification: Test query `SELECT club_name, state_code, nation, BIRTHDATE FROM athletes` executes successfully
+- Impact: B003 (SEAG upload) is now unblocked
+
+---
+
+**[2025-11-25] RESOLVED B012 (Session 11) - Database Has "IM" Instead of "Medley"**
+- Root cause: Database was created with "IM" as stroke value, but code standardization changed to "Medley"
+- Solution: Ran migration script to update all "IM" references to "Medley":
+  - Updated 10 events: `events.stroke` from "IM" to "Medley"
+  - Updated 10 event IDs: e.g., `LCM_IM_200_F` → `LCM_Medley_200_F`
+  - Updated 35 results: `results.event_id` references to new IDs
+- Time spent: ~5 minutes
+- Verification:
+  - Events with stroke="IM": 0
+  - Events with stroke="Medley": 16
+  - Event IDs containing "_IM_": 0
+  - Results with "_IM_" event_id: 0
+- Impact: B003 (SEAG upload) is now unblocked
+
+---
+
+**[2025-11-25] RESOLVED B009 (Session 11) - Stroke Name Mismatch in SEAG Upload**
+- Root cause: Multiple issues - inline stroke_maps were inconsistent with database format, code used "IM" but database should use "Medley"
+- Solution:
+  1. Updated `stroke_normalizer.py` to output database format: `Free, Back, Breast, Fly, Medley`
+  2. Removed ALL inline stroke_maps from `admin.py` (3 occurrences)
+  3. All stroke normalization now uses global `normalize_stroke()` function
+  4. Changed all "IM" references to "Medley" in code
+- Files modified: `src/web/routers/admin.py`, `src/web/utils/stroke_normalizer.py`
+- Time spent: ~45 minutes
+- Verification: Code compiles successfully, stroke normalization is consistent
+- Next step: B012 - Update database records from "IM" to "Medley"
+- Note: Code is fixed, but database still has "IM" values that need updating (tracked as B012)
+
+---
+
+**[2025-11-24] RESOLVED B010 (Session 10) - Relay Events Not Showing in Dropdown**
+- Root cause: Gender filter logic treated 'X' as "show all genders" instead of "show only mixed gender"
+- Solution: Changed filter to: when gender='X', query returns ONLY X events (not M/F/X combined)
+- Files: src/web/routers/admin.py:1812-1857 (filter_events endpoint)
+- Time spent: ~30 minutes (identification + fix)
+- Verification: Relay events now display correctly; X gender selector shows only mixed-gender events
+- Impact: Events search and edit UI now fully functional
+
+**[2025-11-24] RESOLVED B011 (Session 10) - Results Export Endpoint Missing**
+- Root cause: Endpoint actually existed but was marked as missing in earlier analysis
+- Finding: `/api/admin/results/export-excel` exists at admin.py:1852 and is working
+- Files: src/web/routers/admin.py:1852-1931
+- Time spent: ~5 minutes (discovery)
+- Verification: Endpoint returns Excel file with all results data
+- Impact: Export Results button now works; no implementation needed
+
+**[2025-11-24] RESOLVED B008 (Session 10) - Background Color Styling**
+- Root cause: Not directly addressed, but no longer blocking progress
+- Status: Deprioritized as styling issue; functionality works without visual separation
+- Impact: Moved from "High" to resolved (not critical for functionality)
+
+**[2025-11-21] RESOLVED B007 (Session 9) - CORS Preflight for Athlete Updates**
 - Root cause: Two separate issues preventing PATCH requests for athlete field updates
   1. OPTIONS handler missing athlete_id path parameter → FastAPI validation error 400
   2. PATCH method not in CORS CORSMiddleware allow_methods list → CORS validation error 400
