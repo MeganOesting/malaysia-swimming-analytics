@@ -198,6 +198,31 @@ export const ClubManagement: React.FC<ClubManagementProps> = ({
   }, [selectedClub, selectedMeetForRoster, error]);
 
   /**
+   * Export clubs to Excel
+   */
+  const handleExportClubs = async () => {
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/clubs/export-excel`);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to export clubs: ${response.status} ${errorText}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'clubs_export.xlsx';
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      error(err instanceof Error ? err.message : 'Export failed');
+    }
+  };
+
+  /**
    * Initial load
    */
   useEffect(() => {
@@ -207,7 +232,7 @@ export const ClubManagement: React.FC<ClubManagementProps> = ({
   }, [isAuthenticated, handleFetchStates]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Notifications */}
       {notifications.map(notification => (
         <AlertBox
@@ -218,14 +243,34 @@ export const ClubManagement: React.FC<ClubManagementProps> = ({
         />
       ))}
 
-      {/* Header */}
-      <h2 className="text-2xl font-bold text-gray-900">Club Management</h2>
+      {/* Export Button */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '8px', marginBottom: '8px' }}>
+        <button
+          onClick={handleExportClubs}
+          style={{
+            padding: '2px 10px',
+            backgroundColor: '#cc0000',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            fontSize: '0.9em',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            display: 'inline-block',
+          }}
+        >
+          Export Clubs Table
+        </button>
+      </div>
 
-      {/* State and Club Selection */}
+      {/* Search and Edit Clubs Section */}
       <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Search and Edit Clubs</h3>
+
+        {/* State and Club Selection */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
               Select State:
             </label>
             <select
@@ -243,7 +288,7 @@ export const ClubManagement: React.FC<ClubManagementProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
               Select Club:
             </label>
             <select
@@ -251,6 +296,10 @@ export const ClubManagement: React.FC<ClubManagementProps> = ({
               onChange={e => {
                 const club = clubs.find(c => c.club_name === e.target.value);
                 if (club) handleSelectClub(club);
+                else {
+                  setSelectedClub(null);
+                  setClubFormMode('add');
+                }
               }}
               disabled={!selectedState || clubs.length === 0}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 disabled:bg-gray-100"
@@ -266,144 +315,296 @@ export const ClubManagement: React.FC<ClubManagementProps> = ({
           </div>
         </div>
 
-        <Button
-          variant="success"
-          onClick={() => {
-            setSelectedClub(null);
-            setClubFormMode('add');
-            setClubFormData({
-              club_name: '',
-              club_code: '',
-              state_code: selectedState || '',
-              nation: 'MAS',
-              alias: '',
-            });
-          }}
-        >
-          Add New Club
-        </Button>
+        {/* Edit Fields - Show when club is selected */}
+        {selectedClub && (
+          <div className="bg-white border border-gray-200 rounded-lg p-4 mt-4">
+            <h4 className="font-medium text-gray-800 mb-4">
+              Editing: {selectedClub.club_name}
+            </h4>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
+                  Club Name <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={clubFormData.club_name}
+                  onChange={e =>
+                    setClubFormData({ ...clubFormData, club_name: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
+                  Alias
+                </label>
+                <input
+                  type="text"
+                  value={clubFormData.alias}
+                  onChange={e =>
+                    setClubFormData({ ...clubFormData, alias: e.target.value })
+                  }
+                  placeholder="Alternative name for matching"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
+                    Club Code
+                  </label>
+                  <input
+                    type="text"
+                    value={clubFormData.club_code}
+                    onChange={e =>
+                      setClubFormData({
+                        ...clubFormData,
+                        club_code: e.target.value.toUpperCase(),
+                      })
+                    }
+                    maxLength={5}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
+                    State Code <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={clubFormData.state_code}
+                    onChange={e =>
+                      setClubFormData({
+                        ...clubFormData,
+                        state_code: e.target.value.toUpperCase(),
+                      })
+                    }
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
+                    Nation
+                  </label>
+                  <input
+                    type="text"
+                    value={clubFormData.nation}
+                    onChange={e =>
+                      setClubFormData({
+                        ...clubFormData,
+                        nation: e.target.value.toUpperCase(),
+                      })
+                    }
+                    maxLength={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 flex gap-3">
+              <button
+                onClick={handleSaveClub}
+                style={{
+                  padding: '6px 16px',
+                  backgroundColor: '#cc0000',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  fontSize: '0.9em',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  display: 'inline-block',
+                }}
+              >
+                Update Club
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedClub(null);
+                  setClubFormMode('add');
+                  setClubFormData({
+                    club_name: '',
+                    club_code: '',
+                    state_code: selectedState || '',
+                    nation: 'MAS',
+                    alias: '',
+                  });
+                }}
+                style={{
+                  padding: '6px 16px',
+                  backgroundColor: '#6b7280',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  fontSize: '0.9em',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  display: 'inline-block',
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Club Form */}
+      {/* Add New Club Section */}
       <div className="bg-white border border-slate-200 rounded-lg p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          {clubFormMode === 'add' ? 'Add New Club' : 'Edit Club'}
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Club</h3>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
               Club Name <span className="text-red-600">*</span>
             </label>
             <input
               type="text"
-              value={clubFormData.club_name}
-              onChange={e =>
-                setClubFormData({ ...clubFormData, club_name: e.target.value })
-              }
+              value={clubFormMode === 'add' ? clubFormData.club_name : ''}
+              onChange={e => {
+                if (clubFormMode !== 'add') {
+                  setClubFormMode('add');
+                  setSelectedClub(null);
+                }
+                setClubFormData({ ...clubFormData, club_name: e.target.value });
+              }}
+              placeholder="Enter club name"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Club Code
-            </label>
-            <input
-              type="text"
-              value={clubFormData.club_code}
-              onChange={e =>
-                setClubFormData({
-                  ...clubFormData,
-                  club_code: e.target.value.toUpperCase(),
-                })
-              }
-              maxLength={5}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              State Code <span className="text-red-600">*</span>
-            </label>
-            <input
-              type="text"
-              value={clubFormData.state_code}
-              onChange={e =>
-                setClubFormData({
-                  ...clubFormData,
-                  state_code: e.target.value.toUpperCase(),
-                })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nation
-            </label>
-            <input
-              type="text"
-              value={clubFormData.nation}
-              onChange={e =>
-                setClubFormData({
-                  ...clubFormData,
-                  nation: e.target.value.toUpperCase(),
-                })
-              }
-              maxLength={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div className="col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
               Alias
             </label>
             <input
               type="text"
-              value={clubFormData.alias}
-              onChange={e =>
-                setClubFormData({ ...clubFormData, alias: e.target.value })
-              }
+              value={clubFormMode === 'add' ? clubFormData.alias : ''}
+              onChange={e => {
+                if (clubFormMode !== 'add') {
+                  setClubFormMode('add');
+                  setSelectedClub(null);
+                }
+                setClubFormData({ ...clubFormData, alias: e.target.value });
+              }}
               placeholder="Alternative name for matching"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
             />
           </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
+                Club Code
+              </label>
+              <input
+                type="text"
+                value={clubFormMode === 'add' ? clubFormData.club_code : ''}
+                onChange={e => {
+                  if (clubFormMode !== 'add') {
+                    setClubFormMode('add');
+                    setSelectedClub(null);
+                  }
+                  setClubFormData({
+                    ...clubFormData,
+                    club_code: e.target.value.toUpperCase(),
+                  });
+                }}
+                maxLength={5}
+                placeholder="e.g. SSKL"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
+                State Code <span className="text-red-600">*</span>
+              </label>
+              <select
+                value={clubFormMode === 'add' ? clubFormData.state_code : ''}
+                onChange={e => {
+                  if (clubFormMode !== 'add') {
+                    setClubFormMode('add');
+                    setSelectedClub(null);
+                  }
+                  setClubFormData({
+                    ...clubFormData,
+                    state_code: e.target.value,
+                  });
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              >
+                <option value="">-- Select State --</option>
+                {states.map(state => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block font-medium text-gray-700" style={{ fontSize: '14px', marginBottom: '6px' }}>
+                Nation
+              </label>
+              <input
+                type="text"
+                value={clubFormMode === 'add' ? clubFormData.nation : 'MAS'}
+                onChange={e => {
+                  if (clubFormMode !== 'add') {
+                    setClubFormMode('add');
+                    setSelectedClub(null);
+                  }
+                  setClubFormData({
+                    ...clubFormData,
+                    nation: e.target.value.toUpperCase(),
+                  });
+                }}
+                maxLength={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="mt-4 flex gap-3">
-          <Button variant="primary" onClick={handleSaveClub}>
-            {clubFormMode === 'add' ? 'Add Club' : 'Update Club'}
-          </Button>
-
-          {clubFormMode === 'edit' && (
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setSelectedClub(null);
+        <div className="mt-4">
+          <button
+            onClick={() => {
+              if (clubFormMode !== 'add') {
                 setClubFormMode('add');
-                setClubFormData({
-                  club_name: '',
-                  club_code: '',
-                  state_code: selectedState || '',
-                  nation: 'MAS',
-                  alias: '',
-                });
-              }}
-            >
-              Cancel
-            </Button>
-          )}
+                setSelectedClub(null);
+              }
+              handleSaveClub();
+            }}
+            disabled={clubFormMode !== 'add'}
+            style={{
+              padding: '6px 16px',
+              backgroundColor: clubFormMode === 'add' ? '#cc0000' : '#9ca3af',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              fontSize: '0.9em',
+              cursor: clubFormMode === 'add' ? 'pointer' : 'not-allowed',
+              whiteSpace: 'nowrap',
+              display: 'inline-block',
+            }}
+          >
+            Add Club
+          </button>
         </div>
       </div>
 
       {/* Coaches Section */}
       {selectedClub && (
         <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">
             Coaches & Managers
           </h3>
           <Button variant="primary" onClick={handleLoadCoaches} size="sm">
@@ -442,13 +643,13 @@ export const ClubManagement: React.FC<ClubManagementProps> = ({
       {/* Roster Section */}
       {selectedClub && (
         <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">
             View Athlete Roster
           </h3>
 
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-2 gap-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 6">
                 Select Meet (optional):
               </label>
               <select

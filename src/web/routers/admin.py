@@ -21,6 +21,7 @@ from ..utils.date_validator import parse_and_validate_date
 
 # Name matching
 from ..utils.name_matcher import match_athlete_by_name
+from ..utils.athlete_lookup import find_athlete_ids
 
 # Stroke normalization
 from ..utils.stroke_normalizer import normalize_stroke, display_stroke, validate_stroke
@@ -840,7 +841,11 @@ async def preview_seag_upload(
 
 @router.post("/admin/preview-swimrankings-upload")
 async def preview_swimrankings_upload(file: UploadFile = File(...)):
-    """Generate preview Excel file for SwimRankings upload - extracts meet info from file"""
+    """Generate preview Excel file for SwimRankings upload.
+
+    CRITICAL: This uses the EXACT SAME processing logic as upload (process_meet_file_simple).
+    The only difference is output destination: Excel file instead of database.
+    """
     print(f"\n[PREVIEW SWIMRANKINGS] Received: {file.filename}")
 
     # Validate file type
@@ -864,201 +869,28 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
         from openpyxl import Workbook
         from openpyxl.styles import Font, PatternFill
         import io
-        import pandas as pd
-        from datetime import datetime
-        from src.web.utils.calculation_utils import parse_time_to_seconds
 
-        # PREVIEW reads Excel directly - we need ALL rows, not just matched athletes
-        # process_meet_file_simple skips unmatched athletes, so we can't use it for preview
+        # Create meet_info dict - SAME as upload does
+        meet_info = {
+            'id': 'PREVIEW',
+            'name': 'Preview',
+            'meet_type': None,
+            'meet_date': None,
+            'location': None,
+        }
 
-        # Get database connection for athlete matching
-        conn = get_database_connection()
-        cursor = conn.cursor()
+        # Call process_meet_file_simple - EXACT SAME as upload
+        # This handles: sheet skipping (4x, TOP, 5000m), athlete matching, event lookup, etc.
+        file_path_obj = Path(temp_file_path)
+        athletes, results, events, collector = process_meet_file_simple(file_path_obj, meet_info)
 
-        # Read Excel file directly
-        # TEMPORARY DEBUG: Only process "50m Fr" sheet for quick testing
-        # TODO: Remove sheet_filter constraint after debugging is complete
-        debug_sheet_filter = ["50m Fr"]  # TEMPORARY - remove after debugging
-        print(f"[PREVIEW] DEBUG MODE: Only processing sheets: {debug_sheet_filter}")
+        print(f"[PREVIEW] Processed: {len(results)} results, {len(collector.missing_athletes)} missing athletes")
 
-        excel = pd.ExcelFile(temp_file_path)
-        sheets_to_process = [s for s in excel.sheet_names if s in debug_sheet_filter] if debug_sheet_filter else excel.sheet_names
-
-        # Process results into preview rows
-        preview_rows = []
-        unmatched_athletes = []
-
-        for sheet_name in sheets_to_process:
-            print(f"[PREVIEW] Processing sheet: '{sheet_name}'")
-
-            # Read sheet - row 0 has meet info, row 1 has headers, data starts row 2
-            df = pd.read_excel(temp_file_path, sheet_name=sheet_name, header=1)
-            print(f"[PREVIEW] Sheet has {len(df)} data rows, columns: {list(df.columns)}")
-
-            for idx, row in df.iterrows():
-                try:
-                    # Extract data from row using SwimRankings column names
-                    fullname = str(row.get('FULLNAME', '') or '').strip()
-                    gender = str(row.get('GENDER', '') or '').upper()[:1]
-                    distance = row.get('DISTANCE')
-                    stroke_raw = str(row.get('STROKE', '') or '').strip()
-                    time_str = str(row.get('SWIMTIME', '') or '').strip()
-                    meet_name = str(row.get('MEETNAME', '') or 'Unknown Meet').strip()
-                    meet_city = str(row.get('MEETCITY', '') or '').strip()
-                    meet_date_raw = row.get('MEETDATE')
-                    meet_course = str(row.get('COURSE', 'LCM') or 'LCM').upper()
-                    place = row.get('PLACE')
-                    # SwimRankings files have FINA/AQUA points already calculated
-                    aqua_points = row.get('PTS_FINA')
-                    rudolph_points = row.get('PTS_RUDOLPH')
-                    club_name = str(row.get('CLUBNAME', '') or '').strip()
-                    club_code = str(row.get('CLUBCODE', '') or '').strip()
-                    nation = str(row.get('NATION', '') or '').strip()
-                    # Get birthdate from file (for unmatched athlete tracking)
-                    file_birthdate = row.get('BIRTHDATE')
-
-                    # Skip rows with missing essential data
-                    if not fullname or not gender or pd.isna(distance) or not stroke_raw:
-                        continue
-
-                    # Convert distance to int
-                    try:
-                        distance = int(distance)
-                    except (ValueError, TypeError):
-                        continue
-
-                    # Format birthdate for display
-                    birthdate_str = ''
-                    if file_birthdate and not pd.isna(file_birthdate):
-                        try:
-                            if hasattr(file_birthdate, 'strftime'):
-                                birthdate_str = file_birthdate.strftime('%Y-%m-%d')
-                            else:
-                                birthdate_str = str(file_birthdate)
-                        except:
-                            birthdate_str = str(file_birthdate)
-
-                    # Format meet_date
-                    meet_date = ''
-                    if meet_date_raw and not pd.isna(meet_date_raw):
-                        try:
-                            if hasattr(meet_date_raw, 'strftime'):
-                                meet_date = meet_date_raw.strftime('%Y-%m-%dT00:00:00Z')
-                            else:
-                                from dateutil import parser as date_parser
-                                parsed = date_parser.parse(str(meet_date_raw))
-                                meet_date = parsed.strftime('%Y-%m-%dT00:00:00Z')
-                        except:
-                            meet_date = str(meet_date_raw)
-
-                    # Normalize stroke
-                    stroke_name = normalize_stroke(stroke_raw)
-
-                    # Look up athlete
-                    athlete_id = match_athlete_by_name(conn, fullname, gender)
-
-                    # Look up event
-                    cursor.execute("""
-                        SELECT id FROM events
-                        WHERE event_distance = ? AND event_stroke = ? AND gender = ?
-                        LIMIT 1
-                    """, (distance, stroke_name, gender))
-                    event_result = cursor.fetchone()
-                    event_id = event_result[0] if event_result else None
-
-                    event_desc = event_id or f"{distance} {stroke_name} {gender}"
-
-                    # Track unmatched athletes with FULL FILE RECORD for debugging
-                    if not athlete_id:
-                        unmatched_athletes.append({
-                            'row': idx + 3,  # +3 because: row 0 = meet info, row 1 = headers, data starts row 2
-                            'fullname': fullname,
-                            'birthdate': birthdate_str,
-                            'gender': gender,
-                            'distance': distance,
-                            'stroke': stroke_raw,
-                            'time': time_str,
-                            'meet_name': meet_name,
-                            'meet_date': meet_date,
-                            'club_name': club_name,
-                            'nation': nation,
-                            'event_lookup': event_desc,
-                        })
-
-                    # Get athlete details if matched
-                    team_name_final = club_name
-                    team_code_final = club_code
-                    team_state_code = None
-                    team_nation = nation
-                    year_age = None
-                    day_age = None
-
-                    if athlete_id:
-                        cursor.execute("""
-                            SELECT club_name, state_code, nation, BIRTHDATE
-                            FROM athletes WHERE id = ?
-                        """, (athlete_id,))
-                        athlete_data = cursor.fetchone()
-                        if athlete_data:
-                            team_name_final = athlete_data[0] or club_name
-                            team_state_code = athlete_data[1]
-                            team_nation = athlete_data[2] or nation
-                            athlete_birthdate = athlete_data[3]
-
-                            # Calculate ages if we have birthdate and meet_date
-                            if athlete_birthdate and meet_date:
-                                try:
-                                    from dateutil import parser as date_parser
-                                    birth_dt = date_parser.parse(str(athlete_birthdate))
-                                    if birth_dt.tzinfo is not None:
-                                        birth_dt = birth_dt.replace(tzinfo=None)
-                                    meet_dt = date_parser.parse(str(meet_date))
-                                    if meet_dt.tzinfo is not None:
-                                        meet_dt = meet_dt.replace(tzinfo=None)
-                                    year_age = meet_dt.year - birth_dt.year
-                                    if (meet_dt.month, meet_dt.day) < (birth_dt.month, birth_dt.day):
-                                        year_age -= 1
-                                    day_age = (meet_dt - birth_dt).days
-                                except Exception:
-                                    pass
-
-                    # Calculate time in seconds
-                    time_seconds = parse_time_to_seconds(time_str)
-
-                    # Build preview row - ALL rows included (matched and unmatched)
-                    preview_rows.append({
-                        'id': f"PREVIEW_{len(preview_rows) + 1}",
-                        'meet_id': f"PREVIEW_{meet_name[:20] if meet_name else 'Unknown'}",
-                        'athlete_id': athlete_id or f"UNMATCHED: {fullname}",
-                        'event_id': event_id or f"MISSING: {distance} {stroke_name} {gender}",
-                        'time_seconds': time_seconds,
-                        'time_string': time_str,
-                        'aqua_points': aqua_points,
-                        'rudolph_points': rudolph_points,
-                        'meet_course': meet_course,
-                        'meet_date': meet_date,
-                        'day_age': day_age,
-                        'year_age': year_age,
-                        'club_name': team_name_final,
-                        'club_code': team_code_final,
-                        'state_code': team_state_code,
-                        'nation': team_nation,
-                        'is_relay': 0,
-                        'comp_place': place,
-                        'meet_name': meet_name,
-                        'meet_city': meet_city,
-                    })
-
-                except Exception as e:
-                    print(f"[PREVIEW] Row {idx} error: {str(e)}")
-                    continue
-
-        conn.close()
-
-        # Print match summary
-        total_rows = len(preview_rows)
-        matched_count = total_rows - len(unmatched_athletes)
-        print(f"\n[SWIMRANKINGS PREVIEW] Total: {total_rows}, Matched: {matched_count}, Unmatched: {len(unmatched_athletes)}")
+        # Count matched vs unmatched
+        # Results only contains MATCHED rows (process_meet_file_simple skips unmatched)
+        matched_count = len(results)
+        unmatched_count = len(collector.missing_athletes)
+        total_rows = matched_count + unmatched_count
 
         # Create Excel workbook
         wb = Workbook()
@@ -1067,7 +899,7 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
 
         # Headers matching results table columns exactly
         headers = [
-            'id', 'meet_id', 'athlete_id', 'event_id', 'time_seconds', 'time_string',
+            'id', 'meet_id', 'athlete_id', 'foreign_athlete_id', 'event_id', 'time_seconds', 'time_string',
             'aqua_points', 'rudolph_points', 'meet_course',
             'meet_date', 'day_age', 'year_age', 'club_name',
             'club_code', 'state_code', 'nation', 'is_relay',
@@ -1082,9 +914,31 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
             cell.fill = header_fill
             cell.font = header_font
 
-        # Write data rows
-        for preview_row in preview_rows:
-            row_data = [preview_row.get(h, '') for h in headers]
+        # Write data rows from results (output from process_meet_file_simple)
+        for result in results:
+            row_data = [
+                result.get('id', ''),
+                result.get('meet_id', ''),
+                result.get('athlete_id', ''),
+                result.get('foreign_athlete_id', ''),
+                result.get('event_id', ''),
+                result.get('time_seconds', ''),
+                result.get('time_string', ''),
+                result.get('aqua_points', ''),
+                result.get('rudolph_points', ''),
+                result.get('course', ''),
+                result.get('meet_date', result.get('result_meet_date', '')),
+                result.get('day_age', ''),
+                result.get('year_age', ''),
+                result.get('club_name', ''),
+                result.get('club_code', ''),
+                result.get('state_code', ''),
+                result.get('nation', ''),
+                result.get('is_relay', 0),
+                result.get('place', result.get('comp_place', '')),
+                result.get('meet_name', ''),
+                result.get('meet_city', ''),
+            ]
             ws.append(row_data)
 
         # Auto-adjust column widths
@@ -1092,20 +946,16 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
             max_length = max(len(str(cell.value or '')) for cell in column)
             ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = min(max_length + 2, 50)
 
-        # Add SUMMARY sheet first (will appear as first sheet after Results)
+        # Add SUMMARY sheet first
         ws_summary = wb.create_sheet(title="SUMMARY", index=0)
-        matched_count = total_rows - len(unmatched_athletes)
         summary_data = [
             ['PREVIEW SUMMARY', ''],
             ['', ''],
-            ['Total Results in File:', total_rows],
+            ['Total Results Found:', total_rows],
             ['Results MATCHED (will upload):', matched_count],
-            ['Results UNMATCHED (will NOT upload):', len(unmatched_athletes)],
+            ['Results UNMATCHED (will NOT upload):', unmatched_count],
             ['', ''],
             ['NOTE: Unmatched athletes listed in "UNMATCHED ATHLETES" sheet'],
-            ['', ''],
-            ['DEBUG MODE:', 'Only processing sheet "50m Fr"'],
-            ['TODO:', 'Remove sheet filter after debugging'],
         ]
         for row in summary_data:
             ws_summary.append(row)
@@ -1117,43 +967,33 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
         ws_summary.column_dimensions['A'].width = 35
         ws_summary.column_dimensions['B'].width = 20
 
-        # Add Unmatched Athletes sheet with FULL FILE RECORD for debugging
-        if unmatched_athletes:
+        # Add Unmatched Athletes sheet from collector.missing_athletes
+        if collector.missing_athletes:
             ws_unmatched = wb.create_sheet(title="UNMATCHED ATHLETES")
-            unmatched_headers = ['ROW', 'FULLNAME', 'BIRTHDATE', 'GENDER', 'DISTANCE', 'STROKE', 'TIME', 'MEET_NAME', 'MEET_DATE', 'CLUB_NAME', 'NATION', 'EVENT_LOOKUP']
+            unmatched_headers = ['SHEET', 'ROW', 'FULLNAME', 'BIRTHDATE', 'GENDER', 'MEET_NAME', 'CLUB_NAME']
             ws_unmatched.append(unmatched_headers)
             warning_fill = PatternFill(start_color="FF6600", end_color="FF6600", fill_type="solid")
             for cell in ws_unmatched[1]:
                 cell.fill = warning_fill
                 cell.font = header_font
-            for unmatched in unmatched_athletes:
+            for missing in collector.missing_athletes:
                 ws_unmatched.append([
-                    unmatched.get('row', ''),
-                    unmatched.get('fullname', ''),
-                    unmatched.get('birthdate', ''),
-                    unmatched.get('gender', ''),
-                    unmatched.get('distance', ''),
-                    unmatched.get('stroke', ''),
-                    unmatched.get('time', ''),
-                    unmatched.get('meet_name', ''),
-                    unmatched.get('meet_date', ''),
-                    unmatched.get('club_name', ''),
-                    unmatched.get('nation', ''),
-                    unmatched.get('event_lookup', ''),
+                    missing.get('sheet', ''),
+                    missing.get('row', ''),
+                    missing.get('full_name', ''),
+                    missing.get('birthdate', ''),
+                    missing.get('gender', ''),
+                    missing.get('meet_name', ''),
+                    missing.get('club_name', ''),
                 ])
             # Auto-adjust column widths
-            ws_unmatched.column_dimensions['A'].width = 6   # ROW
-            ws_unmatched.column_dimensions['B'].width = 35  # FULLNAME
-            ws_unmatched.column_dimensions['C'].width = 12  # BIRTHDATE
-            ws_unmatched.column_dimensions['D'].width = 8   # GENDER
-            ws_unmatched.column_dimensions['E'].width = 10  # DISTANCE
-            ws_unmatched.column_dimensions['F'].width = 8   # STROKE
-            ws_unmatched.column_dimensions['G'].width = 10  # TIME
-            ws_unmatched.column_dimensions['H'].width = 35  # MEET_NAME
-            ws_unmatched.column_dimensions['I'].width = 12  # MEET_DATE
-            ws_unmatched.column_dimensions['J'].width = 30  # CLUB_NAME
-            ws_unmatched.column_dimensions['K'].width = 8   # NATION
-            ws_unmatched.column_dimensions['L'].width = 25  # EVENT_LOOKUP
+            ws_unmatched.column_dimensions['A'].width = 15  # SHEET
+            ws_unmatched.column_dimensions['B'].width = 6   # ROW
+            ws_unmatched.column_dimensions['C'].width = 35  # FULLNAME
+            ws_unmatched.column_dimensions['D'].width = 12  # BIRTHDATE
+            ws_unmatched.column_dimensions['E'].width = 8   # GENDER
+            ws_unmatched.column_dimensions['F'].width = 35  # MEET_NAME
+            ws_unmatched.column_dimensions['G'].width = 30  # CLUB_NAME
 
         # Save to bytes
         output = io.BytesIO()
@@ -1169,7 +1009,7 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
         print(f"[SWIMRANKINGS PREVIEW] SUMMARY")
         print(f"  Total Results: {total_rows}")
         print(f"  MATCHED (will upload): {matched_count}")
-        print(f"  UNMATCHED (will NOT upload): {len(unmatched_athletes)}")
+        print(f"  UNMATCHED (will NOT upload): {unmatched_count}")
         print(f"{'='*60}\n")
 
         return StreamingResponse(
@@ -1179,7 +1019,7 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
                 "Content-Disposition": f"attachment; filename={filename}",
                 "X-Preview-Total": str(total_rows),
                 "X-Preview-Matched": str(matched_count),
-                "X-Preview-Unmatched": str(len(unmatched_athletes)),
+                "X-Preview-Unmatched": str(unmatched_count),
                 "Access-Control-Expose-Headers": "X-Preview-Total, X-Preview-Matched, X-Preview-Unmatched"
             }
         )
@@ -1429,11 +1269,11 @@ async def update_meet_alias(meet_id: str, alias_data: AliasUpdate):
         cursor = conn.cursor()
         
         # Verify meet exists
-        cursor.execute("SELECT id, name FROM meets WHERE id = ?", (meet_id,))
+        cursor.execute("SELECT id, meet_name FROM meets WHERE id = ?", (meet_id,))
         meet = cursor.fetchone()
         if not meet:
             raise HTTPException(status_code=404, detail="Meet not found")
-        
+
         new_alias = alias_data.alias.strip() if alias_data.alias else ''
         
         # Update meet_type (alias) in database
@@ -1476,11 +1316,11 @@ async def delete_meet(meet_id: str):
         cursor = conn.cursor()
         
         # Verify meet exists
-        cursor.execute("SELECT id, name FROM meets WHERE id = ?", (meet_id,))
+        cursor.execute("SELECT id, meet_name FROM meets WHERE id = ?", (meet_id,))
         meet = cursor.fetchone()
         if not meet:
             raise HTTPException(status_code=404, detail="Meet not found")
-        
+
         meet_name = meet[1]
         
         # Delete all results for this meet
@@ -1855,7 +1695,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
     try:
         athletes, results, events, collector = process_meet_file_simple(file_path_obj, meet_info)
         validation_issues = collector
-        print(f"[PARSE] ✓ Parsed: {len(athletes)} athletes, {len(results)} results, {len(events)} events", flush=True)
+        print(f"[PARSE] OK Parsed: {len(athletes)} athletes, {len(results)} results, {len(events)} events", flush=True)
         if validation_issues and hasattr(validation_issues, 'has_errors') and validation_issues.has_errors():
             error_count = (
                 len(validation_issues.missing_athletes) +
@@ -1865,10 +1705,10 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                 len(validation_issues.club_misses) +
                 len(validation_issues.event_misses)
             )
-            print(f"[PARSE] ⚠ Found {error_count} validation issues (will be reported in summary)")
+            print(f"[PARSE] WARNING Found {error_count} validation issues (will be reported in summary)")
     except Exception as e:
         # If there's a different error, still raise it
-        print(f"[PARSE] ✗ Error parsing file: {str(e)}")
+        print(f"[PARSE] ERROR parsing file: {str(e)}")
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Conversion failed: {str(e)}")
@@ -1878,7 +1718,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
         conn = get_database_connection()
         try:
             cursor = conn.cursor()
-            cursor.execute("SELECT id, name, meet_date, city, meet_type FROM meets WHERE name = ?", (meet_info['name'],))
+            cursor.execute("SELECT id, meet_name, meet_date, meet_city, meet_type FROM meets WHERE meet_name = ?", (meet_info['name'],))
             existing_meet = cursor.fetchone()
             
             if existing_meet:
@@ -1896,7 +1736,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
     
     
     if not results:
-        print(f"[UPLOAD] ✗ No results found in file")
+        print(f"[UPLOAD] ERROR No results found in file")
         return ConversionResult(
             success=False,
             message="No valid swimming results found in the Excel file. Please check the file format."
@@ -1966,19 +1806,19 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
             if city and year:
                 # Extract year from meet_date column for comparison
                 cursor.execute("""
-                    SELECT id, meet_date, city, meet_type FROM meets 
-                    WHERE name = ? AND city = ? 
+                    SELECT id, meet_date, meet_city, meet_type FROM meets
+                    WHERE meet_name = ? AND meet_city = ?
                     AND substr(meet_date, 1, 4) = ?
                 """, (name, city, year))
                 existing = cursor.fetchone()
             # Fallback: name + city only (if year missing)
             if not existing and city:
-                cursor.execute("SELECT id, meet_date, city, meet_type FROM meets WHERE name = ? AND city = ?", 
+                cursor.execute("SELECT id, meet_date, meet_city, meet_type FROM meets WHERE meet_name = ? AND meet_city = ?",
                              (name, city))
                 existing = cursor.fetchone()
             # Last resort: name only (if city is missing)
             if not existing:
-                cursor.execute("SELECT id, meet_date, city, meet_type FROM meets WHERE name = ?", (name,))
+                cursor.execute("SELECT id, meet_date, meet_city, meet_type FROM meets WHERE meet_name = ?", (name,))
                 existing = cursor.fetchone()
             
             if existing:
@@ -2010,11 +1850,11 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                 r['meet_id'] = meet_id_assigned
 
             # Insert and collect summary (pass collector to track skipped rows)
-            print(f"[DB]   → Inserting {len(group)} results into database...")
+            print(f"[DB]   Inserting {len(group)} results into database...")
             summary = insert_data_simple(conn, athletes, group, events, child_meet_info, collector=validation_issues)
             inserted = summary.get('inserted_results', 0)
             skipped = summary.get('skipped_results', 0)
-            print(f"[DB]   ✓ Inserted: {inserted} new, {skipped} duplicates skipped")
+            print(f"[DB]   OK Inserted: {inserted} new, {skipped} duplicates skipped")
             per_meet_summaries.append((name, child_meet_info['meet_date'], child_meet_info.get('city'), summary))
             total_meets_created += 0 if existing else 1
 
@@ -2028,13 +1868,13 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
             total_skipped += sk
             city_str = f", {city}" if city else ""
             if ins > 0 or sk > 0:
-                lines.append(f"  • {name} ({d}{city_str}): {ins} results added, {sk} duplicate results skipped (already in database)")
+                lines.append(f"  - {name} ({d}{city_str}): {ins} results added, {sk} duplicate results skipped (already in database)")
         
         # Add totals summary - emphasize duplicates and skipped rows
         if total_skipped > 0:
-            lines.append(f"\n✓ Summary: {total_inserted} new results inserted, {total_skipped} duplicate results skipped (already in database)")
+            lines.append(f"\nSUMMARY: {total_inserted} new results inserted, {total_skipped} duplicate results skipped (already in database)")
         else:
-            lines.append(f"\n✓ Summary: {total_inserted} results inserted, no duplicates found")
+            lines.append(f"\nSUMMARY: {total_inserted} results inserted, no duplicates found")
         
         # Report validation issues as informational (not errors)
         # Group by meet for better readability
@@ -2121,18 +1961,18 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                 
                 # Missing athletes - NEED TO BE ADDED
                 if issues["missing_athletes"]:
-                    lines.append(f"  ⚠️ MISSING ATHLETES - NEED TO BE ADDED TO DATABASE ({len(issues['missing_athletes'])} rows):")
+                    lines.append(f"  [WARNING] MISSING ATHLETES - NEED TO BE ADDED TO DATABASE ({len(issues['missing_athletes'])} rows):")
                     for athlete in issues["missing_athletes"][:20]:  # First 20
                         sheet = athlete.get("sheet", "Unknown")
                         row = athlete.get("row", "?")
                         full_name = athlete.get("full_name", "Unknown")
                         birthdate = athlete.get("birthdate", "(blank)")
                         gender = athlete.get("gender", "(blank)")
-                        lines.append(f"    • {sheet} row {row}: {full_name} (Birthdate: {birthdate}, Gender: {gender}) - ADD TO DATABASE")
+                        lines.append(f"    - {sheet} row {row}: {full_name} (Birthdate: {birthdate}, Gender: {gender}) - ADD TO DATABASE")
                     if len(issues["missing_athletes"]) > 20:
                         lines.append(f"    ... and {len(issues['missing_athletes']) - 20} more missing athletes that need to be added")
                     lines.append("")
-                    lines.append("  ⚠️ ACTION REQUIRED: These athletes are not in the database.")
+                    lines.append("  [ACTION REQUIRED] These athletes are not in the database.")
                     lines.append("     Add them to the athlete table before uploading results.")
                 
                 # Birthdate mismatches
@@ -2142,9 +1982,10 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                         sheet = mismatch.get("sheet", "Unknown")
                         row = mismatch.get("row", "?")
                         full_name = mismatch.get("full_name", "Unknown")
+                        excel_bday = mismatch.get("excel_birthdate", "(blank)")
                         db_bday = mismatch.get("database_birthdate", "(blank)")
                         athlete_id = mismatch.get("athlete_id", "(unknown)")
-                        lines.append(f"    • {sheet} row {row}: {full_name} (athlete_id: {athlete_id}) - Excel: {excel_bday} ≠ Database: {db_bday}")
+                        lines.append(f"    - {sheet} row {row}: {full_name} (athlete_id: {athlete_id}) - Excel: {excel_bday} != Database: {db_bday}")
                     if len(issues["birthdate_mismatches"]) > 20:
                         lines.append(f"    ... and {len(issues['birthdate_mismatches']) - 20} more birthdate mismatches")
                 
@@ -2155,9 +1996,10 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                         sheet = mismatch.get("sheet", "Unknown")
                         row = mismatch.get("row", "?")
                         full_name = mismatch.get("full_name", "Unknown")
+                        excel_nation = mismatch.get("excel_nation", "(blank)")
                         db_nation = mismatch.get("database_nation", "(blank)")
                         athlete_id = mismatch.get("athlete_id", "(unknown)")
-                        lines.append(f"    • {sheet} row {row}: {full_name} (athlete_id: {athlete_id}) - Excel: {excel_nation} ≠ Database: {db_nation}")
+                        lines.append(f"    - {sheet} row {row}: {full_name} (athlete_id: {athlete_id}) - Excel: {excel_nation} != Database: {db_nation}")
                     if len(issues["nation_mismatches"]) > 20:
                         lines.append(f"    ... and {len(issues['nation_mismatches']) - 20} more nation mismatches")
                 
@@ -2169,7 +2011,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                         row = mismatch.get("row", "?")
                         upload_name = mismatch.get("upload_fullname", "Unknown")
                         db_name = mismatch.get("database_fullname", "Unknown")
-                        lines.append(f"    • {sheet} row {row}: Upload='{upload_name}' ≠ Database='{db_name}'")
+                        lines.append(f"    - {sheet} row {row}: Upload='{upload_name}' != Database='{db_name}'")
                     if len(issues["name_format_mismatches"]) > 20:
                         lines.append(f"    ... and {len(issues['name_format_mismatches']) - 20} more name format mismatches")
                 
@@ -2182,7 +2024,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                         full_name = miss.get("full_name", "Unknown")
                         club_name = miss.get("club_name", "(blank)")
                         athlete_id = miss.get("athlete_id", "(unknown)")
-                        lines.append(f"    • {sheet} row {row}: {full_name} (athlete_id: {athlete_id}) - Club not found: {club_name}")
+                        lines.append(f"    - {sheet} row {row}: {full_name} (athlete_id: {athlete_id}) - Club not found: {club_name}")
                     if len(issues["club_misses"]) > 20:
                         lines.append(f"    ... and {len(issues['club_misses']) - 20} more unknown clubs")
                 
@@ -2193,7 +2035,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                         sheet = miss.get("sheet", "Unknown")
                         row = miss.get("row", "?")
                         description = miss.get("description", "Unknown event")
-                        lines.append(f"    • {sheet} row {row}: {description}")
+                        lines.append(f"    - {sheet} row {row}: {description}")
                     if len(issues["event_misses"]) > 20:
                         lines.append(f"    ... and {len(issues['event_misses']) - 20} more unknown events")
                 
@@ -2214,7 +2056,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                         total_skipped_for_meet = sum(len(rows) for rows in skipped_by_reason.values())
                         lines.append(f"\n  Skipped Rows ({total_skipped_for_meet} rows - not uploaded):")
                         for reason, rows in skipped_by_reason.items():
-                            lines.append(f"    • {reason}: {len(rows)} row(s)")
+                            lines.append(f"    - {reason}: {len(rows)} row(s)")
                             # Show first 5 examples of each reason
                             for skipped in rows[:5]:
                                 sheet = skipped.get("sheet", "Unknown")
@@ -2232,7 +2074,7 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
         total_inserted = sum(s.get('inserted_results', 0) for _, _, _, s in per_meet_summaries)
         total_skipped = sum(s.get('skipped_results', 0) for _, _, _, s in per_meet_summaries)
         print(f"\n{'='*60}")
-        print(f"[UPLOAD] ✓ Complete!")
+        print(f"[UPLOAD] COMPLETE!")
         print(f"[UPLOAD]   Total inserted: {total_inserted} results")
         print(f"[UPLOAD]   Total skipped (duplicates): {total_skipped} results")
         print(f"[UPLOAD]   Meets processed: {len(results_by_meet)}")
@@ -2872,6 +2714,153 @@ async def export_athletes_excel():
         raise HTTPException(status_code=500, detail=f"Export failed: {str(e)}")
 
 
+@router.get("/admin/foreign-athletes/export-excel")
+async def export_foreign_athletes_excel():
+    """Export all foreign athletes from database as Excel file"""
+    from fastapi.responses import StreamingResponse
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill
+    from io import BytesIO
+    from datetime import datetime
+
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM foreign_athletes ORDER BY fullname ASC")
+        rows = cursor.fetchall()
+        columns = [desc[0] for desc in cursor.description]
+        conn.close()
+
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Foreign Athletes"
+
+        ws.append(columns)
+        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+
+        for row in rows:
+            ws.append(list(row))
+
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"foreign_athletes_export_{timestamp}.xlsx"
+
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Export failed: {str(e)}")
+
+
+@router.get("/admin/coaches/export-excel")
+async def export_coaches_excel():
+    """Export all coaches from database as Excel file"""
+    from fastapi.responses import StreamingResponse
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill
+    from io import BytesIO
+    from datetime import datetime
+
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM coaches ORDER BY coach_name ASC")
+        rows = cursor.fetchall()
+        columns = [desc[0] for desc in cursor.description]
+        conn.close()
+
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Coaches"
+
+        ws.append(columns)
+        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+
+        for row in rows:
+            ws.append(list(row))
+
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"coaches_export_{timestamp}.xlsx"
+
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Export failed: {str(e)}")
+
+
+@router.get("/admin/clubs/export-excel")
+async def export_clubs_excel():
+    """Export all clubs from database as Excel file"""
+    from fastapi.responses import StreamingResponse
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill
+    from io import BytesIO
+    from datetime import datetime
+
+    try:
+        conn = get_database_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM clubs ORDER BY club_name ASC")
+        rows = cursor.fetchall()
+        columns = [desc[0] for desc in cursor.description]
+        conn.close()
+
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Clubs"
+
+        ws.append(columns)
+        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+
+        for row in rows:
+            ws.append(list(row))
+
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"clubs_export_{timestamp}.xlsx"
+
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Export failed: {str(e)}")
+
+
 @router.get("/admin/athletes/{athlete_id}")
 async def get_athlete_detail(athlete_id: str):
     conn = get_database_connection()
@@ -3132,17 +3121,30 @@ async def update_club(club_name: str, club: ClubCreateRequest):
         )
         if not cursor.fetchone():
             raise HTTPException(status_code=404, detail=f"Club '{club_name}' not found")
-        
+
+        # Check if club_code is already in use by another club
+        if club.club_code:
+            cursor.execute(
+                "SELECT club_name FROM clubs WHERE club_code = ? AND club_name != ?",
+                (club.club_code.strip().upper(), club_name)
+            )
+            existing = cursor.fetchone()
+            if existing:
+                raise HTTPException(
+                    status_code=409,
+                    detail=f"Club code '{club.club_code.strip().upper()}' is already in use by '{existing[0]}'"
+                )
+
         # Check if alias column exists
         cursor.execute("PRAGMA table_info(clubs)")
         columns = {row[1].lower() for row in cursor.fetchall()}
         has_alias = 'club_alias' in columns
         
-        # Update club
+        # Update club - use actual column names: club_nation, club_alias
         if has_alias:
             cursor.execute("""
-                UPDATE clubs 
-                SET club_name = ?, club_code = ?, state_code = ?, nation = ?, alias = ?
+                UPDATE clubs
+                SET club_name = ?, club_code = ?, state_code = ?, club_nation = ?, club_alias = ?
                 WHERE club_name = ?
             """, (
                 club.club_name.strip(),
@@ -3154,8 +3156,8 @@ async def update_club(club_name: str, club: ClubCreateRequest):
             ))
         else:
             cursor.execute("""
-                UPDATE clubs 
-                SET club_name = ?, club_code = ?, state_code = ?, nation = ?
+                UPDATE clubs
+                SET club_name = ?, club_code = ?, state_code = ?, club_nation = ?
                 WHERE club_name = ?
             """, (
                 club.club_name.strip(),
@@ -3864,7 +3866,7 @@ async def submit_manual_results(submission: ManualResultsSubmission):
     try:
         # 1. Create or get meet
         cursor.execute(
-            "SELECT id FROM meets WHERE name = ?",
+            "SELECT id FROM meets WHERE meet_name = ?",
             (submission.meet_name,)
         )
         meet_row = cursor.fetchone()
@@ -3884,7 +3886,7 @@ async def submit_manual_results(submission: ManualResultsSubmission):
                 raise HTTPException(status_code=400, detail=f"Invalid meet date format: {str(e)}")
 
             cursor.execute("""
-                INSERT INTO meets (id, name, meet_type, meet_date, city, course)
+                INSERT INTO meets (id, meet_name, meet_type, meet_date, meet_city, meet_course)
                 VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 meet_id,

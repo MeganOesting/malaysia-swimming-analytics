@@ -26,6 +26,22 @@ from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 import pandas as pd
 
+# Import the SAME athlete lookup function used by preview
+# This ensures preview and upload use IDENTICAL matching logic
+import sys
+from pathlib import Path as PathlibPath
+# Add src to path so we can import from src.web.utils
+_src_path = str(PathlibPath(__file__).parent.parent / "src")
+if _src_path not in sys.path:
+    sys.path.insert(0, _src_path)
+
+try:
+    from web.utils.athlete_lookup import find_athlete_ids, AthleteMatch
+    ATHLETE_LOOKUP_AVAILABLE = True
+except ImportError:
+    ATHLETE_LOOKUP_AVAILABLE = False
+    print("[WARNING] Could not import find_athlete_ids - using fallback AthleteIndex")
+
 # --------------------------------------------------------------------------- #
 # Constants & simple helpers
 # --------------------------------------------------------------------------- #
@@ -44,8 +60,9 @@ STROKE_MAP = {
     "BU": "Fly",
     "FLY": "Fly",
     "BUTTERFLY": "Fly",
-    "ME": "IM",
-    "IM": "IM",
+    "ME": "Medley",
+    "IM": "Medley",
+    "MEDLEY": "Medley",
 }
 
 RELAY_STROKE_MAP = {
@@ -96,6 +113,7 @@ class AthleteRecord:
     nation: str
     gender: Optional[str] = None
     club_name: Optional[str] = None  # Club name from athlete's record
+    is_foreign: bool = False  # True if from foreign_athletes table
 
 
 @dataclass
@@ -184,7 +202,7 @@ class ValidationCollector:
         sheet: str,
         row: int,
         full_name: str,
-        workbook_birthdate: str,
+        excel_birthdate: str,
         database_birthdate: str,
         meet_name: str = None,
         athlete_id: str = None,
@@ -195,8 +213,8 @@ class ValidationCollector:
                 "sheet": sheet,
                 "row": str(row),
                 "full_name": full_name,
-                "message": f"Name matched exactly: '{full_name}' but birthdate mismatch - Excel: {workbook_birthdate or '(blank)'}, Database: {database_birthdate or '(blank)'}",
-                "workbook_birthdate": workbook_birthdate or "(blank)",
+                "message": f"Name matched exactly: '{full_name}' but birthdate mismatch - Excel: {excel_birthdate or '(blank)'}, Database: {database_birthdate or '(blank)'}",
+                "excel_birthdate": excel_birthdate or "(blank)",
                 "database_birthdate": database_birthdate or "(blank)",
                 "meet_name": meet_name or "(unknown)",
                 "athlete_id": athlete_id or "(unknown)",
@@ -204,28 +222,28 @@ class ValidationCollector:
         )
 
     def add_nation_mismatch(
-        self, sheet: str, row: int, full_name: str, workbook_nation: str, database_nation: str, athlete_id: str = None
+        self, sheet: str, row: int, full_name: str, excel_nation: str, database_nation: str, athlete_id: str = None
     ) -> None:
         self.nation_mismatches.append(
             {
                 "sheet": sheet,
                 "row": str(row),
                 "full_name": full_name,
-                "workbook_nation": workbook_nation or "(blank)",
+                "excel_nation": excel_nation or "(blank)",
                 "database_nation": database_nation or "(blank)",
                 "athlete_id": athlete_id or "(unknown)",
             }
         )
 
     def add_gender_mismatch(
-        self, sheet: str, row: int, full_name: str, workbook_gender: str, database_gender: str
+        self, sheet: str, row: int, full_name: str, excel_gender: str, database_gender: str
     ) -> None:
         self.gender_mismatches.append(
             {
                 "sheet": sheet,
                 "row": str(row),
                 "full_name": full_name,
-                "workbook_gender": workbook_gender or "(blank)",
+                "excel_gender": excel_gender or "(blank)",
                 "database_gender": database_gender or "(blank)",
             }
         )
@@ -366,7 +384,7 @@ class ValidationCollector:
                 sheet = mismatch.get("sheet", "Unknown")
                 row = mismatch.get("row", "?")
                 full_name = mismatch.get("full_name", "Unknown")
-                excel_bday = mismatch.get("workbook_birthdate", "(blank)")
+                excel_bday = mismatch.get("excel_birthdate", "(blank)")
                 db_bday = mismatch.get("database_birthdate", "(blank)")
                 lines.append(f"  - {sheet} row {row}: '{full_name}' - Excel birthdate: {excel_bday}, Database birthdate: {db_bday}")
             if len(self.birthdate_mismatches) > 50:
@@ -1080,11 +1098,49 @@ class AthleteIndex:
             if alias_1_present and record.alias_1:
                 alias_count += 1
             records.append(record)
+
+        # Also load foreign athletes
+        try:
+            foreign_query = "SELECT id, fullname, birthdate, nation, gender, club_name FROM foreign_athletes"
+            foreign_df = pd.read_sql_query(foreign_query, conn)
+            foreign_count = 0
+            for _, row in foreign_df.iterrows():
+                birthdate_raw = row["birthdate"]
+                birthdate_normalized = normalize_birthdate(birthdate_raw)
+                nation_value = as_clean_str(row.get("nation") or "").upper()
+                gender_value = as_clean_str(row.get("gender") or "").upper()
+
+                record = AthleteRecord(
+                    id=str(row["id"]),
+                    full_name=str(row["fullname"] or ""),
+                    birthdate=birthdate_normalized,
+                    nation=nation_value,
+                    gender=gender_value or None,
+                    club_name=as_clean_str(row.get("club_name")),
+                    is_foreign=True,
+                )
+                records.append(record)
+                foreign_count += 1
+            # print(f"[AthleteIndex] Also loaded {foreign_count} foreign athletes")  # Removed to reduce noise
+        except Exception as e:
+            # foreign_athletes table might not exist - that's OK
+            pass
+
         # print(f"[AthleteIndex] Loaded {len(records)} athletes, {alias_count} with aliases (alias_1={alias_1_present}, alias_2={alias_2_present})")  # Removed to reduce noise
         # Load Roster mapping
         roster_map = load_roster_mapping()
         # Create instance
         instance = cls(records, roster_map=roster_map)
+
+        # PRELOAD athletes for BATCH matching (same logic as preview)
+        try:
+            from web.utils.name_matcher import preload_athletes_for_matching
+            instance._preloaded_athletes = preload_athletes_for_matching(conn)
+            print(f"[AthleteIndex] BATCH MODE: Preloaded {len(instance._preloaded_athletes)} athletes for matching")
+        except ImportError as e:
+            print(f"[AthleteIndex] WARNING: Could not preload athletes, falling back to DB queries: {e}")
+            instance._preloaded_athletes = None
+
         return instance
 
     def find(
@@ -1097,32 +1153,36 @@ class AthleteIndex:
         collector: ValidationCollector,
         meet_name: str = None,
         club_name: Optional[str] = None,  # Club name from results file for additional matching
+        conn: sqlite3.Connection = None,  # Database connection for match_athlete_by_name
     ) -> Optional[AthleteRecord]:
         # Store club_name for use in add_missing_athlete calls
         self._current_club_name = club_name
-        # Step 1: Normalize Excel fullname (no case, no commas, keep words whole)
+
+        # FAST BATCH MATCHING using preloaded dictionary index
+        # Uses same matching criteria as preview but with O(1) dictionary lookups
         norm_name = normalize_name(full_name)
         if not norm_name:
             collector.add_general_error(sheet, row, "Blank FULLNAME encountered.")
             return None
-        
-        # Step 2: Normalize birthdate
+
         normalized_birthdate = normalize_birthdate(birthdate)
-        if not normalized_birthdate:
-            collector.add_missing_athlete(sheet, row, full_name, "(blank)", gender or "", meet_name, getattr(self, '_current_club_name', None))
-            return None
-        
+        # Don't return early on blank birthdate - try find_athlete_ids fallback first
+        # The global name_matcher can still match by name alone
+
         # Also try swapped birthdate (for month/day transpose)
         swapped_birthdate = try_swap_month_day(normalized_birthdate)
         
         # Helper function to check if birthdate matches (exact or transposed)
-        def birthdate_matches(excel_bday: str, db_bday: Optional[str]) -> bool:
+        def birthdate_matches(excel_bday: Optional[str], db_bday: Optional[str]) -> bool:
             """Check if birthdates match exactly or are month/day transposed"""
+            # If Excel birthdate is blank, don't reject based on birthdate (will match by name)
+            if not excel_bday:
+                return True  # Allow name-only matching when no birthdate in Excel
             if not db_bday:
-                return False
+                return True  # Allow match if DB has no birthdate (will verify by name)
             db_bday_norm = normalize_birthdate(db_bday)
             if not db_bday_norm:
-                return False
+                return True  # Allow match if can't parse DB birthdate
             # Exact match or swapped match
             return (db_bday_norm == excel_bday) or (swapped_birthdate and db_bday_norm == swapped_birthdate)
         
@@ -1260,11 +1320,40 @@ class AthleteIndex:
             if gender and selected.gender and gender != selected.gender:
                 collector.add_gender_mismatch(sheet, row, full_name, gender, selected.gender)
                 return None
-            
+
             return selected
-        
+
+        # Step 5: FALLBACK - Use find_athlete_ids for advanced matching (same as preview)
+        # This provides nickname expansion, weighted common name scoring, etc.
+        if ATHLETE_LOOKUP_AVAILABLE and conn:
+            try:
+                match_result = find_athlete_ids(
+                    conn, full_name, birthdate, gender, None, club_name,
+                    preloaded_athletes=getattr(self, '_preloaded_athletes', None)
+                )
+                if match_result and match_result.athlete_id:
+                    # Found via advanced matching - convert to AthleteRecord
+                    for r in self.records:
+                        if r.id == str(match_result.athlete_id) and not r.is_foreign:
+                            # Check gender mismatch
+                            if gender and r.gender and gender != r.gender:
+                                collector.add_gender_mismatch(sheet, row, full_name, gender, r.gender)
+                                return None
+                            return r
+                elif match_result and match_result.foreign_athlete_id:
+                    # Found as foreign athlete
+                    for r in self.records:
+                        if r.id == str(match_result.foreign_athlete_id) and r.is_foreign:
+                            if gender and r.gender and gender != r.gender:
+                                collector.add_gender_mismatch(sheet, row, full_name, gender, r.gender)
+                                return None
+                            return r
+            except Exception as e:
+                # Fallback failed - continue to missing athlete
+                pass
+
         # No match found - truly missing athlete
-        collector.add_missing_athlete(sheet, row, full_name, normalized_birthdate, gender or "", meet_name, getattr(self, '_current_club_name', None))
+        collector.add_missing_athlete(sheet, row, full_name, normalized_birthdate or "(blank)", gender or "", meet_name, getattr(self, '_current_club_name', None))
         return None
 
 
@@ -1433,6 +1522,7 @@ def process_sheet(
     club_index: ClubIndex,
     event_index: EventIndex,
     collector: ValidationCollector,
+    conn: sqlite3.Connection = None,  # Database connection for find_athlete_ids()
 ) -> Tuple[List[Dict[str, Any]], Optional[str], Optional[str], Optional[str], Dict[str, int], Dict[str, List[str]]]:
     results: List[Dict[str, Any]] = []
     sheet_meet_name: Optional[str] = None
@@ -1558,14 +1648,14 @@ def process_sheet(
                         skipped_rows_details["no_event"].append(f"Row {excel_row}: {full_name} - Unknown stroke: '{stroke_symbol}'")
                     collector.add_event_missing(sheet_name, excel_row, f"Unknown stroke '{stroke_symbol}' for {full_name}.")
                     continue
-                if stroke_name == "IM" and distance_int == 100 and course != "SCM":
+                if stroke_name == "Medley" and distance_int == 100 and course != "SCM":
                     skip_reasons["no_event"] += 1
                     if len(skipped_rows_details["no_event"]) < 10:
-                        skipped_rows_details["no_event"].append(f"Row {excel_row}: {full_name} - 100 IM only for SCM (found {course})")
+                        skipped_rows_details["no_event"].append(f"Row {excel_row}: {full_name} - 100 Medley only for SCM (found {course})")
                     collector.add_event_missing(
                         sheet_name,
                         excel_row,
-                        f"100 IM only accepted for SCM (row shows {course}).",
+                        f"100 Medley only accepted for SCM (row shows {course}).",
                     )
                     continue
                 event_id = event_index.resolve_individual(course, distance_int, stroke_name, gender)
@@ -1623,15 +1713,25 @@ def process_sheet(
             birthdate_value = as_clean_str(get_value(row, "BIRTHDATE"))
 
             athlete_id: Optional[str] = None
+            foreign_athlete_id: Optional[str] = None
             day_age: Optional[int] = None
             year_age: Optional[int] = None
             athlete_record: Optional[AthleteRecord] = None
-        
+
             if not relay_meta:
-                # Pass meet_name to the find method so it can be tracked correctly
+                # Use global match_athlete_by_name() - SAME matching logic as preview
                 if is_mattioli_row and not birthdate_value:
                     print(f"[MATTIOLI DEBUG] Row {excel_row} ({full_name}) - WARNING: No birthdate in Excel, cannot match athlete", flush=True)
-                athlete_record = athlete_index.find(full_name, birthdate_value, gender, sheet_name, excel_row, collector, current_meet_name, club_name=club_name_value)
+                athlete_record = athlete_index.find(full_name, birthdate_value, gender, sheet_name, excel_row, collector, current_meet_name, club_name=club_name_value, conn=conn)
+                if athlete_record:
+                    if athlete_record.is_foreign:
+                        foreign_athlete_id = athlete_record.id
+                        athlete_id = None
+                    else:
+                        athlete_id = athlete_record.id
+                        foreign_athlete_id = None
+
+            # Check if we found an athlete
             if not athlete_record:
                 skip_reasons["no_athlete"] += 1
                 # Normalize birthdate for display
@@ -1639,32 +1739,53 @@ def process_sheet(
                 birthdate_str = birthdate_normalized_display if birthdate_normalized_display else "(no birthdate)"
                 if len(skipped_rows_details["no_athlete"]) < 10:
                     skipped_rows_details["no_athlete"].append(f"Row {excel_row}: {full_name} - Birthdate: {birthdate_str}, Gender: {gender}")
+                # Track for validation report
+                collector.add_missing_athlete(sheet_name, excel_row, full_name, birthdate_str, gender, current_meet_name, club_name_value)
                 if is_mattioli_row:
                     print(f"[MATTIOLI DEBUG] Row {excel_row} ({full_name}) - SKIPPED: Athlete not found (birthdate: {birthdate_str})", flush=True)
                 # Continue to next row immediately
                 continue
 
-            # If clubname is "Malaysia", just set it to None/blank and continue
-            # Don't try to look up athlete's club - leave it blank for now
+            # Club lookup logic:
+            # 1. If Excel club is "Malaysia", treat as blank
+            # 2. If Excel club is blank, use athlete's club from their record directly (no resolution needed)
+            # 3. Only try club resolution and report "Club not found" if Excel had a non-blank club
             club_lookup_value = club_name_value
+            excel_had_club = bool(club_name_value and club_name_value.strip())
+            use_athlete_club_directly = False
+
             if normalize_name(club_name_value) == normalize_name("Malaysia"):
-                # Just set club to None - don't try to look up athlete's club
                 club_lookup_value = None
-            
+                excel_had_club = False  # Treat "Malaysia" as blank
+
+            # If Excel club is blank, use athlete's club directly from their record
+            if not club_lookup_value and athlete_record and athlete_record.club_name:
+                use_athlete_club_directly = True  # Don't need to resolve - just use it
+
             if relay_meta and not club_lookup_value:
                 club_lookup_value = full_name
 
-            # Only try to resolve club if we have a club_lookup_value (not None/blank)
+            # Only try to resolve club if Excel provided a club value
             club_record = None
-            if club_lookup_value:
+            if club_lookup_value and not use_athlete_club_directly:
                 club_record = club_index.resolve(club_lookup_value, sheet_name, excel_row, collector)
+
             if not club_record:
-                # Don't skip - just log a warning and continue with null club fields
-                athlete_id_for_club = athlete_record.id if athlete_record else None
-                current_meet_city = meet_city_cell or sheet_meet_city or meet_info.get("city", "")
-                collector.add_club_missing(sheet_name, excel_row, club_lookup_value, full_name, current_meet_name, current_meet_city, athlete_id_for_club)
-                if is_mattioli_row:
-                    print(f"[MATTIOLI DEBUG] Row {excel_row} ({full_name}) - WARNING: Club not found (club: {club_lookup_value}), creating result with null club fields", flush=True)
+                if use_athlete_club_directly:
+                    # Use athlete's club directly without resolution
+                    club_record = ClubRecord(
+                        club_name=athlete_record.club_name,
+                        club_code=None,
+                        state_code=None,
+                        nation=None,
+                    )
+                elif excel_had_club:
+                    # Only log warning if Excel actually had a club value that wasn't found
+                    athlete_id_for_club = athlete_record.id if athlete_record else None
+                    current_meet_city = meet_city_cell or sheet_meet_city or meet_info.get("city", "")
+                    collector.add_club_missing(sheet_name, excel_row, club_lookup_value, full_name, current_meet_name, current_meet_city, athlete_id_for_club)
+                    if is_mattioli_row:
+                        print(f"[MATTIOLI DEBUG] Row {excel_row} ({full_name}) - WARNING: Club not found (club: {club_lookup_value}), creating result with null club fields", flush=True)
             
             # If no club_record (either because clubname was "Malaysia" or club not found), create a dummy one
             if not club_record:
@@ -1718,8 +1839,11 @@ def process_sheet(
                 # Don't continue - proceed to create the result anyway since name matched
                 # Track nation update if needed (before creating result dict)
                 nation_update_new = None
-            if nation_value and athlete_record.nation and nation_value != athlete_record.nation:
-                    # Nation mismatch: Trust Excel if it's non-MAS, update athlete's nation
+            # For FOREIGN athletes (is_foreign=True), DB nation is authoritative - no mismatch check needed
+            # The foreign_athletes table explicitly stores the correct nation
+            if nation_value and athlete_record and athlete_record.nation and nation_value != athlete_record.nation and not athlete_record.is_foreign:
+                    # Nation mismatch (for non-foreign athletes only)
+                    # Trust Excel if it's non-MAS, update athlete's nation
                     if nation_value != "MAS" and athlete_record.nation == "MAS":
                         # Excel says non-MAS, DB says MAS - trust Excel and update athlete
                         nation_update_new = nation_value
@@ -1740,18 +1864,13 @@ def process_sheet(
                         athlete_record.nation,
                         athlete_record.id,
                     )
-            if nation_value and not athlete_record.nation:
-                collector.add_nation_mismatch(
-                    sheet_name,
-                    excel_row,
-                    full_name,
-                    nation_value,
-                    "(blank in athlete table)",
-                    athlete_record.id if athlete_record else None,
-                )
-                continue
-            athlete_id = athlete_record.id
-            birthdate_for_age = normalize_birthdate(athlete_record.birthdate) or normalize_birthdate(
+            # Note: If Excel has nation but athlete doesn't, just proceed - don't skip the row
+            # The result will use the Excel nation value
+
+            # athlete_id and foreign_athlete_id already set above when matching
+            # No need to set again here
+
+            birthdate_for_age = normalize_birthdate(athlete_record.birthdate if athlete_record else None) or normalize_birthdate(
                 birthdate_value
             )
             if birthdate_for_age and meet_date_obj:
@@ -1760,6 +1879,7 @@ def process_sheet(
             result = {
                 "id": str(uuid.uuid4()),
                 "athlete_id": athlete_id,
+                "foreign_athlete_id": foreign_athlete_id,
                 "event_id": event_id,
                 "time_seconds": time_numeric,
                 "time_string": time_string,
@@ -1824,14 +1944,14 @@ def process_meet_file_simple(file_path: Path, meet_info: Dict[str, Any], sheet_f
     collector = ValidationCollector()
 
     conn = get_database_connection()
-    try:
-        # print(f"\n[process_meet_file_simple] Loading indexes for {file_path.name}...")  # Removed to reduce noise
-        athlete_index = AthleteIndex.from_connection(conn)
-        # print(f"[process_meet_file_simple] AthleteIndex loaded, total keys in index: {len(athlete_index.by_name)}")  # Removed to reduce noise
-        club_index = ClubIndex.from_connection(conn)
-        event_index = EventIndex.from_connection(conn)
-    finally:
-        conn.close()
+    # NOTE: conn is kept open for use in process_sheet() for find_athlete_ids()
+    # It will be closed at the end of this function
+
+    # print(f"\n[process_meet_file_simple] Loading indexes for {file_path.name}...")  # Removed to reduce noise
+    athlete_index = AthleteIndex.from_connection(conn)
+    # print(f"[process_meet_file_simple] AthleteIndex loaded, total keys in index: {len(athlete_index.by_name)}")  # Removed to reduce noise
+    club_index = ClubIndex.from_connection(conn)
+    event_index = EventIndex.from_connection(conn)
 
     excel_engine = "xlrd" if file_path.suffix.lower() == ".xls" else None
     excel = pd.ExcelFile(file_path, engine=excel_engine)
@@ -1888,6 +2008,7 @@ def process_meet_file_simple(file_path: Path, meet_info: Dict[str, Any], sheet_f
             club_index,
             event_index,
             collector,
+            conn,  # Pass connection for find_athlete_ids()
         )
 
         for result in results:
@@ -1898,7 +2019,7 @@ def process_meet_file_simple(file_path: Path, meet_info: Dict[str, Any], sheet_f
 
         all_results.extend(results)
         skipped_total = sum(skip_reasons.values())
-        print(f"[PARSE]   ✓ Sheet '{sheet_name}': {len(results)} results found, {skipped_total} rows skipped", flush=True)
+        print(f"[PARSE]   OK Sheet '{sheet_name}': {len(results)} results found, {skipped_total} rows skipped", flush=True)
         if skipped_total > 0:
             skip_details = ", ".join([f"{k}: {v}" for k, v in skip_reasons.items() if v > 0])
             print(f"[PARSE]     Skip breakdown: {skip_details}", flush=True)
@@ -1930,6 +2051,9 @@ def process_meet_file_simple(file_path: Path, meet_info: Dict[str, Any], sheet_f
 
     athlete_refs = [{"id": aid, "existing": True} for aid in sorted(used_athletes)]
     event_refs = [{"id": eid, "existing": True} for eid in sorted(used_events)]
+
+    # Close database connection (was kept open for find_athlete_ids in process_sheet)
+    conn.close()
 
     # Return validation collector so issues can be reported (but don't raise)
     return athlete_refs, all_results, event_refs, collector
@@ -2014,7 +2138,7 @@ def insert_data_simple(conn, athletes, results, events, meet_info, collector=Non
 
     cursor.execute(
         """
-        INSERT OR IGNORE INTO meets (id, name, meet_type, meet_date, location, city)
+        INSERT OR IGNORE INTO meets (id, meet_name, meet_type, meet_date, location, meet_city)
         VALUES (?, ?, ?, ?, ?, ?)
         """,
         (
@@ -2071,19 +2195,20 @@ def insert_data_simple(conn, athletes, results, events, meet_info, collector=Non
     if meet_id and results:
         print(f"    [DB] Loading existing results for meet {meet_id} ('{meet_name}')...", flush=True)
         cursor.execute("""
-            SELECT event_id, athlete_id 
-            FROM results 
+            SELECT event_id, athlete_id, foreign_athlete_id
+            FROM results
             WHERE meet_id = ?
         """, (meet_id,))
         for row in cursor.fetchall():
             event_id = row[0]
             athlete_id = row[1]
-            # Use tuple (event_id, athlete_id) as key, handling NULL athlete_id
-            key = (event_id, athlete_id if athlete_id else None)
+            foreign_athlete_id = row[2]
+            # Use 3-tuple (event_id, athlete_id, foreign_athlete_id) as key - MUST match duplicate_key format
+            key = (event_id, athlete_id if athlete_id else None, foreign_athlete_id if foreign_athlete_id else None)
             existing_results_set.add(key)
         print(f"    [DB] Found {len(existing_results_set)} existing results to check against for meet '{meet_name}' (ID: {meet_id})", flush=True)
         if len(existing_results_set) > 0:
-            print(f"    [DB] WARNING: Meet '{meet_name}' already has {len(existing_results_set)} results in database. New results with same (event_id, athlete_id) will be skipped as duplicates.", flush=True)
+            print(f"    [DB] WARNING: Meet '{meet_name}' already has {len(existing_results_set)} results in database. New results with same (event_id, athlete_id, foreign_athlete_id) will be skipped as duplicates.", flush=True)
     
     # Progress tracking
     progress_interval = max(1, total_results // 10) if total_results > 0 else 1  # Print every 10%
@@ -2127,27 +2252,28 @@ def insert_data_simple(conn, athletes, results, events, meet_info, collector=Non
                 collector.add_skipped_row(sheet_name, excel_row, full_name, "Missing event_id or meet_id")
             continue
 
-        athlete_id_for_query = result.get("athlete_id")
+        athlete_id_for_query = result.get("athlete_id") or result.get("foreign_athlete_id")
         # OPTIMIZED: Check for duplicate in memory set instead of database query
-        duplicate_key = (result["event_id"], athlete_id_for_query if athlete_id_for_query else None)
+        # Include both athlete_id types in duplicate check
+        duplicate_key = (result["event_id"], result.get("athlete_id"), result.get("foreign_athlete_id"))
         if duplicate_key in existing_results_set:
             skipped += 1
             if collector:
                 collector.add_skipped_row(sheet_name, excel_row, full_name, "Duplicate result row")
             continue
-        
+
         # Add to existing set to prevent duplicates within this batch
         existing_results_set.add(duplicate_key)
-        
+
         # Collect data for batch insert
         batch_inserts.append((
             result["id"],
             result_meet_id,
             result.get("athlete_id"),
+            result.get("foreign_athlete_id"),
             result["event_id"],
             result.get("time_seconds"),
             time_string,
-            numeric_time,
             result.get("place"),
             result.get("aqua_points"),
             result.get("rudolph_points"),
@@ -2160,10 +2286,11 @@ def insert_data_simple(conn, athletes, results, events, meet_info, collector=Non
             result.get("team_state_code"),
             result.get("team_nation"),
             result.get("is_relay", 0),
-            result.get("workbook_birthdate"),  # Store Excel birthdate for auditing
+            result.get("meet_name"),
+            result.get("meet_city"),
         ))
         inserted += 1
-    
+
     # OPTIMIZATION: Batch insert all results at once instead of one-by-one
     if batch_inserts:
         print(f"    [DB] Batch inserting {len(batch_inserts)} results...", flush=True)
@@ -2173,24 +2300,26 @@ def insert_data_simple(conn, athletes, results, events, meet_info, collector=Non
                 id,
                 meet_id,
                 athlete_id,
+                foreign_athlete_id,
                 event_id,
                 time_seconds,
                 time_string,
-                place,
+                comp_place,
                 aqua_points,
                 rudolph_points,
-                course,
-                result_meet_date,
+                meet_course,
+                meet_date,
                 day_age,
                 year_age,
-                team_name,
-                team_code,
-                team_state_code,
-                team_nation,
+                club_name,
+                club_code,
+                state_code,
+                nation,
                 is_relay,
-                workbook_birthdate
+                meet_name,
+                meet_city
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             batch_inserts,
         )

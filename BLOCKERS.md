@@ -2,7 +2,7 @@
 
 Issues that prevent progress. Document here, resolve ASAP.
 
-**Last Updated:** 2025-11-25 (Session 12 - No new blockers, 501 athletes imported)
+**Last Updated:** 2025-11-26 (Session 14 - SwimRankings upload working, export buttons standardized)
 
 ---
 
@@ -218,6 +218,41 @@ Possible solutions:
 ---
 
 ## ✅ Resolved Blockers
+
+**[2025-11-26] RESOLVED B016 (Session 14) - Upload Not Using find_athlete_ids Like Preview**
+- Root cause: `AthleteIndex.find()` in `convert_meets_to_sqlite_simple.py` used simpler matching logic than the preview function which uses `find_athlete_ids()`. Preview found matches that upload missed.
+- Solution: Added `find_athlete_ids()` as fallback in `AthleteIndex.find()` when basic matching fails. Now upload uses same advanced matching as preview (nickname expansion, weighted common name scoring).
+- Files modified: `scripts/convert_meets_to_sqlite_simple.py` (lines 1324-1351)
+- Time spent: ~15 minutes
+- Verification: Import test successful, `ATHLETE_LOOKUP_AVAILABLE = True`
+- Impact: Upload now matches athletes as accurately as preview
+
+---
+
+**[2025-11-26] RESOLVED B015 (Session 14) - Duplicate Detection Key Mismatch**
+- Root cause: In `insert_data_simple()`, existing results were loaded as 2-tuples `(event_id, athlete_id)` but duplicate check used 3-tuples `(event_id, athlete_id, foreign_athlete_id)`. Keys never matched, so duplicates were never detected.
+- Solution: Updated existing_results_set query to include `foreign_athlete_id` and use consistent 3-tuple format for both loading and checking.
+- Files modified: `scripts/convert_meets_to_sqlite_simple.py` (lines 2155-2169)
+- Time spent: ~10 minutes
+- Verification: Deleted 8011 duplicate rows from database. Results now correctly at 1383 (was 9394 with duplicates).
+- Impact: Duplicate results will now be properly detected and skipped
+
+---
+
+**[2025-11-26] RESOLVED B014 (Session 13) - Name Matcher False Positives**
+- Root cause: Two issues - (1) Common names like Muhammad/Bin treated equally as identifier names, (2) Birthdate normalization didn't handle ISO format or dot-separated dates
+- Solution:
+  1. Added `COMMON_NAMES` set with ~80 common Malaysian/Chinese/Indian name elements
+  2. Added weighted scoring: common names = 0.3 points, identifier names = 1.0 points
+  3. Require at least 1 identifier word to match (prevents "Muhammad Bin" matching everyone)
+  4. Fixed `normalize_birthdate()` to handle ISO format (2014-08-19T00:00:00Z) and dot format (2008.10.09)
+  5. Made birthdate rejection strict: if both have birthdates and don't match, reject match
+- Files modified: `src/web/utils/name_matcher.py`
+- Time spent: ~45 minutes
+- Verification: False positives reduced from 4 to 0, valid matches preserved (38 of 74)
+- Impact: Name matching now much more accurate for Malaysian naming patterns
+
+---
 
 **[2025-11-25] RESOLVED B013 (Session 11) - SEAG Preview Query Failing on state_code**
 - Root cause: SQL queries in admin.py were referencing old column names (`ClubName`, `NATION`) that were renamed during database column standardization

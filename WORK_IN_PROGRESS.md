@@ -35,13 +35,50 @@
 - Add relay event types to events table
 - Update upload functions to process relay sheets
 
-### Results Table Schema (UPDATED 2025-11-25)
+### Results Table Schema (UPDATED 2025-11-26)
 Columns removed from results table:
 - ~~`time_seconds_numeric`~~ - DELETED (redundant with `time_seconds`)
 - ~~`workbook_birthdate`~~ - DELETED (not needed)
 
+Column added:
+- `foreign_athlete_id` - INTEGER, references `foreign_athletes.id` for non-Malaysian swimmers
+
 Current results table columns:
-`id, meet_id, athlete_id, event_id, time_seconds, time_string, aqua_points, rudolph_points, course, result_meet_date, day_age, year_age, created_at, team_name, team_code, team_state_code, team_nation, is_relay, comp_place, meetname, meetcity`
+`id, meet_id, athlete_id, event_id, time_seconds, time_string, aqua_points, rudolph_points, meet_course, meet_date, day_age, year_age, created_at, club_name, club_code, state_code, nation, is_relay, comp_place, meet_name, meet_city, foreign_athlete_id`
+
+### Foreign Athlete Handling (UPDATED 2025-11-26)
+**See CLAUDE.md for full documentation.**
+
+**Three Tables:**
+- `athletes` table: All registered swimmers (MAS and foreign residents who registered)
+- `foreign_athletes` table: Confirmed foreign competitors at local meets
+- `nation_corrections` table: Corrections for athletes with wrong nation in results files
+
+**Upload function search order (CRITICAL):**
+```
+1. Search athletes table FIRST
+   → Found? Use athlete_id, nation from athletes.nation
+
+2. Search foreign_athletes table
+   → Found? Use foreign_athlete_id, nation from foreign_athletes.nation
+
+3. Check nation_corrections table
+   → Found? Use correct_nation, flag needs_review=True
+
+4. Not found anywhere → FLAG FOR MANUAL REVIEW
+   → DO NOT auto-create! Results file nation may be wrong.
+   → Admin decides: add to athletes (MAS) or foreign_athletes (foreign)
+```
+
+**Key rules:**
+- Nation in results comes from ATHLETE RECORD, not results file
+- NO auto-create of foreign athletes - all unmatched need manual review
+- Results file nation can be WRONG (e.g., Malaysian living in USA coded as "USA")
+
+**Use utility:** `find_athlete_ids()` from `src/web/utils/athlete_lookup.py`
+**For corrections:** `add_nation_correction()` when you find wrong nation in results
+
+**Registration note:** "Nation" = sporting nation = country eligible to represent internationally
 
 ### Required for ALL Upload Functions
 1. Use `get_database_connection()` - never hardcode paths
@@ -50,31 +87,141 @@ Current results table columns:
 4. Preview function must show EXACTLY what upload will do
 5. **SEAG uploads**: CALCULATE AQUA points using `calculate_aqua_points()`
 6. **SwimRankings uploads**: READ PTS_FINA from file (already calculated)
+7. **Athlete ID lookup**: Use `find_athlete_ids()` from `athlete_lookup.py`:
+8. **AFTER uploading results**: Run `python scripts/check_duplicate_results.py`
+9. **AFTER adding athletes**: Run `python scripts/check_duplicate_athletes.py`
+   - Searches athletes table FIRST (all registered swimmers)
+   - Then searches foreign_athletes table
+   - Creates foreign athlete if not found and nation is foreign
+   - Flags unmatched MAS for registration
+   - Returns nation from ATHLETE RECORD, not results file
 
 ### Global Functions - Use These, Don't Recreate
 - **Stroke normalization**: `normalize_stroke()` from `src/web/utils/stroke_normalizer.py`
 - **AQUA points**: `calculate_aqua_points()` from `src/web/utils/calculation_utils.py`
 - **Name matching**: `match_athlete_by_name()` from `src/web/utils/name_matcher.py`
 - **Date validation**: `parse_and_validate_date()` from `src/web/utils/date_validator.py`
+- **Athlete ID lookup**: `find_athlete_ids()` from `src/web/utils/athlete_lookup.py` — handles both MAS and foreign athletes
 
 We do not need backwards compatibility - this is a new build. Make code clean at the base. 
 
 ## 🎯 Current Goal
-**PHASE 5: SwimRankings & SEAG Upload Testing** - SwimRankings preview working with user feedback. 501 new athletes imported. Ready to test full upload flow.
+**PHASE 5F: SwimRankings Upload Refinement & Data Cleanup**
 
-### TEMPORARY DEBUG CONSTRAINTS (Remove After Testing)
-**Location**: `src/web/routers/admin.py` line ~881
-```python
-debug_sheet_filter = ["50m Fr"]  # TEMPORARY - remove after debugging
-```
+### Current Status
+- **DATABASE:** 4110 athletes, 4938 results (all with meet_name populated)
+- **SwimRankings Upload:** Working with bug fixes applied
+- **Testing:** New SwimRankings file (01.16.25 to 01.29.25) - 6953 results, 6655 matched, 298 unmatched
 
-**What it does**: Only processes sheet "50m Fr" during preview to speed up debugging
+### Completed This Session (2025-11-26 Late Night)
+- [x] Created `foreign_athletes` table
+- [x] Added `foreign_athlete_id` column to `results` table
+- [x] Created `nation_corrections` table for wrong-nation athletes
+- [x] Updated `athlete_lookup.py` with 4-step search (athletes → foreign_athletes → corrections → flag)
+- [x] Added Elson Lee to `athletes` (MAS) + nation correction (USA→MAS, Malaysian living in USA)
+- [x] Added Felix Iberle to `foreign_athletes` (INA)
+- [x] Added Gerd Florian Iberle to `foreign_athletes` (INA, Felix's brother)
+- [x] Added MU ZI LONG Lewis to `nation_corrections` (registered MAS but NOT eligible - needs nation confirmed)
+- [x] Updated `name_matcher.py` with spelling variations (MUHD=Muhammad, etc.)
+- [x] Updated `name_matcher.py` with nickname mappings (Nick=Nicholas, etc.)
+- [x] Removed debug filter - now processes ALL 34 sheets
+- [x] Updated admin.py to use global `find_athlete_ids()` for SwimRankings preview
+- [x] Added 72 unique unmatched athletes to database (IDs 4028-4099)
+- [x] Fixed 12 athletes with ID="None" bug (IDs 4100-4111)
+- [x] Added CHUA JUEY siblings (Gabriel, Grayson) with account info from Gideon (SL Lee)
+- [x] **DATABASE NOW HAS 4110 ATHLETES** (was 4027, cleaned duplicates)
+- [x] **PREVIEW SHOWS 100% MATCH: 5817 matched, 0 unmatched**
+- [x] **FIXED: Duplicate detection bug** - Key format mismatch (2-tuple vs 3-tuple) caused duplicates not to be detected
+- [x] **FIXED: Athlete matching in upload** - Added `find_athlete_ids()` fallback to `AthleteIndex.find()`
+- [x] **CLEANED: Removed 8011 duplicate rows** - Database now has 4859 results
+- [x] **FIXED: Preview now uses same code as upload** - Both call `process_meet_file_simple()`
+- [x] **FIXED: Club lookup logic** - If Excel club blank, use athlete's club from record directly
+- [x] **ADDED: Missing clubs** - Kinta Swimming Club, Persatuan Renang Para Negeri Kedah, Swim Star Aquatic Centre, Aqua Space Swimming And Diving
+- [x] **FIXED: Nation mismatch display** - Was using wrong dict key (workbook_nation → excel_nation)
+- [x] **STANDARDIZED: Naming convention** - All collector fields now use excel_ prefix consistently
+- [x] **ADDED: Export endpoints** - foreign-athletes, clubs, coaches
+- [x] **ADDED: Export buttons** - Standardized format across all admin panels
+- [x] **UPLOAD WORKING** - 3495 new results, 1137 duplicates skipped correctly
 
-**When to remove**: After upload issues are resolved and full file processing is needed
+### Completed This Session (2025-11-26 Continued)
+- [x] **Club Management Panel** - Added "Search and Edit Clubs" workflow with edit form
+- [x] **Cleaned duplicate clubs** - Fixed KDH→KED state codes, merged Sea Dragons, Preppies duplicates
+- [x] **Added club code validation** - Backend rejects duplicate club codes with clear error message
+- [x] **Fixed preview `full_name` key bug** - Was using `'fullname'` but collector stores `'full_name'`
+- [x] **Fixed blank birthdate early return bug** - Athletes with no birthdate weren't reaching name matcher
+- [x] **Fixed `meet_name` INSERT bug** - Added meet_name/meet_city to batch INSERT statement
+- [x] **Updated 4717 results** - Populated meet_name from meets table for existing results
+- [x] **Cleaned duplicate athletes** - NEELKANTHA/Jayden Chong, Kayton Ch'ng merged
+- [x] **Created duplicate check scripts**:
+  - `scripts/check_duplicate_results.py` - Run after every results upload
+  - `scripts/check_duplicate_athletes.py` - Run after every athlete import
+- [x] **Added SEE, Jun Yu** (ID 4112) - New athlete from results without registration
 
-**How to remove**:
-1. In admin.py: Set `debug_sheet_filter = None` (or remove the filter entirely)
-2. Test with full file to ensure all sheets process correctly
+### In Progress
+- [ ] Fix TypeScript compilation error in meet-management.tsx (extra closing div)
+- [ ] Verify SEAG preview still works after all changes
+
+### HIGH PRIORITY - Fix Before Loading More SwimRankings Results
+- [x] **SwimRankings results missing `meet_name`** - FIXED (2025-11-26)
+  - Added `meet_name` and `meet_city` columns to INSERT statement in `convert_meets_to_sqlite_simple.py`
+  - Updated 4717 existing results with meet_name/meet_city from meets table
+  - Future uploads will populate these fields automatically
+
+### Post-Upload Task (DO NOT FORGET)
+- [ ] **CHECK FOR DUPLICATES** in athletes table after loading results
+  - Some athletes may have been added twice during import
+  - Run duplicate detection by name+birthdate
+  - Cross-check athletes vs foreign_athletes tables
+
+### Recurring Athlete Addition Tasks
+**When loading results, athletes may be found that have NO registration record:**
+1. **Results athletes without registration** - Run inline SQL to add them:
+   ```python
+   cursor.execute('''
+       INSERT INTO athletes (id, fullname, BIRTHDATE, Gender, nation, club_name)
+       VALUES (?, ?, ?, ?, 'MAS', ?)
+   ''', (new_id, fullname, birthdate, gender, club_name))
+   ```
+   - Get next ID: `SELECT MAX(CAST(id AS INTEGER)) + 1 FROM athletes`
+   - Birthdate format: `YYYY-MM-DDTHH:MM:SSZ`
+   - Run this for each confirmed unmatched athlete after manual review
+
+2. **Registration records without results** - These still need to be added:
+   - Remaining registration records that had no matching result
+   - Import using `scripts/import_matched_athletes.py` pattern
+   - Or add manually via admin panel when registration data is provided
+
+### Name Matcher Status: WORKING
+**RESOLVED**: Identifier name logic implemented in `name_matcher.py`:
+- Common names (Muhammad, MUHD, Bin, Abdul) have reduced weight (0.3)
+- Identifier names (Iqram, Iriel, Lucius, etc.) have full weight (1.0)
+- Requires at least 1 identifier match + 2 total matches for high confidence
+- Birthdate validation rejects wrong birthdates even if names match
+
+### Athletes to Watch For
+| Name | Note |
+|------|------|
+| MU ZI LONG, Lewis | DSA Swimming Club, registered MAS but NOT eligible - confirm nation |
+| Sarah Ignasaki (?) | Female, NOT eligible to represent MAS - alert when found |
+
+### Future Enhancement Note
+Add `athlete_type` field to athletes/foreign_athletes tables for:
+- Pool Open (standard competition)
+- Pool Masters
+- Pool Para
+- Open Water
+Athletes can have multiple types. Defer implementation.
+
+### Housekeeping After 2025 Results Load
+**IMPORTANT:** After all 2025 results records are loaded, run duplicate check on:
+- `athletes` table - check for duplicate entries (same person, different records)
+- `foreign_athletes` table - check for duplicates
+- Cross-table check - ensure no athlete appears in both tables incorrectly
+
+### TEMPORARY DEBUG CONSTRAINTS - REMOVED
+**Status**: Debug filter REMOVED on 2025-11-26
+- SwimRankings preview now processes ALL sheets
+- Full file processing working correctly (5817 results from 34 sheets)
 
 ## 📋 Phase 2C Checklist (COMPLETE)
 - [x] Review MIGRATION_BLUEPRINT.md for target structure
@@ -137,10 +284,28 @@ debug_sheet_filter = ["50m Fr"]  # TEMPORARY - remove after debugging
 - [x] Imported 501 new athletes (163 + 338 in two runs)
 - [x] Database now has 4027 athletes (was 3526)
 
-**[IN PROGRESS] SwimRankings Upload Testing**
-- [ ] Remove debug sheet filter and test full file processing
-- [ ] Test actual upload (not just preview)
+**[COMPLETED] SwimRankings Upload Testing**
+- [x] Remove debug sheet filter and test full file processing
+- [x] Test actual upload (not just preview) - **BUGS FOUND AND FIXED**
+  - Bug 1: Duplicate detection key mismatch (2-tuple vs 3-tuple) - FIXED
+  - Bug 2: Upload not using `find_athlete_ids()` like preview - FIXED (added fallback)
+  - Cleaned up 8011 duplicate rows from database
+- [x] Re-test upload after fixes - **WORKING** (3495 new, 1137 duplicates skipped)
+- [x] Preview now uses same code as upload (`process_meet_file_simple`)
 - [ ] Verify SEAG preview still works after all changes
+
+**[COMPLETED] Admin Export Buttons Standardization**
+- [x] Added Export Foreign Athletes endpoint and button
+- [x] Added Export Clubs endpoint and button
+- [x] Added Export Coaches Table endpoint and button
+- [x] Standardized all export button text (table name in white inside red button)
+  - "Export MAS Registered Athletes"
+  - "Export Foreign Athletes"
+  - "Export Results Table"
+  - "Export Events Table"
+  - "Export Clubs"
+  - "Export Coaches Table"
+- [ ] Fix TypeScript compilation error in meet-management.tsx
 
 **Files Created:**
 - `scripts/match_unmatched_athletes.py` - Fuzzy matching between results and registrations

@@ -58,7 +58,7 @@ export async function getStates(): Promise<string[]> {
 export async function getClubsByState(stateCode: string): Promise<Club[]> {
   try {
     const response = await fetch(
-      `${API_BASE}/api/admin/clubs?state=${encodeURIComponent(stateCode)}`
+      `${API_BASE}/api/admin/clubs?state_code=${encodeURIComponent(stateCode)}`
     );
     if (!response.ok) throw new Error('Failed to fetch clubs');
     const data = await response.json();
