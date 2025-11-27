@@ -71,16 +71,8 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
   // Alias editing state
   const [editingAlias, setEditingAlias] = useState<Record<string, string>>({});
 
-  // Search and Edit Events state
-  const [showEventSearch, setShowEventSearch] = useState(false);
-  const [eventCourse, setEventCourse] = useState<string>('');
-  const [eventGender, setEventGender] = useState<string>('');
-  const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
-  const [loadingEvents, setLoadingEvents] = useState(false);
-  const [showCourseRadios, setShowCourseRadios] = useState(false);
-  const [showGenderRadios, setShowGenderRadios] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<any>(null);
-  const [editingEventFields, setEditingEventFields] = useState<Record<string, any>>({});
+  // Category editing state
+  const [editingCategory, setEditingCategory] = useState<Record<string, { participantType: string; scope: string }>>({});
 
   // Notifications
   const { notifications, success, error, clear } = useNotification();
@@ -115,160 +107,6 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
       console.error('Export error:', err);
     }
   }, [success, error]);
-
-  /**
-   * Fetch events filtered by course and gender
-   */
-  const handleFetchFilteredEvents = useCallback(async (course: string, gender: string) => {
-    if (!course) {
-      setFilteredEvents([]);
-      return;
-    }
-
-    setLoadingEvents(true);
-    try {
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
-
-      // If gender is provided, fetch for specific gender; otherwise fetch for all genders
-      if (gender) {
-        const response = await fetch(`${apiBase}/api/admin/events/filter?course=${course}&gender=${gender}`);
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Failed to fetch events: ${response.status} ${errorText}`);
-        }
-        const data = await response.json();
-        setFilteredEvents(data.events || []);
-      } else {
-        // Fetch for all genders and combine results
-        const genders = ['M', 'F', 'X'];
-        const allEvents: any[] = [];
-        const eventIds = new Set<string>();
-
-        for (const g of genders) {
-          try {
-            const response = await fetch(`${apiBase}/api/admin/events/filter?course=${course}&gender=${g}`);
-            if (response.ok) {
-              const data = await response.json();
-              // Add events, avoiding duplicates
-              (data.events || []).forEach((event: any) => {
-                const eventKey = `${event.distance}-${event.stroke}-${event.gender}`;
-                if (!eventIds.has(eventKey)) {
-                  eventIds.add(eventKey);
-                  allEvents.push(event);
-                }
-              });
-            }
-          } catch (err) {
-            console.warn(`Failed to fetch events for gender ${g}:`, err);
-          }
-        }
-        setFilteredEvents(allEvents);
-      }
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Failed to fetch events';
-      error(`Error: ${errorMsg}`);
-      console.error('Fetch error:', err);
-    } finally {
-      setLoadingEvents(false);
-    }
-  }, [error]);
-
-  /**
-   * Handle event selection - open edit form
-   */
-  const handleSelectEvent = useCallback((event: any) => {
-    setSelectedEvent(event);
-    setEditingEventFields({ ...event });
-  }, []);
-
-  /**
-   * Handle event field updates
-   */
-  const handleUpdateEventField = useCallback((field: string, value: any) => {
-    setEditingEventFields(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  }, []);
-
-  /**
-   * Save event changes to database
-   */
-  const handleSaveEvent = useCallback(async () => {
-    if (!selectedEvent) return;
-
-    try {
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
-
-      // Extract course from old event ID (first 3 letters)
-      const coursePrefix = selectedEvent.id.substring(0, 3);
-
-      // Build new event ID based on updated fields
-      const newDistance = editingEventFields.distance || selectedEvent.distance;
-      const newStroke = editingEventFields.stroke || selectedEvent.stroke;
-      const newGender = editingEventFields.gender || selectedEvent.gender;
-      const newEventType = editingEventFields.event_type || selectedEvent.event_type;
-
-      const newEventId = `${coursePrefix}_${newEventType}_${newDistance}_${newStroke}_${newGender}`;
-
-      console.log('Updating event:', selectedEvent.id, '→', newEventId, 'with fields:', editingEventFields);
-
-      // If event ID changed, check for duplicates first
-      if (newEventId !== selectedEvent.id) {
-        const checkResponse = await fetch(`${apiBase}/api/admin/events/check-duplicate?id=${encodeURIComponent(newEventId)}`);
-
-        if (checkResponse.ok) {
-          const checkData = await checkResponse.json();
-          if (checkData.exists) {
-            error(`Cannot update: Event ID "${newEventId}" already exists in database`);
-            return;
-          }
-        }
-      }
-
-      // Prepare update payload with new event ID
-      const updatePayload = {
-        ...editingEventFields,
-        id: newEventId  // Include new ID in payload for backend to handle the rename
-      };
-
-      // Try PATCH first, fallback to PUT if not found
-      let response = await fetch(`${apiBase}/api/admin/events/${selectedEvent.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatePayload),
-      });
-
-      // If PATCH returns 404, try PUT instead
-      if (response.status === 404) {
-        console.log('PATCH not found, trying PUT...');
-        response = await fetch(`${apiBase}/api/admin/events/${selectedEvent.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatePayload),
-        });
-      }
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to update event: ${response.status} ${errorText}`);
-      }
-
-      success(`Event updated successfully${newEventId !== selectedEvent.id ? ` (ID changed to ${newEventId})` : ''}`);
-      setSelectedEvent(null);
-      setEditingEventFields({});
-      // Refresh the events list
-      handleFetchFilteredEvents(eventCourse, eventGender);
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Update failed';
-      error(`Error: ${errorMsg}`);
-      console.error('Update error:', err);
-    }
-  }, [selectedEvent, editingEventFields, eventCourse, eventGender, handleFetchFilteredEvents, success, error]);
 
   /**
    * Export events table to Excel
@@ -457,14 +295,30 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
         }
 
         // Create download link
-        const url = window.URL.createObjectURL(blob);
+        console.log('[DEBUG] Blob size:', blob?.size, 'Blob type:', blob?.type);
+        if (!blob || blob.size === 0) {
+          throw new Error('Preview returned empty file. Check backend console for errors.');
+        }
+
+        // Force correct MIME type for Excel
+        const excelBlob = new Blob([blob], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        const url = window.URL.createObjectURL(excelBlob);
+
+        // Try multiple download approaches
         const link = document.createElement('a');
         link.href = url;
         link.download = filename;
+        link.style.display = 'none';
         document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
+
+        // Use setTimeout to ensure DOM is ready
+        setTimeout(() => {
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        }, 100);
 
         success(summaryMessage);
       } catch (err) {
@@ -536,6 +390,32 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
       }
     },
     [editingAlias, success, error]
+  );
+
+  /**
+   * Update meet category
+   */
+  const handleUpdateCategory = useCallback(
+    async (meetId: string, participantType: string, scope: string) => {
+      try {
+        await api.updateMeetCategory(meetId, participantType, scope);
+        const newCategory = `${participantType}-${scope}`;
+        success('Category updated successfully');
+
+        // Update local state
+        setMeets(prevMeets =>
+          prevMeets.map(m => (m.id === meetId ? { ...m, category: newCategory } : m))
+        );
+
+        // Clear editing state
+        const newEditing = { ...editingCategory };
+        delete newEditing[meetId];
+        setEditingCategory(newEditing);
+      } catch (err) {
+        error(err instanceof Error ? err.message : 'Failed to update category');
+      }
+    },
+    [editingCategory, success, error]
   );
 
   /**
@@ -622,351 +502,41 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
       })}
 
       {/* Export Tables Section - Fixed and Independent */}
-      <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '2rem' }}>
-        {/* Export Results Table */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <h3 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#111', margin: 0 }}>
-            Export Results Table
-          </h3>
-          <button
-            onClick={handleExportResults}
-            style={{
-              padding: '2px 10px',
-              backgroundColor: '#cc0000',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '0.9em',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              display: 'inline-block',
-            }}
-          >
-            Download Excel
-          </button>
-        </div>
+      <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <button
+          onClick={handleExportResults}
+          style={{
+            padding: '2px 10px',
+            backgroundColor: '#cc0000',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            fontSize: '0.9em',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            display: 'inline-block',
+          }}
+        >
+          Export Results Table
+        </button>
 
-        {/* Export Events Table */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <h3 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#111', margin: 0 }}>
-            Export Events Table
-          </h3>
-          <button
-            onClick={handleExportEvents}
-            style={{
-              padding: '2px 10px',
-              backgroundColor: '#cc0000',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '0.9em',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              display: 'inline-block',
-            }}
-          >
-            Download Excel
-          </button>
-          <button
-            onClick={() => setShowEventSearch(!showEventSearch)}
-            style={{
-              padding: '2px 10px',
-              backgroundColor: '#cc0000',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '0.9em',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              display: 'inline-block',
-              marginRight: '1rem',
-            }}
-          >
-            Search and Edit
-          </button>
-        </div>
+        <button
+          onClick={handleExportEvents}
+          style={{
+            padding: '2px 10px',
+            backgroundColor: '#cc0000',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            fontSize: '0.9em',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            display: 'inline-block',
+          }}
+        >
+          Export Events Table
+        </button>
       </div>
-
-      {/* Course Selection with Events Dropdown - Completely Separate Container */}
-      {showEventSearch && (
-        <div style={{ marginTop: '1rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-          {/* Course Selection */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <strong style={{ fontSize: '14px', lineHeight: '1.4' }}>Course:</strong>
-            {['LCM', 'SCM'].map(course => (
-              <label key={course} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer', marginRight: '1rem', lineHeight: '1.4' }}>
-                <input
-                  type="radio"
-                  name="course"
-                  value={course}
-                  checked={eventCourse === course}
-                  onChange={(e) => {
-                    setEventCourse(e.target.value);
-                    handleFetchFilteredEvents(e.target.value, eventGender);
-                  }}
-                  style={{ accentColor: '#cc0000' }}
-                />
-                <span style={{ fontSize: '14px' }}>{course}</span>
-              </label>
-            ))}
-          </div>
-
-          {/* Gender Selection - on same line */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <strong style={{ fontSize: '14px', lineHeight: '1.4' }}>Gender:</strong>
-            {['M', 'F', 'X'].map(gender => (
-              <label key={gender} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer', marginRight: '1rem', lineHeight: '1.4' }}>
-                <input
-                  type="radio"
-                  name="gender"
-                  value={gender}
-                  checked={eventGender === gender}
-                  onChange={(e) => {
-                    setEventGender(e.target.value);
-                    handleFetchFilteredEvents(eventCourse, e.target.value);
-                  }}
-                  style={{ accentColor: '#cc0000' }}
-                />
-                <span style={{ fontSize: '14px' }}>{gender}</span>
-              </label>
-            ))}
-          </div>
-
-          {/* Events Dropdown - appears on same line when course selected */}
-          {eventCourse && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <label style={{ fontSize: '14px', fontWeight: '500', whiteSpace: 'nowrap', lineHeight: '1.4' }}>Events:</label>
-              {loadingEvents ? (
-                <span style={{ fontSize: '14px', color: '#666', lineHeight: '1.4' }}>Loading...</span>
-              ) : filteredEvents.length > 0 ? (
-                <select
-                  onChange={(e) => {
-                    // Handle event selection
-                    const selectedEvent = filteredEvents.find(evt => evt.id.toString() === e.target.value);
-                    if (selectedEvent) {
-                      handleSelectEvent(selectedEvent);
-                    }
-                  }}
-                  style={{
-                    padding: '4px 8px',
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    lineHeight: '1.4',
-                  }}
-                  value={selectedEvent?.id || ''}
-                >
-                  <option value="">Select event...</option>
-                  {/* Display ONLY event IDs, no formatting */}
-                  {filteredEvents.map((event) => (
-                    <option key={event.id} value={event.id}>
-                      {event.id}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <span style={{ fontSize: '14px', color: '#666', lineHeight: '1.4' }}>No events found</span>
-              )}
-            </div>
-          )}
-
-          {/* Select button - before Close button */}
-          {selectedEvent && !eventGender && (
-            <button
-              onClick={() => {}}
-              style={{
-                padding: '2px 8px',
-                backgroundColor: '#cc0000',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                fontSize: '0.85em',
-                cursor: 'pointer',
-                height: 'fit-content',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Select
-            </button>
-          )}
-
-          {/* Close button - on same line */}
-          <button
-            onClick={() => {
-              setShowEventSearch(false);
-              setSelectedEvent(null);
-              setEditingEventFields({});
-            }}
-            style={{
-              padding: '2px 8px',
-              backgroundColor: '#666',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '0.85em',
-              cursor: 'pointer',
-              height: 'fit-content',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Close
-          </button>
-        </div>
-      )}
-
-      {/* Event Edit Form - appears when event is selected */}
-      {selectedEvent && (
-        <div style={{ marginTop: '1rem', marginBottom: '1.5rem', padding: '1rem', backgroundColor: '#f9fafb', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
-          <h4 style={{ margin: '0 0 1rem 0', fontSize: '14px', fontWeight: '600' }}>
-            Edit Event: {selectedEvent.id}
-          </h4>
-
-          {/* Event fields in specific order: id, course, stroke, distance, gender, event_type */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-            {/* Event ID (read-only display) */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151' }}>Event ID</label>
-              <input
-                type="text"
-                value={editingEventFields.id || ''}
-                readOnly
-                style={{
-                  padding: '4px 8px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontFamily: 'monospace',
-                  backgroundColor: '#e5e7eb',
-                  color: '#666',
-                }}
-              />
-            </div>
-
-            {/* Course */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151' }}>Course</label>
-              <input
-                type="text"
-                value={editingEventFields.course || ''}
-                onChange={(e) => handleUpdateEventField('course', e.target.value)}
-                style={{
-                  padding: '4px 8px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontFamily: 'monospace',
-                }}
-              />
-            </div>
-
-            {/* Stroke */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151' }}>Stroke</label>
-              <input
-                type="text"
-                value={editingEventFields.stroke || ''}
-                onChange={(e) => handleUpdateEventField('stroke', e.target.value)}
-                style={{
-                  padding: '4px 8px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontFamily: 'monospace',
-                }}
-              />
-            </div>
-
-            {/* Distance */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151' }}>Distance</label>
-              <input
-                type="text"
-                value={editingEventFields.distance || ''}
-                onChange={(e) => handleUpdateEventField('distance', e.target.value)}
-                style={{
-                  padding: '4px 8px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontFamily: 'monospace',
-                }}
-              />
-            </div>
-
-            {/* Gender */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151' }}>Gender</label>
-              <input
-                type="text"
-                value={editingEventFields.gender || ''}
-                onChange={(e) => handleUpdateEventField('gender', e.target.value)}
-                style={{
-                  padding: '4px 8px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontFamily: 'monospace',
-                }}
-              />
-            </div>
-
-            {/* Event Type (Individual/Relay) */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151' }}>Type</label>
-              <input
-                type="text"
-                value={editingEventFields.event_type || ''}
-                placeholder="Individual or Relay"
-                onChange={(e) => handleUpdateEventField('event_type', e.target.value)}
-                style={{
-                  padding: '4px 8px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontFamily: 'monospace',
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Action buttons */}
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button
-              onClick={handleSaveEvent}
-              style={{
-                padding: '4px 12px',
-                backgroundColor: '#cc0000',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                fontSize: '0.85em',
-                cursor: 'pointer',
-                fontWeight: '500',
-              }}
-            >
-              Confirm
-            </button>
-            <button
-              onClick={() => {
-                setSelectedEvent(null);
-                setEditingEventFields({});
-              }}
-              style={{
-                padding: '4px 12px',
-                backgroundColor: '#6b7280',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                fontSize: '0.85em',
-                cursor: 'pointer',
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Upload Meet Files Form */}
       <div className="bg-white p-6 rounded-lg">
@@ -1515,16 +1085,19 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
           <table className="w-full text-sm" style={{ tableLayout: 'fixed' }}>
             <thead>
               <tr className="bg-slate-100 border-b-2 border-slate-300">
-                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '25%' }}>
+                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '22%' }}>
                   Meet Name
                 </th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '15%' }}>
+                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '12%' }}>
                   Alias/Code
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '10%' }}>
+                  Type
                 </th>
                 <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '10%' }}>
                   Date
                 </th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '20%' }}>
+                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '16%' }}>
                   City
                 </th>
                 <th className="px-4 py-3 text-center font-semibold text-gray-900" style={{ width: '10%' }}>
@@ -1540,18 +1113,18 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
                 <tr
                   key={meet.id}
                   className={`border-b border-slate-200 ${
-                    editingAlias[meet.id] !== undefined
+                    editingAlias[meet.id] !== undefined || editingCategory[meet.id] !== undefined
                       ? 'bg-amber-50'
                       : 'bg-white hover:bg-gray-50'
                   }`}
                 >
                   {/* Meet Name */}
-                  <td className="px-4 py-3" style={{ width: '25%' }}>
+                  <td className="px-4 py-3" style={{ width: '22%' }}>
                     {meet.name || '(No name)'}
                   </td>
 
                   {/* Alias (editable) */}
-                  <td className="px-4 py-3" style={{ width: '15%', position: 'relative' }}>
+                  <td className="px-4 py-3" style={{ width: '12%', position: 'relative' }}>
                     {editingAlias[meet.id] !== undefined ? (
                       <div className="flex gap-2 items-center">
                         <input
@@ -1630,13 +1203,114 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
                     )}
                   </td>
 
+                  {/* Type (editable with dropdowns) */}
+                  <td className="px-4 py-3" style={{ width: '10%', position: 'relative' }}>
+                    {editingCategory[meet.id] !== undefined ? (
+                      <div className="flex flex-col gap-1">
+                        <select
+                          value={editingCategory[meet.id].participantType}
+                          onChange={e =>
+                            setEditingCategory({
+                              ...editingCategory,
+                              [meet.id]: { ...editingCategory[meet.id], participantType: e.target.value },
+                            })
+                          }
+                          className="px-1 py-1 border border-slate-300 rounded text-xs"
+                        >
+                          <option value="">--</option>
+                          <option value="OPEN">Open</option>
+                          <option value="MAST">Masters</option>
+                          <option value="PARA">Para</option>
+                        </select>
+                        <select
+                          value={editingCategory[meet.id].scope}
+                          onChange={e =>
+                            setEditingCategory({
+                              ...editingCategory,
+                              [meet.id]: { ...editingCategory[meet.id], scope: e.target.value },
+                            })
+                          }
+                          className="px-1 py-1 border border-slate-300 rounded text-xs"
+                        >
+                          <option value="">--</option>
+                          <option value="D">Domestic</option>
+                          <option value="I">International</option>
+                        </select>
+                        <div className="flex gap-1">
+                          <Button
+                            size="sm"
+                            variant="success"
+                            onClick={() => {
+                              const cat = editingCategory[meet.id];
+                              if (cat.participantType && cat.scope) {
+                                handleUpdateCategory(meet.id, cat.participantType, cat.scope);
+                              }
+                            }}
+                          >
+                            ✓
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => {
+                              const newEditing = { ...editingCategory };
+                              delete newEditing[meet.id];
+                              setEditingCategory(newEditing);
+                            }}
+                          >
+                            ✕
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex justify-between items-center w-full">
+                        <span
+                          className={`${
+                            meet.category
+                              ? 'font-medium text-gray-900'
+                              : 'text-gray-400'
+                          }`}
+                        >
+                          {meet.category || '-'}
+                        </span>
+                        <button
+                          onClick={() => {
+                            // Parse existing category into parts
+                            const parts = (meet.category || '').split('-');
+                            setEditingCategory({
+                              ...editingCategory,
+                              [meet.id]: {
+                                participantType: parts[0] || '',
+                                scope: parts[1] || '',
+                              },
+                            });
+                          }}
+                          style={{
+                            position: 'absolute',
+                            right: '4px',
+                            padding: '2px 10px',
+                            backgroundColor: '#cc0000',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '0.9em',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    )}
+                  </td>
+
                   {/* Date */}
                   <td className="px-4 py-3 text-gray-600 text-center" style={{ width: '10%', textAlign: 'center' }}>
                     {formatDateDDMMMYYYY(meet.date)}
                   </td>
 
                   {/* City */}
-                  <td className="px-4 py-3 text-gray-600" style={{ width: '20%' }}>
+                  <td className="px-4 py-3 text-gray-600" style={{ width: '16%' }}>
                     {meet.city || '-'}
                   </td>
 

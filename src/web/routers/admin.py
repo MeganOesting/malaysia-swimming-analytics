@@ -88,6 +88,10 @@ class SEAGUploadResult(BaseModel):
 class AliasUpdate(BaseModel):
     alias: str
 
+class CategoryUpdate(BaseModel):
+    participant_type: str  # MAST, PARA, OPEN
+    scope: str  # I (International), D (Domestic)
+
 
 class AthleteSearchResponse(BaseModel):
     id: str
@@ -946,6 +950,10 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
             max_length = max(len(str(cell.value or '')) for cell in column)
             ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = min(max_length + 2, 50)
 
+        # Calculate MAS vs FOREIGN unmatched counts for summary
+        mas_unmatched_count = len([m for m in collector.missing_athletes if not m.get('likely_foreign', False)])
+        foreign_unmatched_count = len([m for m in collector.missing_athletes if m.get('likely_foreign', False)])
+
         # Add SUMMARY sheet first
         ws_summary = wb.create_sheet(title="SUMMARY", index=0)
         summary_data = [
@@ -955,7 +963,10 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
             ['Results MATCHED (will upload):', matched_count],
             ['Results UNMATCHED (will NOT upload):', unmatched_count],
             ['', ''],
-            ['NOTE: Unmatched athletes listed in "UNMATCHED ATHLETES" sheet'],
+            ['  - MAS unmatched (add to athletes):', mas_unmatched_count],
+            ['  - FOREIGN unmatched (add to foreign_athletes):', foreign_unmatched_count],
+            ['', ''],
+            ['NOTE: See "UNMATCHED - MAS" and "UNMATCHED - FOREIGN" sheets'],
         ]
         for row in summary_data:
             ws_summary.append(row)
@@ -964,36 +975,74 @@ async def preview_swimrankings_upload(file: UploadFile = File(...)):
         summary_fill = PatternFill(start_color="0066CC", end_color="0066CC", fill_type="solid")
         ws_summary['A1'].fill = summary_fill
         ws_summary['A1'].font = Font(bold=True, color="FFFFFF", size=14)
-        ws_summary.column_dimensions['A'].width = 35
+        ws_summary.column_dimensions['A'].width = 45
         ws_summary.column_dimensions['B'].width = 20
 
-        # Add Unmatched Athletes sheet from collector.missing_athletes
+        # Split unmatched athletes into MAS and FOREIGN sheets
         if collector.missing_athletes:
-            ws_unmatched = wb.create_sheet(title="UNMATCHED ATHLETES")
-            unmatched_headers = ['SHEET', 'ROW', 'FULLNAME', 'BIRTHDATE', 'GENDER', 'MEET_NAME', 'CLUB_NAME']
-            ws_unmatched.append(unmatched_headers)
-            warning_fill = PatternFill(start_color="FF6600", end_color="FF6600", fill_type="solid")
-            for cell in ws_unmatched[1]:
-                cell.fill = warning_fill
-                cell.font = header_font
-            for missing in collector.missing_athletes:
-                ws_unmatched.append([
-                    missing.get('sheet', ''),
-                    missing.get('row', ''),
-                    missing.get('full_name', ''),
-                    missing.get('birthdate', ''),
-                    missing.get('gender', ''),
-                    missing.get('meet_name', ''),
-                    missing.get('club_name', ''),
-                ])
-            # Auto-adjust column widths
-            ws_unmatched.column_dimensions['A'].width = 15  # SHEET
-            ws_unmatched.column_dimensions['B'].width = 6   # ROW
-            ws_unmatched.column_dimensions['C'].width = 35  # FULLNAME
-            ws_unmatched.column_dimensions['D'].width = 12  # BIRTHDATE
-            ws_unmatched.column_dimensions['E'].width = 8   # GENDER
-            ws_unmatched.column_dimensions['F'].width = 35  # MEET_NAME
-            ws_unmatched.column_dimensions['G'].width = 30  # CLUB_NAME
+            # Separate MAS vs FOREIGN based on likely_foreign flag
+            mas_unmatched = [m for m in collector.missing_athletes if not m.get('likely_foreign', False)]
+            foreign_unmatched = [m for m in collector.missing_athletes if m.get('likely_foreign', False)]
+
+            unmatched_headers = ['SHEET', 'ROW', 'FULLNAME', 'BIRTHDATE', 'GENDER', 'EXCEL_NATION', 'CLUB_NAME', 'MEET_NAME']
+
+            # MAS UNMATCHED sheet (orange headers - need to add to athletes table)
+            if mas_unmatched:
+                ws_mas = wb.create_sheet(title="UNMATCHED - MAS")
+                ws_mas.append(unmatched_headers)
+                mas_fill = PatternFill(start_color="FF6600", end_color="FF6600", fill_type="solid")  # Orange
+                for cell in ws_mas[1]:
+                    cell.fill = mas_fill
+                    cell.font = header_font
+                for missing in mas_unmatched:
+                    ws_mas.append([
+                        missing.get('sheet', ''),
+                        missing.get('row', ''),
+                        missing.get('full_name', ''),
+                        missing.get('birthdate', ''),
+                        missing.get('gender', ''),
+                        missing.get('excel_nation', ''),
+                        missing.get('club_name', ''),
+                        missing.get('meet_name', ''),
+                    ])
+                # Column widths
+                ws_mas.column_dimensions['A'].width = 15  # SHEET
+                ws_mas.column_dimensions['B'].width = 6   # ROW
+                ws_mas.column_dimensions['C'].width = 35  # FULLNAME
+                ws_mas.column_dimensions['D'].width = 12  # BIRTHDATE
+                ws_mas.column_dimensions['E'].width = 8   # GENDER
+                ws_mas.column_dimensions['F'].width = 10  # EXCEL_NATION
+                ws_mas.column_dimensions['G'].width = 30  # CLUB_NAME
+                ws_mas.column_dimensions['H'].width = 35  # MEET_NAME
+
+            # FOREIGN UNMATCHED sheet (purple headers - need to add to foreign_athletes table)
+            if foreign_unmatched:
+                ws_foreign = wb.create_sheet(title="UNMATCHED - FOREIGN")
+                ws_foreign.append(unmatched_headers)
+                foreign_fill = PatternFill(start_color="9933FF", end_color="9933FF", fill_type="solid")  # Purple
+                for cell in ws_foreign[1]:
+                    cell.fill = foreign_fill
+                    cell.font = header_font
+                for missing in foreign_unmatched:
+                    ws_foreign.append([
+                        missing.get('sheet', ''),
+                        missing.get('row', ''),
+                        missing.get('full_name', ''),
+                        missing.get('birthdate', ''),
+                        missing.get('gender', ''),
+                        missing.get('excel_nation', ''),
+                        missing.get('club_name', ''),
+                        missing.get('meet_name', ''),
+                    ])
+                # Column widths
+                ws_foreign.column_dimensions['A'].width = 15  # SHEET
+                ws_foreign.column_dimensions['B'].width = 6   # ROW
+                ws_foreign.column_dimensions['C'].width = 35  # FULLNAME
+                ws_foreign.column_dimensions['D'].width = 12  # BIRTHDATE
+                ws_foreign.column_dimensions['E'].width = 8   # GENDER
+                ws_foreign.column_dimensions['F'].width = 10  # EXCEL_NATION
+                ws_foreign.column_dimensions['G'].width = 30  # CLUB_NAME
+                ws_foreign.column_dimensions['H'].width = 35  # MEET_NAME
 
         # Save to bytes
         output = io.BytesIO()
@@ -1221,10 +1270,11 @@ async def get_meets():
                 m.meet_type as alias,
                 m.meet_date as date,
                 m.meet_city,
-                COUNT(r.id) as result_count
+                COUNT(r.id) as result_count,
+                m.meet_category
             FROM meets m
             LEFT JOIN results r ON m.id = r.meet_id
-            GROUP BY m.id, m.meet_name, m.meet_type, m.meet_date, m.meet_city
+            GROUP BY m.id, m.meet_name, m.meet_type, m.meet_date, m.meet_city, m.meet_category
             ORDER BY m.meet_date DESC
         """)
         meets_data = cursor.fetchall()
@@ -1237,7 +1287,8 @@ async def get_meets():
                 "alias": row[2] or "",
                 "date": row[3] or "",
                 "city": row[4] or "",
-                "result_count": row[5] or 0
+                "result_count": row[5] or 0,
+                "category": row[6] or ""
             })
         
         return {"meets": meets}
@@ -1284,7 +1335,7 @@ async def update_meet_alias(meet_id: str, alias_data: AliasUpdate):
             "success": True,
             "message": f"Successfully updated alias for meet '{meet[1]}' to '{new_alias}'."
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -1292,6 +1343,60 @@ async def update_meet_alias(meet_id: str, alias_data: AliasUpdate):
         traceback.print_exc()
         conn.rollback()
         raise HTTPException(status_code=500, detail=f"Error updating alias: {str(e)}")
+    finally:
+        conn.close()
+
+@router.put("/admin/meets/{meet_id}/category")
+async def update_meet_category(meet_id: str, category_data: CategoryUpdate):
+    """
+    Update the category for a specific meet.
+
+    Constructs category code from participant_type and scope:
+    - MAST-I (Masters International)
+    - MAST-D (Masters Domestic)
+    - PARA-I (Para International)
+    - PARA-D (Para Domestic)
+    - OPEN-I (Open International)
+    - OPEN-D (Open Domestic)
+    """
+    # Validate inputs
+    valid_types = ['MAST', 'PARA', 'OPEN']
+    valid_scopes = ['I', 'D']
+
+    if category_data.participant_type not in valid_types:
+        raise HTTPException(status_code=400, detail=f"Invalid participant_type. Must be one of: {valid_types}")
+    if category_data.scope not in valid_scopes:
+        raise HTTPException(status_code=400, detail=f"Invalid scope. Must be one of: {valid_scopes}")
+
+    # Construct category code
+    category_code = f"{category_data.participant_type}-{category_data.scope}"
+
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+
+        # Verify meet exists
+        cursor.execute("SELECT id, meet_name FROM meets WHERE id = ?", (meet_id,))
+        meet = cursor.fetchone()
+        if not meet:
+            raise HTTPException(status_code=404, detail="Meet not found")
+
+        # Update meet_category in database
+        cursor.execute("UPDATE meets SET meet_category = ? WHERE id = ?", (category_code, meet_id))
+        conn.commit()
+
+        return {
+            "success": True,
+            "message": f"Successfully updated category for meet '{meet[1]}' to '{category_code}'."
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=f"Error updating category: {str(e)}")
     finally:
         conn.close()
 
@@ -1706,6 +1811,20 @@ async def process_uploaded_file(file_path: str, filename: str, meet_name: str, m
                 len(validation_issues.event_misses)
             )
             print(f"[PARSE] WARNING Found {error_count} validation issues (will be reported in summary)")
+
+        # BLOCK UPLOAD if there are unmatched athletes
+        if validation_issues and hasattr(validation_issues, 'missing_athletes') and validation_issues.missing_athletes:
+            unmatched_count = len(validation_issues.missing_athletes)
+            # Get sample of unmatched names (first 5)
+            sample_names = [ma.get('full_name', 'Unknown') for ma in validation_issues.missing_athletes[:5]]
+            sample_str = ', '.join(sample_names)
+            if unmatched_count > 5:
+                sample_str += f" ... and {unmatched_count - 5} more"
+            print(f"[UPLOAD] BLOCKED - {unmatched_count} unmatched athletes found")
+            return ConversionResult(
+                success=False,
+                message=f"Upload blocked: {unmatched_count} unmatched athlete(s) found. Run PREVIEW first to identify and add missing athletes before uploading. Unmatched: {sample_str}"
+            )
     except Exception as e:
         # If there's a different error, still raise it
         print(f"[PARSE] ERROR parsing file: {str(e)}")
@@ -3174,6 +3293,50 @@ async def update_club(club_name: str, club: ClubCreateRequest):
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to update club: {str(e)}")
+    finally:
+        conn.close()
+
+@router.delete("/admin/clubs/{club_name}")
+async def delete_club(club_name: str):
+    """Delete a club by name"""
+    conn = get_database_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Check if club exists
+        cursor.execute("SELECT club_name FROM clubs WHERE club_name = ?", (club_name,))
+        existing = cursor.fetchone()
+        if not existing:
+            raise HTTPException(status_code=404, detail=f"Club '{club_name}' not found")
+
+        # Check if club has associated results
+        cursor.execute("SELECT COUNT(*) FROM results WHERE club_name = ?", (club_name,))
+        result_count = cursor.fetchone()[0]
+        if result_count > 0:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Cannot delete club '{club_name}' - it has {result_count} associated results. Remove results first."
+            )
+
+        # Check if club has associated athletes
+        cursor.execute("SELECT COUNT(*) FROM athletes WHERE club_name = ?", (club_name,))
+        athlete_count = cursor.fetchone()[0]
+        if athlete_count > 0:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Cannot delete club '{club_name}' - it has {athlete_count} associated athletes. Reassign athletes first."
+            )
+
+        # Delete the club
+        cursor.execute("DELETE FROM clubs WHERE club_name = ?", (club_name,))
+        conn.commit()
+
+        return {"success": True, "message": f"Club '{club_name}' deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to delete club: {str(e)}")
     finally:
         conn.close()
 

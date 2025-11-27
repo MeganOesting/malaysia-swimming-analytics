@@ -106,12 +106,50 @@ Current results table columns:
 We do not need backwards compatibility - this is a new build. Make code clean at the base. 
 
 ## 🎯 Current Goal
-**PHASE 5F: SwimRankings Upload Refinement & Data Cleanup**
+**PHASE 5H: Post-Upload Cleanup - Scan for Duplicates**
 
-### Current Status
-- **DATABASE:** 4110 athletes, 4938 results (all with meet_name populated)
-- **SwimRankings Upload:** Working with bug fixes applied
-- **Testing:** New SwimRankings file (01.16.25 to 01.29.25) - 6953 results, 6655 matched, 298 unmatched
+### Current Status (Updated 2025-11-27 Evening)
+- **DATABASE:** 4278 athletes, 55701 results, 48 meets
+- **SwimRankings Upload:** All 2025 Men's and Women's files loaded!
+- **Progress:** Full 2025 data load COMPLETE. Now need duplicate scan.
+
+### Completed This Session (2025-11-27 Evening)
+- [x] Added TOH, Wu Xuan (2007-10-03) as new athlete (ID 4141) and reassigned Johor results
+- [x] Fixed NEELKANTHA birthdate to 2010-08-07 (results authoritative)
+- [x] Fixed LOO, Jhe Yee birthdate to 2006-06-15 (results authoritative)
+- [x] Fixed Muhammad Irish D birthdate to 2010-01-03 (results authoritative)
+- [x] Fixed KOEK GELACIO, Amanda M birthdate to 2016-09-05 (results authoritative)
+- [x] Added foreign athletes: PARK, Yeon Woo (KOR), STEPANOV, Elisei (nation TBD)
+- [x] Added Meet Management "Type" column with dropdowns (OPEN/MAST/PARA + D/I)
+- [x] Added `meet_category` column to meets table
+- [x] Added backend endpoint PUT /admin/meets/{id}/category
+- [x] Fixed foreign detection bug - "DOLPHIN" was matching "PHI" (Philippines)
+- [x] Fixed word boundary matching in foreign_detection.py
+- [x] Fixed import path in convert_meets_to_sqlite_simple.py (src.web.utils)
+- [x] Added upload blocker - prevents upload if unmatched athletes exist
+- [x] Fixed duplicate preview bug - removed double add_missing_athlete call
+- [x] Manually added RAINNE FOO results (8 events) - registration birthdate correct, SwimRankings wrong
+- [x] All 2025 Men's SwimRankings files uploaded
+- [x] All 2025 Women's SwimRankings files uploaded
+
+### In Progress / TODO
+- [ ] Run `python scripts/check_duplicate_results.py` - scan for duplicates after batch load
+- [ ] Run `python scripts/check_duplicate_athletes.py` - scan for duplicate athlete records
+- [ ] TAN, Melissa (SUI) - verify if MAS or foreign, add to appropriate table
+- [ ] Review inconsistent birthdates across SwimRankings files (will be corrected on 2026 registration)
+
+### Known Data Quality Issues
+- Some athletes have different birthdates in different SwimRankings files (LOO Jhe Yee, Muhammad Irish D, KOEK GELACIO)
+- These are just warnings, not blockers - will be corrected during 2026 registration
+
+### Session End Notes (2025-11-26 ~7:30pm)
+- [x] Investigated git status showing 200+ deleted files in `Statistical Analysis/` folder
+- **Finding:** Two separate folders exist:
+  - `Statistical Analysis` (capital S, with space) - Empty folder, tracked in git but files missing from disk. NOT important.
+  - `statistical_analysis` (lowercase, underscore) - Contains all actual analysis data. SAFE and intact.
+- **Root cause:** The `Statistical Analysis` folder appears to have been empty for a while. Files were committed to git in early November but no longer exist on disk (possibly OneDrive sync issue or manual deletion weeks ago).
+- **Resolution:** No action needed. The important data is in `statistical_analysis` which is untouched.
+- **No new blockers** - this was a false alarm.
 
 ### Completed This Session (2025-11-26 Late Night)
 - [x] Created `foreign_athletes` table
@@ -157,9 +195,9 @@ We do not need backwards compatibility - this is a new build. Make code clean at
   - `scripts/check_duplicate_athletes.py` - Run after every athlete import
 - [x] **Added SEE, Jun Yu** (ID 4112) - New athlete from results without registration
 
-### In Progress
-- [ ] Fix TypeScript compilation error in meet-management.tsx (extra closing div)
-- [ ] Verify SEAG preview still works after all changes
+### Deferred Tasks
+- [ ] Fix TypeScript compilation error in meet-management.tsx (extra closing div) - not blocking
+- [ ] Verify SEAG preview still works after all changes - test after SwimRankings batch complete
 
 ### HIGH PRIORITY - Fix Before Loading More SwimRankings Results
 - [x] **SwimRankings results missing `meet_name`** - FIXED (2025-11-26)

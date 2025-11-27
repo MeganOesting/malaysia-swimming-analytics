@@ -61,6 +61,7 @@ export interface Meet {
   date: string;
   city: string;
   result_count: number;
+  category: string;
 }
 
 export interface Event {

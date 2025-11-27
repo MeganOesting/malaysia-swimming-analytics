@@ -160,9 +160,12 @@ class ValidationCollector:
     # ---- collection helpers ------------------------------------------------ #
 
     def add_missing_athlete(
-        self, sheet: str, row: int, full_name: str, birthdate: str, gender: str, meet_name: str = None, club_name: str = None
+        self, sheet: str, row: int, full_name: str, birthdate: str, gender: str, meet_name: str = None, club_name: str = None, excel_nation: str = None
     ) -> None:
         """Report when athlete is not found in database - NEEDS TO BE ADDED"""
+        # Determine if likely foreign based on multiple signals
+        likely_foreign = self._is_likely_foreign(excel_nation, club_name, full_name)
+
         self.missing_athletes.append(
             {
                 "sheet": sheet,
@@ -172,9 +175,31 @@ class ValidationCollector:
                 "gender": gender or "(blank)",
                 "meet_name": meet_name or "(unknown)",
                 "club_name": club_name or "(blank)",
-                "action_needed": "ADD TO DATABASE",  # Emphasize this needs action
+                "excel_nation": excel_nation or "(blank)",
+                "likely_foreign": likely_foreign,
+                "action_needed": "ADD TO FOREIGN_ATHLETES" if likely_foreign else "ADD TO ATHLETES",
             }
         )
+
+    def _is_likely_foreign(self, excel_nation: str, club_name: str, full_name: str) -> bool:
+        """Determine if an unmatched athlete is likely foreign.
+
+        Uses global utility from src/web/utils/foreign_detection.py
+        DO NOT rewrite this logic - update the global utility instead.
+        """
+        try:
+            from src.web.utils.foreign_detection import is_likely_foreign
+            return is_likely_foreign(excel_nation, club_name, full_name)
+        except ImportError:
+            # Fallback if import fails - use simple check
+            if excel_nation and excel_nation.upper().strip() not in ('MAS', 'MALAYSIA', ''):
+                return True
+            if club_name:
+                club_lower = club_name.lower()
+                for indicator in ['mongolia', 'international', 'gis dragon', 'iskl']:
+                    if indicator in club_lower:
+                        return True
+            return False
 
     def add_birthdate_update(
         self,
@@ -1154,9 +1179,11 @@ class AthleteIndex:
         meet_name: str = None,
         club_name: Optional[str] = None,  # Club name from results file for additional matching
         conn: sqlite3.Connection = None,  # Database connection for match_athlete_by_name
+        excel_nation: Optional[str] = None,  # Nation from results file for foreign detection
     ) -> Optional[AthleteRecord]:
-        # Store club_name for use in add_missing_athlete calls
+        # Store club_name and excel_nation for use in add_missing_athlete calls
         self._current_club_name = club_name
+        self._current_excel_nation = excel_nation
 
         # FAST BATCH MATCHING using preloaded dictionary index
         # Uses same matching criteria as preview but with O(1) dictionary lookups
@@ -1275,62 +1302,17 @@ class AthleteIndex:
             
             return selected
         
-        # Step 4: If no exact match, try flexible word-based matching (high confidence only)
-        # Extract all words from Excel name (ignoring commas)
-        excel_words = set([normalize_name(w) for w in full_name.replace(",", " ").split() if w.strip()])
-        
-        if not excel_words:
-            # No words to match - truly missing
-            collector.add_missing_athlete(sheet, row, full_name, normalized_birthdate, gender or "", meet_name, getattr(self, '_current_club_name', None))
-            return None
-        
-        # Find high-confidence word-based matches
-        # Note: This still iterates through records, but exact matches (above) use the index
-        # which handles the majority of cases efficiently
-        high_confidence_matches = []
-        for r in self.records:
-            # Extract all words from DB name (ignoring commas)
-            db_words = set([normalize_name(w) for w in r.full_name.replace(",", " ").split() if w.strip()])
-            
-            # Also check aliases
-            if hasattr(r, 'alias_1') and r.alias_1:
-                alias_words = set([normalize_name(w) for w in r.alias_1.replace(",", " ").split() if w.strip()])
-                db_words.update(alias_words)
-            if hasattr(r, 'alias_2') and r.alias_2:
-                alias_words = set([normalize_name(w) for w in r.alias_2.replace(",", " ").split() if w.strip()])
-                db_words.update(alias_words)
-            
-            # High confidence: at least 3 words match, or all words if name is short (2-3 words)
-            matching_words = excel_words.intersection(db_words)
-            if len(matching_words) >= 3 or (len(excel_words) <= 3 and len(matching_words) == len(excel_words) and len(matching_words) >= 2):
-                # High confidence name match - check birthdate
-                if birthdate_matches(normalized_birthdate, r.birthdate):
-                    high_confidence_matches.append(r)
-        
-        if high_confidence_matches:
-            # Found high confidence match with birthdate - use it
-            selected = high_confidence_matches[0]
-            
-            # Update fullname if different
-            if normalize_name(selected.full_name) != norm_name:
-                collector.add_fullname_update(selected.id, full_name, selected.full_name, sheet, row, meet_name)
-                selected.full_name = full_name
-            
-            # Check gender mismatch
-            if gender and selected.gender and gender != selected.gender:
-                collector.add_gender_mismatch(sheet, row, full_name, gender, selected.gender)
-                return None
-
-            return selected
-
-        # Step 5: FALLBACK - Use find_athlete_ids for advanced matching (same as preview)
-        # This provides nickname expansion, weighted common name scoring, etc.
-        if ATHLETE_LOOKUP_AVAILABLE and conn:
+        # Step 4: Use GLOBAL name matcher - DO NOT duplicate matching logic here!
+        # Uses match_athlete_by_name() from src/web/utils/name_matcher.py
+        # This handles: single-word identifiers + birthdate, nickname expansion, weighted scoring, etc.
+        if conn:
+            print(f"[DEBUG STEP4] Trying global matcher for: {full_name} | birthdate={birthdate}", flush=True)
             try:
                 match_result = find_athlete_ids(
                     conn, full_name, birthdate, gender, None, club_name,
                     preloaded_athletes=getattr(self, '_preloaded_athletes', None)
                 )
+                print(f"[DEBUG STEP4] find_athlete_ids result: {match_result}", flush=True)
                 if match_result and match_result.athlete_id:
                     # Found via advanced matching - convert to AthleteRecord
                     for r in self.records:
@@ -1353,7 +1335,7 @@ class AthleteIndex:
                 pass
 
         # No match found - truly missing athlete
-        collector.add_missing_athlete(sheet, row, full_name, normalized_birthdate or "(blank)", gender or "", meet_name, getattr(self, '_current_club_name', None))
+        # NOTE: Don't add to collector here - main loop handles this with more complete info
         return None
 
 
@@ -1577,13 +1559,13 @@ def process_sheet(
             if row_idx <= 4:  # First 3 data rows (indices 2, 3, 4)
                 full_name_debug = as_clean_str(get_value(row, "FULLNAME"))
                 course_debug = get_value(row, "COURSE")
-                print(f"    [DEBUG] Row {excel_row}: FULLNAME='{full_name_debug}', COURSE='{course_debug}'", flush=True)
+                # print(f"    [DEBUG] Row {excel_row}: FULLNAME='{full_name_debug}', COURSE='{course_debug}'", flush=True)  # VERBOSE - disabled
             
             # Progress indicator for large sheets
             if total_rows > 50 and (row_idx - 2) % progress_interval == 0:
                 processed = row_idx - 1
                 skipped_so_far = sum(skip_reasons.values())
-                print(f"    [Sheet Progress] Row {processed}/{total_rows} ({100*processed//total_rows}%) - Found {len(results)} results, Skipped: {skipped_so_far}", flush=True)
+                # print(f"    [Sheet Progress] Row {processed}/{total_rows} ({100*processed//total_rows}%) - Found {len(results)} results, Skipped: {skipped_so_far}", flush=True)  # VERBOSE - disabled
 
             full_name = as_clean_str(get_value(row, "FULLNAME"))
             
@@ -1710,7 +1692,9 @@ def process_sheet(
 
             club_name_value = as_clean_str(get_value(row, "CLUBNAME"))
             nation_value = as_clean_str(get_value(row, "NATION")).upper()
-            birthdate_value = as_clean_str(get_value(row, "BIRTHDATE"))
+            # Normalize birthdate at source - use the existing normalize_birthdate function
+            birthdate_raw = get_value(row, "BIRTHDATE")
+            birthdate_value = normalize_birthdate(birthdate_raw) if birthdate_raw else None
 
             athlete_id: Optional[str] = None
             foreign_athlete_id: Optional[str] = None
@@ -1722,7 +1706,7 @@ def process_sheet(
                 # Use global match_athlete_by_name() - SAME matching logic as preview
                 if is_mattioli_row and not birthdate_value:
                     print(f"[MATTIOLI DEBUG] Row {excel_row} ({full_name}) - WARNING: No birthdate in Excel, cannot match athlete", flush=True)
-                athlete_record = athlete_index.find(full_name, birthdate_value, gender, sheet_name, excel_row, collector, current_meet_name, club_name=club_name_value, conn=conn)
+                athlete_record = athlete_index.find(full_name, birthdate_value, gender, sheet_name, excel_row, collector, current_meet_name, club_name=club_name_value, conn=conn, excel_nation=nation_value)
                 if athlete_record:
                     if athlete_record.is_foreign:
                         foreign_athlete_id = athlete_record.id
@@ -1739,8 +1723,8 @@ def process_sheet(
                 birthdate_str = birthdate_normalized_display if birthdate_normalized_display else "(no birthdate)"
                 if len(skipped_rows_details["no_athlete"]) < 10:
                     skipped_rows_details["no_athlete"].append(f"Row {excel_row}: {full_name} - Birthdate: {birthdate_str}, Gender: {gender}")
-                # Track for validation report
-                collector.add_missing_athlete(sheet_name, excel_row, full_name, birthdate_str, gender, current_meet_name, club_name_value)
+                # Track for validation report - include excel_nation for foreign detection
+                collector.add_missing_athlete(sheet_name, excel_row, full_name, birthdate_str, gender, current_meet_name, club_name_value, nation_value)
                 if is_mattioli_row:
                     print(f"[MATTIOLI DEBUG] Row {excel_row} ({full_name}) - SKIPPED: Athlete not found (birthdate: {birthdate_str})", flush=True)
                 # Continue to next row immediately
@@ -2019,17 +2003,17 @@ def process_meet_file_simple(file_path: Path, meet_info: Dict[str, Any], sheet_f
 
         all_results.extend(results)
         skipped_total = sum(skip_reasons.values())
-        print(f"[PARSE]   OK Sheet '{sheet_name}': {len(results)} results found, {skipped_total} rows skipped", flush=True)
-        if skipped_total > 0:
-            skip_details = ", ".join([f"{k}: {v}" for k, v in skip_reasons.items() if v > 0])
-            print(f"[PARSE]     Skip breakdown: {skip_details}", flush=True)
+        # print(f"[PARSE]   OK Sheet '{sheet_name}': {len(results)} results found, {skipped_total} rows skipped", flush=True)  # VERBOSE - disabled
+        # if skipped_total > 0:  # VERBOSE - disabled
+        #     skip_details = ", ".join([f"{k}: {v}" for k, v in skip_reasons.items() if v > 0])
+        #     print(f"[PARSE]     Skip breakdown: {skip_details}", flush=True)
             
-            # Show detailed examples of skipped rows
-            for skip_type, details_list in skipped_rows_details.items():
-                if details_list and skip_reasons.get(skip_type, 0) > 0:
-                    print(f"[PARSE]     Examples of '{skip_type}' skips (showing {len(details_list)} of {skip_reasons[skip_type]}):", flush=True)
-                    for detail in details_list:
-                        print(f"[PARSE]       - {detail}", flush=True)
+            # Show detailed examples of skipped rows - VERBOSE disabled
+            # for skip_type, details_list in skipped_rows_details.items():
+            #     if details_list and skip_reasons.get(skip_type, 0) > 0:
+            #         print(f"[PARSE]     Examples of '{skip_type}' skips (showing {len(details_list)} of {skip_reasons[skip_type]}):", flush=True)
+            #         for detail in details_list:
+            #             print(f"[PARSE]       - {detail}", flush=True)
 
         if sheet_meet_name:
             meet_name_candidates.append(sheet_meet_name)

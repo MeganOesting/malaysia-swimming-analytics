@@ -58,6 +58,32 @@ export async function updateMeetAlias(
 }
 
 /**
+ * Update meet category (participant type + scope)
+ */
+export async function updateMeetCategory(
+  meetId: string,
+  participantType: string,
+  scope: string
+): Promise<any> {
+  try {
+    const response = await fetch(`${API_BASE}/api/admin/meets/${meetId}/category`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ participant_type: participantType, scope: scope }),
+    });
+
+    if (!response.ok) throw new Error('Failed to update category');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating meet category:', error);
+    throw error;
+  }
+}
+
+/**
  * Delete meet and all its results
  */
 export async function deleteMeet(meetId: string): Promise<any> {
