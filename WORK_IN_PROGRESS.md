@@ -1,12 +1,14 @@
 # Work In Progress
 
-**Last Updated:** 2025-11-28 (Session 18)
+**Last Updated:** 2025-11-28 (Session 20)
 
 ---
 
 ## Current Status
 
 **DATABASE:** 4279 athletes, 55704 results (223 SEA Age incl 3 DQs), 48 meets
+**USA Reference Data:** 30,027 athletes, 221,321 period results, 24,928 delta records
+**MOT Base Times:** 287 records (34 events x 9 ages, minus 50m events ages 15-17)
 **SwimRankings Upload:** All 2025 data loaded - COMPLETE
 **Main Page:** Results table with filtering, sorting, MAP points, result_status display
 **Admin Panel:** Base Table Management + Edit Results with comp_place AND status support
@@ -21,7 +23,8 @@ Complete Admin Features:
 2. [x] Update MAP Table - COMPLETE
 3. [x] Update AQUA Table - COMPLETE
 4. [x] Edit Results comp_place/status - COMPLETE (supports both numbers and DQ/DNS/DNF/SCR)
-5. [ ] Create MOT table and build Update MOT Table UI
+5. [x] Create MOT table - COMPLETE (287 records populated)
+6. [ ] Build Update MOT Table UI
 
 ---
 
@@ -31,15 +34,63 @@ Complete Admin Features:
   - [x] Update Podium Target Times Table (SEA Games year dropdown 1959-2031, Enter key navigation)
   - [x] Update AQUA Table (per-row LCM/SCM dropdown, year 2025-2029, course + competition_year columns added)
   - [x] Update MAP Table (per-row age dropdown 12-18, year 2000-2029, competition_year column added)
-  - [ ] Update MOT Table (MOT table doesn't exist yet - create first)
-- [ ] Populate On Track and Track Gap columns (MOT table integration)
+  - [ ] Update MOT Table (table created, need UI)
+- [ ] Integrate MOT times into main page (MOT, MOT Aqua, MOT Gap columns)
 - [ ] Add Target Time column (from podium_target_times)
 - [ ] Test SEAG upload with new age group filtering
 - [x] Verify MAP points accuracy - MAP base times now complete (ages 12-18)
 
 ---
 
-## Completed This Session (2025-11-28 - Session 18)
+## Completed This Session (2025-11-28 - Session 20)
+
+### MOT Base Times Table - COMPLETE
+- [x] Created `mot_base_times` table with 306 rows (34 events x 9 ages)
+- [x] Columns: mot_event_id, mot_age (15-23), mot_time_seconds
+- [x] Age 23 = podium_target_time (most recent SEA Games year)
+- [x] Ages 18-22 = calculated from Canada On Track deltas (Track 1/2/3 blending by final age)
+- [x] Ages 15-17 = calculated from USA delta medians
+- [x] 50m events: ages 18-23 only (no USA data for ages 15-17)
+- [x] 287 rows populated, 19 NULL (50m events ages 15-17)
+- [x] Methodology documented in `MOT_methodology.md`
+- [x] Script: `scripts/populate_mot_base_times.py`
+
+### USA Data Tables - COMPLETE
+- [x] Created `usa_raw_period_data` table with 221,321 records
+- [x] Columns: usa_raw_event_id, usa_raw_year, usa_athlete_id, usa_raw_time_seconds
+- [x] Parsed 448 text files, 0 unmatched athletes
+- [x] Script: `scripts/create_usa_raw_period_data.py`
+- [x] Created `usa_delta_data` table with 24,928 records
+- [x] Columns: usa_delta_event_id, usa_athlete_id, usa_delta_age_start/end, usa_delta_time_start/end
+- [x] Added: usa_delta_improvement_seconds, usa_delta_improvement_percentage
+- [x] Added: usa_delta_median, usa_delta_mean, usa_delta_sd, usa_delta_min, usa_delta_max, usa_delta_q25, usa_delta_q75, usa_delta_iqr
+- [x] 3,848 unique athletes with delta records
+- [x] Script: `scripts/create_usa_delta_data.py`
+
+---
+
+## Completed Previous Session (2025-11-28 - Session 19)
+
+### Canada On Track Table
+- [x] Created `canada_on_track` table with 612 records (Track 1, 2, 3 times)
+- [x] Columns: event_id, canada_track (1/2/3), canada_track_age, canada_track_time_seconds, canada_track_year
+- [x] Added Export Canada On Track Table button to Base Table Management
+- [x] Added Update Canada On Track Table button with modal UI
+- [x] Modal features: Event | Age dropdown | Track dropdown (filtered by age) | Time input
+- [x] Track dropdown dynamically filters based on selected age (e.g., age 15 = Track 1 only)
+
+### USA Athlete Reference Table
+- [x] Created `usa_athlete` table with 30,027 athletes from USA Swimming data
+- [x] Columns: usa_athlete_id, usa_name, usa_gender (F/M), usa_birthyear
+- [x] Birth year calculated from latest period appearance (period_end_year - age)
+- [x] Parsed 448 text files across 4 time periods (9.1.21-8.31.22 through 9.1.24-8.31.25)
+- [x] Gender extracted from filename (F/M prefix); keyed by (name, gender) so same name different gender = different athletes
+- [x] Distribution: 14,736 Female, 15,291 Male (more males in top 500 rankings across events/years)
+- [x] Script: `scripts/create_usa_athlete_table.py`
+
+---
+
+## Completed Previous Session (2025-11-28 - Session 18)
 
 ### Result Status & Edit Results Enhancements
 - [x] Added `result_status` column to results table (OK, DQ, DNS, DNF, SCR)
@@ -70,6 +121,12 @@ Complete Admin Features:
 - [x] Removed redundant columns from aqua_base_times (gender, event, distance, stroke)
 - [x] Removed redundant columns from map_base_times (gender, event)
 - [x] All base tables now use event_id only (no duplicate columns)
+
+### Main Page UI Updates
+- [x] Renamed column headers: "On Track Target Time" → "MOT", "On Track AQUA" → "MOT Aqua", "Track Gap" → "MOT Gap"
+- [x] Made MOT Gap column sortable (click header to sort)
+- [x] Default sort for multiple events changed: now sorts by AQUA points (desc) instead of place
+- [x] Updated Result interface: place can be number or string (DQ, DNS, etc.), added sort_place field
 
 ### Previous Session Items (kept for reference)
 - [x] Consolidated documentation (WIP, Handbook, deleted redundant strategy files)

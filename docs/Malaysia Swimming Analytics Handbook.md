@@ -1,6 +1,6 @@
 # Malaysia Swimming Analytics Handbook
 
-**Last Updated:** 2025-11-28
+**Last Updated:** 2025-11-28 (Session 20)
 
 This handbook provides project context, architecture overview, and development history for stakeholder presentations and developer onboarding.
 
@@ -26,6 +26,11 @@ A web-based analytics platform for Malaysian swimming performance tracking, enab
 - **4,279 athletes** (Malaysian + foreign competitors)
 - **55,701 results** (competition times)
 - **48 meets** (from 2025 SwimRankings data)
+- **287 MOT base times** (34 events x 9 ages, ages 15-23)
+- **30,027 USA athletes** (reference data for MAP comparison)
+- **221,321 USA period results** (2021-2025 rankings data)
+- **24,928 USA delta records** (improvement tracking 15→16, 16→17, 17→18)
+- **612 Canada On Track times** (Track 1/2/3 development benchmarks)
 
 ---
 
@@ -64,7 +69,7 @@ project root/
 ```
 
 ### Admin Panel Tabs
-1. **Base Table Management** - Export MAP/MOT/AQUA/Podium tables
+1. **Base Table Management** - Export/Update MAP/MOT/AQUA/Podium/Canada tables
 2. **Meet Management** - Upload meet files, manage existing meets
 3. **Athlete Management** - Search, edit, export athletes
 4. **Club Management** - Manage clubs by state
@@ -103,6 +108,8 @@ All base time tables use `event_id` as the primary lookup key for consistency wi
 | `aqua_base_times` | World Aquatics base times | event_id, base_time_seconds, course (LCM/SCM), competition_year |
 | `map_base_times` | Malaysia Age Points base times | event_id, age (12-18), base_time_seconds, competition_year |
 | `podium_target_times` | SEA Games 3rd place times | event_id, target_time_seconds, sea_games_year |
+| `mot_base_times` | Malaysia On Track target times | mot_event_id, mot_age (15-23), mot_time_seconds |
+| `canada_on_track` | Canada Swimming development tracks | event_id, canada_track (1/2/3), canada_track_age, canada_track_time_seconds, canada_track_year |
 
 **event_id Format:** `{COURSE}_{STROKE}_{DISTANCE}_{GENDER}`
 - Example: `LCM_Free_100_M` = Long Course, Freestyle, 100m, Male
@@ -111,7 +118,41 @@ All base time tables use `event_id` as the primary lookup key for consistency wi
 **Update Schedule:**
 - AQUA: January (after World Aquatics publishes) - LCM and SCM tracked separately
 - MAP: September (USA Swimming 100th all-time data) - ages 12, 14, 16, 18 manual; 13, 15, 17 interpolated
+- MOT: After podium_target_times update - auto-cascades from podium using Canada/USA deltas
 - Podium: After each SEA Games (3rd place times for odd years)
+- Canada On Track: Annual (3 development tracks with age-specific targets)
+
+**MOT Calculation (see MOT_methodology.md):**
+- Age 23 = podium_target_time (most recent SEA Games year)
+- Ages 18-22 = calculated from Canada On Track track deltas (blending Track 1/2/3 by final age)
+- Ages 15-17 = calculated from USA delta medians
+- 50m events: ages 18-23 only (USA doesn't race 50m LCM age-group)
+
+### Reference Tables
+
+| Table | Purpose | Key Fields |
+|-------|---------|------------|
+| `usa_athlete` | USA Swimming athletes for MAP comparison | usa_athlete_id, usa_name, usa_gender (F/M), usa_birthyear |
+| `usa_raw_period_data` | USA Swimming period results | usa_raw_event_id, usa_raw_year, usa_athlete_id, usa_raw_time_seconds |
+| `usa_delta_data` | USA Swimming improvement data | usa_delta_event_id, usa_athlete_id, usa_delta_age_start/end, usa_delta_median/mean/sd |
+
+**usa_athlete Table:**
+- 30,027 athletes parsed from USA Swimming Period Data (2021-2025)
+- Birth year calculated from latest period appearance: period_end_year - age
+- Keyed by (name, gender) - same name with different gender = separate athletes
+- Distribution: 14,736 Female, 15,291 Male (more males in top 500 rankings)
+
+**usa_raw_period_data Table:**
+- 221,321 period results linked to usa_athlete_id
+- 28 events across 4 years (2022-2025)
+- Script: `scripts/create_usa_raw_period_data.py`
+
+**usa_delta_data Table:**
+- 24,928 improvement records tracking 15→16, 16→17, 17→18 age transitions
+- 3,848 unique athletes with delta records
+- Includes statistical columns: median, mean, sd, min, max, q25, q75, iqr
+- Script: `scripts/create_usa_delta_data.py`
+- Used for MOT ages 15-17 calculations
 
 ---
 
@@ -203,6 +244,53 @@ All base time tables use `event_id` as the primary lookup key for consistency wi
 - All modals share consistent design: two-column Male/Female layout, red dropdown buttons
 - Backend endpoints: GET/POST for /admin/map-base-times, /admin/aqua-base-times
 - Time string to seconds conversion handled server-side (e.g., "2:17.65" -> 137.65)
+
+### Phase 10: Edit Results Feature (Nov 28, 2025)
+- Added Edit button to Results column in Meet Management table
+- Edit button triggers dropdown menu (currently: comp_place option)
+- comp_place modal displays all results for selected meet:
+  - Columns: Athlete Name, Event (e.g., "50 Free"), Gender, Time, Place
+  - Sorted by stroke order (Free, Back, Breast, Fly, Medley), distance, gender, time
+  - Editable Place field with Enter key navigation
+- Backend endpoints:
+  - GET /admin/meet-results/{meet_id} - fetches results with athlete/event lookups
+  - POST /admin/meet-results/update-comp-place - batch update comp_place values
+- Extensible dropdown design for future result editing options
+
+### Phase 11: Canada On Track & USA Athlete Tables (Nov 28, 2025)
+- Created `canada_on_track` table with 612 development benchmark times
+  - 3 tracks (1, 2, 3) representing different development pathways
+  - Age-specific times per track (not all ages have all tracks)
+  - Script: `scripts/create_canada_on_track.py`
+- Built Update Canada On Track modal:
+  - Event | Age dropdown | Track dropdown | Time input
+  - Track dropdown filters based on selected age (dynamic)
+  - Example: F 50 Back age 15 = Track 1 only; age 17 = Tracks 1, 2, 3
+- Created `usa_athlete` reference table with 30,027 athletes
+  - Parsed from 448 USA Swimming Period Data text files (2021-2025)
+  - Birth year calculated: latest_period_end_year - age_at_that_time
+  - Keyed by (name, gender) - 14,736 F / 15,291 M
+  - Script: `scripts/create_usa_athlete_table.py`
+- Added Export/Update buttons for Canada On Track to Base Table Management
+
+### Phase 12: MOT Base Times & USA Delta Data (Nov 28, 2025)
+- Created `usa_raw_period_data` table with 221,321 records
+  - All USA Swimming period results linked to usa_athlete_id
+  - 28 events x 4 years, 0 unmatched athletes
+  - Script: `scripts/create_usa_raw_period_data.py`
+- Created `usa_delta_data` table with 24,928 improvement records
+  - Tracks 15→16, 16→17, 17→18 age transitions
+  - 3,848 unique athletes with delta records
+  - Added statistical columns (median, mean, sd, min, max, q25, q75, iqr)
+  - Script: `scripts/create_usa_delta_data.py`
+- Created `mot_base_times` table with 287 populated records (306 total)
+  - 34 events x 9 ages (15-23)
+  - Age 23 = podium_target_time (auto-updates with most recent SEA Games year)
+  - Ages 18-22 = Canada On Track deltas (Track 1/2/3 blending varies by final age)
+  - Ages 15-17 = USA delta medians
+  - 50m events: ages 18-23 only (no USA 50m LCM age-group data)
+  - Full methodology documented in `MOT_methodology.md`
+  - Script: `scripts/populate_mot_base_times.py`
 
 ---
 
