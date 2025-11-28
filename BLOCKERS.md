@@ -2,7 +2,7 @@
 
 Issues that prevent progress. Document here, resolve ASAP.
 
-**Last Updated:** 2025-11-26 (Session 14 - SwimRankings upload working, export buttons standardized)
+**Last Updated:** 2025-11-28 (Session 17 - All Base Table Update UIs complete except MOT)
 
 ---
 

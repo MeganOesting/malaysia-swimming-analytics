@@ -9,8 +9,8 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Optional, List
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form, Depends, Query
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form, Depends, Query, Request
+from fastapi.responses import JSONResponse, HTMLResponse, StreamingResponse
 from pydantic import BaseModel
 import sqlite3
 import sys
@@ -1267,14 +1267,14 @@ async def get_meets():
             SELECT
                 m.id,
                 m.meet_name,
-                m.meet_type as alias,
+                m.meet_alias as alias,
                 m.meet_date as date,
                 m.meet_city,
                 COUNT(r.id) as result_count,
-                m.meet_category
+                m.meet_type as category
             FROM meets m
             LEFT JOIN results r ON m.id = r.meet_id
-            GROUP BY m.id, m.meet_name, m.meet_type, m.meet_date, m.meet_city, m.meet_category
+            GROUP BY m.id, m.meet_name, m.meet_alias, m.meet_date, m.meet_city, m.meet_type
             ORDER BY m.meet_date DESC
         """)
         meets_data = cursor.fetchall()
@@ -1327,8 +1327,8 @@ async def update_meet_alias(meet_id: str, alias_data: AliasUpdate):
 
         new_alias = alias_data.alias.strip() if alias_data.alias else ''
         
-        # Update meet_type (alias) in database
-        cursor.execute("UPDATE meets SET meet_type = ? WHERE id = ?", (new_alias, meet_id))
+        # Update meet_alias in database
+        cursor.execute("UPDATE meets SET meet_alias = ? WHERE id = ?", (new_alias, meet_id))
         conn.commit()
         
         return {
@@ -1354,14 +1354,17 @@ async def update_meet_category(meet_id: str, category_data: CategoryUpdate):
     Constructs category code from participant_type and scope:
     - MAST-I (Masters International)
     - MAST-D (Masters Domestic)
+    - MAST-N (Masters National Team)
     - PARA-I (Para International)
     - PARA-D (Para Domestic)
+    - PARA-N (Para National Team)
     - OPEN-I (Open International)
     - OPEN-D (Open Domestic)
+    - OPEN-N (Open National Team)
     """
     # Validate inputs
     valid_types = ['MAST', 'PARA', 'OPEN']
-    valid_scopes = ['I', 'D']
+    valid_scopes = ['I', 'D', 'N']
 
     if category_data.participant_type not in valid_types:
         raise HTTPException(status_code=400, detail=f"Invalid participant_type. Must be one of: {valid_types}")
@@ -1381,8 +1384,8 @@ async def update_meet_category(meet_id: str, category_data: CategoryUpdate):
         if not meet:
             raise HTTPException(status_code=404, detail="Meet not found")
 
-        # Update meet_category in database
-        cursor.execute("UPDATE meets SET meet_category = ? WHERE id = ?", (category_code, meet_id))
+        # Update meet_type in database (stores OPEN-D, PARA-I, etc.)
+        cursor.execute("UPDATE meets SET meet_type = ? WHERE id = ?", (category_code, meet_id))
         conn.commit()
 
         return {
@@ -4127,6 +4130,569 @@ async def submit_manual_results(submission: ManualResultsSubmission):
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to submit results: {str(e)}")
+
+    finally:
+        conn.close()
+
+
+@router.get("/admin/export-base-table/{table_type}")
+async def export_base_table(table_type: str):
+    """
+    Export base time tables as Excel files.
+
+    Args:
+        table_type: 'map', 'mot', or 'aqua'
+
+    Returns:
+        Excel file download
+    """
+    import pandas as pd
+    from io import BytesIO
+
+    # Map table type to database table name
+    table_map = {
+        'map': 'map_base_times',
+        'mot': 'mot_base_times',
+        'aqua': 'aqua_base_times',
+        'podium': 'podium_target_times'
+    }
+
+    if table_type not in table_map:
+        raise HTTPException(status_code=400, detail=f"Invalid table type. Must be one of: {list(table_map.keys())}")
+
+    table_name = table_map[table_type]
+
+    conn = get_database_connection()
+    try:
+        # Read the table into a DataFrame
+        df = pd.read_sql_query(f"SELECT * FROM {table_name}", conn)
+
+        # Create Excel file in memory
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name=table_type.upper())
+
+        output.seek(0)
+
+        # Return as downloadable file
+        filename = f"{table_type}_base_times.xlsx"
+        return StreamingResponse(
+            output,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to export {table_type} table: {str(e)}")
+
+    finally:
+        conn.close()
+
+
+@router.get("/admin/podium-target-times")
+async def get_podium_target_times(year: int = None):
+    """
+    Get podium target times, optionally filtered by year.
+    Returns event details parsed from event_id for display.
+    """
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+
+        if year:
+            cursor.execute("""
+                SELECT id, event_id, target_time_seconds, sea_games_year
+                FROM podium_target_times
+                WHERE sea_games_year = ?
+                ORDER BY event_id
+            """, (year,))
+        else:
+            cursor.execute("""
+                SELECT id, event_id, target_time_seconds, sea_games_year
+                FROM podium_target_times
+                ORDER BY sea_games_year DESC, event_id
+            """)
+
+        rows = cursor.fetchall()
+        results = []
+        for row in rows:
+            # Parse event_id: LCM_Free_100_M -> course=LCM, stroke=Free, distance=100, gender=M
+            event_id = row[1]
+            parts = event_id.split('_')
+            if len(parts) >= 4:
+                course = parts[0]
+                stroke = parts[1]
+                distance = parts[2]
+                gender = parts[3]
+                event_display = f"{distance} {stroke}"
+            else:
+                event_display = event_id
+                gender = "?"
+
+            # Convert seconds to time string
+            time_seconds = row[2]
+            minutes = int(time_seconds // 60)
+            secs = time_seconds % 60
+            if minutes > 0:
+                time_string = f"{minutes}:{secs:05.2f}"
+            else:
+                time_string = f"{secs:.2f}"
+
+            results.append({
+                "id": row[0],
+                "event_id": event_id,
+                "event_display": event_display,
+                "gender": gender,
+                "target_time_seconds": time_seconds,
+                "target_time_string": time_string,
+                "sea_games_year": row[3]
+            })
+
+        # Get distinct years for dropdown
+        cursor.execute("SELECT DISTINCT sea_games_year FROM podium_target_times ORDER BY sea_games_year DESC")
+        years = [r[0] for r in cursor.fetchall()]
+
+        return {"times": results, "available_years": years}
+
+    finally:
+        conn.close()
+
+
+@router.get("/admin/events-list")
+async def get_events_list():
+    """
+    Get list of all individual LCM events for populating update forms.
+    """
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT id, event_distance, event_stroke, gender
+            FROM events
+            WHERE event_course = 'LCM' AND event_type = 'Individual'
+            ORDER BY gender,
+                CASE event_stroke
+                    WHEN 'Free' THEN 1
+                    WHEN 'Back' THEN 2
+                    WHEN 'Breast' THEN 3
+                    WHEN 'Fly' THEN 4
+                    WHEN 'Medley' THEN 5
+                    ELSE 6
+                END,
+                event_distance
+        """)
+
+        rows = cursor.fetchall()
+        events = []
+        for row in rows:
+            event_id = row[0]
+            distance = row[1]
+            stroke = row[2]
+            gender = row[3]
+            events.append({
+                "event_id": event_id,
+                "event_display": f"{distance} {stroke}",
+                "gender": gender
+            })
+
+        return {"events": events}
+
+    finally:
+        conn.close()
+
+
+@router.post("/admin/podium-target-times")
+async def save_podium_target_times(request: Request):
+    """
+    Save/update podium target times for a specific year.
+    Expects JSON body: { "year": 2025, "times": [{"event_id": "LCM_Free_100_M", "time_string": "49.69"}, ...] }
+    """
+    conn = get_database_connection()
+    try:
+        data = await request.json()
+        year = data.get("year")
+        times = data.get("times", [])
+
+        if not year:
+            raise HTTPException(status_code=400, detail="Year is required")
+
+        cursor = conn.cursor()
+        updated = 0
+        inserted = 0
+
+        for item in times:
+            event_id = item.get("event_id")
+            time_str = item.get("time_string", "").strip()
+
+            if not event_id or not time_str:
+                continue
+
+            # Parse time string to seconds
+            try:
+                if ':' in time_str:
+                    parts = time_str.split(':')
+                    minutes = float(parts[0])
+                    seconds = float(parts[1])
+                    time_seconds = minutes * 60 + seconds
+                else:
+                    time_seconds = float(time_str)
+            except ValueError:
+                continue
+
+            # Check if exists for this year
+            cursor.execute("""
+                SELECT id FROM podium_target_times
+                WHERE event_id = ? AND sea_games_year = ?
+            """, (event_id, year))
+
+            existing = cursor.fetchone()
+            if existing:
+                cursor.execute("""
+                    UPDATE podium_target_times
+                    SET target_time_seconds = ?, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = ?
+                """, (time_seconds, existing[0]))
+                updated += 1
+            else:
+                cursor.execute("""
+                    INSERT INTO podium_target_times (event_id, target_time_seconds, sea_games_year)
+                    VALUES (?, ?, ?)
+                """, (event_id, time_seconds, year))
+                inserted += 1
+
+        conn.commit()
+        return {"success": True, "updated": updated, "inserted": inserted}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        conn.close()
+
+
+@router.get("/admin/map-base-times")
+async def get_map_base_times(age: int = None, year: int = None):
+    """
+    Get MAP base times, optionally filtered by age and/or year.
+    Returns event details parsed from event_id for display.
+    """
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+
+        if age and year:
+            cursor.execute("""
+                SELECT id, event_id, age, base_time_seconds, competition_year
+                FROM map_base_times
+                WHERE age = ? AND competition_year = ?
+                ORDER BY event_id
+            """, (age, year))
+        elif age:
+            cursor.execute("""
+                SELECT id, event_id, age, base_time_seconds, competition_year
+                FROM map_base_times
+                WHERE age = ?
+                ORDER BY event_id
+            """, (age,))
+        elif year:
+            cursor.execute("""
+                SELECT id, event_id, age, base_time_seconds, competition_year
+                FROM map_base_times
+                WHERE competition_year = ?
+                ORDER BY age, event_id
+            """, (year,))
+        else:
+            cursor.execute("""
+                SELECT id, event_id, age, base_time_seconds, competition_year
+                FROM map_base_times
+                ORDER BY competition_year DESC, age, event_id
+            """)
+
+        rows = cursor.fetchall()
+        results = []
+        for row in rows:
+            event_id = row[1]
+            parts = event_id.split('_') if event_id else []
+            if len(parts) >= 4:
+                stroke = parts[1]
+                distance = parts[2]
+                gender = parts[3]
+                event_display = f"{distance} {stroke}"
+            else:
+                event_display = event_id or "Unknown"
+                gender = "?"
+
+            # Convert seconds to time string
+            time_seconds = row[3]
+            if time_seconds:
+                minutes = int(time_seconds // 60)
+                secs = time_seconds % 60
+                if minutes > 0:
+                    time_string = f"{minutes}:{secs:05.2f}"
+                else:
+                    time_string = f"{secs:.2f}"
+            else:
+                time_string = ""
+
+            results.append({
+                "id": row[0],
+                "event_id": event_id,
+                "event_display": event_display,
+                "gender": gender,
+                "age": int(row[2]),
+                "base_time_seconds": time_seconds,
+                "time_string": time_string,
+                "competition_year": row[4] if len(row) > 4 else 2025
+            })
+
+        # Get distinct years for dropdown
+        cursor.execute("SELECT DISTINCT competition_year FROM map_base_times ORDER BY competition_year DESC")
+        available_years = [r[0] for r in cursor.fetchall() if r[0] is not None]
+
+        return {"times": results, "available_years": available_years}
+
+    finally:
+        conn.close()
+
+
+@router.post("/admin/map-base-times")
+async def save_map_base_times(request: Request):
+    """
+    Save/update MAP base times for a specific age and year.
+    Expects JSON body: { "age": 12, "year": 2025, "times": [{"event_id": "LCM_Free_100_M", "time_string": "49.69"}, ...] }
+    """
+    conn = get_database_connection()
+    try:
+        data = await request.json()
+        age = data.get("age")
+        year = data.get("year", 2025)  # Default to 2025 if not specified
+        times = data.get("times", [])
+
+        if not age:
+            raise HTTPException(status_code=400, detail="Age is required")
+
+        cursor = conn.cursor()
+        updated = 0
+        inserted = 0
+
+        for item in times:
+            event_id = item.get("event_id")
+            time_str = item.get("time_string", "").strip()
+
+            if not event_id or not time_str:
+                continue
+
+            # Parse time string to seconds
+            try:
+                if ':' in time_str:
+                    parts = time_str.split(':')
+                    minutes = float(parts[0])
+                    seconds = float(parts[1])
+                    time_seconds = minutes * 60 + seconds
+                else:
+                    time_seconds = float(time_str)
+            except ValueError:
+                continue
+
+            # Parse gender from event_id
+            event_parts = event_id.split('_')
+            gender = event_parts[3] if len(event_parts) >= 4 else 'M'
+
+            # Check if exists for this age, event, and year
+            cursor.execute("""
+                SELECT id FROM map_base_times
+                WHERE event_id = ? AND age = ? AND competition_year = ?
+            """, (event_id, age, year))
+
+            existing = cursor.fetchone()
+            if existing:
+                cursor.execute("""
+                    UPDATE map_base_times
+                    SET base_time_seconds = ?, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = ?
+                """, (time_seconds, existing[0]))
+                updated += 1
+            else:
+                # Parse event details for legacy columns
+                stroke = event_parts[1] if len(event_parts) >= 2 else ''
+                distance = event_parts[2] if len(event_parts) >= 3 else ''
+                event_name = f"{distance} {stroke}"
+
+                cursor.execute("""
+                    INSERT INTO map_base_times (event_id, gender, event, age, base_time_seconds, competition_year)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (event_id, gender, event_name, age, time_seconds, year))
+                inserted += 1
+
+        conn.commit()
+        return {"success": True, "updated": updated, "inserted": inserted}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        conn.close()
+
+
+@router.get("/admin/aqua-base-times")
+async def get_aqua_base_times(year: int = None, course: str = None):
+    """
+    Get AQUA base times, optionally filtered by year and/or course (LCM/SCM).
+    """
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+
+        if year and course:
+            cursor.execute("""
+                SELECT id, event_id, base_time_seconds, course, competition_year
+                FROM aqua_base_times
+                WHERE competition_year = ? AND course = ?
+                ORDER BY event_id
+            """, (year, course))
+        elif year:
+            cursor.execute("""
+                SELECT id, event_id, base_time_seconds, course, competition_year
+                FROM aqua_base_times
+                WHERE competition_year = ?
+                ORDER BY course, event_id
+            """, (year,))
+        elif course:
+            cursor.execute("""
+                SELECT id, event_id, base_time_seconds, course, competition_year
+                FROM aqua_base_times
+                WHERE course = ?
+                ORDER BY competition_year DESC, event_id
+            """, (course,))
+        else:
+            cursor.execute("""
+                SELECT id, event_id, base_time_seconds, course, competition_year
+                FROM aqua_base_times
+                ORDER BY competition_year DESC, course, event_id
+            """)
+
+        rows = cursor.fetchall()
+        results = []
+        for row in rows:
+            event_id = row[1]
+            parts = event_id.split('_') if event_id else []
+            if len(parts) >= 4:
+                stroke = parts[1]
+                distance = parts[2]
+                gender = parts[3]
+                event_display = f"{distance} {stroke}"
+            else:
+                event_display = event_id or "Unknown"
+                gender = "?"
+
+            # Convert seconds to time string
+            time_seconds = row[2]
+            if time_seconds:
+                minutes = int(time_seconds // 60)
+                secs = time_seconds % 60
+                if minutes > 0:
+                    time_string = f"{minutes}:{secs:05.2f}"
+                else:
+                    time_string = f"{secs:.2f}"
+            else:
+                time_string = ""
+
+            results.append({
+                "id": row[0],
+                "event_id": event_id,
+                "event_display": event_display,
+                "gender": gender,
+                "base_time_seconds": time_seconds,
+                "time_string": time_string,
+                "course": row[3] or "LCM",
+                "competition_year": row[4] or 2025
+            })
+
+        # Get distinct years and courses for dropdowns
+        cursor.execute("SELECT DISTINCT competition_year FROM aqua_base_times WHERE competition_year IS NOT NULL ORDER BY competition_year DESC")
+        available_years = [r[0] for r in cursor.fetchall()]
+
+        cursor.execute("SELECT DISTINCT course FROM aqua_base_times WHERE course IS NOT NULL ORDER BY course")
+        available_courses = [r[0] for r in cursor.fetchall()]
+
+        return {"times": results, "available_years": available_years, "available_courses": available_courses}
+
+    finally:
+        conn.close()
+
+
+@router.post("/admin/aqua-base-times")
+async def save_aqua_base_times(request: Request):
+    """
+    Save/update AQUA base times for a specific year and course.
+    Expects JSON body: { "year": 2025, "course": "LCM", "times": [{"event_id": "LCM_Free_100_M", "time_string": "46.40"}, ...] }
+    """
+    conn = get_database_connection()
+    try:
+        data = await request.json()
+        year = data.get("year", 2025)
+        course = data.get("course", "LCM")
+        times = data.get("times", [])
+
+        cursor = conn.cursor()
+        updated = 0
+        inserted = 0
+
+        for item in times:
+            event_id = item.get("event_id")
+            time_str = item.get("time_string", "").strip()
+
+            if not event_id or not time_str:
+                continue
+
+            # Parse time string to seconds
+            try:
+                if ':' in time_str:
+                    parts = time_str.split(':')
+                    minutes = float(parts[0])
+                    seconds = float(parts[1])
+                    time_seconds = minutes * 60 + seconds
+                else:
+                    time_seconds = float(time_str)
+            except ValueError:
+                continue
+
+            # Parse event details from event_id
+            event_parts = event_id.split('_')
+            gender = event_parts[3] if len(event_parts) >= 4 else 'M'
+            stroke = event_parts[1] if len(event_parts) >= 2 else ''
+            distance = int(event_parts[2]) if len(event_parts) >= 3 else 0
+            event_name = f"{distance} {stroke}"
+
+            # Update event_id to use correct course prefix
+            new_event_id = f"{course}_{stroke}_{distance}_{gender}"
+
+            # Check if exists for this year, course, and event
+            cursor.execute("""
+                SELECT id FROM aqua_base_times
+                WHERE gender = ? AND distance = ? AND stroke = ? AND course = ? AND competition_year = ?
+            """, (gender, distance, stroke, course, year))
+
+            existing = cursor.fetchone()
+            if existing:
+                cursor.execute("""
+                    UPDATE aqua_base_times
+                    SET base_time_seconds = ?, event_id = ?, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = ?
+                """, (time_seconds, new_event_id, existing[0]))
+                updated += 1
+            else:
+                cursor.execute("""
+                    INSERT INTO aqua_base_times (event_id, gender, event, distance, stroke, base_time_seconds, course, competition_year)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """, (new_event_id, gender, event_name, distance, stroke, time_seconds, course, year))
+                inserted += 1
+
+        conn.commit()
+        return {"success": True, "updated": updated, "inserted": inserted}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
     finally:
         conn.close()

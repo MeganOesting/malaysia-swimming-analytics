@@ -1,19 +1,38 @@
 /**
- * Manual Entry Feature Component
- * 3-step wizard for manually entering meet results
+ * Base Table Management Feature Component
+ * Export and Update buttons for MAP, MOT, AQUA, and Podium Target Times tables
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
-import {
-  Athlete,
-  SelectedAthlete,
-  ManualResult,
-  ManualResultPayload,
-} from '../../shared/types/admin';
-import { Button, SearchBox } from '../../shared/components';
-import { useNotification } from '../../shared/hooks';
-import { searchAthletes } from '../athlete-management/api';
-import * as api from './api';
+import React, { useState, useEffect } from 'react';
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+
+interface EventTime {
+  event_id: string;
+  event_display: string;
+  gender: string;
+  time_string: string;
+}
+
+interface MapEventTime {
+  event_id: string;
+  event_display: string;
+  gender: string;
+  selectedAge: number;
+  time_string: string;
+  // Store all ages' times so we can switch without re-fetching
+  timesByAge: Record<number, string>;
+}
+
+interface AquaEventTime {
+  event_id: string;
+  event_display: string;
+  gender: string;
+  selectedCourse: string;
+  time_string: string;
+  // Store times by course so we can switch without re-fetching
+  timesByCourse: Record<string, string>;
+}
 
 export interface ManualEntryProps {
   isAuthenticated: boolean;
@@ -22,562 +41,1221 @@ export interface ManualEntryProps {
 export const ManualEntry: React.FC<ManualEntryProps> = ({
   isAuthenticated,
 }) => {
-  // Step state
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
-  // Step 1: Athlete selection
-  const [athleteSearchQuery, setAthleteSearchQuery] = useState('');
-  const [athleteSearchResults, setAthleteSearchResults] = useState<Athlete[]>([]);
-  const [searchingAthletes, setSearchingAthletes] = useState(false);
-  const [selectedAthletes, setSelectedAthletes] = useState<SelectedAthlete[]>([]);
+  // Podium Target Times Modal State
+  const [showPodiumModal, setShowPodiumModal] = useState(false);
+  const [podiumYear, setPodiumYear] = useState<number>(2025);
+  const [podiumTimes, setPodiumTimes] = useState<EventTime[]>([]);
+  const [availableYears, setAvailableYears] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // Step 2: Meet info
-  const [meetName, setMeetName] = useState('');
-  const [meetDate, setMeetDate] = useState('');
-  const [meetCity, setMeetCity] = useState('');
-  const [meetCourse, setMeetCourse] = useState<'LCM' | 'SCM'>('LCM');
-  const [meetAlias, setMeetAlias] = useState('');
-  const [selectedEvents, setSelectedEvents] = useState<
-    Array<{ distance: number; stroke: string; gender: string }>
-  >([]);
+  // MAP Base Times Modal State
+  const [showMapModal, setShowMapModal] = useState(false);
+  const [mapYear, setMapYear] = useState<number>(2025);
+  const [availableMapYears, setAvailableMapYears] = useState<number[]>([]);
+  const [mapTimes, setMapTimes] = useState<MapEventTime[]>([]);
 
-  // Step 3: Time entry
-  const [manualResults, setManualResults] = useState<ManualResult[]>([]);
-  const [submitting, setSubmitting] = useState(false);
+  // AQUA Base Times Modal State
+  const [showAquaModal, setShowAquaModal] = useState(false);
+  const [aquaYear, setAquaYear] = useState<number>(2025);
+  const [availableAquaYears, setAvailableAquaYears] = useState<number[]>([]);
+  const [availableAquaCourses, setAvailableAquaCourses] = useState<string[]>([]);
+  const [aquaTimes, setAquaTimes] = useState<AquaEventTime[]>([]);
 
-  // Notifications
-  const { notifications, success, error, clear } = useNotification();
+  // Generate years 2000-2029 for MAP
+  const mapYearOptions: number[] = [];
+  for (let year = 2029; year >= 2000; year--) {
+    mapYearOptions.push(year);
+  }
 
-  /**
-   * Search athletes (debounced)
-   */
-  useEffect(() => {
-    if (!athleteSearchQuery.trim()) {
-      setAthleteSearchResults([]);
-      return;
+  // Generate years 2025-2029 for AQUA (no historical data)
+  const aquaYearOptions = [2025, 2026, 2027, 2028, 2029];
+  const aquaCourseOptions = ['LCM', 'SCM'];
+
+  // Generate odd years from 1959 to current year + 4 (SEA Games are odd years)
+  const seaGamesYears: number[] = [];
+  const currentYear = new Date().getFullYear();
+  for (let year = currentYear + 4; year >= 1959; year--) {
+    if (year % 2 === 1) {
+      seaGamesYears.push(year);
     }
+  }
 
-    const timer = setTimeout(async () => {
-      setSearchingAthletes(true);
-      try {
-        const results = await searchAthletes(athleteSearchQuery);
-        setAthleteSearchResults(results);
-      } catch (err) {
-        error(err instanceof Error ? err.message : 'Search failed');
-      } finally {
-        setSearchingAthletes(false);
-      }
-    }, 300);
+  // Ages for MAP times
+  const mapAges = [12, 13, 14, 15, 16, 17, 18];
 
-    return () => clearTimeout(timer);
-  }, [athleteSearchQuery, error]);
-
-  /**
-   * Add athlete to selection
-   */
-  const handleAddAthlete = useCallback((athlete: Athlete) => {
-    setSelectedAthletes(prev => {
-      const exists = prev.find(a => a.id === athlete.id);
-      if (exists) {
-        return prev.filter(a => a.id !== athlete.id);
-      }
-      return [...prev, { ...athlete, selected: true }];
-    });
-  }, []);
-
-  /**
-   * Remove athlete from selection
-   */
-  const handleRemoveAthlete = useCallback((athleteId: string) => {
-    setSelectedAthletes(prev => prev.filter(a => a.id !== athleteId));
-  }, []);
-
-  /**
-   * Go to Step 2
-   */
-  const handleNextToStep2 = useCallback(() => {
-    if (selectedAthletes.length === 0) {
-      error('Please select at least one athlete');
-      return;
-    }
-    setCurrentStep(2);
-  }, [selectedAthletes, error]);
-
-  /**
-   * Go to Step 3
-   */
-  const handleNextToStep3 = useCallback(() => {
-    if (!meetName || !meetDate || selectedEvents.length === 0) {
-      error('Please fill in meet name, date, and select at least one event');
-      return;
-    }
-
-    // Generate result entries for all athletes and events
-    const results: ManualResult[] = [];
-    selectedAthletes.forEach(athlete => {
-      selectedEvents.forEach(event => {
-        results.push({
-          athlete_id: athlete.id,
-          athlete_name: athlete.name,
-          event_distance: event.distance,
-          event_stroke: event.stroke,
-          event_gender: event.gender,
-          time_string: '',
-          place: null,
-        });
-      });
-    });
-
-    setManualResults(results);
-    setCurrentStep(3);
-  }, [meetName, meetDate, selectedEvents, selectedAthletes, error]);
-
-  /**
-   * Submit manual results
-   */
-  const handleSubmitManualResults = useCallback(async () => {
-    // Validate all times are entered
-    const emptyTimes = manualResults.filter(r => !r.time_string.trim());
-    if (emptyTimes.length > 0) {
-      error(`Please enter times for all ${emptyTimes.length} remaining results`);
-      return;
-    }
-
-    setSubmitting(true);
+  const handleExport = async (tableType: 'map' | 'mot' | 'aqua' | 'podium') => {
     try {
-      const payload: ManualResultPayload[] = manualResults.map(r => ({
-        athlete_id: r.athlete_id,
-        distance: r.event_distance,
-        stroke: r.event_stroke,
-        event_gender: r.event_gender,
-        time_string: r.time_string,
-        place: r.place,
+      setError('');
+      const response = await fetch(`${API_BASE}/api/admin/export-base-table/${tableType}`);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to export ${tableType.toUpperCase()} table: ${response.status} ${errorText}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${tableType}_base_times.xlsx`;
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      setError(err.message);
+      console.error('Export error:', err);
+    }
+  };
+
+  const handleUpdate = (tableType: 'map' | 'mot' | 'aqua' | 'podium') => {
+    setError('');
+    setMessage('');
+
+    if (tableType === 'podium') {
+      setShowPodiumModal(true);
+      loadPodiumData();
+    } else if (tableType === 'map') {
+      setShowMapModal(true);
+      loadMapData();
+    } else if (tableType === 'aqua') {
+      setShowAquaModal(true);
+      loadAquaData();
+    } else {
+      setMessage(`Update ${tableType.toUpperCase()} Table - Feature coming soon`);
+    }
+  };
+
+  const loadPodiumData = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      // Get all events
+      const eventsRes = await fetch(`${API_BASE}/api/admin/events-list`);
+      if (!eventsRes.ok) {
+        throw new Error(`Events API returned ${eventsRes.status}: ${await eventsRes.text()}`);
+      }
+      const eventsData = await eventsRes.json();
+
+      if (!eventsData.events || eventsData.events.length === 0) {
+        throw new Error('No events returned from API');
+      }
+
+      // Get existing times
+      const timesRes = await fetch(`${API_BASE}/api/admin/podium-target-times`);
+      if (!timesRes.ok) {
+        throw new Error(`Times API returned ${timesRes.status}: ${await timesRes.text()}`);
+      }
+      const timesData = await timesRes.json();
+
+      setAvailableYears(timesData.available_years || []);
+
+      // Create a map of existing times by event_id and year
+      const existingTimesMap: Record<string, Record<number, string>> = {};
+      for (const t of timesData.times || []) {
+        if (!existingTimesMap[t.event_id]) {
+          existingTimesMap[t.event_id] = {};
+        }
+        existingTimesMap[t.event_id][t.sea_games_year] = t.target_time_string;
+      }
+
+      // Build the times array with all events
+      const times: EventTime[] = eventsData.events.map((evt: any) => ({
+        event_id: evt.event_id,
+        event_display: evt.event_display,
+        gender: evt.gender,
+        time_string: existingTimesMap[evt.event_id]?.[podiumYear] || ''
       }));
 
-      const response = await api.submitManualResults({
-        meet_name: meetName,
-        meet_date: meetDate,
-        meet_city: meetCity,
-        meet_course: meetCourse,
-        meet_alias: meetAlias,
-        results: payload,
+      setPodiumTimes(times);
+    } catch (err: any) {
+      console.error('Load podium data error:', err);
+      setError('Failed to load podium data: ' + err.message);
+      setPodiumTimes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadTimesForYear = async (year: number) => {
+    setPodiumYear(year);
+    setLoading(true);
+    setError('');
+    try {
+      const eventsRes = await fetch(`${API_BASE}/api/admin/events-list`);
+      if (!eventsRes.ok) {
+        throw new Error(`Events API error: ${eventsRes.status}`);
+      }
+      const eventsData = await eventsRes.json();
+
+      const timesRes = await fetch(`${API_BASE}/api/admin/podium-target-times?year=${year}`);
+      if (!timesRes.ok) {
+        throw new Error(`Times API error: ${timesRes.status}`);
+      }
+      const timesData = await timesRes.json();
+
+      const existingTimesMap: Record<string, string> = {};
+      for (const t of timesData.times || []) {
+        existingTimesMap[t.event_id] = t.target_time_string;
+      }
+
+      const times: EventTime[] = eventsData.events.map((evt: any) => ({
+        event_id: evt.event_id,
+        event_display: evt.event_display,
+        gender: evt.gender,
+        time_string: existingTimesMap[evt.event_id] || ''
+      }));
+
+      setPodiumTimes(times);
+    } catch (err: any) {
+      console.error('Load times error:', err);
+      setError('Failed to load times: ' + err.message);
+      setPodiumTimes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTimeChange = (eventId: string, value: string) => {
+    setPodiumTimes(prev =>
+      prev.map(t =>
+        t.event_id === eventId ? { ...t, time_string: value } : t
+      )
+    );
+  };
+
+  const savePodiumTimes = async () => {
+    setLoading(true);
+    try {
+      const timesToSave = podiumTimes
+        .filter(t => t.time_string.trim() !== '')
+        .map(t => ({
+          event_id: t.event_id,
+          time_string: t.time_string
+        }));
+
+      const response = await fetch(`${API_BASE}/api/admin/podium-target-times`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ year: podiumYear, times: timesToSave })
       });
 
-      success(
-        `Successfully submitted ${response.results_inserted} results! Meet ID: ${response.meet_id}`
-      );
-
-      // Reset wizard
-      setTimeout(() => {
-        setCurrentStep(1);
-        setSelectedAthletes([]);
-        setAthleteSearchQuery('');
-        setAthleteSearchResults([]);
-        setMeetName('');
-        setMeetDate('');
-        setMeetCity('');
-        setMeetCourse('LCM');
-        setMeetAlias('');
-        setSelectedEvents([]);
-        setManualResults([]);
-      }, 2000);
-    } catch (err) {
-      error(err instanceof Error ? err.message : 'Failed to submit results');
+      const result = await response.json();
+      if (result.success) {
+        setMessage(`Saved ${result.updated} updated, ${result.inserted} inserted for year ${podiumYear}`);
+        setShowPodiumModal(false);
+      } else {
+        setError('Failed to save: ' + (result.detail || 'Unknown error'));
+      }
+    } catch (err: any) {
+      setError('Failed to save: ' + err.message);
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
-  }, [
-    manualResults,
-    meetName,
-    meetDate,
-    meetCity,
-    meetCourse,
-    meetAlias,
-    success,
-    error,
-  ]);
+  };
+
+  // MAP Base Times Functions
+  const loadMapData = async (year: number = mapYear) => {
+    setLoading(true);
+    setError('');
+    try {
+      // Get all events
+      const eventsRes = await fetch(`${API_BASE}/api/admin/events-list`);
+      if (!eventsRes.ok) {
+        throw new Error(`Events API returned ${eventsRes.status}`);
+      }
+      const eventsData = await eventsRes.json();
+
+      // Get existing MAP times for this year (all ages)
+      const timesRes = await fetch(`${API_BASE}/api/admin/map-base-times?year=${year}`);
+      if (!timesRes.ok) {
+        throw new Error(`MAP times API returned ${timesRes.status}`);
+      }
+      const timesData = await timesRes.json();
+
+      // Store available years
+      setAvailableMapYears(timesData.available_years || []);
+
+      // Create a map of existing times by event_id and age
+      const existingTimesMap: Record<string, Record<number, string>> = {};
+      for (const t of timesData.times || []) {
+        if (!existingTimesMap[t.event_id]) {
+          existingTimesMap[t.event_id] = {};
+        }
+        existingTimesMap[t.event_id][t.age] = t.time_string;
+      }
+
+      // Build the times array with all events, default to age 12
+      const times: MapEventTime[] = eventsData.events.map((evt: any) => {
+        const timesByAge = existingTimesMap[evt.event_id] || {};
+        return {
+          event_id: evt.event_id,
+          event_display: evt.event_display,
+          gender: evt.gender,
+          selectedAge: 12,
+          time_string: timesByAge[12] || '',
+          timesByAge: timesByAge
+        };
+      });
+
+      setMapTimes(times);
+    } catch (err: any) {
+      console.error('Load MAP data error:', err);
+      setError('Failed to load MAP data: ' + err.message);
+      setMapTimes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMapTimeChange = (eventId: string, value: string) => {
+    setMapTimes(prev =>
+      prev.map(t => {
+        if (t.event_id === eventId) {
+          // Update both time_string and the timesByAge for the selected age
+          const newTimesByAge = { ...t.timesByAge, [t.selectedAge]: value };
+          return { ...t, time_string: value, timesByAge: newTimesByAge };
+        }
+        return t;
+      })
+    );
+  };
+
+  const handleMapAgeChange = (eventId: string, newAge: number) => {
+    setMapTimes(prev =>
+      prev.map(t => {
+        if (t.event_id === eventId) {
+          // Switch to the new age and load that age's time
+          return {
+            ...t,
+            selectedAge: newAge,
+            time_string: t.timesByAge[newAge] || ''
+          };
+        }
+        return t;
+      })
+    );
+  };
+
+  const saveMapTimes = async () => {
+    setLoading(true);
+    try {
+      // Group times by age for batch saving
+      const timesByAge: Record<number, { event_id: string; time_string: string }[]> = {};
+
+      for (const t of mapTimes) {
+        // Save any age that has a non-empty time in timesByAge
+        for (const [ageStr, timeStr] of Object.entries(t.timesByAge)) {
+          const age = parseInt(ageStr);
+          if (timeStr && timeStr.trim() !== '') {
+            if (!timesByAge[age]) {
+              timesByAge[age] = [];
+            }
+            timesByAge[age].push({ event_id: t.event_id, time_string: timeStr });
+          }
+        }
+      }
+
+      let totalUpdated = 0;
+      let totalInserted = 0;
+
+      // Save each age group
+      for (const [ageStr, times] of Object.entries(timesByAge)) {
+        const age = parseInt(ageStr);
+        const response = await fetch(`${API_BASE}/api/admin/map-base-times`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ age, year: mapYear, times })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          totalUpdated += result.updated;
+          totalInserted += result.inserted;
+        }
+      }
+
+      setMessage(`Saved ${totalUpdated} updated, ${totalInserted} inserted across all ages`);
+      setShowMapModal(false);
+    } catch (err: any) {
+      setError('Failed to save: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // AQUA Base Times Functions
+  const loadAquaData = async (year: number = aquaYear) => {
+    setLoading(true);
+    setError('');
+    try {
+      // Get all events
+      const eventsRes = await fetch(`${API_BASE}/api/admin/events-list`);
+      if (!eventsRes.ok) {
+        throw new Error(`Events API returned ${eventsRes.status}`);
+      }
+      const eventsData = await eventsRes.json();
+
+      // Get existing AQUA times for this year (all courses)
+      const timesRes = await fetch(`${API_BASE}/api/admin/aqua-base-times?year=${year}`);
+      if (!timesRes.ok) {
+        throw new Error(`AQUA times API returned ${timesRes.status}`);
+      }
+      const timesData = await timesRes.json();
+
+      // Store available years and courses
+      setAvailableAquaYears(timesData.available_years || []);
+      setAvailableAquaCourses(timesData.available_courses || []);
+
+      // Create a map of existing times by event base (without course prefix) and course
+      const existingTimesMap: Record<string, Record<string, string>> = {};
+      for (const t of timesData.times || []) {
+        // Extract base event (stroke_distance_gender) from event_id
+        const parts = t.event_id.split('_');
+        if (parts.length >= 4) {
+          const baseEvent = `${parts[1]}_${parts[2]}_${parts[3]}`; // e.g., Free_100_M
+          if (!existingTimesMap[baseEvent]) {
+            existingTimesMap[baseEvent] = {};
+          }
+          existingTimesMap[baseEvent][t.course] = t.time_string;
+        }
+      }
+
+      // Build the times array with all events, default to LCM
+      const times: AquaEventTime[] = eventsData.events.map((evt: any) => {
+        // Extract base event from event_id
+        const parts = evt.event_id.split('_');
+        const baseEvent = parts.length >= 4 ? `${parts[1]}_${parts[2]}_${parts[3]}` : evt.event_id;
+        const timesByCourse = existingTimesMap[baseEvent] || {};
+        return {
+          event_id: evt.event_id,
+          event_display: evt.event_display,
+          gender: evt.gender,
+          selectedCourse: 'LCM',
+          time_string: timesByCourse['LCM'] || '',
+          timesByCourse: timesByCourse
+        };
+      });
+
+      setAquaTimes(times);
+    } catch (err: any) {
+      console.error('Load AQUA data error:', err);
+      setError('Failed to load AQUA data: ' + err.message);
+      setAquaTimes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAquaTimeChange = (eventId: string, value: string) => {
+    setAquaTimes(prev =>
+      prev.map(t => {
+        if (t.event_id === eventId) {
+          const newTimesByCourse = { ...t.timesByCourse, [t.selectedCourse]: value };
+          return { ...t, time_string: value, timesByCourse: newTimesByCourse };
+        }
+        return t;
+      })
+    );
+  };
+
+  const handleAquaCourseChange = (eventId: string, newCourse: string) => {
+    setAquaTimes(prev =>
+      prev.map(t => {
+        if (t.event_id === eventId) {
+          return {
+            ...t,
+            selectedCourse: newCourse,
+            time_string: t.timesByCourse[newCourse] || ''
+          };
+        }
+        return t;
+      })
+    );
+  };
+
+  const saveAquaTimes = async () => {
+    setLoading(true);
+    try {
+      // Group times by course for batch saving
+      const timesByCourse: Record<string, { event_id: string; time_string: string }[]> = {};
+
+      for (const t of aquaTimes) {
+        // Save any course that has a non-empty time
+        for (const [course, timeStr] of Object.entries(t.timesByCourse)) {
+          if (timeStr && timeStr.trim() !== '') {
+            if (!timesByCourse[course]) {
+              timesByCourse[course] = [];
+            }
+            timesByCourse[course].push({ event_id: t.event_id, time_string: timeStr });
+          }
+        }
+      }
+
+      let totalUpdated = 0;
+      let totalInserted = 0;
+
+      // Save each course group
+      for (const [course, times] of Object.entries(timesByCourse)) {
+        const response = await fetch(`${API_BASE}/api/admin/aqua-base-times`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ year: aquaYear, course, times })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          totalUpdated += result.updated;
+          totalInserted += result.inserted;
+        }
+      }
+
+      setMessage(`Saved ${totalUpdated} updated, ${totalInserted} inserted for AQUA times`);
+      setShowAquaModal(false);
+    } catch (err: any) {
+      setError('Failed to save: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const buttonStyle = {
+    padding: '2px 10px',
+    backgroundColor: '#cc0000',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '0.9em',
+    cursor: 'pointer',
+    whiteSpace: 'nowrap' as const,
+    display: 'inline-block',
+    minWidth: '180px',
+    textAlign: 'center' as const,
+  };
+
+  // Split times by gender for display - Podium
+  const maleTimes = podiumTimes.filter(t => t.gender === 'M');
+  const femaleTimes = podiumTimes.filter(t => t.gender === 'F');
+
+  // Split times by gender for display - MAP (exclude 50m events)
+  const maleMapTimes = mapTimes.filter(t => t.gender === 'M' && !t.event_display.startsWith('50 '));
+  const femaleMapTimes = mapTimes.filter(t => t.gender === 'F' && !t.event_display.startsWith('50 '));
+
+  // Handle Enter key to move to next input - Podium
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, currentEventId: string, gender: string) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const currentList = gender === 'M' ? maleTimes : femaleTimes;
+      const currentIndex = currentList.findIndex(t => t.event_id === currentEventId);
+
+      // Try next in same column
+      if (currentIndex < currentList.length - 1) {
+        const nextEventId = currentList[currentIndex + 1].event_id;
+        const nextInput = document.querySelector(`input[data-event-id="${nextEventId}"]`) as HTMLInputElement;
+        if (nextInput) {
+          nextInput.focus();
+          nextInput.select();
+          return;
+        }
+      }
+
+      // If at end of male column, jump to first female
+      if (gender === 'M' && femaleTimes.length > 0) {
+        const firstFemaleInput = document.querySelector(`input[data-event-id="${femaleTimes[0].event_id}"]`) as HTMLInputElement;
+        if (firstFemaleInput) {
+          firstFemaleInput.focus();
+          firstFemaleInput.select();
+        }
+      }
+    }
+  };
+
+  // Handle Enter key to move to next input - MAP
+  const handleMapKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, currentEventId: string, gender: string) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const currentList = gender === 'M' ? maleMapTimes : femaleMapTimes;
+      const currentIndex = currentList.findIndex(t => t.event_id === currentEventId);
+
+      // Try next in same column
+      if (currentIndex < currentList.length - 1) {
+        const nextEventId = currentList[currentIndex + 1].event_id;
+        const nextInput = document.querySelector(`input[data-map-event-id="${nextEventId}"]`) as HTMLInputElement;
+        if (nextInput) {
+          nextInput.focus();
+          nextInput.select();
+          return;
+        }
+      }
+
+      // If at end of male column, jump to first female
+      if (gender === 'M' && femaleMapTimes.length > 0) {
+        const firstFemaleInput = document.querySelector(`input[data-map-event-id="${femaleMapTimes[0].event_id}"]`) as HTMLInputElement;
+        if (firstFemaleInput) {
+          firstFemaleInput.focus();
+          firstFemaleInput.select();
+        }
+      }
+    }
+  };
+
+  // Split times by gender for display - AQUA
+  const maleAquaTimes = aquaTimes.filter(t => t.gender === 'M');
+  const femaleAquaTimes = aquaTimes.filter(t => t.gender === 'F');
+
+  // Handle Enter key to move to next input - AQUA
+  const handleAquaKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, currentEventId: string, gender: string) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const currentList = gender === 'M' ? maleAquaTimes : femaleAquaTimes;
+      const currentIndex = currentList.findIndex(t => t.event_id === currentEventId);
+
+      // Try next in same column
+      if (currentIndex < currentList.length - 1) {
+        const nextEventId = currentList[currentIndex + 1].event_id;
+        const nextInput = document.querySelector(`input[data-aqua-event-id="${nextEventId}"]`) as HTMLInputElement;
+        if (nextInput) {
+          nextInput.focus();
+          nextInput.select();
+          return;
+        }
+      }
+
+      // If at end of male column, jump to first female
+      if (gender === 'M' && femaleAquaTimes.length > 0) {
+        const firstFemaleInput = document.querySelector(`input[data-aqua-event-id="${femaleAquaTimes[0].event_id}"]`) as HTMLInputElement;
+        if (firstFemaleInput) {
+          firstFemaleInput.focus();
+          firstFemaleInput.select();
+        }
+      }
+    }
+  };
 
   return (
-    <div className="space-y-6">
-      {/* Notifications */}
-      {notifications.map(notification => {
-        const bgColor = notification.type === 'success' ? '#ecfdf5' : notification.type === 'error' ? '#fef2f2' : '#fef3c7';
-        const textColor = notification.type === 'success' ? '#065f46' : notification.type === 'error' ? '#7f1d1d' : '#92400e';
-        const icon = notification.type === 'success' ? '✓' : notification.type === 'error' ? '✕' : '⚠';
-        return (
-          <div key={notification.id} style={{ padding: '0.75rem', marginBottom: '0.75rem', backgroundColor: bgColor, color: textColor, fontSize: '0.875rem', borderRadius: '4px' }}>
-            {icon} {notification.message}
-          </div>
-        );
-      })}
+    <div>
+      {error && (
+        <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#fef2f2', color: '#7f1d1d', fontSize: '0.875rem', borderRadius: '4px' }}>
+          [ERROR] {error}
+        </div>
+      )}
 
-      {/* Step Indicator */}
-      <div className="flex gap-2">
-        <div
-          className={`flex-1 text-center p-4 rounded ${
-            currentStep >= 1
-              ? 'bg-red-600 text-white'
-              : 'bg-gray-200 text-gray-600'
-          } ${currentStep === 1 ? 'font-semibold' : ''}`}
-        >
-          Step 1: Select Athletes
+      {message && (
+        <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#f0fdf4', color: '#166534', fontSize: '0.875rem', borderRadius: '4px' }}>
+          {message}
         </div>
-        <div
-          className={`flex-1 text-center p-4 rounded ${
-            currentStep >= 2
-              ? 'bg-red-600 text-white'
-              : 'bg-gray-200 text-gray-600'
-          } ${currentStep === 2 ? 'font-semibold' : ''}`}
-        >
-          Step 2: Meet Info
-        </div>
-        <div
-          className={`flex-1 text-center p-4 rounded ${
-            currentStep >= 3
-              ? 'bg-red-600 text-white'
-              : 'bg-gray-200 text-gray-600'
-          } ${currentStep === 3 ? 'font-semibold' : ''}`}
-        >
-          Step 3: Enter Times
-        </div>
+      )}
+
+      {/* Export Buttons Row */}
+      <div style={{ marginTop: '1.5rem', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <button onClick={() => handleExport('map')} style={buttonStyle}>
+          Export MAP Table
+        </button>
+
+        <button onClick={() => handleExport('mot')} style={buttonStyle}>
+          Export MOT Table
+        </button>
+
+        <button onClick={() => handleExport('aqua')} style={buttonStyle}>
+          Export AQUA Table
+        </button>
+
+        <button onClick={() => handleExport('podium')} style={buttonStyle}>
+          Export Podium Target Times Table
+        </button>
       </div>
 
-      {/* Step 1: Athlete Selection */}
-      {currentStep === 1 && (
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-900">Select Athletes</h2>
+      {/* Update Buttons Row */}
+      <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <button onClick={() => handleUpdate('map')} style={buttonStyle}>
+          Update MAP Table
+        </button>
 
-          {/* Search */}
-          <div>
-            <SearchBox
-              label="Search Athletes (type name)"
-              placeholder="Start typing athlete name..."
-              value={athleteSearchQuery}
-              onChange={e => setAthleteSearchQuery(e.target.value)}
-            />
-            {searchingAthletes && (
-              <p className="mt-2 text-sm text-gray-600">Searching...</p>
-            )}
-          </div>
+        <button onClick={() => handleUpdate('mot')} style={buttonStyle}>
+          Update MOT Table
+        </button>
 
-          {/* Search Results */}
-          {athleteSearchResults.length > 0 && (
-            <div className="bg-white border border-slate-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold mb-3">Search Results:</h3>
-              <div className="max-h-72 overflow-y-auto space-y-2">
-                {athleteSearchResults.map(athlete => (
-                  <div
-                    key={athlete.id}
-                    onClick={() => handleAddAthlete(athlete)}
-                    className={`p-3 rounded cursor-pointer flex justify-between items-center ${
-                      selectedAthletes.find(a => a.id === athlete.id)
-                        ? 'bg-green-50 border-2 border-green-600'
-                        : 'bg-gray-50 border border-gray-200 hover:bg-gray-100'
-                    }`}
-                  >
-                    <div>
-                      <div className="font-medium">{athlete.name}</div>
-                      <div className="text-sm text-gray-600">
-                        {athlete.gender} | {athlete.birth_date || 'No DOB'} |{' '}
-                        {athlete.club_name || 'No club'}
-                      </div>
-                    </div>
-                    {selectedAthletes.find(a => a.id === athlete.id) && (
-                      <span className="text-green-600 font-semibold">
-                        ✓ Selected
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        <button onClick={() => handleUpdate('aqua')} style={buttonStyle}>
+          Update AQUA Table
+        </button>
 
-          {/* Selected Athletes */}
-          {selectedAthletes.length > 0 && (
-            <div className="bg-white border border-slate-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold mb-3">
-                Selected Athletes ({selectedAthletes.length}):
-              </h3>
-              <div className="space-y-2">
-                {selectedAthletes.map(athlete => (
-                  <div
-                    key={athlete.id}
-                    className="p-3 bg-green-50 rounded flex justify-between items-center"
-                  >
-                    <div>
-                      <div className="font-medium">{athlete.name}</div>
-                      <div className="text-sm text-gray-600">
-                        {athlete.gender} | {athlete.birth_date || 'No DOB'}
-                      </div>
-                    </div>
-                    <Button
-                      size="sm"
-                      variant="danger"
-                      onClick={() => handleRemoveAthlete(athlete.id)}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        <button onClick={() => handleUpdate('podium')} style={buttonStyle}>
+          Update Podium Target Times Table
+        </button>
+      </div>
 
-          <Button
-            onClick={handleNextToStep2}
-            disabled={selectedAthletes.length === 0}
-            fullWidth
-          >
-            Next: Enter Meet Information ({selectedAthletes.length} athlete
-            {selectedAthletes.length !== 1 ? 's' : ''} selected)
-          </Button>
-        </div>
-      )}
-
-      {/* Step 2: Meet Information */}
-      {currentStep === 2 && (
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-900">Meet Information</h2>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Meet Name <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="text"
-                value={meetName}
-                onChange={e => setMeetName(e.target.value)}
-                placeholder="e.g., 67th Malaysian Open Championships"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Meet Date <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="date"
-                value={meetDate}
-                onChange={e => setMeetDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                City
-              </label>
-              <input
-                type="text"
-                value={meetCity}
-                onChange={e => setMeetCity(e.target.value)}
-                placeholder="e.g., Kuala Lumpur"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Course <span className="text-red-600">*</span>
-              </label>
-              <select
-                value={meetCourse}
-                onChange={e => setMeetCourse(e.target.value as 'LCM' | 'SCM')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+      {/* Podium Target Times Modal */}
+      {showPodiumModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            minWidth: '800px'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Update Podium Target Times</h2>
+              <button
+                onClick={() => setShowPodiumModal(false)}
+                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}
               >
-                <option value="LCM">LCM (Long Course Meters)</option>
-                <option value="SCM">SCM (Short Course Meters)</option>
-              </select>
+                x
+              </button>
             </div>
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Alias/Code (optional)
-            </label>
-            <input
-              type="text"
-              value={meetAlias}
-              onChange={e => setMeetAlias(e.target.value)}
-              placeholder="e.g., MO25, MIAG25"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          {/* Event Selection */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select Events <span className="text-red-600">*</span>
-            </label>
-            <div className="border border-gray-300 rounded-lg p-4 max-h-72 overflow-y-auto">
-              {[50, 100, 200, 400, 800, 1500].map(distance =>
-                ['FR', 'BK', 'BR', 'BU', 'IM'].map(stroke =>
-                  ['M', 'F'].map(gender => {
-                    const eventKey = `${distance}_${stroke}_${gender}`;
-                    const isSelected = selectedEvents.some(
-                      e =>
-                        e.distance === distance &&
-                        e.stroke === stroke &&
-                        e.gender === gender
-                    );
-                    return (
-                      <label
-                        key={eventKey}
-                        className={`flex items-center p-2 rounded cursor-pointer mb-1 ${
-                          isSelected ? 'bg-blue-50' : 'hover:bg-gray-50'
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={e => {
-                            if (e.target.checked) {
-                              setSelectedEvents([
-                                ...selectedEvents,
-                                { distance, stroke, gender },
-                              ]);
-                            } else {
-                              setSelectedEvents(
-                                selectedEvents.filter(
-                                  ev =>
-                                    !(
-                                      ev.distance === distance &&
-                                      ev.stroke === stroke &&
-                                      ev.gender === gender
-                                    )
-                                )
-                              );
-                            }
-                          }}
-                          className="mr-2"
-                        />
-                        <span>
-                          {gender} {distance}m {stroke}
-                        </span>
-                      </label>
-                    );
-                  })
-                )
+            {/* Year Selector */}
+            <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <label style={{ fontWeight: 'bold' }}>SEA Games Year:</label>
+              <select
+                value={podiumYear}
+                onChange={(e) => {
+                  const year = parseInt(e.target.value);
+                  loadTimesForYear(year);
+                }}
+                style={{ padding: '0.25rem 0.5rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '0.9rem' }}
+              >
+                {seaGamesYears.map(year => (
+                  <option key={year} value={year}>
+                    {year} {availableYears.includes(year) ? '(has data)' : ''}
+                  </option>
+                ))}
+              </select>
+              {availableYears.length > 0 && (
+                <span style={{ color: '#666', fontSize: '0.875rem' }}>
+                  Years with data: {availableYears.join(', ')}
+                </span>
               )}
             </div>
-          </div>
 
-          <div className="flex gap-4">
-            <Button
-              variant="secondary"
-              onClick={() => setCurrentStep(1)}
-              fullWidth
-            >
-              ← Back
-            </Button>
-            <Button
-              onClick={handleNextToStep3}
-              disabled={!meetName || !meetDate || selectedEvents.length === 0}
-              fullWidth
-            >
-              Next: Enter Times ({selectedEvents.length} event
-              {selectedEvents.length !== 1 ? 's' : ''} selected)
-            </Button>
+            {error && (
+              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#fef2f2', color: '#7f1d1d', fontSize: '0.875rem', borderRadius: '4px' }}>
+                [ERROR] {error}
+              </div>
+            )}
+
+            {loading ? (
+              <div style={{ padding: '2rem', textAlign: 'center' }}>Loading events from backend...</div>
+            ) : podiumTimes.length === 0 ? (
+              <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
+                No events loaded. Check that the backend is running on port 8000.
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: '2rem' }}>
+                {/* Male Events */}
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ marginTop: 0, borderBottom: '2px solid #cc0000', paddingBottom: '0.5rem' }}>Male Events</h3>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#f3f4f6' }}>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Event</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd' }}>3rd Place {podiumYear}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {maleTimes.map(t => (
+                        <tr key={t.event_id}>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>{t.event_display}</td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                            <input
+                              type="text"
+                              data-event-id={t.event_id}
+                              value={t.time_string}
+                              onChange={(e) => handleTimeChange(t.event_id, e.target.value)}
+                              onKeyDown={(e) => handleKeyDown(e, t.event_id, 'M')}
+                              placeholder="0:00.00"
+                              style={{ width: '80px', padding: '0.125rem 0.25rem', border: '1px solid #ccc', borderRadius: '2px' }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Female Events */}
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ marginTop: 0, borderBottom: '2px solid #cc0000', paddingBottom: '0.5rem' }}>Female Events</h3>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#f3f4f6' }}>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Event</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd' }}>3rd Place {podiumYear}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {femaleTimes.map(t => (
+                        <tr key={t.event_id}>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>{t.event_display}</td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                            <input
+                              type="text"
+                              data-event-id={t.event_id}
+                              value={t.time_string}
+                              onChange={(e) => handleTimeChange(t.event_id, e.target.value)}
+                              onKeyDown={(e) => handleKeyDown(e, t.event_id, 'F')}
+                              placeholder="0:00.00"
+                              style={{ width: '80px', padding: '0.125rem 0.25rem', border: '1px solid #ccc', borderRadius: '2px' }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+              <button
+                onClick={() => setShowPodiumModal(false)}
+                style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={savePodiumTimes}
+                disabled={loading}
+                style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#cc0000',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.6 : 1
+                }}
+              >
+                Save Times
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Step 3: Time Entry */}
-      {currentStep === 3 && (
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-900">Enter Times</h2>
-          <p className="text-gray-600">
-            Meet: <strong>{meetName}</strong> | Date:{' '}
-            <strong>{meetDate}</strong> | Course: <strong>{meetCourse}</strong>
-          </p>
+      {/* MAP Base Times Modal */}
+      {showMapModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            minWidth: '800px'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Update MAP Base Times</h2>
+              <button
+                onClick={() => setShowMapModal(false)}
+                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}
+              >
+                x
+              </button>
+            </div>
 
-          <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
-            <div className="overflow-x-auto max-h-96">
-              <table className="w-full text-sm">
-                <thead className="bg-slate-100 sticky top-0">
-                  <tr className="border-b-2 border-slate-300">
-                    <th className="px-4 py-3 text-left font-semibold">
-                      Athlete
-                    </th>
-                    <th className="px-4 py-3 text-left font-semibold">Event</th>
-                    <th className="px-4 py-3 text-left font-semibold">
-                      Time (MM:SS.ss or SS.ss)
-                    </th>
-                    <th className="px-4 py-3 text-left font-semibold">Place</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {manualResults.map((result, idx) => (
-                    <tr key={idx} className="border-b border-slate-200">
-                      <td className="px-4 py-3">{result.athlete_name}</td>
-                      <td className="px-4 py-3">
-                        {result.event_gender} {result.event_distance}m{' '}
-                        {result.event_stroke}
-                      </td>
-                      <td className="px-4 py-3">
-                        <input
-                          type="text"
-                          value={result.time_string}
-                          onChange={e => {
-                            const newResults = [...manualResults];
-                            newResults[idx].time_string = e.target.value;
-                            setManualResults(newResults);
-                          }}
-                          placeholder="e.g., 1:23.45 or 23.45"
-                          className="w-full px-2 py-1 border border-gray-300 rounded"
-                          required
-                        />
-                      </td>
-                      <td className="px-4 py-3">
-                        <input
-                          type="number"
-                          value={result.place || ''}
-                          onChange={e => {
-                            const newResults = [...manualResults];
-                            newResults[idx].place = e.target.value
-                              ? parseInt(e.target.value)
-                              : null;
-                            setManualResults(newResults);
-                          }}
-                          placeholder="Optional"
-                          min="1"
-                          className="w-full px-2 py-1 border border-gray-300 rounded"
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            {/* Year Selector */}
+            <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <label style={{ fontWeight: 'bold' }}>100th All Time USA Year:</label>
+              <select
+                value={mapYear}
+                onChange={(e) => {
+                  const year = parseInt(e.target.value);
+                  setMapYear(year);
+                  loadMapData(year);
+                }}
+                style={{ padding: '0.25rem 0.5rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '0.9rem' }}
+              >
+                {mapYearOptions.map(year => (
+                  <option key={year} value={year}>
+                    {year} {availableMapYears.includes(year) ? '(has data)' : ''}
+                  </option>
+                ))}
+              </select>
+              {availableMapYears.length > 0 && (
+                <span style={{ color: '#666', fontSize: '0.875rem' }}>
+                  Years with data: {availableMapYears.join(', ')}
+                </span>
+              )}
+            </div>
+
+            {error && (
+              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#fef2f2', color: '#7f1d1d', fontSize: '0.875rem', borderRadius: '4px' }}>
+                [ERROR] {error}
+              </div>
+            )}
+
+            {loading ? (
+              <div style={{ padding: '2rem', textAlign: 'center' }}>Loading events from backend...</div>
+            ) : mapTimes.length === 0 ? (
+              <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
+                No events loaded. Check that the backend is running on port 8000.
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: '2rem' }}>
+                {/* Male Events */}
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ marginTop: 0, borderBottom: '2px solid #cc0000', paddingBottom: '0.5rem' }}>Male Events</h3>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#f3f4f6' }}>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd', width: '45%' }}>Event</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'center', borderBottom: '1px solid #ddd', width: '20%' }}>Age</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd', width: '35%' }}>Base Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {maleMapTimes.map(t => (
+                        <tr key={t.event_id}>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>{t.event_display}</td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
+                            <select
+                              value={t.selectedAge}
+                              onChange={(e) => handleMapAgeChange(t.event_id, parseInt(e.target.value))}
+                              style={{
+                                padding: '0.125rem 0.25rem',
+                                border: '1px solid #ccc',
+                                borderRadius: '2px',
+                                backgroundColor: '#cc0000',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                fontSize: '0.8rem',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              {mapAges.map(age => (
+                                <option key={age} value={age}>{age}</option>
+                              ))}
+                            </select>
+                          </td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                            <input
+                              type="text"
+                              data-map-event-id={t.event_id}
+                              value={t.time_string}
+                              onChange={(e) => handleMapTimeChange(t.event_id, e.target.value)}
+                              onKeyDown={(e) => handleMapKeyDown(e, t.event_id, 'M')}
+                              placeholder="0:00.00"
+                              style={{ width: '80px', padding: '0.125rem 0.25rem', border: '1px solid #ccc', borderRadius: '2px' }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Female Events */}
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ marginTop: 0, borderBottom: '2px solid #cc0000', paddingBottom: '0.5rem' }}>Female Events</h3>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#f3f4f6' }}>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd', width: '45%' }}>Event</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'center', borderBottom: '1px solid #ddd', width: '20%' }}>Age</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd', width: '35%' }}>Base Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {femaleMapTimes.map(t => (
+                        <tr key={t.event_id}>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>{t.event_display}</td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
+                            <select
+                              value={t.selectedAge}
+                              onChange={(e) => handleMapAgeChange(t.event_id, parseInt(e.target.value))}
+                              style={{
+                                padding: '0.125rem 0.25rem',
+                                border: '1px solid #ccc',
+                                borderRadius: '2px',
+                                backgroundColor: '#cc0000',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                fontSize: '0.8rem',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              {mapAges.map(age => (
+                                <option key={age} value={age}>{age}</option>
+                              ))}
+                            </select>
+                          </td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                            <input
+                              type="text"
+                              data-map-event-id={t.event_id}
+                              value={t.time_string}
+                              onChange={(e) => handleMapTimeChange(t.event_id, e.target.value)}
+                              onKeyDown={(e) => handleMapKeyDown(e, t.event_id, 'F')}
+                              placeholder="0:00.00"
+                              style={{ width: '80px', padding: '0.125rem 0.25rem', border: '1px solid #ccc', borderRadius: '2px' }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+              <button
+                onClick={() => setShowMapModal(false)}
+                style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveMapTimes}
+                disabled={loading}
+                style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#cc0000',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.6 : 1
+                }}
+              >
+                Save Times
+              </button>
             </div>
           </div>
+        </div>
+      )}
 
-          <div className="flex gap-4">
-            <Button
-              variant="secondary"
-              onClick={() => setCurrentStep(2)}
-              fullWidth
-            >
-              ← Back
-            </Button>
-            <Button
-              variant="success"
-              onClick={handleSubmitManualResults}
-              disabled={
-                submitting ||
-                manualResults.some(r => !r.time_string.trim())
-              }
-              loading={submitting}
-              fullWidth
-            >
-              {submitting
-                ? 'Submitting...'
-                : `Submit ${manualResults.length} Results`}
-            </Button>
+      {/* AQUA Base Times Modal */}
+      {showAquaModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            minWidth: '800px'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Update AQUA Base Times</h2>
+              <button
+                onClick={() => setShowAquaModal(false)}
+                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}
+              >
+                x
+              </button>
+            </div>
+
+            {/* Year Selector */}
+            <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <label style={{ fontWeight: 'bold' }}>AQUA Points Year:</label>
+              <select
+                value={aquaYear}
+                onChange={(e) => {
+                  const year = parseInt(e.target.value);
+                  setAquaYear(year);
+                  loadAquaData(year);
+                }}
+                style={{ padding: '0.25rem 0.5rem', border: '1px solid #ccc', borderRadius: '4px', fontSize: '0.9rem' }}
+              >
+                {aquaYearOptions.map(year => (
+                  <option key={year} value={year}>
+                    {year} {availableAquaYears.includes(year) ? '(has data)' : ''}
+                  </option>
+                ))}
+              </select>
+              {availableAquaCourses.length > 0 && (
+                <span style={{ color: '#666', fontSize: '0.875rem' }}>
+                  Courses with data: {availableAquaCourses.join(', ')}
+                </span>
+              )}
+            </div>
+
+            {error && (
+              <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#fef2f2', color: '#7f1d1d', fontSize: '0.875rem', borderRadius: '4px' }}>
+                [ERROR] {error}
+              </div>
+            )}
+
+            {loading ? (
+              <div style={{ padding: '2rem', textAlign: 'center' }}>Loading events from backend...</div>
+            ) : aquaTimes.length === 0 ? (
+              <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
+                No events loaded. Check that the backend is running on port 8000.
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: '2rem' }}>
+                {/* Male Events */}
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ marginTop: 0, borderBottom: '2px solid #cc0000', paddingBottom: '0.5rem' }}>Male Events</h3>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#f3f4f6' }}>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd', width: '45%' }}>Event</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'center', borderBottom: '1px solid #ddd', width: '20%' }}>Course</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd', width: '35%' }}>Base Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {maleAquaTimes.map(t => (
+                        <tr key={t.event_id}>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>{t.event_display}</td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
+                            <select
+                              value={t.selectedCourse}
+                              onChange={(e) => handleAquaCourseChange(t.event_id, e.target.value)}
+                              style={{
+                                padding: '0.125rem 0.25rem',
+                                border: '1px solid #ccc',
+                                borderRadius: '2px',
+                                backgroundColor: '#cc0000',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                fontSize: '0.8rem',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              {aquaCourseOptions.map(course => (
+                                <option key={course} value={course}>{course}</option>
+                              ))}
+                            </select>
+                          </td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                            <input
+                              type="text"
+                              data-aqua-event-id={t.event_id}
+                              value={t.time_string}
+                              onChange={(e) => handleAquaTimeChange(t.event_id, e.target.value)}
+                              onKeyDown={(e) => handleAquaKeyDown(e, t.event_id, 'M')}
+                              placeholder="0:00.00"
+                              style={{ width: '80px', padding: '0.125rem 0.25rem', border: '1px solid #ccc', borderRadius: '2px' }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Female Events */}
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ marginTop: 0, borderBottom: '2px solid #cc0000', paddingBottom: '0.5rem' }}>Female Events</h3>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#f3f4f6' }}>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd', width: '45%' }}>Event</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'center', borderBottom: '1px solid #ddd', width: '20%' }}>Course</th>
+                        <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd', width: '35%' }}>Base Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {femaleAquaTimes.map(t => (
+                        <tr key={t.event_id}>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>{t.event_display}</td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
+                            <select
+                              value={t.selectedCourse}
+                              onChange={(e) => handleAquaCourseChange(t.event_id, e.target.value)}
+                              style={{
+                                padding: '0.125rem 0.25rem',
+                                border: '1px solid #ccc',
+                                borderRadius: '2px',
+                                backgroundColor: '#cc0000',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                fontSize: '0.8rem',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              {aquaCourseOptions.map(course => (
+                                <option key={course} value={course}>{course}</option>
+                              ))}
+                            </select>
+                          </td>
+                          <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                            <input
+                              type="text"
+                              data-aqua-event-id={t.event_id}
+                              value={t.time_string}
+                              onChange={(e) => handleAquaTimeChange(t.event_id, e.target.value)}
+                              onKeyDown={(e) => handleAquaKeyDown(e, t.event_id, 'F')}
+                              placeholder="0:00.00"
+                              style={{ width: '80px', padding: '0.125rem 0.25rem', border: '1px solid #ccc', borderRadius: '2px' }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+              <button
+                onClick={() => setShowAquaModal(false)}
+                style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveAquaTimes}
+                disabled={loading}
+                style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#cc0000',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.6 : 1
+                }}
+              >
+                Save Times
+              </button>
+            </div>
           </div>
         </div>
       )}
