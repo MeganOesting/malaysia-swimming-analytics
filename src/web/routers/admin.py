@@ -349,6 +349,9 @@ async def upload_seag(file: UploadFile = File(...),
                 fullname = str(row.get('FULLNAME', '')).strip() if pd.notna(row.get('FULLNAME')) else None
                 time_str = str(row.get('SWIMTIME', '')).strip() if pd.notna(row.get('SWIMTIME')) else None
                 place = int(row.get('PLACE', 0)) if pd.notna(row.get('PLACE')) else None
+                # Read STATUS column (OK, DQ, DNS, DNF, SCR) - defaults to OK if not present
+                status_raw = str(row.get('STATUS', '')).strip().upper() if pd.notna(row.get('STATUS')) else None
+                result_status = status_raw if status_raw in ('DQ', 'DNS', 'DNF', 'SCR') else 'OK'
                 # Extract rudolph points from file (if present)
                 rudolph_points = int(row.get('PTS_RUDOLPH', 0)) if pd.notna(row.get('PTS_RUDOLPH')) else None
                 # Accept meet_course (standard) or COURSE (SwimRankings legacy)
@@ -364,15 +367,25 @@ async def upload_seag(file: UploadFile = File(...),
                 raw_nation = row.get('nation') if pd.notna(row.get('nation')) else row.get('NATION')
                 nation = str(raw_nation).strip() if pd.notna(raw_nation) else None
 
-                # Validate required fields
-                if not all([gender, distance, stroke_raw, fullname, time_str]):
+                # Validate required fields (time not required for DQ/DNS/DNF/SCR)
+                if not all([gender, distance, stroke_raw, fullname]):
                     missing = []
                     if not gender: missing.append('GENDER')
                     if not distance: missing.append('DISTANCE')
                     if not stroke_raw: missing.append('STROKE')
                     if not fullname: missing.append('FULLNAME')
-                    if not time_str: missing.append('SWIMTIME')
                     error_msg = f"Row {idx+2}: Missing fields: {', '.join(missing)}"
+                    print(f"[SEAG UPLOAD] {error_msg}")
+                    errors.append(error_msg)
+                    continue
+
+                # For DQ/DNS/DNF/SCR, clear time and place
+                if result_status in ('DQ', 'DNS', 'DNF', 'SCR'):
+                    time_str = None
+                    place = None
+                elif not time_str:
+                    # Time required for OK results
+                    error_msg = f"Row {idx+2}: Missing SWIMTIME for OK result"
                     print(f"[SEAG UPLOAD] {error_msg}")
                     errors.append(error_msg)
                     continue
@@ -410,12 +423,14 @@ async def upload_seag(file: UploadFile = File(...),
                         VALUES (?, ?, ?, ?, ?)
                     """, (event_id, distance, stroke_name, gender, meet_course))
 
-                # Convert time to seconds using shared utility
-                time_seconds = parse_time_to_seconds(time_str)
-                if not time_seconds:
-                    error_msg = f"Row {idx+2}: Invalid time format: {time_str}"
-                    errors.append(error_msg)
-                    continue
+                # Convert time to seconds using shared utility (skip for DQ/DNS/DNF/SCR)
+                time_seconds = None
+                if time_str and result_status == 'OK':
+                    time_seconds = parse_time_to_seconds(time_str)
+                    if not time_seconds:
+                        error_msg = f"Row {idx+2}: Invalid time format: {time_str}"
+                        errors.append(error_msg)
+                        continue
 
                 # Calculate AQUA points (DO NOT read from file for SEAG)
                 aqua_points = calculate_aqua_points(conn, gender, distance, stroke_name, time_seconds)
@@ -455,12 +470,21 @@ async def upload_seag(file: UploadFile = File(...),
                         except Exception:
                             pass
 
-                # Check for duplicate before inserting (same athlete, event, meet, time)
-                cursor.execute("""
-                    SELECT id FROM results
-                    WHERE athlete_id = ? AND event_id = ? AND meet_id = ? AND time_seconds = ?
-                    LIMIT 1
-                """, (athlete_id, event_id, meet_id, time_seconds))
+                # Check for duplicate before inserting
+                # For DQ/DNS/DNF/SCR: check athlete, event, meet only
+                # For OK results: also check time_seconds
+                if result_status in ('DQ', 'DNS', 'DNF', 'SCR'):
+                    cursor.execute("""
+                        SELECT id FROM results
+                        WHERE athlete_id = ? AND event_id = ? AND meet_id = ? AND result_status = ?
+                        LIMIT 1
+                    """, (athlete_id, event_id, meet_id, result_status))
+                else:
+                    cursor.execute("""
+                        SELECT id FROM results
+                        WHERE athlete_id = ? AND event_id = ? AND meet_id = ? AND time_seconds = ?
+                        LIMIT 1
+                    """, (athlete_id, event_id, meet_id, time_seconds))
                 existing = cursor.fetchone()
                 if existing:
                     # Skip duplicate - already in database
@@ -473,12 +497,12 @@ async def upload_seag(file: UploadFile = File(...),
                         id, meet_id, athlete_id, event_id, time_seconds, time_string,
                         aqua_points, rudolph_points, meet_course, meet_date,
                         day_age, year_age, club_name, club_code, state_code,
-                        nation, is_relay, comp_place, meet_name, meet_city
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        nation, is_relay, comp_place, meet_name, meet_city, result_status
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (result_id, meet_id, athlete_id, event_id, time_seconds, time_str,
                       aqua_points, rudolph_points, meet_course, result_meet_date,
                       day_age, year_age, team_name, team_code, team_state_code,
-                      team_nation, 0, place, meet_name, meetcity))
+                      team_nation, 0, place, meet_name, meetcity, result_status))
 
                 results_inserted += 1
 
@@ -4690,6 +4714,140 @@ async def save_aqua_base_times(request: Request):
 
         conn.commit()
         return {"success": True, "updated": updated, "inserted": inserted}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        conn.close()
+
+
+@router.get("/admin/meet-results/{meet_id}")
+async def get_meet_results(meet_id: str):
+    """
+    Get all results for a specific meet with athlete names and event info for editing.
+    """
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+
+        # Get results with athlete name and event info
+        cursor.execute("""
+            SELECT
+                r.id,
+                r.athlete_id,
+                r.foreign_athlete_id,
+                COALESCE(a.fullname, fa.fullname, 'Unknown') as athlete_name,
+                r.event_id,
+                e.event_distance,
+                e.event_stroke,
+                r.time_string,
+                r.time_seconds,
+                r.comp_place,
+                e.gender,
+                r.result_status
+            FROM results r
+            LEFT JOIN athletes a ON r.athlete_id = a.id
+            LEFT JOIN foreign_athletes fa ON r.foreign_athlete_id = fa.id
+            LEFT JOIN events e ON r.event_id = e.id
+            WHERE r.meet_id = ?
+            ORDER BY
+                CASE e.event_stroke
+                    WHEN 'Free' THEN 1
+                    WHEN 'Back' THEN 2
+                    WHEN 'Breast' THEN 3
+                    WHEN 'Fly' THEN 4
+                    WHEN 'Medley' THEN 5
+                    ELSE 6
+                END,
+                e.event_distance,
+                e.gender,
+                r.time_seconds
+        """, (meet_id,))
+
+        rows = cursor.fetchall()
+        results = []
+        for row in rows:
+            distance = row[5]
+            stroke = row[6]
+            event_display = f"{distance} {stroke}" if distance and stroke else "Unknown"
+
+            results.append({
+                "id": row[0],
+                "athlete_id": row[1],
+                "foreign_athlete_id": row[2],
+                "athlete_name": row[3],
+                "event_id": row[4],
+                "event_display": event_display,
+                "time_string": row[7] or "",
+                "time_seconds": row[8],
+                "comp_place": row[9],
+                "gender": row[10],
+                "result_status": row[11] or "OK"
+            })
+
+        return {"results": results, "count": len(results)}
+
+    finally:
+        conn.close()
+
+
+@router.post("/admin/meet-results/update-comp-place")
+async def update_comp_place(request: Request):
+    """
+    Update comp_place and/or result_status for multiple result records.
+    Expects JSON body: { "updates": [{"result_id": "uuid", "value": "1" or "DNS"}, ...] }
+
+    If value is a number -> update comp_place, set result_status to OK
+    If value is DQ/DNS/DNF/SCR -> update result_status, clear comp_place and time
+    If value is empty -> clear comp_place, set result_status to OK
+    """
+    conn = get_database_connection()
+    try:
+        data = await request.json()
+        updates = data.get("updates", [])
+
+        cursor = conn.cursor()
+        updated = 0
+        status_values = {'DQ', 'DNS', 'DNF', 'SCR'}
+
+        for item in updates:
+            result_id = item.get("result_id")
+            value = item.get("value", "")
+
+            if result_id is None:
+                continue
+
+            # Check if value is a status code
+            value_upper = str(value).strip().upper()
+
+            if value_upper in status_values:
+                # It's a status - update result_status, clear comp_place, time, and points
+                cursor.execute("""
+                    UPDATE results
+                    SET result_status = ?, comp_place = NULL, time_string = NULL, time_seconds = NULL,
+                        aqua_points = NULL, rudolph_points = NULL
+                    WHERE id = ?
+                """, (value_upper, result_id))
+            elif value == "" or value is None:
+                # Empty - clear comp_place, set status to OK
+                cursor.execute("""
+                    UPDATE results SET comp_place = NULL, result_status = 'OK' WHERE id = ?
+                """, (result_id,))
+            else:
+                # It's a number - update comp_place, set status to OK
+                try:
+                    place_num = int(value)
+                    cursor.execute("""
+                        UPDATE results SET comp_place = ?, result_status = 'OK' WHERE id = ?
+                    """, (place_num, result_id))
+                except ValueError:
+                    # Invalid value, skip
+                    continue
+            updated += 1
+
+        conn.commit()
+        return {"success": True, "updated": updated}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

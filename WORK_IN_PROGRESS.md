@@ -1,26 +1,27 @@
 # Work In Progress
 
-**Last Updated:** 2025-11-28
+**Last Updated:** 2025-11-28 (Session 18)
 
 ---
 
 ## Current Status
 
-**DATABASE:** 4279 athletes, 55701 results, 48 meets
+**DATABASE:** 4279 athletes, 55704 results (223 SEA Age incl 3 DQs), 48 meets
 **SwimRankings Upload:** All 2025 data loaded - COMPLETE
-**Main Page:** Results table fully functional with filtering, sorting, MAP points
-**Admin Panel:** Base Table Management with export and update functionality
-**Schema Migration:** All base time tables now use event_id format
+**Main Page:** Results table with filtering, sorting, MAP points, result_status display
+**Admin Panel:** Base Table Management + Edit Results with comp_place AND status support
+**Schema Migration:** All base time tables now use event_id format (redundant columns removed)
 
 ---
 
 ## Current Goal
 
-Complete the Base Table Management Update interfaces:
-1. [x] Update Podium Target Times - COMPLETE (tested, time string conversion working)
-2. [x] Update MAP Table - COMPLETE (per-row age dropdown 12-18, year selector 2000-2029)
-3. [x] Update AQUA Table - COMPLETE (per-row course dropdown LCM/SCM, year selector 2025-2029)
-4. [ ] Create MOT table and build Update MOT Table UI
+Complete Admin Features:
+1. [x] Update Podium Target Times - COMPLETE
+2. [x] Update MAP Table - COMPLETE
+3. [x] Update AQUA Table - COMPLETE
+4. [x] Edit Results comp_place/status - COMPLETE (supports both numbers and DQ/DNS/DNF/SCR)
+5. [ ] Create MOT table and build Update MOT Table UI
 
 ---
 
@@ -38,31 +39,43 @@ Complete the Base Table Management Update interfaces:
 
 ---
 
-## Completed This Session (2025-11-28)
+## Completed This Session (2025-11-28 - Session 18)
 
+### Result Status & Edit Results Enhancements
+- [x] Added `result_status` column to results table (OK, DQ, DNS, DNF, SCR)
+- [x] Fixed Edit Results modal to open directly (removed intermediate dropdown)
+- [x] Fixed UUID handling in save - was incorrectly using parseInt on UUID strings
+- [x] Edit modal now accepts BOTH numbers (comp_place) AND status codes (DQ, DNS, DNF, SCR)
+  - Enter number → saves to comp_place, sets status to OK
+  - Enter DQ/DNS/DNF/SCR → saves to result_status, clears comp_place and time
+- [x] Main page Place column shows result_status when comp_place is null and status != OK
+- [x] Results sort: numeric places first (1,2,3...), then DQ, DNS, DNF, SCR at bottom
+- [x] AQUA/Rudolph points auto-cleared when status set to DQ/DNS/DNF/SCR
+
+### SEA Age Data Fixes
+- [x] Added 3 DQ results: LEE Xue Wen (200 Breast), LEE Dominic (200 Breast), MANUEL Nishan (50 Back)
+- [x] Cleared time/points for DQ results (DQ = no time, no points)
+- [x] SEA Age results now total 223 (220 OK + 3 DQ)
+
+### SwimRankings Upload Fixes
+- [x] SwimRankings "Place" column is RANKING, not comp_place - stopped populating comp_place
+- [x] Cleared comp_place for all 55,480 non-SEA Age results (was incorrectly showing rankings)
+
+### SEAG Upload Enhancements
+- [x] Added STATUS column support (between PLACE and MEETDATE)
+- [x] DQ/DNS/DNF/SCR results: time not required, stored with blank time and appropriate status
+- [x] Duplicate detection handles status results correctly
+
+### Schema Cleanup
+- [x] Removed redundant columns from aqua_base_times (gender, event, distance, stroke)
+- [x] Removed redundant columns from map_base_times (gender, event)
+- [x] All base tables now use event_id only (no duplicate columns)
+
+### Previous Session Items (kept for reference)
 - [x] Consolidated documentation (WIP, Handbook, deleted redundant strategy files)
 - [x] Added 107 missing MAP base times (ages 13, 15, 17 + missing events)
-- [x] Migrated all base time tables to event_id schema:
-  - aqua_base_times: now uses event_id (LCM_Free_100_M format) + course + competition_year
-  - map_base_times: now uses event_id + age + competition_year
-  - podium_target_times: now uses event_id + sea_games_year
-- [x] Cleaned up podium_target_times schema (removed redundant gender/event/distance/stroke columns)
-- [x] Set existing podium data to sea_games_year = 2023
-- [x] Built Update Podium Target Times UI (modal with SEA Games year dropdown 1959-2031)
-- [x] Added backend endpoints: /admin/podium-target-times, /admin/events-list
-- [x] Updated Handbook with new event_id schema documentation
-- [x] Built Update MAP Table UI:
-  - Per-row age dropdown (12-18) to edit specific age's time
-  - Year selector "100th All Time USA Year:" (2000-2029)
-  - Added competition_year column to map_base_times
-  - Excludes 50m events (MAP doesn't use them)
-  - Enter key navigation between inputs
-- [x] Built Update AQUA Table UI:
-  - Per-row course dropdown (LCM/SCM) to edit specific course's time
-  - Year selector "AQUA Points Year:" (2025-2029, no historical data)
-  - Added course and competition_year columns to aqua_base_times
-  - Enter key navigation between inputs
-- [x] Added backend endpoints: /admin/map-base-times, /admin/aqua-base-times (GET and POST)
+- [x] Built Update Podium/MAP/AQUA Table UIs with Enter key navigation
+- [x] Backend endpoints for all base table management
 
 ---
 
@@ -155,3 +168,4 @@ After loading results:
 - Make sure slides match course outline
 
 ---
+NOTE i asked eric and Magnus to give me comp place for Worlds world jrs adn WUGS, also i can note lead off times for relays from these meets, will be a manual entry

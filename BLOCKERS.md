@@ -2,7 +2,7 @@
 
 Issues that prevent progress. Document here, resolve ASAP.
 
-**Last Updated:** 2025-11-28 (Session 17 - All Base Table Update UIs complete except MOT)
+**Last Updated:** 2025-11-28 (Session 18 - Result status, Edit Results fixes, schema cleanup)
 
 ---
 

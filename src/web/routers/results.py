@@ -6,6 +6,8 @@ import sqlite3
 
 # Import date validation utility
 from ..utils.date_validator import parse_and_validate_date
+# Import MAP points calculation
+from ..utils.calculation_utils import calculate_map_points
 
 router = APIRouter()
 
@@ -101,72 +103,100 @@ async def get_simple_results():
         # Use year_age with fallback to athlete age
         if has_meet_date:
             query = """
-            SELECT 
+            SELECT
                 COALESCE(a.FULLNAME, '') AS full_name,
                 COALESCE(a.Gender, '') AS gender,
                 r.year_age,
                 r.day_age,
                 a.BIRTHDATE AS birthdate,
                 m.meet_date AS meet_date,
-                e.distance,
-                e.stroke,
+                e.event_distance AS distance,
+                e.event_stroke AS stroke,
                 r.time_string,
-                r.place,
+                r.comp_place,
                 r.aqua_points,
                 COALESCE(r.meet_id, m.id) AS meet_id,
-                m.name AS meet_name,
-                m.meet_type AS meet_code
+                m.meet_name AS meet_name,
+                m.meet_type AS meet_code,
+                r.result_status
             FROM results r
             LEFT JOIN athletes a ON r.athlete_id = a.id
             LEFT JOIN events e ON r.event_id = e.id
             LEFT JOIN meets m ON r.meet_id = m.id
-            ORDER BY COALESCE(m.meet_date, '2099-12-31') DESC, e.distance, e.stroke, COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)
+            ORDER BY COALESCE(m.meet_date, '2099-12-31') DESC, e.event_distance, e.event_stroke, COALESCE(r.time_seconds, 999999)
             """
         else:
             query = """
-            SELECT 
+            SELECT
                 COALESCE(a.FULLNAME, '') AS full_name,
                 COALESCE(a.Gender, '') AS gender,
                 r.year_age,
                 r.day_age,
                 a.BIRTHDATE AS birthdate,
                 m.meet_date AS meet_date,
-                e.distance,
-                e.stroke,
+                e.event_distance AS distance,
+                e.event_stroke AS stroke,
                 r.time_string,
-                r.place,
+                r.comp_place,
                 r.aqua_points,
                 COALESCE(r.meet_id, m.id) AS meet_id,
-                m.name AS meet_name,
-                m.meet_type AS meet_code
+                m.meet_name AS meet_name,
+                m.meet_type AS meet_code,
+                r.result_status
             FROM results r
             LEFT JOIN athletes a ON r.athlete_id = a.id
             LEFT JOIN events e ON r.event_id = e.id
             LEFT JOIN meets m ON r.meet_id = m.id
-            ORDER BY e.distance, e.stroke, COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)
+            ORDER BY e.event_distance, e.event_stroke, COALESCE(r.time_seconds, 999999)
             """
         
         cursor.execute(query)
         results = cursor.fetchall()
-        
+
         # Convert to list of dicts
         data = []
         for row in results:
+            # Show result_status (DQ, DNS, etc.) in place field if no comp_place and status isn't OK
+            place_value = row["comp_place"]
+            result_status = row["result_status"] or "OK"
+            if place_value is None and result_status != "OK":
+                place_value = result_status  # Show DQ, DNS, DNF, SCR
+
+            # Sort key: numeric places first (by value), then statuses at end
+            if row["comp_place"] is not None:
+                sort_place = row["comp_place"]
+            elif result_status == "DQ":
+                sort_place = 9991
+            elif result_status == "DNS":
+                sort_place = 9992
+            elif result_status == "DNF":
+                sort_place = 9993
+            elif result_status == "SCR":
+                sort_place = 9994
+            else:
+                sort_place = 9999
+
             data.append({
                 "name": row["full_name"] or "Unknown",
                 "gender": row["gender"] or "U",
                 "age": _compute_age(row["year_age"], row["day_age"], row["birthdate"], row["meet_date"]),
+                "year_age": row["year_age"],
                 "distance": row["distance"],
                 "stroke": row["stroke"],
                 "time": row["time_string"],
-                "place": row["place"],
+                "place": place_value,
                 "aqua_points": row["aqua_points"],
-                "meet_id": row["meet_id"],
+                "meet_id": str(row["meet_id"]) if row["meet_id"] else None,
                 "meet": row["meet_name"],
-                "meet_code": row["meet_code"]
+                "meet_code": row["meet_code"],
+                "sort_place": sort_place
             })
-        
+
         conn.close()
+
+        # Sort by sort_place (1,2,3... then DQ, DNS, etc. at bottom)
+        data.sort(key=lambda x: x["sort_place"])
+
         return {"results": data, "count": len(data)}
     except Exception as e:
         import traceback
@@ -198,25 +228,33 @@ async def get_filtered_results(
         
         # Build base query
         # Use year_age with fallback to athlete age
+        # Include club/team info for Team column display
         base_query = """
-            SELECT 
-                COALESCE(a.FULLNAME, '') AS full_name,
-                COALESCE(a.Gender, '') AS gender,
+            SELECT
+                COALESCE(a.fullname, fa.fullname, '') AS full_name,
+                COALESCE(a.Gender, fa.gender, '') AS gender,
                 r.year_age,
                 r.day_age,
-                a.BIRTHDATE AS birthdate,
+                COALESCE(a.BIRTHDATE, fa.birthdate) AS birthdate,
                 m.meet_date AS meet_date,
-                e.distance,
-                e.stroke,
+                e.event_distance AS distance,
+                e.event_stroke AS stroke,
+                e.gender AS event_gender,
                 r.time_string,
-                r.place,
+                r.time_seconds,
+                r.comp_place,
                 r.aqua_points,
                 COALESCE(r.meet_id, m.id) AS meet_id,
-                m.name AS meet_name,
-                m.meet_type AS meet_code,
-                COALESCE(a.NATION, '') AS nation
+                m.meet_name AS meet_name,
+                m.meet_alias AS meet_code,
+                COALESCE(a.nation, fa.nation, '') AS nation,
+                COALESCE(r.club_code, '') AS club_code,
+                COALESCE(r.club_name, '') AS club_name,
+                COALESCE(r.state_code, '') AS state_code,
+                r.result_status
             FROM results r
             LEFT JOIN athletes a ON r.athlete_id = a.id
+            LEFT JOIN foreign_athletes fa ON r.foreign_athlete_id = fa.id
             LEFT JOIN events e ON r.event_id = e.id
             LEFT JOIN meets m ON r.meet_id = m.id
         """
@@ -224,51 +262,113 @@ async def get_filtered_results(
         # Build WHERE clause
         where_conditions = []
         params = []
-        
-        # Filter by meet IDs
+        meet_id_list = []  # Initialize for debug loop
+
+        # Filter by meet IDs (UUIDs stored as strings)
         if meet_ids:
             meet_id_list = [m.strip() for m in meet_ids.split(',') if m.strip()]
             if meet_id_list:
                 placeholders = ','.join(['?' for _ in meet_id_list])
-                where_conditions.append(f"m.id IN ({placeholders})")
+                where_conditions.append(f"r.meet_id IN ({placeholders})")
                 params.extend(meet_id_list)
+                print(f"[DEBUG] Filtering by meet_ids: {meet_id_list}")
+
+        # Debug: check what's in the database
+        cursor.execute("SELECT COUNT(*) FROM results")
+        total_results = cursor.fetchone()[0]
+        print(f"[DEBUG] Total rows in results table: {total_results}")
+
+        cursor.execute("SELECT DISTINCT meet_id FROM results LIMIT 5")
+        sample_result_meet_ids = [row[0] for row in cursor.fetchall()]
+        print(f"[DEBUG] Sample meet_ids in results table: {sample_result_meet_ids}")
+
+        cursor.execute("SELECT id FROM meets LIMIT 5")
+        sample_meets_ids = [row[0] for row in cursor.fetchall()]
+        print(f"[DEBUG] Sample ids in meets table: {sample_meets_ids}")
+
+        # Check if the requested meet_id exists and has results
+        for mid in meet_id_list:
+            cursor.execute("SELECT COUNT(*) FROM results WHERE meet_id = ?", (mid,))
+            count = cursor.fetchone()[0]
+            print(f"[DEBUG] Results with meet_id '{mid}': {count}")
+
+            # Check event_ids for this meet
+            cursor.execute("SELECT DISTINCT e.event_distance, e.event_stroke FROM results r LEFT JOIN events e ON r.event_id = e.id WHERE r.meet_id = ? ORDER BY e.event_distance LIMIT 10", (mid,))
+            events_sample = [(row[0], row[1]) for row in cursor.fetchall()]
+            print(f"[DEBUG] Events available for this meet: {events_sample}")
+
+            # Check gender values for this meet
+            cursor.execute("SELECT DISTINCT a.Gender FROM results r LEFT JOIN athletes a ON r.athlete_id = a.id WHERE r.meet_id = ? LIMIT 10", (mid,))
+            genders_sample = [row[0] for row in cursor.fetchall()]
+            print(f"[DEBUG] Gender values for this meet: {genders_sample}")
+
+            # Check if 50m Free exists for this meet
+            cursor.execute("""
+                SELECT COUNT(*) FROM results r
+                JOIN events e ON r.event_id = e.id
+                WHERE r.meet_id = ? AND e.event_distance = 50 AND e.event_stroke = 'Free'
+            """, (mid,))
+            fr50_count = cursor.fetchone()[0]
+            print(f"[DEBUG] 50m Free results for this meet: {fr50_count}")
         
-        # Filter by genders
+        # Filter by genders (both athlete gender AND event gender since events are gender-specific)
         if genders:
             gender_list = [g.strip().upper() for g in genders.split(',') if g.strip()]
             if gender_list:
                 placeholders = ','.join(['?' for _ in gender_list])
-                where_conditions.append(f"UPPER(COALESCE(a.Gender, '')) IN ({placeholders})")
+                # Filter on event gender (events are gender-specific in this schema)
+                where_conditions.append(f"UPPER(COALESCE(e.gender, '')) IN ({placeholders})")
                 params.extend(gender_list)
         
         # Filter by events
         if events:
             event_list = [e.strip() for e in events.split(',') if e.strip()]
             if event_list:
-                # Parse event format "50m Free", "100m Back", etc.
+                # Parse event formats: "50m Free", "50m FR", "50 Free", "100 Free", etc.
+                # Map user-facing stroke names to DATABASE format (Free/Back/Breast/Fly/Medley)
                 event_conditions = []
+                stroke_map = {
+                    # Full names -> database format
+                    "Free": "Free", "Freestyle": "Free",
+                    "Back": "Back", "Backstroke": "Back",
+                    "Breast": "Breast", "Breaststroke": "Breast",
+                    "Fly": "Fly", "Butterfly": "Fly",
+                    "IM": "Medley", "Medley": "Medley",
+                    # Short codes -> database format (legacy support)
+                    "Fr": "Free", "FR": "Free",
+                    "Bk": "Back", "BK": "Back",
+                    "Br": "Breast", "BR": "Breast",
+                    "Fl": "Fly", "BU": "Fly",
+                    "ME": "Medley"
+                }
                 for event in event_list:
-                    # Parse "50m Free" -> distance=50, stroke="Free"
-                    parts = event.split('m ')
-                    if len(parts) == 2:
-                        try:
-                            distance = int(parts[0])
-                            stroke_name = parts[1]
-                            # Map stroke names to codes
-                            stroke_map = {
-                                "Free": "FR",
-                                "Back": "BK",
-                                "Breast": "BR",
-                                "Fly": "BU",
-                                "IM": "ME"
-                            }
-                            stroke_code = stroke_map.get(stroke_name, stroke_name)
-                            event_conditions.append("(e.distance = ? AND e.stroke = ?)")
-                            params.append(distance)
-                            params.append(stroke_code)
-                        except ValueError:
-                            pass  # Invalid distance, skip
-                
+                    # Try "50m Free" format first
+                    if 'm ' in event:
+                        parts = event.split('m ')
+                        if len(parts) == 2:
+                            try:
+                                distance = int(parts[0])
+                                stroke_name = parts[1]
+                                stroke_code = stroke_map.get(stroke_name, stroke_name)
+                                event_conditions.append("(e.event_distance = ? AND e.event_stroke = ?)")
+                                params.append(distance)
+                                params.append(stroke_code)
+                            except ValueError:
+                                pass
+                    # Try "50 Free" format (no 'm')
+                    elif ' ' in event:
+                        parts = event.split(' ', 1)
+                        if len(parts) == 2:
+                            try:
+                                distance = int(parts[0])
+                                stroke_name = parts[1]
+                                stroke_code = stroke_map.get(stroke_name, stroke_name)
+                                event_conditions.append("(e.event_distance = ? AND e.event_stroke = ?)")
+                                params.append(distance)
+                                params.append(stroke_code)
+                            except ValueError:
+                                pass
+
                 if event_conditions:
                     where_conditions.append(f"({' OR '.join(event_conditions)})")
         
@@ -282,28 +382,31 @@ async def get_filtered_results(
                         # No age filtering for OPEN
                         continue
                     else:
-                        # Parse age ranges like "13", "15", "17", "13-14", etc.
+                        # Parse age ranges like "13", "15", "17", "13-14", "16-18", etc.
                         if '-' in age:
-                            # Range like "13-14"
+                            # Range like "16-18"
                             parts = age.split('-')
                             if len(parts) == 2:
                                 try:
                                     min_age = int(parts[0])
                                     max_age = int(parts[1])
-                                    age_conditions.append("COALESCE(r.year_age, a.age) BETWEEN ? AND ?")
+                                    age_conditions.append("r.year_age BETWEEN ? AND ?")
                                     params.append(min_age)
                                     params.append(max_age)
                                 except ValueError:
                                     pass
+                        elif age == '13&UNDER' or age == '13 & UNDER':
+                            # 13 and under
+                            age_conditions.append("r.year_age <= 13")
                         else:
                             # Single age like "13"
                             try:
                                 age_num = int(age)
-                                age_conditions.append("COALESCE(r.year_age, a.age) = ?")
+                                age_conditions.append("r.year_age = ?")
                                 params.append(age_num)
                             except ValueError:
                                 pass
-                
+
                 if age_conditions:
                     where_conditions.append(f"({' OR '.join(age_conditions)})")
         
@@ -317,33 +420,83 @@ async def get_filtered_results(
         else:
             query = base_query
         
-        # Add ORDER BY
-        if has_meet_date:
-            query += " ORDER BY COALESCE(m.meet_date, '2099-12-31') DESC, e.distance, e.stroke, COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)"
-        else:
-            query += " ORDER BY e.distance, e.stroke, COALESCE(r.time_seconds, r.time_seconds_numeric, 999999)"
+        # Add ORDER BY - fastest times first within each event
+        query += " ORDER BY e.event_distance, e.event_stroke, COALESCE(r.time_seconds, 999999) ASC"
         
+        print(f"[DEBUG] Final query: {query}")
+        print(f"[DEBUG] Query params: {params}")
+
         cursor.execute(query, params)
         results = cursor.fetchall()
-        
+        print(f"[DEBUG] Query returned {len(results)} rows")
+
         # Convert to list of dicts
         data = []
         for row in results:
+            # Calculate age for MAP points
+            age = _compute_age(row["year_age"], row["day_age"], row["birthdate"], row["meet_date"])
+
+            # Calculate MAP points using event gender, distance, stroke, time_seconds, and age
+            map_points = None
+            if age and row["time_seconds"] and row["distance"] and row["stroke"]:
+                # Use event_gender for MAP lookup (M or F)
+                event_gender = row["event_gender"] or row["gender"]
+                map_points = calculate_map_points(
+                    conn,
+                    event_gender,
+                    row["distance"],
+                    row["stroke"],
+                    row["time_seconds"],
+                    age
+                )
+
+            # Show result_status (DQ, DNS, etc.) in place field if no comp_place and status isn't OK
+            place_value = row["comp_place"]
+            result_status = row["result_status"] or "OK"
+            if place_value is None and result_status != "OK":
+                place_value = result_status  # Show DQ, DNS, DNF, SCR
+
+            # Sort key: numeric places first (by value), then statuses at end
+            # Numeric places: use the number, Statuses: use 9999 + order
+            if row["comp_place"] is not None:
+                sort_place = row["comp_place"]
+            elif result_status == "DQ":
+                sort_place = 9991
+            elif result_status == "DNS":
+                sort_place = 9992
+            elif result_status == "DNF":
+                sort_place = 9993
+            elif result_status == "SCR":
+                sort_place = 9994
+            else:
+                sort_place = 9999  # OK with no place
+
             data.append({
                 "name": row["full_name"] or "Unknown",
                 "gender": row["gender"] or "U",
-                "age": _compute_age(row["year_age"], row["day_age"], row["birthdate"], row["meet_date"]),
+                "age": age,
+                "year_age": row["year_age"],
                 "distance": row["distance"],
                 "stroke": row["stroke"],
                 "time": row["time_string"],
-                "place": row["place"],
+                "place": place_value,
                 "aqua_points": row["aqua_points"],
-                "meet_id": row["meet_id"],
+                "map_points": map_points,
+                "meet_id": str(row["meet_id"]) if row["meet_id"] else None,
                 "meet": row["meet_name"],
-                "meet_code": row["meet_code"]
+                "meet_code": row["meet_code"],
+                "club_code": row["club_code"] or "",
+                "club_name": row["club_name"] or "",
+                "state_code": row["state_code"] or "",
+                "nation": row["nation"] or "MAS",
+                "sort_place": sort_place
             })
-        
+
         conn.close()
+
+        # Sort by sort_place (1,2,3... then DQ, DNS, etc. at bottom)
+        data.sort(key=lambda x: x["sort_place"])
+
         return {"results": data, "count": len(data)}
     except Exception as e:
         import traceback
@@ -362,9 +515,9 @@ async def get_meets():
         
         # Get all meets with dates in a single query
         cursor.execute("""
-            SELECT id, name, meet_type, COALESCE(meet_date, '2099-12-31') as meet_date
+            SELECT id, meet_name, meet_alias, COALESCE(meet_date, '2099-12-31') as meet_date, meet_type
             FROM meets
-            ORDER BY COALESCE(meet_date, '2099-12-31') DESC, name
+            ORDER BY COALESCE(meet_date, '2099-12-31') DESC, meet_name
         """)
         meets = cursor.fetchall()
 
@@ -374,14 +527,16 @@ async def get_meets():
         for meet in meets:
             meet_id = meet[0]
             db_name = meet[1]
-            meet_code = meet[2]  # Use meet_type directly from database
+            meet_code = meet[2]  # meet_alias is the code (W-PARA, MIAG25)
             meet_date = meet[3] if len(meet) > 3 else "2099-12-31"
+            meet_type = meet[4] if len(meet) > 4 else ""  # meet_type is now OPEN-D, PARA-I
 
             all_meets.append({
-                "id": meet_id,
+                "id": str(meet_id),
                 "name": db_name,
                 "meet_code": meet_code,
-                "meet_date": meet_date
+                "meet_date": meet_date,
+                "meet_type": meet_type or ""
             })
 
         # Sort by date descending (most recent first), then by name
@@ -406,16 +561,18 @@ async def get_events():
     cursor = conn.cursor()
     
     # Get distinct events from database
-    cursor.execute("SELECT DISTINCT distance, stroke FROM events ORDER BY distance, stroke")
+    cursor.execute("SELECT DISTINCT event_distance, event_stroke FROM events ORDER BY event_distance, event_stroke")
     events = cursor.fetchall()
     
-    # Stroke mapping
+    # Stroke mapping: DATABASE format -> user display
+    # Database stores: Free, Back, Breast, Fly, Medley
+    # User sees: Free, Back, Breast, Fly, IM
     STROKE_MAP = {
-        "FR": "Free",
-        "BK": "Back", 
-        "BR": "Breast",
-        "BU": "Fly",
-        "ME": "IM",
+        "Free": "Free",
+        "Back": "Back",
+        "Breast": "Breast",
+        "Fly": "Fly",
+        "Medley": "IM",
     }
     
     data = []

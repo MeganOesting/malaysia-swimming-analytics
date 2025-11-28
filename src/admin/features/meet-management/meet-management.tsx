@@ -74,6 +74,22 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
   // Category editing state
   const [editingCategory, setEditingCategory] = useState<Record<string, { participantType: string; scope: string }>>({});
 
+  // Results editing state
+  const [editingResultsMeetId, setEditingResultsMeetId] = useState<string | null>(null);
+  const [showCompPlaceModal, setShowCompPlaceModal] = useState(false);
+  const [meetResults, setMeetResults] = useState<Array<{
+    id: string;  // UUID string
+    athlete_name: string;
+    event_display: string;
+    time_string: string;
+    comp_place: number | null;
+    gender: string;
+    result_status: string;  // OK, DQ, DNS, DNF, SCR
+  }>>([]);
+  const [compPlaceEdits, setCompPlaceEdits] = useState<Record<string, string>>({});
+  const [loadingResults, setLoadingResults] = useState(false);
+  const [editingMeetName, setEditingMeetName] = useState('');
+
   // Notifications
   const { notifications, success, error, clear } = useNotification();
 
@@ -416,6 +432,92 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
       }
     },
     [editingCategory, success, error]
+  );
+
+  /**
+   * Load results for a meet to edit comp_place
+   * Opens modal immediately, then loads data inside it
+   */
+  const handleLoadMeetResults = useCallback(
+    async (meetId: string, meetName: string) => {
+      // Open modal immediately (like Update Table modals do)
+      setEditingMeetName(meetName);
+      setEditingResultsMeetId(meetId);
+      setMeetResults([]);
+      setCompPlaceEdits({});
+      setLoadingResults(true);
+      setShowCompPlaceModal(true);
+
+      // Then fetch data
+      try {
+        const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+        const response = await fetch(`${apiBase}/api/admin/meet-results/${meetId}`);
+        if (!response.ok) {
+          throw new Error(`Failed to load results: ${response.status}`);
+        }
+        const data = await response.json();
+        setMeetResults(data.results || []);
+        // Initialize edits with existing values
+        // Show comp_place if set, otherwise show status if not OK
+        const initialEdits: Record<string, string> = {};
+        for (const r of data.results || []) {
+          if (r.comp_place !== null) {
+            initialEdits[r.id] = String(r.comp_place);
+          } else if (r.result_status && r.result_status !== 'OK') {
+            initialEdits[r.id] = r.result_status;  // Show DQ, DNS, etc.
+          } else {
+            initialEdits[r.id] = '';
+          }
+        }
+        setCompPlaceEdits(initialEdits);
+      } catch (err) {
+        error(err instanceof Error ? err.message : 'Failed to load results');
+      } finally {
+        setLoadingResults(false);
+      }
+    },
+    [error]
+  );
+
+  /**
+   * Save comp_place edits
+   */
+  const handleSaveCompPlace = useCallback(
+    async () => {
+      try {
+        const updates = Object.entries(compPlaceEdits)
+          .map(([resultId, value]) => ({
+            result_id: resultId,  // Keep as string (UUID)
+            value: value  // Can be number string or status code (DQ, DNS, etc.)
+          }));
+
+        if (updates.length === 0) {
+          setShowCompPlaceModal(false);
+          return;
+        }
+
+        const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+        const response = await fetch(`${apiBase}/api/admin/meet-results/update-comp-place`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ updates })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          success(`Updated ${result.updated} results`);
+          setShowCompPlaceModal(false);
+          setEditingResultsMeetId(null);
+          setMeetResults([]);
+          setCompPlaceEdits({});
+        } else {
+          error('Failed to save: ' + (result.detail || 'Unknown error'));
+        }
+      } catch (err) {
+        error(err instanceof Error ? err.message : 'Failed to save');
+      }
+    },
+    [compPlaceEdits, success, error]
   );
 
   /**
@@ -1097,10 +1199,10 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
                 <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '10%' }}>
                   Date
                 </th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '16%' }}>
+                <th className="px-4 py-3 text-left font-semibold text-gray-900" style={{ width: '14%' }}>
                   City
                 </th>
-                <th className="px-4 py-3 text-center font-semibold text-gray-900" style={{ width: '10%' }}>
+                <th className="px-4 py-3 text-center font-semibold text-gray-900" style={{ width: '12%' }}>
                   Results
                 </th>
                 <th className="px-4 py-3 text-center font-semibold text-gray-900" style={{ width: '20%' }}>
@@ -1235,6 +1337,7 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
                           <option value="">--</option>
                           <option value="D">Domestic</option>
                           <option value="I">International</option>
+                          <option value="N">National Team</option>
                         </select>
                         <div className="flex gap-1">
                           <Button
@@ -1310,13 +1413,37 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
                   </td>
 
                   {/* City */}
-                  <td className="px-4 py-3 text-gray-600" style={{ width: '16%' }}>
+                  <td className="px-4 py-3 text-gray-600" style={{ width: '14%' }}>
                     {meet.city || '-'}
                   </td>
 
-                  {/* Result Count */}
-                  <td className="px-4 py-3 text-center font-medium" style={{ width: '10%', textAlign: 'center' }}>
-                    {meet.result_count || 0}
+                  {/* Result Count with Edit */}
+                  <td className="px-4 py-3" style={{ width: '12%', position: 'relative' }}>
+                    <div className="flex justify-between items-center w-full" style={{ boxSizing: 'border-box' }}>
+                      <span className="font-medium" style={{ flex: 1 }}>
+                        {meet.result_count || 0}
+                      </span>
+                      {(meet.result_count || 0) > 0 && (
+                        <button
+                          onClick={() => handleLoadMeetResults(meet.id, meet.name || 'Meet')}
+                          style={{
+                            position: 'absolute',
+                            right: '4px',
+                            padding: '2px 10px',
+                            backgroundColor: '#cc0000',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '0.9em',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap',
+                            display: 'inline-block',
+                          }}
+                        >
+                          Edit
+                        </button>
+                      )}
+                    </div>
                   </td>
 
                   {/* Actions */}
@@ -1344,6 +1471,133 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Comp Place Edit Modal */}
+      {showCompPlaceModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            minWidth: '700px'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Edit Competition Place - {editingMeetName}</h2>
+              <button
+                onClick={() => {
+                  setShowCompPlaceModal(false);
+                  setEditingResultsMeetId(null);
+                  setMeetResults([]);
+                  setCompPlaceEdits({});
+                }}
+                style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}
+              >
+                x
+              </button>
+            </div>
+
+            {loadingResults ? (
+              <div style={{ padding: '2rem', textAlign: 'center' }}>Loading results...</div>
+            ) : meetResults.length === 0 ? (
+              <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
+                No results found for this meet.
+              </div>
+            ) : (
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                <thead>
+                  <tr style={{ backgroundColor: '#f3f4f6' }}>
+                    <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Athlete</th>
+                    <th style={{ padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Event</th>
+                    <th style={{ padding: '0.5rem', textAlign: 'center', borderBottom: '1px solid #ddd' }}>Gender</th>
+                    <th style={{ padding: '0.5rem', textAlign: 'right', borderBottom: '1px solid #ddd' }}>Time</th>
+                    <th style={{ padding: '0.5rem', textAlign: 'center', borderBottom: '1px solid #ddd', width: '80px' }}>Place</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {meetResults.map((result, idx) => (
+                    <tr key={result.id} style={{ backgroundColor: idx % 2 === 0 ? 'white' : '#f9fafb' }}>
+                      <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>{result.athlete_name}</td>
+                      <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee' }}>{result.event_display}</td>
+                      <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>{result.gender}</td>
+                      <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'right', fontFamily: 'monospace' }}>{result.time_string}</td>
+                      <td style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
+                        <input
+                          type="text"
+                          data-place-input="true"
+                          placeholder=""
+                          value={compPlaceEdits[result.id] || ''}
+                          onChange={(e) => setCompPlaceEdits({ ...compPlaceEdits, [result.id]: e.target.value.toUpperCase() })}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              // Move to next input
+                              const inputs = document.querySelectorAll('input[data-place-input]');
+                              const currentIdx = Array.from(inputs).findIndex(el => el === e.target);
+                              if (currentIdx < inputs.length - 1) {
+                                (inputs[currentIdx + 1] as HTMLInputElement).focus();
+                              }
+                            }
+                          }}
+                          style={{
+                            width: '50px',
+                            padding: '0.125rem 0.25rem',
+                            border: '1px solid #ccc',
+                            borderRadius: '2px',
+                            textAlign: 'center'
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+
+            {/* Action Buttons */}
+            <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+              <button
+                onClick={() => {
+                  setShowCompPlaceModal(false);
+                  setEditingResultsMeetId(null);
+                  setMeetResults([]);
+                  setCompPlaceEdits({});
+                }}
+                style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveCompPlace}
+                disabled={loadingResults}
+                style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#cc0000',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: loadingResults ? 'not-allowed' : 'pointer',
+                  opacity: loadingResults ? 0.6 : 1
+                }}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
         </div>
       )}
       </div>

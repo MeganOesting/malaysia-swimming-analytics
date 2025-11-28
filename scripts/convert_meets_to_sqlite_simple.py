@@ -1867,7 +1867,8 @@ def process_sheet(
                 "event_id": event_id,
                 "time_seconds": time_numeric,
                 "time_string": time_string,
-                "place": place,
+                # SwimRankings "Place" is ranking position, NOT competition place - don't populate
+                "place": None,
                 "aqua_points": aqua_points,
                 "rudolph_points": rudolph_points,
                 "course": course,
