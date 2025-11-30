@@ -70,6 +70,34 @@ These utilities are the **SINGLE SOURCE OF TRUTH**. Use them everywhere - DO NOT
 
 ---
 
+## **POOL COURSE & EVENT TRACKING**
+
+### **Course Types:**
+- **LCM** (Long Course Meters) - 50m pool - Default for most meets
+- **SCM** (Short Course Meters) - 25m pool - Splash meets, some indoor meets
+
+### **SCM Meets:**
+Splash series meets are held in 25m pools (SCM):
+- Meet alias pattern: `SPL*` (e.g., SPLSEL25, SPLPRK25)
+- Results must have `meet_course = 'SCM'`
+- Event IDs must use `SCM_` prefix (e.g., `SCM_Free_100_M`)
+
+### **25m Events - NOT TRACKED:**
+We do **NOT** track 25m distance events (25 Free, 25 Back, etc.):
+- These are training/development events, not standard competition events
+- No base times exist for MAP/AQUA/MOT calculations
+- If encountered in uploads, skip these events
+
+### **Event ID Format:**
+```
+{COURSE}_{STROKE}_{DISTANCE}_{GENDER}
+Examples:
+- LCM_Free_100_M (Long Course, 100m Freestyle, Male)
+- SCM_Back_200_F (Short Course, 200m Backstroke, Female)
+```
+
+---
+
 ## **Other Standards**
 
 ### **Meet Codes:**

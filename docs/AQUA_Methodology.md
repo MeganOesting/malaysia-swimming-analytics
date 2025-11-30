@@ -28,8 +28,7 @@ AQUA Points = 1000 × (Base Time / Actual Time)³
 - **Cubic Formula**: Same formula used by World Aquatics for international comparison
 
 ### Implementation Details
-- **Pre-calculated**: AQUA points are read directly from column K in meet files
-- **Base Times**: From AQUA POINTS sheet in Podium_On_Track_Target_AQUA.xlsx
+- **Pre-calculated**: AQUA base points are input from the World Aquatics web site
 - **Headers**: Row 1; base times: row 2 (male), row 3 (female)
 - **Formula**: `AQUA = int(1000 * (baseSec / tSec)^3)`
 
@@ -39,7 +38,7 @@ AQUA Points = 1000 × (Base Time / Actual Time)³
 - **World Records**: Based on current world record performances
 - **Elite Competition**: Analysis of top international performances
 - **Statistical Analysis**: Comprehensive analysis of elite swimming data
-- **Regular Updates**: Annual review and updates by World Aquatics
+- **Regular Updates**: Annual review and updates by World Aquatics, annual input by technical director
 
 ### Event Categories
 - **Freestyle**: 50m, 100m, 200m, 400m, 800m, 1500m
@@ -52,14 +51,16 @@ AQUA Points = 1000 × (Base Time / Actual Time)³
 ## Implementation in Malaysia Swimming Analytics
 
 ### Database Integration
-- **Table**: `map_mot_aqua` (AQUA base times)
-- **Real-time Calculation**: Automatic AQUA points calculation
-- **Performance Tracking**: Integration with performance analytics
+- **Table**: `aqua_base_times` (gender, distance, stroke, base_time_seconds, effective_date)
+- **Calculation Function**: `calculate_aqua_points()` in `src/web/utils/calculation_utils.py`
 
 ### Update Schedule
-- **Annual Updates**: Updates following World Aquatics annual review
-- **Administrator Managed**: Updates managed by system administrator
-- **Automatic Sync**: Integration with World Aquatics official updates
+- **When**: After World Aquatics publishes new base times (typically January each year)
+- **Source**: World Aquatics official website
+- **Process**:
+ 1. Update the  base_time_seconds in the aqua_base_times table with the latest Worl Aquatics ase times for scm and lcm manually through the Update AQUA Table Button
+  3. Run database update script to refresh `aqua_base_times` table
+- **Verification**: Compare calculated AQUA points against SwimRankings.net for validation
 
 ## Scoring Interpretation
 

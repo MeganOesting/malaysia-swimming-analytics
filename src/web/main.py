@@ -66,13 +66,13 @@ app.add_middleware(
 # Request logging middleware
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    logger.info(f"→ {request.method} {request.url.path} from {request.client.host if request.client else 'unknown'}")
+    logger.info(f"-> {request.method} {request.url.path} from {request.client.host if request.client else 'unknown'}")
     try:
         response = await call_next(request)
-        logger.info(f"← {response.status_code} for {request.method} {request.url.path}")
+        logger.info(f"<- {response.status_code} for {request.method} {request.url.path}")
         return response
     except Exception as e:
-        logger.error(f"✗ Error in {request.method} {request.url.path}: {e}")
+        logger.error(f"ERROR in {request.method} {request.url.path}: {e}")
         raise
 
 # Include routers
@@ -103,6 +103,32 @@ async def root():
 async def health_check():
     """Health check endpoint"""
     return {"status": "healthy", "service": "malaysia-swimming-analytics"}
+
+
+@app.get("/api/available-years")
+async def get_available_years():
+    """Get list of years that have meets in the database"""
+    try:
+        db_path = get_db_path()
+        conn = sqlite3.connect(db_path, timeout=30.0)
+        cursor = conn.cursor()
+
+        # Get distinct years from meet_date
+        cursor.execute("""
+            SELECT DISTINCT CAST(SUBSTR(meet_date, 1, 4) AS INTEGER) as year
+            FROM meets
+            WHERE meet_date IS NOT NULL AND meet_date != ''
+            ORDER BY year DESC
+        """)
+
+        years = [row[0] for row in cursor.fetchall() if row[0] and row[0] > 2000]
+        conn.close()
+
+        return {"years": years}
+    except Exception as e:
+        print(f"[ERROR] Failed to get available years: {e}")
+        return {"years": [datetime.now().year, datetime.now().year - 1]}
+
 
 # TODO: Implement athlete management endpoints
 @app.post("/api/admin/athletes")

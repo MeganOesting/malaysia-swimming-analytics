@@ -42,6 +42,11 @@ This directory contains the methodology documentation for the three points syste
 - **MOT Updates**: Biennial review with annual minor adjustments
 - **AQUA Updates**: Annual updates from World Aquatics
 
+### Athlete & Results Integration
+- **[Integration Overview](Athlete_Data_Integration_Overview.md)**: Plain-language tour of the athlete matching rebuild and why it matters.
+- **Developer Workflow (Handbook §4/6)**: Technical details on loaders, alias consolidation, and review files.
+- **[Website Task Map](Website_Task_Map.md)**: Buttons/tasks planned for the education portal and admin UI.
+
 ## Quality Assurance
 
 ### Validation Process
@@ -72,6 +77,7 @@ This directory contains the methodology documentation for the three points syste
 ---
 
 *This documentation is maintained by the Malaysia Swimming Analytics development team and is updated regularly to reflect system evolution and new performance data.*
+
 
 
 

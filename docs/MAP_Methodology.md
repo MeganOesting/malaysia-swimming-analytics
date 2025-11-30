@@ -48,20 +48,33 @@ points = round(1000.0 * (base_seconds / swimmer_seconds) ** 3.0)
 - **Age Group Categories**: 11-12, 13-14, 15-16, 17-18 (USA Swimming format)
 - **Calculation Method**: Interpolation between age groups using specific multipliers
 
-## Update Schedule
-- **Annual Review**: Comprehensive review of target times
-- **Data Analysis**: Analysis of improvement deltas between age groups
-- **Target Adjustment**: Updates for ages 13, 15, and 17 based on data analysis
+### When to Update MAP Base Times
+- September of each calendar year whenn new 100th all-time times are published for age groups
+
+### Update Process
+1. Update the "Base:12-14-16-18" fields with the latest USA Swimming 100th all-time times for ages 12, 14, 16, 18 manually through the Update MAP Table Button
+2. Interpolated ages (13, 15, 17) will auto-calculate using:
+   - Age 13 = Age12 - (Age12 - Age14) x 0.65
+   - Age 15 = Age14 - (Age14 - Age16) x 0.60
+   - Age 17 = Age16 - (Age16 - Age18) x 0.55
+3. Export "Base in Seconds" column to database `map_base_times` table
+
+### Interpolation Rationale
+The decreasing multipliers (0.65 -> 0.60 -> 0.55) reflect:
+- Greater improvement rate in younger ages (12-14)
+- Gradual slowdown in improvement rate as athletes mature
+- Physiological development patterns in competitive swimmers
 
 ## Implementation
-- **Database Integration**: Stored in `map_mot_aqua` table
-- **Real-time Calculation**: Automatic points calculation during result entry
-- **Reporting**: Integration with performance analytics dashboard
+- **Database Table**: `map_base_times` (gender, event, age, base_time_seconds, increment)
+- **Calculation Function**: `calculate_map_points()` in `src/web/utils/calculation_utils.py`
+- **Formula**: `1000 x (base_seconds / swimmer_seconds)^3`
+- **Reporting**: Integration with main page results table and Base Table Management exports
 
 ## Quality Assurance
 - **Validation**: Regular validation against actual performance data
 - **Calibration**: Adjustment based on observed performance patterns
-- **Review Process**: Annual review by swimming technical committee
+- **Review Process**: Annual review by swimming technical director
 
 ---
 *This methodology document will be updated as the system evolves and new data becomes available.*

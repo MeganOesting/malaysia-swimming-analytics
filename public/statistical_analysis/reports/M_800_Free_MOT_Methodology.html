@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>M 800 Free - MOT Methodology</title>
+<style>
+body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:24px;max-width:900px;color:#000;background:white}
+h1{color:#CE1126;border-bottom:3px solid #CE1126;padding-bottom:8px;margin-bottom:8px}
+h2{color:#00247D;margin-top:28px;border-bottom:2px solid #00247D;padding-bottom:6px}
+h3{color:#000;margin-top:20px}
+table{border-collapse:collapse;width:100%;margin:16px 0}
+th,td{border:1px solid #ccc;padding:10px;font-size:14px;text-align:left;color:#000}
+th{background:#CE1126;color:#fff;font-weight:600}
+tr:nth-child(even){background:#fafafa}
+.summary-box{background:#f8f9fa;border-left:4px solid #CE1126;padding:16px;margin:20px 0}
+.calculation-box{background:#fff9e6;border-left:4px solid #ffc107;padding:16px;margin:20px 0}
+.source-box{background:#e8f4f8;border-left:4px solid #00247D;padding:16px;margin:20px 0}
+.warning-box{background:#fff0f0;border-left:4px solid #cc0000;padding:16px;margin:20px 0}
+.delta-positive{color:#008000;font-weight:600}
+.delta-negative{color:#cc0000;font-weight:600}
+a{color:#CE1126;text-decoration:none}
+a:hover{color:#000;text-decoration:underline}
+.back-link{display:inline-block;margin-bottom:20px;padding:6px 12px;background:#CE1126;color:#fff;border-radius:4px}
+.back-link:hover{background:#a00d1e;color:#fff;text-decoration:none}
+.step{background:#f0f0f0;padding:12px;margin:8px 0;border-radius:4px}
+.step-num{display:inline-block;width:28px;height:28px;background:#CE1126;color:#fff;border-radius:50%;text-align:center;line-height:28px;font-weight:bold;margin-right:10px}
+</style>
+</head>
+<body>
+
+<a href="/mot/index.html" class="back-link">Back to MOT Landing Page</a>
+
+<h1>Male 800m Freestyle - MOT Methodology</h1>
+
+
+
+<div class="summary-box">
+<h3 style="margin-top:0">Overview</h3>
+<p>Malaysia On Track (MOT) times are calculated by working backwards from Canada On Track elite performance targets using age-specific improvement deltas.</p>
+<p><strong>Delta Sources:</strong></p>
+<ul>
+<li><strong>Ages 15 to 18 transitions:</strong> USA Swimming median deltas (fallback to Canada average delta if USA median is negative)</li>
+<li><strong>Ages 18+ transitions:</strong> Canada On Track average deltas (averaged across all available tracks)</li>
+</ul>
+</div>
+
+<h2>1. Canada On Track Reference</h2>
+
+<p>Canada On Track provides developmental tracks for M 800 Free:</p>
+
+<table>
+<thead><tr><th>Track</th><th>Entry Age</th><th>Final Age</th><th>Target Time</th></tr></thead>
+<tbody>
+<tr><td>Track 1 (Early Developers)</td><td>15</td><td>19</td><td>7:48.66</td></tr><tr><td>Track 2 (Middle Developers)</td><td>16</td><td>21</td><td>7:48.66</td></tr><tr><td>Track 3 (Late Developers)</td><td>17</td><td>23</td><td>7:48.66</td></tr>
+</tbody>
+</table>
+
+<h2>2. USA Swimming Improvement Data</h2>
+
+<p>Based on analysis of USA Swimming's top 500 swimmers per age group (2021-2025 seasons):</p>
+
+<table>
+<thead><tr><th>Transition</th><th>Sample Size</th><th>Median Improvement</th><th>% Improvement</th><th>Used in MOT?</th></tr></thead>
+<tbody>
+<tr><td>15 to 16</td><td>305 athletes</td><td class="delta-positive">9.95s</td><td class="delta-positive">16.6%</td><td>Yes - USA median</td></tr><tr><td>16 to 17</td><td>327 athletes</td><td class="delta-positive">3.70s</td><td class="delta-positive">6.2%</td><td>Yes - USA median</td></tr><tr><td>17 to 18</td><td>238 athletes</td><td class="delta-negative">-0.17s</td><td class="delta-negative">0.3%</td><td>Fallback to Canada</td></tr>
+</tbody>
+</table>
+
+<div class="source-box">
+<strong>Note on Negative Transitions:</strong> When USA median shows regression (negative improvement), we fall back to the Canada On Track average delta for that transition to ensure proper progression.
+</div>
+
+<h2>3. Canada Average Deltas</h2>
+
+<p>Canada deltas are calculated by averaging improvement across all tracks that have data for each transition:</p>
+
+<table>
+<thead><tr><th>Transition</th><th>Track 1</th><th>Track 2</th><th>Track 3</th><th>Average</th></tr></thead>
+<tbody>
+<tr><td>15 to 16</td><td>16.48s</td><td>-</td><td>-</td><td>16.48s</td></tr><tr><td>16 to 17</td><td>12.19s</td><td>12.33s</td><td>-</td><td>12.26s</td></tr><tr><td>17 to 18</td><td>8.40s</td><td>8.49s</td><td>8.53s</td><td>8.47s</td></tr><tr><td>18 to 19</td><td>5.37s</td><td>5.43s</td><td>5.45s</td><td>5.42s</td></tr><tr><td>19 to 20</td><td>-</td><td>3.27s</td><td>3.28s</td><td>3.28s</td></tr><tr><td>20 to 21</td><td>-</td><td>2.00s</td><td>2.01s</td><td>2.00s</td></tr><tr><td>21 to 22</td><td>-</td><td>-</td><td>1.24s</td><td>1.24s</td></tr><tr><td>22 to 23</td><td>-</td><td>-</td><td>0.52s</td><td>0.52s</td></tr>
+</tbody>
+</table>
+
+<h2>4. MOT Calculation Method</h2>
+
+<div class="calculation-box">
+<h3 style="margin-top:0">Approach: Backward Calculation from Canada Track 1 Final Time</h3>
+<p>We anchor at the final Track 1 time and work backwards applying the appropriate deltas:</p>
+
+<div class="step">
+<span class="step-num">1</span>
+<strong>Anchor Point:</strong> Canada Track 1 final time at age 19 = 7:48.66
+</div>
+<div class="step">
+<span class="step-num">2</span>
+<strong>Age 18:</strong> 7:48.66 + 5.42 (Canada avg delta) = <strong>7:54.08</strong>
+</div>
+<div class="step">
+<span class="step-num">3</span>
+<strong>Age 17:</strong> 7:54.08 + 8.47 (Canada avg delta) = <strong>8:02.55</strong>
+</div>
+<div class="step">
+<span class="step-num">4</span>
+<strong>Age 16:</strong> 8:02.55 + 3.70 (USA median) = <strong>8:06.25</strong>
+</div>
+<div class="step">
+<span class="step-num">5</span>
+<strong>Age 15:</strong> 8:06.25 + 9.95 (USA median) = <strong>8:16.20</strong>
+</div>
+</div>
+
+<h2>5. Final MOT Times for M 800 Free</h2>
+
+<table>
+<thead><tr><th>Age</th><th>MOT Time</th><th>Delta Source</th></tr></thead>
+<tbody>
+<tr><td>15</td><td><strong>8:16.20</strong></td><td>USA median (15-16)</td></tr><tr><td>16</td><td><strong>8:06.25</strong></td><td>USA median (16-17)</td></tr><tr><td>17</td><td><strong>8:02.55</strong></td><td>Canada avg (17-18)</td></tr><tr><td>18</td><td><strong>7:54.08</strong></td><td>Canada avg (18-19)</td></tr><tr><td>19</td><td><strong>7:48.66</strong></td><td>Canada Track 1 (anchor)</td></tr>
+</tbody>
+</table>
+
+<h2>6. Data Sources</h2>
+
+<ul>
+<li><strong>Canada On Track Times:</strong> <a href="https://www.swimming.ca/on-track-times/" target="_blank">Swimming Canada On Track Times</a> (April 2025)</li>
+<li><strong>Canada On Track Methodology:</strong> <a href="https://www.swimming.ca/wp-content/uploads/2025/04/On-Track-Times-for-SNC-Website-APRIL-2025.pdf" target="_blank">2025 Canada On Track Times PDF</a></li>
+<li><strong>USA Improvement Data:</strong> USA Swimming season rankings (top 500 per age/event/gender) from 2021-2025 seasons.</li>
+<li><strong>Raw Analysis Data:</strong>
+<a href="/statistical_analysis/USA%20Data/USA%20Delta%20Data/M%20800%20Free%2015%20to%2016/M%20800%20Free%2015%20to%2016%20Improvement%20Analysis%20Report.txt" target="_blank">15 to 16 Analysis</a> |
+<a href="/statistical_analysis/USA%20Data/USA%20Delta%20Data/M%20800%20Free%2016%20to%2017/M%20800%20Free%2016%20to%2017%20Improvement%20Analysis%20Report.txt" target="_blank">16 to 17 Analysis</a> |
+<a href="/statistical_analysis/USA%20Data/USA%20Delta%20Data/M%20800%20Free%2017%20to%2018/M%20800%20Free%2017%20to%2018%20Improvement%20Analysis%20Report.txt" target="_blank">17 to 18 Analysis</a></li>
+</ul>
+
+<hr style="margin:40px 0;border:none;border-top:2px solid #ddd">
+
+<p style="color:#666;font-size:12px"><em>
+Malaysia On Track (MOT) Methodology Document<br>
+Last updated: November 2025
+</em></p>
+
+</body>
+</html>

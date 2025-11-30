@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAP - Malaysia Age Points</title>
+<style>
+body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0;padding:20px;max-width:900px;margin:0 auto;color:#000;background:#f9fafb}
+h1{color:#CE1126;border-bottom:3px solid #CE1126;padding-bottom:8px;margin-bottom:8px}
+h2{color:#00247D;margin-top:28px;border-bottom:2px solid #00247D;padding-bottom:6px}
+h3{color:#CE1126;margin-top:20px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.header h1{margin:0;flex:1}
+.back-btn{background:#CE1126;color:white;padding:6px 12px;border-radius:4px;text-decoration:none;font-weight:500;font-size:0.85em;white-space:nowrap}
+.back-btn:hover{background:#a00d1e}
+.box{background:#fff;border:1px solid #ddd;border-radius:6px;padding:16px;margin:15px 0}
+.formula-box{background:#fff9e6;border-left:4px solid #ffc107;padding:20px;margin:20px 0}
+.formula{font-size:1.4em;font-weight:bold;text-align:center;padding:15px;background:#fff;border-radius:4px;margin:15px 0;font-family:monospace;color:#CE1126}
+.comparison-box{background:#e8f4f8;border-left:4px solid #00247D;padding:20px;margin:20px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0}
+.stat-card{background:#fff;border:1px solid #ddd;border-radius:6px;padding:16px;text-align:center}
+.stat-value{font-size:1.5em;font-weight:bold;color:#CE1126}
+.stat-label{font-size:0.85em;color:#666;margin-top:4px}
+table{border-collapse:collapse;width:100%;margin:16px 0}
+th,td{border:1px solid #ccc;padding:10px;font-size:14px;text-align:left;color:#000}
+th{background:#CE1126;color:#fff;font-weight:600}
+tr:nth-child(even){background:#fafafa}
+.example-box{background:#f0fdf4;border-left:4px solid #22c55e;padding:16px;margin:20px 0}
+.nav-section{background:white;border:1px solid #ccc;padding:20px;margin:20px 0;border-radius:6px}
+.nav-section h3{margin-top:0;color:#CE1126}
+a{color:#CE1126;text-decoration:none}
+a:hover{text-decoration:underline}
+ul{margin:8px 0;padding-left:20px}
+li{margin:6px 0}
+.key-point{font-weight:600;color:#00247D}
+.highlight{background:#fffbeb;padding:2px 6px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>MAP - Malaysia Age Points</h1>
+    <a href="/" class="back-btn">Return to Home Page</a>
+</div>
+
+<div class="box">
+    <strong>Reference Links:</strong>
+    <ul style="margin:8px 0 0 0;padding-left:20px;">
+        <li><a href="https://data.usaswimming.org/datahub/usas/timeseventrank" target="_blank" rel="noopener noreferrer">USA Swimming Times Database</a></li>
+        <li><a href="https://data.usaswimming.org/datahub/alltimetop100search" target="_blank" rel="noopener noreferrer">USA Swimming All-Time Top 100</a></li>
+    </ul>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">What are Malaysia Age Points?</h2>
+<p>Malaysia Age Points (MAP) is an <strong>age-adjusted scoring system</strong> that allows fair comparison of swimming performances across different ages, events, and strokes. MAP is based on the same principles as <a href="https://www.usaswimming.org/times/popular-resources/power-point-calculator" target="_blank">Hy-Tek Power Points</a> used by USA Swimming.</p>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">1000</div>
+        <div class="stat-label">Points = USA #100 All-Time</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">12-18</div>
+        <div class="stat-label">Age Groups Covered</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">7</div>
+        <div class="stat-label">Single-Age Tables</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">26</div>
+        <div class="stat-label">Events (excl. 50m)</div>
+    </div>
+</div>
+
+<h3>Key Characteristics:</h3>
+<ul>
+    <li><span class="key-point">Age-Adjusted:</span> A 500-point swim at age 12 represents the same relative quality as a 500-point swim at age 16</li>
+    <li><span class="key-point">Single-Age Tables:</span> Each age (12, 13, 14, 15, 16, 17, 18) has its own base time table</li>
+    <li><span class="key-point">Development Focus:</span> Designed to identify and track developing swimmers, not just absolute speed</li>
+    <li><span class="key-point">Cross-Event Comparison:</span> Compare a swimmer's 100 Fly against their 200 Free performance</li>
+</ul>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">MAP vs AQUA Points</h2>
+
+<div class="comparison-box">
+<table>
+<thead><tr><th>Feature</th><th>MAP (Age Points)</th><th>AQUA (World Aquatics)</th></tr></thead>
+<tbody>
+<tr><td><strong>Base Time</strong></td><td>USA #100 All-Time for specific age</td><td>Current World Record</td></tr>
+<tr><td><strong>1000 Points =</strong></td><td>USA Top 100 at that age</td><td>World Record pace</td></tr>
+<tr><td><strong>Age Adjustment</strong></td><td>Yes - different base per age</td><td>No - same base for all ages</td></tr>
+<tr><td><strong>Best For</strong></td><td>Age-group development tracking</td><td>International comparison</td></tr>
+<tr><td><strong>Formula</strong></td><td>1000 x (B/T)^3</td><td>1000 x (B/T)^3</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="example-box">
+<h3 style="margin-top:0">Example: Why Age Adjustment Matters</h3>
+<p>Consider two swimmers with identical times of <strong>1:00.00</strong> in 100m Freestyle:</p>
+<table>
+<thead><tr><th>Swimmer</th><th>Age</th><th>Time</th><th>AQUA Points</th><th>MAP Points</th></tr></thead>
+<tbody>
+<tr><td>Swimmer A</td><td>13</td><td>1:00.00</td><td>478</td><td><strong>687</strong></td></tr>
+<tr><td>Swimmer B</td><td>17</td><td>1:00.00</td><td>478</td><td><strong>523</strong></td></tr>
+</tbody>
+</table>
+<p style="margin-bottom:0"><strong>Insight:</strong> The 13-year-old's performance is relatively more impressive for their age, reflected in higher MAP points. AQUA points are identical because they don't consider age.</p>
+</div>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">The Formula</h2>
+
+<div class="formula-box">
+<p style="margin-top:0">MAP uses the same <strong>cubic curve</strong> formula as AQUA points:</p>
+
+<div class="formula">MAP = 1000 x (B / T)^3</div>
+
+<table>
+<thead><tr><th>Variable</th><th>Description</th><th>Key Difference from AQUA</th></tr></thead>
+<tbody>
+<tr><td><strong>MAP</strong></td><td>Points awarded</td><td>-</td></tr>
+<tr><td><strong>B</strong></td><td>Base time (in seconds)</td><td class="highlight">Age-specific base time (USA #100 All-Time)</td></tr>
+<tr><td><strong>T</strong></td><td>Swimmer's time (in seconds)</td><td>-</td></tr>
+</tbody>
+</table>
+
+<p style="margin-bottom:0"><strong>The only difference:</strong> MAP uses age-specific base times, while AQUA uses a single base time (world record) for all ages.</p>
+</div>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">Base Times: USA All-Time Top 100</h2>
+
+<p>MAP base times are derived from the <strong>100th fastest time ever</strong> swum by an American swimmer at each specific age.</p>
+
+<h3>Why USA Data?</h3>
+<ul>
+    <li><span class="key-point">Largest Dataset:</span> USA Swimming has the world's largest database of age-group swimming times</li>
+    <li><span class="key-point">Consistent Tracking:</span> Times database goes back decades with reliable age verification</li>
+    <li><span class="key-point">Depth of Competition:</span> Ensures statistically meaningful benchmarks at every age</li>
+</ul>
+
+<h3>Age Coverage:</h3>
+<table>
+<thead><tr><th>Ages</th><th>Base Times</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>12, 14, 16, 18</td><td>Direct from USA All-Time Top 100</td><td>Primary data points</td></tr>
+<tr><td>13, 15, 17</td><td>Interpolated</td><td>Calculated from adjacent ages</td></tr>
+</tbody>
+</table>
+
+<h3>Events Included:</h3>
+<p>All standard LCM individual events <strong>except 50m events</strong> (50m events are excluded as they are less meaningful for age-group development tracking).</p>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">Why Use Age Points?</h2>
+
+<p>Age-adjusted points (like MAP and Hy-Tek Power Points) serve several important purposes:</p>
+
+<h3>1. Identify Developing Talent</h3>
+<ul>
+    <li>A young swimmer with high MAP points shows strong potential relative to peers</li>
+    <li>Helps coaches spot talent that might be overlooked based on absolute times alone</li>
+</ul>
+
+<h3>2. Track Progress Fairly</h3>
+<ul>
+    <li>Compare a swimmer's 14-year-old self to their 16-year-old self using the same scale</li>
+    <li>Determine if improvement is keeping pace with expected development</li>
+</ul>
+
+<h3>3. Cross-Event Analysis</h3>
+<ul>
+    <li>Is a swimmer stronger in sprint or distance events?</li>
+    <li>Which stroke shows the most potential?</li>
+    <li>Compare 100 Fly (580 MAP) vs 200 Free (620 MAP) to guide training focus</li>
+</ul>
+
+<h3>4. Team & Program Evaluation</h3>
+<ul>
+    <li>Squad competitions using total MAP points create fair multi-age competitions</li>
+    <li>Track program development across age groups over time</li>
+    <li>Award recognition based on relative achievement, not just fastest times</li>
+</ul>
+
+<h3>5. Meet Qualification</h3>
+<ul>
+    <li>Some programs use minimum MAP points for meet entry</li>
+    <li>Ensures appropriate competition level regardless of event selection</li>
+</ul>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">Understanding the Scale</h2>
+
+<table>
+<thead><tr><th>MAP Points</th><th>Approximate Level</th><th>Interpretation</th></tr></thead>
+<tbody>
+<tr><td><strong>1000+</strong></td><td>USA All-Time Top 100</td><td>Among the best ever at this age in USA</td></tr>
+<tr><td><strong>900-999</strong></td><td>Elite Age Group</td><td>National team potential</td></tr>
+<tr><td><strong>800-899</strong></td><td>National Level</td><td>Top 1% of age group swimmers</td></tr>
+<tr><td><strong>700-799</strong></td><td>State/Regional Level</td><td>Strong competitive swimmer</td></tr>
+<tr><td><strong>600-699</strong></td><td>Competitive Club</td><td>Solid age-group competitor</td></tr>
+<tr><td><strong>500-599</strong></td><td>Developing</td><td>On track with regular training</td></tr>
+<tr><td><strong>Below 500</strong></td><td>Beginner/Recreational</td><td>Building foundation</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">Practical Applications</h2>
+
+<div class="example-box">
+<h3 style="margin-top:0">Example: Multi-Event Swimmer Analysis</h3>
+<p><strong>Sarah, Age 14</strong></p>
+<table>
+<thead><tr><th>Event</th><th>Time</th><th>AQUA</th><th>MAP</th><th>Analysis</th></tr></thead>
+<tbody>
+<tr><td>100 Free</td><td>1:02.50</td><td>443</td><td>635</td><td>Good</td></tr>
+<tr><td>200 Free</td><td>2:18.00</td><td>412</td><td>598</td><td>Average</td></tr>
+<tr><td>100 Fly</td><td>1:12.00</td><td>389</td><td><strong>712</strong></td><td>Strongest!</td></tr>
+<tr><td>200 IM</td><td>2:38.00</td><td>401</td><td>621</td><td>Good</td></tr>
+</tbody>
+</table>
+<p style="margin-bottom:0"><strong>Coaching Insight:</strong> Despite slower absolute times, Sarah's 100 Fly shows the highest MAP points, suggesting butterfly is her strongest stroke relative to age peers. Consider prioritizing fly development.</p>
+</div>
+</div>
+
+<div style="margin-top:40px;padding-top:20px;border-top:2px solid #ccc;color:#666;font-size:0.9em;line-height:1.5;">
+    <p><strong>Data Sources:</strong></p>
+    <ul>
+        <li><a href="https://data.usaswimming.org/datahub/alltimetop100search" target="_blank">USA Swimming All-Time Top 100</a></li>
+        <li><a href="https://www.usaswimming.org/times/popular-resources/power-point-calculator" target="_blank">USA Swimming Power Point Calculator</a></li>
+    </ul>
+    <p><strong>Last Updated:</strong> November 2025</p>
+    <p><strong>Project:</strong> Malaysia Swimming Analytics</p>
+</div>
+
+</body>
+</html>

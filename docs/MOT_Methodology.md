@@ -1,95 +1,227 @@
-# Malaysia On Track (MOT) Methodology
+# Malaysia On Track (MOT) Base Times Methodology
 
-## Overview
-The Malaysia On Track (MOT) system is a data-driven pathway to identify swimmers with the highest potential to deliver international medals for Malaysia. Based on Canada's successful On Track methodology, it provides age-specific progression benchmarks from entry age (15) to arrival age (25).
-
-## Purpose
-- **Medal Potential Identification**: Identify swimmers with verified medal potential
-- **Development Pathway**: Track progression from age 15 to 25
-- **Resource Allocation**: Guide funding to athletes with highest medal potential
-- **Performance Benchmarking**: Compare swimmers against international progression standards
-
-## System Components
-
-### Entry Age: 15
-- **Physical Maturity**: By age 15, physical maturity has evened out
-- **Predictive Performance**: Training and skill become main drivers of improvement
-- **Reliable Tracking**: Performance tracking becomes meaningful and predictive
-
-### Arrival Age: 25
-- **Development Window**: Swimmers who haven't reached benchmarks by 25 are statistically unlikely to do so
-- **Peak Performance**: Covers the typical age range for international medal success
-- **Extended Support**: Provides support through critical development years
-
-### Age Range: 15-23
-- **Entry Age**: 15 (when tracking becomes predictive)
-- **MOT Calculation**: Up to age 23 (senior level times comparable to AQUA points)
-- **Senior Level**: MOT uses senior level times that can be compared to AQUA points
-
-## Calculation Methodology
-
-### Progression Curve Development
-```python
-# Build age-based improvement curve using Canada data
-# Combined yearly changes from all tracks into single average progression
-progression_curve = build_progression_curve(gender, event, entry_age=15, arrival_age=25)
-```
-
-### Target Time Calculation
-```python
-# Anchor each event's progression curve
-entry_age = 15
-arrival_age = 25
-arrival_time = previous_sea_games_bronze_time
-
-# Build progression curve with Canada data
-target_times = calculate_target_times(gender, event, age, progression_curve)
-```
-
-### AQUA Points Standardization
-```python
-# Convert times to AQUA points for standardized comparison
-base_seconds = get_aqua_base_time(gender, event)
-target_seconds = convert_time_to_seconds(target_time)
-aqua_points = int(1000 * (base_seconds / target_seconds) ** 3)
-```
-
-### On Track Assessment
-```python
-# Compare swimmer's performance to age-appropriate target
-swimmer_aqua = calculate_aqua_points(swimmer_time, gender, event)
-target_aqua = get_target_aqua_for_age(gender, event, age)
-difference = swimmer_aqua - target_aqua
-
-# Positive = ahead of track, Zero = on track, Negative = behind track
-```
-
-## Data Sources
-- **Canada On Track Data**: Over 2 million world-class performances from international competitions
-- **Progression Benchmarks**: Average progression rates of Canadian age-group swimmers
-- **SEA Games Bronze Times**: Arrival time benchmarks for each event
-- **AQUA Base Times**: World Aquatics base times for standardization
-
-## Implementation Notes
-- **Track 1**: 4-year progression length (early developers)
-- **Track 2**: 5-year progression length (normal developers)  
-- **Track 3**: 6-year progression length (late developers)
-- **Standardization**: All times converted to AQUA points for fair comparison
-- **Extended Support**: MOT provides support through age 23, extending beyond current Malaysia cutoff of 21
-
-## Key Benefits
-- **Extended Development Window**: Support through critical years (15-25)
-- **Data-Driven Decisions**: Based on proven international progression data
-- **Medal Focus**: Specifically designed to identify medal potential
-- **Resource Optimization**: Direct funding to athletes with highest medal potential
-
-## Success Metrics
-- **Canada's Results**: 
-  - Rio 2016: 1 Gold, 1 Silver, 2 Bronze
-  - Tokyo 2021: 1 Gold, 2 Silver, 2 Bronze  
-  - Paris 2024: 4 Gold, 1 Silver, 0 Bronze
-- **Pipeline Development**: Seamless path from talent identification to podium qualification
-- **Medal Return**: Maximized medal return on investment
+**Last Updated:** 2025-11-30
 
 ---
-*This methodology is based on Canada's successful On Track system and adapted for Malaysian swimming development pathways.*
+
+## Overview
+
+The Malaysia On Track (MOT) system provides age-appropriate target times for Malaysian swimmers ages 15-23 (18-23 for 50m events). These targets help coaches and athletes understand what times are needed at each age to be "on track" to achieve international elite performance.
+
+---
+
+## Data Sources
+
+| Source | Purpose | Table |
+|--------|---------|-------|
+| Canada Swimming On Track | Base times and age progression deltas | `canada_on_track` |
+| USA Swimming Delta Data | Age progression deltas (ages 15-18) | `usa_delta_data` |
+
+---
+
+## Core Methodology
+
+### Delta Source Rules
+
+| Age Transition | Primary Source | Fallback |
+|----------------|----------------|----------|
+| 15 to 16 | USA Swimming median | Canada average delta |
+| 16 to 17 | USA Swimming median | Canada average delta |
+| 17 to 18 | USA Swimming median | Canada average delta |
+| 18 to 19 | Canada average delta | - |
+| 19 to 20 | Canada average delta | - |
+| 20+ | Canada average delta | - |
+
+**Key Rules:**
+1. **Ages 15-18 transitions:** Use USA Swimming median delta
+2. **If USA median is NEGATIVE:** Fall back to Canada On Track average delta
+3. **Ages 18+ transitions:** Always use Canada On Track average delta
+4. **Canada average delta:** Average across all tracks that have data for that transition
+
+---
+
+## Calculation Method
+
+### Step 1: Anchor Point
+
+We anchor at the **final time of Canada Track 1** (the earliest-developing track). This is the target time at the Track 1 final age.
+
+```
+anchor_time = Canada Track 1 time at its final age
+```
+
+### Step 2: Work Backwards
+
+Starting from the anchor point, work backwards to younger ages by adding the appropriate delta:
+
+```
+mot_time[age] = mot_time[age + 1] + delta[age to age+1]
+```
+
+**Note:** Adding the delta makes the younger age time slower (as expected - younger swimmers are slower).
+
+### Step 3: Determine Delta Sources
+
+For each age transition:
+
+1. **Check if Canada has data for this transition**
+   - A Canada delta exists if ANY track has times for both ages
+   - Average all available track deltas
+
+2. **For ages 15-17 (requiring USA delta):**
+   - Look up USA median delta for this event/transition
+   - If USA median >= 0: Use USA median
+   - If USA median < 0: Use Canada average delta (fallback)
+
+3. **For ages 18+:**
+   - Always use Canada average delta
+
+---
+
+## 50m Events - Special Handling
+
+**MOT times for 50m events begin at age 18 only.**
+
+Reasons:
+1. USA Swimming does not commonly contest 50m events at ages 15-17
+2. Sprint performance at ages 15-17 does not correlate strongly with senior elite potential
+3. Physical maturation plays a larger role in sprint events, making early predictions less reliable
+
+50m events affected:
+- LCM_Free_50_F, LCM_Free_50_M
+- LCM_Back_50_F, LCM_Back_50_M
+- LCM_Breast_50_F, LCM_Breast_50_M
+- LCM_Fly_50_F, LCM_Fly_50_M
+
+---
+
+## Why This Approach?
+
+### USA Swimming Data (Ages 15-18)
+- Largest dataset of age-group swimmers globally
+- Top 500 swimmers per event/age/gender across 4 seasons (2021-2025)
+- Median values reduce impact of outliers
+- Represents realistic improvement expectations
+
+### Canada On Track Data (Ages 18+)
+- Evidence-based progression tracks from Swimming Canada
+- Three tracks (1, 2, 3) represent different development pathways
+- Track 1 = earliest developers, Track 3 = latest developers
+- All tracks converge to same elite target time
+
+**History of Canada On Track:**
+- **2013:** Swimming Canada introduced On Track times to identify developing swimmers
+  - Used international competition data and Canadian age group progression rates
+  - Three tracks to capture early to late developers
+- **2014:** Partnership with Canadian Tire Financial Services and Own The Podium
+  - Sports analytics group analyzed 2+ million results from world-class athletes
+  - Provided insights into career progression patterns
+- **2017:** Version 2 introduced for Tokyo 2020 quad
+  - Continued same principles with enhanced analytics
+- **Current:** Updated annually after each long course World Championships
+  - Incorporates latest World Aquatics A standards as final On Track time
+  - Provides seamless pathway from athlete identification to senior team qualification
+
+### Negative USA Delta Fallback
+- Some events show negative USA median at 17-18 (swimmers getting slower)
+- This reflects developmental plateau, NOT realistic targets
+- Canada tracks show continued improvement at 17-18
+- Fallback ensures all MOT times show proper progression (older = faster)
+
+---
+
+## Example Calculation: F 100 Free
+
+**Canada Track 1 for F 100 Free:**
+- Age 14: 58.43s
+- Age 15: 56.55s
+- Age 16: 55.29s
+- Age 17: 54.55s
+- Age 18: 54.09s
+- Age 19: 53.77s
+- Age 20: 53.54s (final)
+
+**USA Deltas:**
+- 15-16: +0.76s (positive, use this)
+- 16-17: +0.37s (positive, use this)
+- 17-18: -0.15s (NEGATIVE, fallback to Canada)
+
+**Canada 17-18 Average:**
+- Track 1: 54.55 - 54.09 = 0.46s
+- Track 2: (has both ages) = 0.46s
+- Average = 0.46s
+
+**Calculation (working backwards from Track 1 age 20):**
+```
+Age 20: 53.54s (anchor)
+Age 19: 53.54 + 0.23 = 53.77s (Canada avg 19-20)
+Age 18: 53.77 + 0.32 = 54.09s (Canada avg 18-19)
+Age 17: 54.09 + 0.46 = 54.55s (Canada avg - fallback)
+Age 16: 54.55 + 0.37 = 54.92s (USA median)
+Age 15: 54.92 + 0.76 = 55.68s (USA median)
+```
+
+---
+
+## Database Tables
+
+### mot_base_times
+```sql
+CREATE TABLE mot_base_times (
+    id INTEGER PRIMARY KEY,
+    mot_event_id TEXT NOT NULL,      -- e.g., LCM_Back_100_F
+    mot_age INTEGER NOT NULL,         -- 15-23 (or 18-23 for 50m)
+    mot_time_seconds REAL,            -- target time in seconds
+    UNIQUE(mot_event_id, mot_age)
+);
+```
+
+### Supporting Tables
+- `canada_on_track` - Canada Swimming track times by event, track, and age
+- `usa_delta_data` - USA Swimming improvement data by event and age transition
+
+---
+
+## Data Quality Notes
+
+### Swimmers Who "Dropped Out" of Top 500
+When analyzing USA data, "dropped out" refers to swimmers who fell out of the top 500 rankings for their age/event, not swimmers who quit the sport. Many of these swimmers reappear in later years:
+- ~32% of 15-16 top-500 dropouts reappear by age 18
+- ~38% of 16-17 top-500 dropouts reappear at age 18
+
+### Improvement Percentages
+When comparing improvement across events, use percentages rather than raw seconds:
+- 0.5s improvement in 50 Free (~2%) is more significant than
+- 0.5s improvement in 400 Free (~0.1%)
+
+---
+
+## Validation
+
+All MOT times are validated to ensure:
+1. Older ages always have faster times than younger ages
+2. No NULL values except 50m events at ages 15-17
+3. Times fall within reasonable bounds for each event
+
+---
+
+## Maintenance
+
+When updating MOT base times:
+1. Ensure Canada On Track data is current
+2. Verify USA delta data is loaded
+3. Run recalculation script
+4. Validate no progression errors (older must be faster)
+
+---
+
+## References
+
+- [Swimming Canada On Track Times](https://www.swimming.ca/on-track-times/)
+- [2025 Canada On Track Times PDF](https://www.swimming.ca/wp-content/uploads/2025/04/On-Track-Times-for-SNC-Website-APRIL-2025.pdf)
+- USA Swimming season rankings (2021-2025)
+
+---
+
+## Author
+Malaysia Swimming Analytics System

@@ -1,12 +1,12 @@
 # Malaysia On Track (MOT) Base Times Methodology
 
-**Last Updated:** 2025-11-28
+**Last Updated:** 2025-11-30
 
 ---
 
 ## Overview
 
-The Malaysia On Track (MOT) system provides age-appropriate target times for Malaysian swimmers ages 15-23. These targets help coaches and athletes understand what times are needed at each age to be "on track" to achieve SEA Games podium performance by peak age.
+The Malaysia On Track (MOT) system provides age-appropriate target times for Malaysian swimmers ages 15-23 (18-23 for 50m events). These targets help coaches and athletes understand what times are needed at each age to be "on track" to achieve international elite performance.
 
 ---
 
@@ -14,186 +14,152 @@ The Malaysia On Track (MOT) system provides age-appropriate target times for Mal
 
 | Source | Purpose | Table |
 |--------|---------|-------|
-| SEA Games Podium Target Times | Final target (peak performance) | `podium_target_times` |
-| Canada Swimming On Track | Age progression deltas (ages 18-23) | `canada_on_track` |
+| Canada Swimming On Track | Base times and age progression deltas | `canada_on_track` |
 | USA Swimming Delta Data | Age progression deltas (ages 15-18) | `usa_delta_data` |
 
 ---
 
-## Key Concept: Final Age (Peak Performance Age)
+## Core Methodology
 
-Different events have different "final ages" - the age at which swimmers typically reach peak performance. This is determined by the Canada On Track data, which provides Track 1, 2, and 3 times up to the expected peak age.
+### Delta Source Rules
 
-| Final Age | Events |
-|-----------|--------|
-| 21 | LCM_Back_100_F, LCM_Back_200_F, LCM_Medley_400_F |
-| 22 | LCM_Fly_200_F, LCM_Free_1500_F, LCM_Free_200_F, LCM_Free_400_F, LCM_Free_800_F |
-| 23 | LCM_Back_200_M, LCM_Back_50_F, LCM_Breast_100_F, LCM_Breast_200_F, LCM_Breast_200_M, LCM_Fly_100_F, LCM_Fly_200_M, LCM_Free_100_F, LCM_Free_100_M, LCM_Free_1500_M, LCM_Free_200_M, LCM_Free_400_M, LCM_Free_800_M, LCM_Medley_200_F, LCM_Medley_400_M |
-| 24 | LCM_Back_100_M, LCM_Back_50_M, LCM_Breast_100_M, LCM_Breast_50_F, LCM_Fly_100_M, LCM_Free_50_F, LCM_Medley_200_M |
-| 25 | LCM_Fly_50_F, LCM_Fly_50_M, LCM_Free_50_M |
-| 26 | LCM_Breast_50_M |
+| Age Transition | Primary Source | Fallback |
+|----------------|----------------|----------|
+| 15 to 16 | USA Swimming median | Canada average delta |
+| 16 to 17 | USA Swimming median | Canada average delta |
+| 17 to 18 | USA Swimming median | Canada average delta |
+| 18 to 19 | Canada average delta | - |
+| 19 to 20 | Canada average delta | - |
+| 20+ | Canada average delta | - |
+
+**Key Rules:**
+1. **Ages 15-18 transitions:** Use USA Swimming median delta
+2. **If USA median is NEGATIVE:** Fall back to Canada On Track average delta
+3. **Ages 18+ transitions:** Always use Canada On Track average delta
+4. **Canada average delta:** Average across all tracks that have data for that transition
 
 ---
 
 ## Calculation Method
 
-### Step 1: Anchor Point (Age 23)
+### Step 1: Anchor Point
 
-All calculations start from the **podium target time** for the most recent SEA Games year. This is stored at age 23 regardless of final age.
+We anchor at the **final time of Canada Track 1** (the earliest-developing track). This is the target time at the Track 1 final age.
 
 ```
-mot_time[23] = podium_target_time (most recent year)
+anchor_time = Canada Track 1 time at its final age
 ```
 
-### Step 2: Plateau Ages (Final Age to 23)
+### Step 2: Work Backwards
 
-For events where final age < 23, the podium target time is also used for ages between final age and 23 (inclusive). Athletes are expected to maintain peak performance during this plateau.
+Starting from the anchor point, work backwards to younger ages by adding the appropriate delta:
 
-**Example - Final Age 21:**
 ```
-mot_time[23] = podium_target_time
-mot_time[22] = podium_target_time
-mot_time[21] = podium_target_time
+mot_time[age] = mot_time[age + 1] + delta[age to age+1]
 ```
 
-### Step 3: Ages 18-22 (Canada On Track Deltas)
+**Note:** Adding the delta makes the younger age time slower (as expected - younger swimmers are slower).
 
-Working backwards from the plateau, we use Canada On Track data to calculate expected times. The formula uses **track deltas** - the difference in time between consecutive ages within a track.
+### Step 3: Determine Delta Sources
 
-**Track Delta Formula:**
-```
-track_delta(track, age_from, age_to) = canada_track_time[age_from] - canada_track_time[age_to]
-```
+For each age transition:
 
-**Key Rule:** We can only use a track's delta if the track has times for BOTH ages in the transition.
+1. **Check if Canada has data for this transition**
+   - A Canada delta exists if ANY track has times for both ages
+   - Average all available track deltas
 
-The number of tracks averaged depends on the final age and current age being calculated:
+2. **For ages 15-17 (requiring USA delta):**
+   - Look up USA median delta for this event/transition
+   - If USA median >= 0: Use USA median
+   - If USA median < 0: Use Canada average delta (fallback)
 
----
-
-### Final Age 21 Events
-
-| Age | Formula |
-|-----|---------|
-| 23 | podium_target_time |
-| 22 | podium_target_time |
-| 21 | podium_target_time |
-| 20 | age_21 + (Track3_20 - Track3_21) |
-| 19 | age_20 + (Track3_19 - Track3_20) |
-| 18 | age_19 + [(Track3_18 - Track3_19) + (Track2_18 - Track2_19)] / 2 |
+3. **For ages 18+:**
+   - Always use Canada average delta
 
 ---
 
-### Final Age 22 Events
+## 50m Events - Special Handling
 
-| Age | Formula |
-|-----|---------|
-| 23 | podium_target_time |
-| 22 | podium_target_time |
-| 21 | age_22 + (Track3_21 - Track3_22) |
-| 20 | age_21 + (Track3_20 - Track3_21) |
-| 19 | age_20 + [(Track3_19 - Track3_20) + (Track2_19 - Track2_20)] / 2 |
-| 18 | age_19 + [(Track3_18 - Track3_19) + (Track2_18 - Track2_19)] / 2 |
+**MOT times for 50m events begin at age 18 only.**
 
----
+Reasons:
+1. USA Swimming does not commonly contest 50m events at ages 15-17
+2. Sprint performance at ages 15-17 does not correlate strongly with senior elite potential
+3. Physical maturation plays a larger role in sprint events, making early predictions less reliable
 
-### Final Age 23 Events
-
-| Age | Formula |
-|-----|---------|
-| 23 | podium_target_time |
-| 22 | age_23 + (Track3_22 - Track3_23) |
-| 21 | age_22 + (Track3_21 - Track3_22) |
-| 20 | age_21 + [(Track3_20 - Track3_21) + (Track2_20 - Track2_21)] / 2 |
-| 19 | age_20 + [(Track3_19 - Track3_20) + (Track2_19 - Track2_20)] / 2 |
-| 18 | age_19 + [(Track3_18 - Track3_19) + (Track2_18 - Track2_19) + (Track1_18 - Track1_19)] / 3 |
-
----
-
-### Final Age 24 Events
-
-| Age | Formula |
-|-----|---------|
-| 23 | podium_target_time |
-| 22 | age_23 + (Track3_22 - Track3_23) |
-| 21 | age_22 + [(Track3_21 - Track3_22) + (Track2_21 - Track2_22)] / 2 |
-| 20 | age_21 + [(Track3_20 - Track3_21) + (Track2_20 - Track2_21)] / 2 |
-| 19 | age_20 + [(Track3_19 - Track3_20) + (Track2_19 - Track2_20) + (Track1_19 - Track1_20)] / 3 |
-| 18 | age_19 + [(Track3_18 - Track3_19) + (Track2_18 - Track2_19) + (Track1_18 - Track1_19)] / 3 |
-
----
-
-### Final Age 25 Events
-
-| Age | Formula |
-|-----|---------|
-| 23 | podium_target_time |
-| 22 | age_23 + [(Track3_22 - Track3_23) + (Track2_22 - Track2_23)] / 2 |
-| 21 | age_22 + [(Track3_21 - Track3_22) + (Track2_21 - Track2_22)] / 2 |
-| 20 | age_21 + [(Track3_20 - Track3_21) + (Track2_20 - Track2_21) + (Track1_20 - Track1_21)] / 3 |
-| 19 | age_20 + [(Track3_19 - Track3_20) + (Track2_19 - Track2_20) + (Track1_19 - Track1_20)] / 3 |
-| 18 | age_19 + [(Track2_18 - Track2_19) + (Track1_18 - Track1_19)] / 2 |
-
----
-
-### Final Age 26 Events
-
-| Age | Formula |
-|-----|---------|
-| 23 | podium_target_time |
-| 22 | age_23 + [(Track3_22 - Track3_23) + (Track2_22 - Track2_23)] / 2 |
-| 21 | age_22 + [(Track3_21 - Track3_22) + (Track2_21 - Track2_22) + (Track1_21 - Track1_22)] / 3 |
-| 20 | age_21 + [(Track3_20 - Track3_21) + (Track2_20 - Track2_21) + (Track1_20 - Track1_21)] / 3 |
-| 19 | age_20 + [(Track3_19 - Track3_20) + (Track2_19 - Track2_20)] / 2 |
-| 18 | age_19 + (Track2_18 - Track2_19) |
-
----
-
-### Step 4: Ages 15-17 (USA Delta Medians)
-
-For ages 15-17, we use the **median improvement** from USA Swimming data. This represents the typical improvement seen in USA age-group swimmers transitioning between ages.
-
-| Age | Formula |
-|-----|---------|
-| 17 | age_18 + usa_delta_median(17→18) |
-| 16 | age_17 + usa_delta_median(16→17) |
-| 15 | age_16 + usa_delta_median(15→16) |
-
-**Note:** The usa_delta_median is the median of `improvement_seconds` from the `usa_delta_data` table for the specific event and age transition.
-
-### Exception: 50m Events
-
-**50m events do NOT have ages 15-17 populated.** USA Swimming does not race 50m LCM events in age-group competition (they primarily race yards), so there is no USA delta data for these events.
-
-For 50m events, MOT times are only calculated for ages 18-23 using Canada On Track data:
-- LCM_Back_50_F (Final age 23): Ages 18-23
-- LCM_Back_50_M (Final age 24): Ages 18-23
-- LCM_Breast_50_F (Final age 24): Ages 18-23
-- LCM_Breast_50_M (Final age 26): Ages 18-23 (age 18 may be NULL if Track 2 data unavailable)
-- LCM_Fly_50_F (Final age 25): Ages 18-23
-- LCM_Fly_50_M (Final age 25): Ages 18-23
-- LCM_Free_50_F (Final age 24): Ages 18-23
-- LCM_Free_50_M (Final age 25): Ages 18-23
+50m events affected:
+- LCM_Free_50_F, LCM_Free_50_M
+- LCM_Back_50_F, LCM_Back_50_M
+- LCM_Breast_50_F, LCM_Breast_50_M
+- LCM_Fly_50_F, LCM_Fly_50_M
 
 ---
 
 ## Why This Approach?
 
-### Canada On Track for Ages 18-23
-- Canada Swimming has developed evidence-based progression tracks
-- Three tracks (1, 2, 3) represent different development pathways
-- Track 1 = fastest development, Track 3 = slowest
-- Using multiple tracks and averaging provides realistic targets
-
-### USA Delta Data for Ages 15-17
+### USA Swimming Data (Ages 15-18)
 - Largest dataset of age-group swimmers globally
+- Top 500 swimmers per event/age/gender across 4 seasons (2021-2025)
 - Median values reduce impact of outliers
-- Represents realistic improvement expectations for developing swimmers
+- Represents realistic improvement expectations
 
-### Track Blending Logic
-- **Near peak age:** Use slower tracks (Track 3) - swimmers are refining, not making large gains
-- **Further from peak:** Blend more tracks - swimmers can be on various development paths
-- **Youngest ages (15-17):** Use USA data as Canada tracks don't extend this young
+### Canada On Track Data (Ages 18+)
+- Evidence-based progression tracks from Swimming Canada
+- Three tracks (1, 2, 3) represent different development pathways
+- Track 1 = earliest developers, Track 3 = latest developers
+- All tracks converge to same elite target time
+
+**History of Canada On Track:**
+- **2013:** Swimming Canada introduced On Track times to identify developing swimmers
+  - Used international competition data and Canadian age group progression rates
+  - Three tracks to capture early to late developers
+- **2014:** Partnership with Canadian Tire Financial Services and Own The Podium
+  - Sports analytics group analyzed 2+ million results from world-class athletes
+  - Provided insights into career progression patterns
+- **2017:** Version 2 introduced for Tokyo 2020 quad
+  - Continued same principles with enhanced analytics
+- **Current:** Updated annually after each long course World Championships
+  - Incorporates latest World Aquatics A standards as final On Track time
+  - Provides seamless pathway from athlete identification to senior team qualification
+
+### Negative USA Delta Fallback
+- Some events show negative USA median at 17-18 (swimmers getting slower)
+- This reflects developmental plateau, NOT realistic targets
+- Canada tracks show continued improvement at 17-18
+- Fallback ensures all MOT times show proper progression (older = faster)
+
+---
+
+## Example Calculation: F 100 Free
+
+**Canada Track 1 for F 100 Free:**
+- Age 14: 58.43s
+- Age 15: 56.55s
+- Age 16: 55.29s
+- Age 17: 54.55s
+- Age 18: 54.09s
+- Age 19: 53.77s
+- Age 20: 53.54s (final)
+
+**USA Deltas:**
+- 15-16: +0.76s (positive, use this)
+- 16-17: +0.37s (positive, use this)
+- 17-18: -0.15s (NEGATIVE, fallback to Canada)
+
+**Canada 17-18 Average:**
+- Track 1: 54.55 - 54.09 = 0.46s
+- Track 2: (has both ages) = 0.46s
+- Average = 0.46s
+
+**Calculation (working backwards from Track 1 age 20):**
+```
+Age 20: 53.54s (anchor)
+Age 19: 53.54 + 0.23 = 53.77s (Canada avg 19-20)
+Age 18: 53.77 + 0.32 = 54.09s (Canada avg 18-19)
+Age 17: 54.09 + 0.46 = 54.55s (Canada avg - fallback)
+Age 16: 54.55 + 0.37 = 54.92s (USA median)
+Age 15: 54.92 + 0.76 = 55.68s (USA median)
+```
 
 ---
 
@@ -204,25 +170,56 @@ For 50m events, MOT times are only calculated for ages 18-23 using Canada On Tra
 CREATE TABLE mot_base_times (
     id INTEGER PRIMARY KEY,
     mot_event_id TEXT NOT NULL,      -- e.g., LCM_Back_100_F
-    mot_age INTEGER NOT NULL,         -- 15-23
+    mot_age INTEGER NOT NULL,         -- 15-23 (or 18-23 for 50m)
     mot_time_seconds REAL,            -- target time in seconds
     UNIQUE(mot_event_id, mot_age)
 );
 ```
 
 ### Supporting Tables
-- `podium_target_times` - SEA Games podium times by event and year
 - `canada_on_track` - Canada Swimming track times by event, track, and age
 - `usa_delta_data` - USA Swimming improvement data by event and age transition
 
 ---
 
+## Data Quality Notes
+
+### Swimmers Who "Dropped Out" of Top 500
+When analyzing USA data, "dropped out" refers to swimmers who fell out of the top 500 rankings for their age/event, not swimmers who quit the sport. Many of these swimmers reappear in later years:
+- ~32% of 15-16 top-500 dropouts reappear by age 18
+- ~38% of 16-17 top-500 dropouts reappear at age 18
+
+### Improvement Percentages
+When comparing improvement across events, use percentages rather than raw seconds:
+- 0.5s improvement in 50 Free (~2%) is more significant than
+- 0.5s improvement in 400 Free (~0.1%)
+
+---
+
+## Validation
+
+All MOT times are validated to ensure:
+1. Older ages always have faster times than younger ages
+2. No NULL values except 50m events at ages 15-17
+3. Times fall within reasonable bounds for each event
+
+---
+
 ## Maintenance
 
-When podium_target_times is updated (e.g., after SEA Games 2025):
-1. The script automatically uses the most recent `sea_games_year`
-2. All MOT times cascade from the new podium target
-3. Re-run `populate_mot_base_times.py` to update
+When updating MOT base times:
+1. Ensure Canada On Track data is current
+2. Verify USA delta data is loaded
+3. Run recalculation script
+4. Validate no progression errors (older must be faster)
+
+---
+
+## References
+
+- [Swimming Canada On Track Times](https://www.swimming.ca/on-track-times/)
+- [2025 Canada On Track Times PDF](https://www.swimming.ca/wp-content/uploads/2025/04/On-Track-Times-for-SNC-Website-APRIL-2025.pdf)
+- USA Swimming season rankings (2021-2025)
 
 ---
 

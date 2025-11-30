@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AQUA Points - World Aquatics Points System</title>
+<style>
+body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0;padding:20px;max-width:900px;margin:0 auto;color:#000;background:#f9fafb}
+h1{color:#00247D;border-bottom:3px solid #00247D;padding-bottom:8px;margin-bottom:8px}
+h2{color:#CE1126;margin-top:28px;border-bottom:2px solid #CE1126;padding-bottom:6px}
+h3{color:#00247D;margin-top:20px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.header h1{margin:0;flex:1}
+.back-btn{background:#CE1126;color:white;padding:6px 12px;border-radius:4px;text-decoration:none;font-weight:500;font-size:0.85em;white-space:nowrap}
+.back-btn:hover{background:#a00d1e}
+.box{background:#fff;border:1px solid #ddd;border-radius:6px;padding:16px;margin:15px 0}
+.formula-box{background:#e8f4f8;border-left:4px solid #00247D;padding:20px;margin:20px 0}
+.formula{font-size:1.4em;font-weight:bold;text-align:center;padding:15px;background:#fff;border-radius:4px;margin:15px 0;font-family:monospace;color:#00247D}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0}
+.stat-card{background:#fff;border:1px solid #ddd;border-radius:6px;padding:16px;text-align:center}
+.stat-value{font-size:1.5em;font-weight:bold;color:#CE1126}
+.stat-label{font-size:0.85em;color:#666;margin-top:4px}
+table{border-collapse:collapse;width:100%;margin:16px 0}
+th,td{border:1px solid #ccc;padding:10px;font-size:14px;text-align:left;color:#000}
+th{background:#00247D;color:#fff;font-weight:600}
+tr:nth-child(even){background:#fafafa}
+.example-box{background:#fff9e6;border-left:4px solid #ffc107;padding:16px;margin:20px 0}
+.nav-section{background:white;border:1px solid #ccc;padding:20px;margin:20px 0;border-radius:6px}
+.nav-section h3{margin-top:0;color:#CE1126}
+a{color:#CE1126;text-decoration:none}
+a:hover{text-decoration:underline}
+ul{margin:8px 0;padding-left:20px}
+li{margin:6px 0}
+.key-point{font-weight:600;color:#00247D}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>AQUA Points - World Aquatics Points System</h1>
+    <a href="/" class="back-btn">Return to Home Page</a>
+</div>
+
+<div class="box">
+    <strong>Reference Link:</strong>
+    <ul style="margin:8px 0 0 0;padding-left:20px;">
+        <li><a href="https://www.worldaquatics.com/swimming/points" target="_blank" rel="noopener noreferrer">World Aquatics Points System</a></li>
+    </ul>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">Understanding AQUA Points</h2>
+<p>The World Aquatics Points Table (commonly called AQUA Points or FINA Points) enables comparison of results across different swimming events. The system assigns point values to performances, allowing fair comparison between different strokes, distances, and genders.</p>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">1000</div>
+        <div class="stat-label">Points = World Record</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">900+</div>
+        <div class="stat-label">World Class</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">800+</div>
+        <div class="stat-label">International Level</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">700+</div>
+        <div class="stat-label">National Level</div>
+    </div>
+</div>
+
+<h3>Key Characteristics:</h3>
+<ul>
+    <li><span class="key-point">Universal Comparison:</span> Compare performances across different events, strokes, distances, and genders</li>
+    <li><span class="key-point">World Record Benchmark:</span> 1000 points equals the current world record pace</li>
+    <li><span class="key-point">Annual Updates:</span> Base times are updated annually based on world records</li>
+    <li><span class="key-point">Course Specific:</span> Separate tables for Long Course (LCM) and Short Course (SCM)</li>
+</ul>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">The Formula</h2>
+
+<div class="formula-box">
+<p style="margin-top:0">AQUA Points are calculated using a <strong>cubic curve</strong> formula:</p>
+
+<div class="formula">P = 1000 x (B / T)^3</div>
+
+<table>
+<thead><tr><th>Variable</th><th>Description</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>P</strong></td><td>Points awarded</td><td>850 points</td></tr>
+<tr><td><strong>B</strong></td><td>Base time (world record, in seconds)</td><td>46.86s (M 100 Free WR)</td></tr>
+<tr><td><strong>T</strong></td><td>Swimmer's time (in seconds)</td><td>49.50s</td></tr>
+</tbody>
+</table>
+
+<p style="margin-bottom:0"><strong>Note:</strong> Point values are <em>truncated</em> to whole numbers (not rounded).</p>
+</div>
+
+<div class="example-box">
+<h3 style="margin-top:0">Example Calculation: Male 100m Freestyle</h3>
+<p>Swimmer's time: <strong>49.50 seconds</strong></p>
+<p>Base time (WR): <strong>46.86 seconds</strong></p>
+<p>Calculation:</p>
+<ul>
+<li>Ratio: 46.86 / 49.50 = 0.9467</li>
+<li>Cubed: 0.9467^3 = 0.8485</li>
+<li>Points: 1000 x 0.8485 = <strong>848 points</strong></li>
+</ul>
+</div>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">Base Times</h2>
+
+<p>Base times are established annually for all standard individual events and relays:</p>
+
+<h3>Update Schedule:</h3>
+<table>
+<thead><tr><th>Course</th><th>Cutoff Date</th><th>Published</th></tr></thead>
+<tbody>
+<tr><td>Short Course (SCM)</td><td>August 31st</td><td>Within 1 month (by October)</td></tr>
+<tr><td>Long Course (LCM)</td><td>December 31st</td><td>Within 1 month (by February)</td></tr>
+</tbody>
+</table>
+
+<h3>Base Time Categories:</h3>
+<ul>
+    <li><span class="key-point">Gender:</span> Separate base times for Men and Women</li>
+    <li><span class="key-point">Course:</span> Separate tables for Long Course (50m) and Short Course (25m)</li>
+    <li><span class="key-point">Events:</span> All standard individual events and relays</li>
+</ul>
+
+<p>Base times derive from the latest World Aquatics-approved <strong>world records</strong>. When a world record is broken, the base time is updated in the next annual publication.</p>
+</div>
+
+<div class="nav-section">
+<h2 style="margin-top:0">Why Cubic (Not Linear)?</h2>
+
+<p>The cubic formula (power of 3) creates a <strong>non-linear scale</strong> that:</p>
+
+<ul>
+    <li><span class="key-point">Rewards Excellence:</span> Small improvements at faster times are worth more points than the same improvement at slower times</li>
+    <li><span class="key-point">Reflects Reality:</span> It's exponentially harder to improve as you approach world record pace</li>
+    <li><span class="key-point">Fair Comparison:</span> Normalizes the relative difficulty of achieving times across different events</li>
+</ul>
+
+<div class="example-box">
+<h3 style="margin-top:0">Example: Value of 1 Second Improvement</h3>
+<table>
+<thead><tr><th>Starting Time</th><th>After 1s Improvement</th><th>Points Gained</th></tr></thead>
+<tbody>
+<tr><td>60.00s (750 pts)</td><td>59.00s (793 pts)</td><td>+43 points</td></tr>
+<tr><td>50.00s (826 pts)</td><td>49.00s (875 pts)</td><td>+49 points</td></tr>
+<tr><td>48.00s (931 pts)</td><td>47.00s (994 pts)</td><td>+63 points</td></tr>
+</tbody>
+</table>
+<p style="margin-bottom:0"><em>The same 1-second improvement is worth more points at faster times.</em></p>
+</div>
+</div>
+
+<div style="margin-top:40px;padding-top:20px;border-top:2px solid #ccc;color:#666;font-size:0.9em;line-height:1.5;">
+    <p><strong>Data Source:</strong> <a href="https://www.worldaquatics.com/swimming/points" target="_blank">World Aquatics Points System</a></p>
+    <p><strong>Last Updated:</strong> November 2025</p>
+    <p><strong>Project:</strong> Malaysia Swimming Analytics</p>
+</div>
+
+</body>
+</html>
