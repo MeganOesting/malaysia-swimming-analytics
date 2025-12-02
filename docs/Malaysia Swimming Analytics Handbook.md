@@ -607,6 +607,19 @@ Supabase is a cloud-hosted PostgreSQL database with built-in REST API. It replac
 - `scripts/fix_wrong_matches.py` - Manual corrections for 6 athletes + 2 coaches
 - `scripts/supabase_add_columns.sql` - SQL for new columns
 
+### Phase 20: Backend Migration to Supabase (Planned - Next Session)
+
+**Problem:** Backend reads from local SQLite while data lives in Supabase cloud. Causes sync issues.
+
+**Solution:** Migrate backend to use Supabase REST API directly.
+
+**Tasks:**
+1. Add Supabase Python client to backend
+2. Create `get_supabase_client()` helper in `src/web/main.py`
+3. Replace `get_database_connection()` calls with Supabase API
+4. Start with coaches (proof of concept), then athletes, results, etc.
+5. Keep SQLite as offline backup
+
 ---
 
 ## 6. Key Design Decisions

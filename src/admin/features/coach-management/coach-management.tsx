@@ -1,157 +1,217 @@
 /**
  * Coach Management Feature Component
- * Handles coach/manager CRUD operations with comprehensive fields
+ * Matches athlete-management layout and functionality
  */
 
-import React, { useState, useCallback } from 'react';
-import { Button, AlertBox } from '../../shared/components';
+import React, { useState } from 'react';
+import { AlertBox } from '../../shared/components';
 import { useNotification } from '../../shared/hooks';
-import * as api from './api';
-import { CoachFormData, Coach } from './api';
+
+// Helper function to format dates as dd MMM yyyy (e.g., 15 Mar 1998)
+const formatDateDDMMMYYYY = (dateString: string | null | undefined): string => {
+  if (!dateString) return '-';
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '-';
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const monthAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${day} ${monthAbbr} ${year}`;
+  } catch {
+    return '-';
+  }
+};
+
+// Malaysian state codes
+const MALAYSIAN_STATES = [
+  { code: 'JHR', name: 'Johor' },
+  { code: 'KDH', name: 'Kedah' },
+  { code: 'KTN', name: 'Kelantan' },
+  { code: 'MLK', name: 'Melaka' },
+  { code: 'NSN', name: 'Negeri Sembilan' },
+  { code: 'PHG', name: 'Pahang' },
+  { code: 'PRK', name: 'Perak' },
+  { code: 'PLS', name: 'Perlis' },
+  { code: 'PNG', name: 'Pulau Pinang' },
+  { code: 'SBH', name: 'Sabah' },
+  { code: 'SWK', name: 'Sarawak' },
+  { code: 'SEL', name: 'Selangor' },
+  { code: 'TRG', name: 'Terengganu' },
+  { code: 'KUL', name: 'WP Kuala Lumpur' },
+  { code: 'LBN', name: 'WP Labuan' },
+  { code: 'PJY', name: 'WP Putrajaya' },
+];
+
+// IOC country codes (MAS first, then alphabetical)
+const IOC_COUNTRY_CODES = [
+  'MAS',  // Malaysia first
+  'AFG', 'ALB', 'ALG', 'AND', 'ANG', 'ARG', 'ARM', 'AUS', 'AUT', 'AZE',
+  'BAH', 'BAN', 'BAR', 'BEL', 'BEN', 'BER', 'BHU', 'BIH', 'BLR', 'BOL', 'BRA',
+  'BRN', 'BRU', 'BUL', 'CAM', 'CAN', 'CHI', 'CHN', 'COL', 'CRC', 'CRO', 'CUB',
+  'CYP', 'CZE', 'DEN', 'ECU', 'EGY', 'ESP', 'EST', 'ETH', 'FIJ', 'FIN', 'FRA',
+  'GBR', 'GER', 'GHA', 'GRE', 'GUA', 'HKG', 'HUN', 'INA', 'IND', 'IRI', 'IRL',
+  'IRQ', 'ISL', 'ISR', 'ITA', 'JAM', 'JOR', 'JPN', 'KAZ', 'KEN', 'KGZ', 'KOR',
+  'KSA', 'KUW', 'LAO', 'LAT', 'LBN', 'LTU', 'LUX', 'MAR', 'MDA', 'MEX', 'MGL',
+  'MKD', 'MLT', 'MNE', 'MON', 'MYA', 'NAM', 'NED', 'NEP', 'NGR', 'NOR', 'NZL',
+  'OMA', 'PAK', 'PAN', 'PAR', 'PER', 'PHI', 'POL', 'POR', 'PRK', 'PUR', 'QAT',
+  'ROU', 'RSA', 'RUS', 'SGP', 'SLO', 'SRB', 'SRI', 'SUD', 'SUI', 'SVK', 'SWE',
+  'SYR', 'THA', 'TJK', 'TKM', 'TPE', 'TTO', 'TUN', 'TUR', 'UAE', 'UGA', 'UKR',
+  'URU', 'USA', 'UZB', 'VEN', 'VIE', 'YEM', 'ZAM', 'ZIM',
+];
+
+interface Coach {
+  id: number;
+  coach_name: string;
+  birthdate?: string;
+  gender?: string;
+  nation?: string;
+  club_name?: string;
+  coach_role?: string;
+  state_coach?: number;
+  state_code?: string;
+  msn_program?: string;
+  coach_passport_number?: string;
+  coach_email?: string;
+  coach_phone?: string;
+}
 
 export interface CoachManagementProps {
   isAuthenticated: boolean;
 }
 
-const emptyFormData: CoachFormData = {
-  club_name: '',
-  name: '',
-  role: 'head_coach',
-  email: '',
-  whatsapp: '',
-  passport_photo: '',
-  passport_number: '',
-  ic: '',
-  shoe_size: '',
-  tshirt_size: '',
-  tracksuit_size: '',
-  course_level_1_sport_specific: false,
-  course_level_2: false,
-  course_level_3: false,
-  course_level_1_isn: false,
-  course_level_2_isn: false,
-  course_level_3_isn: false,
-  seminar_oct_2024: false,
-  other_courses: '',
-  state_coach: false,
-  logbook_file: '',
-};
-
 export const CoachManagement: React.FC<CoachManagementProps> = ({
   isAuthenticated,
 }) => {
-  // Search
-  const [coachSearchName, setCoachSearchName] = useState('');
-  const [coachSearchClub, setCoachSearchClub] = useState('');
-  const [coaches, setCoaches] = useState<Coach[]>([]);
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Coach[]>([]);
+  const [searching, setSearching] = useState(false);
 
-  // Form
-  const [coachFormMode, setCoachFormMode] = useState<'add' | 'edit'>('add');
+  // Selected coach state
   const [selectedCoach, setSelectedCoach] = useState<Coach | null>(null);
-  const [coachFormData, setCoachFormData] = useState<CoachFormData>(emptyFormData);
+  const [loadingDetails, setLoadingDetails] = useState(false);
+
+  // Edit form state
+  const [editForm, setEditForm] = useState<{
+    coach_name: string;
+    birthdate: string;
+    gender: string;
+    nation: string;
+    club_name: string;
+    coach_role: string;
+    state_coach: boolean;
+    state_code: string;
+    msn_program: string;
+    coach_passport_number: string;
+    coach_email: string;
+    coach_phone: string;
+  }>({
+    coach_name: '',
+    birthdate: '',
+    gender: '',
+    nation: '',
+    club_name: '',
+    coach_role: '',
+    state_coach: false,
+    state_code: '',
+    msn_program: '',
+    coach_passport_number: '',
+    coach_email: '',
+    coach_phone: '',
+  });
 
   // Notifications
   const { notifications, success, error, clear } = useNotification();
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+
+  // Available fields for editing
+  const availableFields = [
+    { key: 'coach_name', label: 'Name' },
+    { key: 'birthdate', label: 'Birthdate' },
+    { key: 'gender', label: 'Gender' },
+    { key: 'nation', label: 'Nation' },
+    { key: 'club_name', label: 'Club' },
+    { key: 'coach_role', label: 'Role' },
+    { key: 'state_coach', label: 'State Coach' },
+    { key: 'state_code', label: 'State Code' },
+    { key: 'msn_program', label: 'MSN Program' },
+    { key: 'coach_passport_number', label: 'Passport Number' },
+    { key: 'coach_email', label: 'Email' },
+    { key: 'coach_phone', label: 'Phone' },
+  ];
 
   /**
-   * Search coaches
+   * Search coaches as user types
    */
-  const handleSearchCoaches = useCallback(async () => {
-    try {
-      const results = await api.searchCoaches(
-        coachSearchName || undefined,
-        coachSearchClub || undefined
-      );
-      setCoaches(results);
-    } catch (err) {
-      error(err instanceof Error ? err.message : 'Failed to search coaches');
-    }
-  }, [coachSearchName, coachSearchClub, error]);
-
-  /**
-   * Reset form to add mode
-   */
-  const handleResetForm = useCallback(() => {
-    setSelectedCoach(null);
-    setCoachFormMode('add');
-    setCoachFormData(emptyFormData);
-  }, []);
-
-  /**
-   * Select coach for editing
-   */
-  const handleSelectCoach = useCallback((coach: Coach) => {
-    setSelectedCoach(coach);
-    setCoachFormMode('edit');
-    setCoachFormData({
-      club_name: coach.club_name || '',
-      name: coach.name || '',
-      role: coach.role || 'head_coach',
-      email: coach.email || '',
-      whatsapp: coach.whatsapp || '',
-      passport_photo: coach.passport_photo || '',
-      passport_number: coach.passport_number || '',
-      ic: coach.ic || '',
-      shoe_size: coach.shoe_size || '',
-      tshirt_size: coach.tshirt_size || '',
-      tracksuit_size: coach.tracksuit_size || '',
-      course_level_1_sport_specific: coach.course_level_1_sport_specific || false,
-      course_level_2: coach.course_level_2 || false,
-      course_level_3: coach.course_level_3 || false,
-      course_level_1_isn: coach.course_level_1_isn || false,
-      course_level_2_isn: coach.course_level_2_isn || false,
-      course_level_3_isn: coach.course_level_3_isn || false,
-      seminar_oct_2024: coach.seminar_oct_2024 || false,
-      other_courses: coach.other_courses || '',
-      state_coach: coach.state_coach || false,
-      logbook_file: coach.logbook_file || '',
-    });
-  }, []);
-
-  /**
-   * Save coach (create or update)
-   */
-  const handleSaveCoach = useCallback(async () => {
-    if (
-      !coachFormData.club_name.trim() ||
-      !coachFormData.name.trim() ||
-      !coachFormData.role.trim()
-    ) {
-      error('Club Name, Name, and Role are required');
+  const searchCoaches = async (query: string) => {
+    if (query.length < 2) {
+      setSearchResults([]);
       return;
     }
 
+    setSearching(true);
     try {
-      if (coachFormMode === 'add') {
-        await api.createCoach(coachFormData);
-        success('Coach created successfully');
-        handleResetForm();
-      } else {
-        await api.updateCoach(selectedCoach!.id, coachFormData);
-        success('Coach updated successfully');
-      }
-
-      // Refresh search results
-      await handleSearchCoaches();
-    } catch (err) {
-      error(err instanceof Error ? err.message : 'Failed to save coach');
+      const response = await fetch(`${apiBase}/api/admin/coaches/search?q=${encodeURIComponent(query)}`);
+      if (!response.ok) throw new Error('Search failed');
+      const data = await response.json();
+      setSearchResults(data.coaches || []);
+    } catch (err: any) {
+      setErrorMsg(`Failed to search coaches: ${err.message}`);
+      console.error('Search error:', err);
+    } finally {
+      setSearching(false);
     }
-  }, [
-    coachFormData,
-    coachFormMode,
-    selectedCoach,
-    handleSearchCoaches,
-    handleResetForm,
-    success,
-    error,
-  ]);
+  };
+
+  /**
+   * Select a coach and load full details
+   */
+  const handleSelectCoach = async (coach: Coach) => {
+    setSelectedCoach(coach);
+    setLoadingDetails(true);
+    setErrorMsg('');
+    setSuccessMsg('');
+
+    try {
+      const response = await fetch(`${apiBase}/api/admin/coaches/${coach.id}`);
+      if (!response.ok) throw new Error('Failed to fetch coach details');
+      const data = await response.json();
+      const fullCoach = data.coach;
+
+      setSelectedCoach({ ...coach, ...fullCoach });
+
+      // Populate edit form
+      setEditForm({
+        coach_name: fullCoach.coach_name || '',
+        birthdate: fullCoach.birthdate || '',
+        gender: fullCoach.gender || '',
+        nation: fullCoach.nation || '',
+        club_name: fullCoach.club_name || '',
+        coach_role: fullCoach.coach_role || '',
+        state_coach: fullCoach.state_coach === 1 || fullCoach.state_coach === true,
+        state_code: fullCoach.state_code || '',
+        msn_program: fullCoach.msn_program || '',
+        coach_passport_number: fullCoach.coach_passport_number || '',
+        coach_email: fullCoach.coach_email || '',
+        coach_phone: fullCoach.coach_phone || '',
+      });
+    } catch (err: any) {
+      setErrorMsg(`Failed to load coach details: ${err.message}`);
+    } finally {
+      setLoadingDetails(false);
+    }
+  };
 
   /**
    * Export coaches to Excel
    */
   const handleExportCoaches = async () => {
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
       const response = await fetch(`${apiBase}/api/admin/coaches/export-excel`);
 
       if (!response.ok) {
@@ -166,40 +226,62 @@ export const CoachManagement: React.FC<CoachManagementProps> = ({
       link.download = 'coaches_export.xlsx';
       link.click();
       window.URL.revokeObjectURL(url);
-    } catch (err) {
-      error(err instanceof Error ? err.message : 'Export failed');
+    } catch (err: any) {
+      setErrorMsg(err.message);
+      console.error('Export error:', err);
     }
   };
 
   /**
-   * Delete coach
+   * Update coach
    */
-  const handleDeleteCoach = useCallback(
-    async (coach: Coach) => {
-      if (!window.confirm(`Delete coach "${coach.name}"?`)) {
-        return;
+  const handleUpdateCoach = async () => {
+    if (!selectedCoach) return;
+
+    try {
+      const response = await fetch(`${apiBase}/api/admin/coaches/${selectedCoach.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...editForm,
+          state_coach: editForm.state_coach ? 1 : 0,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to update coach: ${errorText}`);
       }
 
-      try {
-        await api.deleteCoach(coach.id);
-        success(`Coach "${coach.name}" deleted successfully`);
+      setSuccessMsg('Coach updated successfully');
+      // Refresh the coach details
+      handleSelectCoach(selectedCoach);
+    } catch (err: any) {
+      setErrorMsg(err.message);
+    }
+  };
 
-        // Refresh search results
-        await handleSearchCoaches();
-
-        // Reset form if deleted coach was selected
-        if (selectedCoach?.id === coach.id) {
-          handleResetForm();
-        }
-      } catch (err) {
-        error(err instanceof Error ? err.message : 'Failed to delete coach');
-      }
-    },
-    [selectedCoach, handleSearchCoaches, handleResetForm, success, error]
-  );
+  /**
+   * Copy coach ID to clipboard
+   */
+  const handleCopyId = (id: number) => {
+    navigator.clipboard.writeText(String(id));
+    const feedback = document.createElement('div');
+    feedback.textContent = 'Coach ID copied!';
+    feedback.style.position = 'fixed';
+    feedback.style.top = '20px';
+    feedback.style.right = '20px';
+    feedback.style.backgroundColor = '#059669';
+    feedback.style.color = 'white';
+    feedback.style.padding = '0.5rem 1rem';
+    feedback.style.borderRadius = '4px';
+    feedback.style.zIndex = '9999';
+    document.body.appendChild(feedback);
+    setTimeout(() => feedback.remove(), 2000);
+  };
 
   return (
-    <div className="space-y-6">
+    <div>
       {/* Notifications */}
       {notifications.map(notification => (
         <AlertBox
@@ -210,8 +292,20 @@ export const CoachManagement: React.FC<CoachManagementProps> = ({
         />
       ))}
 
-      {/* Export Button */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+      {successMsg && (
+        <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#ecfdf5', color: '#065f46', fontSize: '0.875rem', borderRadius: '4px' }}>
+          {successMsg}
+        </div>
+      )}
+
+      {errorMsg && (
+        <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#fef2f2', color: '#991b1b', fontSize: '0.875rem', borderRadius: '4px' }}>
+          {errorMsg}
+        </div>
+      )}
+
+      {/* Export Coaches Section */}
+      <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <button
           onClick={handleExportCoaches}
           style={{
@@ -230,490 +324,331 @@ export const CoachManagement: React.FC<CoachManagementProps> = ({
         </button>
       </div>
 
-      {/* Search Section */}
-      <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">
-          Search Coaches
+      {/* Search Coaches Section */}
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.5rem', color: '#111' }}>
+          Search Coaches by Name
         </h3>
-        <div className="grid grid-cols-3 gap-4 items-end">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Search by Name:
-            </label>
-            <input
-              type="text"
-              value={coachSearchName}
-              onChange={e => setCoachSearchName(e.target.value)}
-              placeholder="Enter coach name..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Search by Club:
-            </label>
-            <input
-              type="text"
-              value={coachSearchClub}
-              onChange={e => setCoachSearchClub(e.target.value)}
-              placeholder="Enter club name..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <button
-            onClick={handleSearchCoaches}
-            style={{
-              padding: '2px 10px',
-              backgroundColor: '#cc0000',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '0.9em',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              display: 'inline-block',
+        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '0.75rem' }}>
+          Enter partial name to find coaches
+        </p>
+        <div style={{ marginBottom: '0.75rem' }}>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              searchCoaches(e.target.value);
+              // Clear selected coach when user starts typing to show search results
+              if (selectedCoach) {
+                setSelectedCoach(null);
+              }
             }}
-          >
-            Search
-          </button>
+            placeholder="e.g., MAGNUS or CLARA..."
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              fontSize: '0.875rem',
+              boxSizing: 'border-box'
+            }}
+          />
         </div>
 
-        <button
-          onClick={handleResetForm}
-          style={{
-            marginTop: '1rem',
-            padding: '2px 10px',
-            backgroundColor: '#cc0000',
-            color: 'white',
-            border: 'none',
+        {searching && <p style={{ color: '#666' }}>Searching...</p>}
+
+        {searchResults.length > 0 && !selectedCoach && (
+          <div style={{
+            border: '1px solid #ddd',
             borderRadius: '4px',
-            fontSize: '0.9em',
-            cursor: 'pointer',
-            whiteSpace: 'nowrap',
-            display: 'inline-block',
-          }}
-        >
-          Add New Coach
-        </button>
+            maxHeight: '400px',
+            overflowY: 'auto'
+          }}>
+            <div style={{
+              padding: '0.5rem',
+              backgroundColor: '#f9fafb',
+              borderBottom: '1px solid #ddd',
+              fontSize: '0.75rem',
+              color: '#666',
+              fontWeight: '500'
+            }}>
+              {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+            </div>
+            {searchResults.map(coach => (
+              <div
+                key={coach.id}
+                style={{
+                  padding: '0.4rem 0.75rem',
+                  borderBottom: '1px solid #eee',
+                  backgroundColor: '#ffffff',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+                onClick={() => handleSelectCoach(coach)}
+              >
+                <input
+                  type="radio"
+                  name="coach-selection"
+                  checked={false}
+                  onChange={() => handleSelectCoach(coach)}
+                  style={{ cursor: 'pointer', flexShrink: 0 }}
+                />
+                <div style={{ fontWeight: '600', fontSize: '0.8rem', color: '#111', width: '220px', flexShrink: 0 }}>
+                  {coach.coach_name}
+                </div>
+                <div style={{
+                  fontFamily: 'monospace',
+                  color: '#cc0000',
+                  fontWeight: '600',
+                  fontSize: '0.65rem',
+                  width: '70px',
+                  flexShrink: 0
+                }}>
+                  ID: {coach.id}
+                </div>
+                <div style={{ color: '#000', fontSize: '0.7rem', width: '90px', flexShrink: 0 }}>
+                  {formatDateDDMMMYYYY(coach.birthdate) || '-'}
+                </div>
+                <div style={{ color: '#000', fontSize: '0.7rem', width: '20px', flexShrink: 0 }}>
+                  {coach.gender || '-'}
+                </div>
+                <div style={{ color: '#666', fontSize: '0.7rem', flexShrink: 0 }}>
+                  {coach.coach_role || '-'}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {searchQuery.length > 0 && !searching && searchResults.length === 0 && (
+          <div style={{ padding: '0.75rem', backgroundColor: '#eff6ff', color: '#1e40af', fontSize: '0.875rem', borderRadius: '4px' }}>
+            No coaches found matching "{searchQuery}"
+          </div>
+        )}
       </div>
 
-      {/* Search Results */}
-      {coaches.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            Search Results ({coaches.length})
-          </h3>
-          <div className="max-h-96 overflow-y-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-100 sticky top-0">
-                <tr className="border-b-2 border-gray-300">
-                  <th className="px-4 py-2 text-left font-semibold">Name</th>
-                  <th className="px-4 py-2 text-left font-semibold">Club</th>
-                  <th className="px-4 py-2 text-left font-semibold">Role</th>
-                  <th className="px-4 py-2 text-left font-semibold">Email</th>
-                  <th className="px-4 py-2 text-left font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {coaches.map(coach => (
-                  <tr key={coach.id} className="border-b border-gray-200">
-                    <td className="px-4 py-2">{coach.name}</td>
-                    <td className="px-4 py-2">{coach.club_name}</td>
-                    <td className="px-4 py-2">{coach.role}</td>
-                    <td className="px-4 py-2">{coach.email || '-'}</td>
-                    <td className="px-4 py-2">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleSelectCoach(coach)}
-                          style={{
-                            padding: '2px 10px',
-                            backgroundColor: '#cc0000',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            fontSize: '0.9em',
-                            cursor: 'pointer',
-                            whiteSpace: 'nowrap',
-                            display: 'inline-block',
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <Button
-                          size="sm"
-                          variant="danger"
-                          onClick={() => handleDeleteCoach(coach)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* Edit Selected Coach Section */}
+      {selectedCoach && (
+        <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '2px solid #ddd' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <h3 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#111', margin: 0 }}>
+              Edit: {selectedCoach.coach_name}
+              {loadingDetails && <span style={{ marginLeft: '0.5rem', color: '#666', fontWeight: 'normal', fontSize: '0.75rem' }}>(Loading details...)</span>}
+            </h3>
+            <button
+              onClick={() => setSelectedCoach(null)}
+              style={{
+                padding: '0.4rem 0.75rem',
+                backgroundColor: '#6b7280',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.75rem',
+                fontWeight: '600'
+              }}
+            >
+              Close
+            </button>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '0.4rem',
+            fontSize: '0.75rem'
+          }}>
+            {availableFields.map(field => {
+              const currentValue = (editForm as any)[field.key];
+
+              // Gender dropdown
+              if (field.key === 'gender') {
+                return (
+                  <div key={field.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.25rem 0' }}>
+                    <label style={{ width: '140px', fontWeight: '500', color: '#111', flexShrink: 0 }}>{field.label}:</label>
+                    <select
+                      value={currentValue || ''}
+                      onChange={(e) => setEditForm({ ...editForm, gender: e.target.value })}
+                      style={{
+                        flex: 1,
+                        padding: '0.3rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '0.75rem',
+                        color: currentValue ? '#111' : '#888'
+                      }}
+                    >
+                      <option value="">-</option>
+                      <option value="M">M</option>
+                      <option value="F">F</option>
+                    </select>
+                  </div>
+                );
+              }
+
+              // Nation dropdown
+              if (field.key === 'nation') {
+                return (
+                  <div key={field.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.25rem 0' }}>
+                    <label style={{ width: '140px', fontWeight: '500', color: '#111', flexShrink: 0 }}>{field.label}:</label>
+                    <select
+                      value={currentValue || ''}
+                      onChange={(e) => setEditForm({ ...editForm, nation: e.target.value })}
+                      style={{
+                        flex: 1,
+                        padding: '0.3rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '0.75rem',
+                        color: currentValue ? '#111' : '#888'
+                      }}
+                    >
+                      <option value="">-</option>
+                      {IOC_COUNTRY_CODES.map(code => (
+                        <option key={code} value={code}>{code}</option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              }
+
+              // State code dropdown
+              if (field.key === 'state_code') {
+                return (
+                  <div key={field.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.25rem 0' }}>
+                    <label style={{ width: '140px', fontWeight: '500', color: '#111', flexShrink: 0 }}>{field.label}:</label>
+                    <select
+                      value={currentValue || ''}
+                      onChange={(e) => setEditForm({ ...editForm, state_code: e.target.value })}
+                      style={{
+                        flex: 1,
+                        padding: '0.3rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '0.75rem',
+                        color: currentValue ? '#111' : '#888'
+                      }}
+                    >
+                      <option value="">-</option>
+                      {MALAYSIAN_STATES.map(state => (
+                        <option key={state.code} value={state.code}>{state.code} - {state.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              }
+
+              // Coach role dropdown
+              if (field.key === 'coach_role') {
+                return (
+                  <div key={field.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.25rem 0' }}>
+                    <label style={{ width: '140px', fontWeight: '500', color: '#111', flexShrink: 0 }}>{field.label}:</label>
+                    <select
+                      value={currentValue || ''}
+                      onChange={(e) => setEditForm({ ...editForm, coach_role: e.target.value })}
+                      style={{
+                        flex: 1,
+                        padding: '0.3rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '0.75rem',
+                        color: currentValue ? '#111' : '#888'
+                      }}
+                    >
+                      <option value="">-</option>
+                      <option value="Head Coach">Head Coach</option>
+                      <option value="State Coach">State Coach</option>
+                      <option value="Assistant Coach">Assistant Coach</option>
+                      <option value="Club Coach">Club Coach</option>
+                    </select>
+                  </div>
+                );
+              }
+
+              // State coach checkbox
+              if (field.key === 'state_coach') {
+                return (
+                  <div key={field.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.25rem 0' }}>
+                    <label style={{ width: '140px', fontWeight: '500', color: '#111', flexShrink: 0 }}>{field.label}:</label>
+                    <input
+                      type="checkbox"
+                      checked={editForm.state_coach}
+                      onChange={(e) => setEditForm({ ...editForm, state_coach: e.target.checked })}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </div>
+                );
+              }
+
+              // Birthdate field - date input
+              if (field.key === 'birthdate') {
+                const dateValue = currentValue ? currentValue.split('T')[0] : '';
+                return (
+                  <div key={field.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.25rem 0' }}>
+                    <label style={{ width: '140px', fontWeight: '500', color: '#111', flexShrink: 0 }}>{field.label}:</label>
+                    <input
+                      type="date"
+                      value={dateValue}
+                      onChange={(e) => setEditForm({ ...editForm, birthdate: e.target.value ? `${e.target.value}T00:00:00Z` : '' })}
+                      style={{
+                        flex: 1,
+                        padding: '0.3rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '0.75rem',
+                        color: currentValue ? '#111' : '#888'
+                      }}
+                    />
+                  </div>
+                );
+              }
+
+              // Default text input
+              return (
+                <div key={field.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.25rem 0' }}>
+                  <label style={{ width: '140px', fontWeight: '500', color: '#111', flexShrink: 0 }}>{field.label}:</label>
+                  <input
+                    type="text"
+                    value={currentValue || ''}
+                    onChange={(e) => setEditForm({ ...editForm, [field.key]: e.target.value })}
+                    style={{
+                      flex: 1,
+                      padding: '0.3rem',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      fontSize: '0.75rem',
+                      color: currentValue ? '#111' : '#888'
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Update button */}
+          <div style={{ marginTop: '1rem' }}>
+            <button
+              onClick={handleUpdateCoach}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#cc0000',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+                fontWeight: '600'
+              }}
+            >
+              Update All Changes
+            </button>
           </div>
         </div>
       )}
-
-      {/* Coach Form */}
-      <div className="bg-white border border-slate-200 rounded-lg p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          {coachFormMode === 'add' ? 'Add New Coach' : 'Edit Coach'}
-        </h3>
-
-        {/* Basic Info */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Club Name <span className="text-red-600">*</span>
-            </label>
-            <input
-              type="text"
-              value={coachFormData.club_name}
-              onChange={e =>
-                setCoachFormData({ ...coachFormData, club_name: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Name <span className="text-red-600">*</span>
-            </label>
-            <input
-              type="text"
-              value={coachFormData.name}
-              onChange={e =>
-                setCoachFormData({ ...coachFormData, name: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Role <span className="text-red-600">*</span>
-            </label>
-            <select
-              value={coachFormData.role}
-              onChange={e =>
-                setCoachFormData({ ...coachFormData, role: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            >
-              <option value="head_coach">Head Coach</option>
-              <option value="assistant_coach">Assistant Coach</option>
-              <option value="manager">Manager</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              value={coachFormData.email}
-              onChange={e =>
-                setCoachFormData({ ...coachFormData, email: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              WhatsApp
-            </label>
-            <input
-              type="text"
-              value={coachFormData.whatsapp}
-              onChange={e =>
-                setCoachFormData({ ...coachFormData, whatsapp: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              IC (Identity Card)
-            </label>
-            <input
-              type="text"
-              value={coachFormData.ic}
-              onChange={e =>
-                setCoachFormData({ ...coachFormData, ic: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Passport Number
-            </label>
-            <input
-              type="text"
-              value={coachFormData.passport_number}
-              onChange={e =>
-                setCoachFormData({
-                  ...coachFormData,
-                  passport_number: e.target.value,
-                })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Passport Photo (file path)
-            </label>
-            <input
-              type="text"
-              value={coachFormData.passport_photo}
-              onChange={e =>
-                setCoachFormData({
-                  ...coachFormData,
-                  passport_photo: e.target.value,
-                })
-              }
-              placeholder="/path/to/photo.jpg"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Shoe Size
-            </label>
-            <input
-              type="text"
-              value={coachFormData.shoe_size}
-              onChange={e =>
-                setCoachFormData({ ...coachFormData, shoe_size: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              T-Shirt Size
-            </label>
-            <input
-              type="text"
-              value={coachFormData.tshirt_size}
-              onChange={e =>
-                setCoachFormData({
-                  ...coachFormData,
-                  tshirt_size: e.target.value,
-                })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Tracksuit Size
-            </label>
-            <input
-              type="text"
-              value={coachFormData.tracksuit_size}
-              onChange={e =>
-                setCoachFormData({
-                  ...coachFormData,
-                  tracksuit_size: e.target.value,
-                })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Logbook File (file path)
-            </label>
-            <input
-              type="text"
-              value={coachFormData.logbook_file}
-              onChange={e =>
-                setCoachFormData({
-                  ...coachFormData,
-                  logbook_file: e.target.value,
-                })
-              }
-              placeholder="/path/to/logbook.pdf"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-        </div>
-
-        {/* Course Certifications */}
-        <div className="bg-gray-50 rounded-lg p-4 mb-6">
-          <h4 className="font-semibold text-gray-900 mb-3">
-            Course Certifications
-          </h4>
-          <div className="grid grid-cols-3 gap-3">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={coachFormData.course_level_1_sport_specific}
-                onChange={e =>
-                  setCoachFormData({
-                    ...coachFormData,
-                    course_level_1_sport_specific: e.target.checked,
-                  })
-                }
-                className="w-4 h-4"
-              />
-              <span className="text-sm">Level 1 Sport Specific</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={coachFormData.course_level_2}
-                onChange={e =>
-                  setCoachFormData({
-                    ...coachFormData,
-                    course_level_2: e.target.checked,
-                  })
-                }
-                className="w-4 h-4"
-              />
-              <span className="text-sm">Level 2</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={coachFormData.course_level_3}
-                onChange={e =>
-                  setCoachFormData({
-                    ...coachFormData,
-                    course_level_3: e.target.checked,
-                  })
-                }
-                className="w-4 h-4"
-              />
-              <span className="text-sm">Level 3</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={coachFormData.course_level_1_isn}
-                onChange={e =>
-                  setCoachFormData({
-                    ...coachFormData,
-                    course_level_1_isn: e.target.checked,
-                  })
-                }
-                className="w-4 h-4"
-              />
-              <span className="text-sm">Level 1 ISN</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={coachFormData.course_level_2_isn}
-                onChange={e =>
-                  setCoachFormData({
-                    ...coachFormData,
-                    course_level_2_isn: e.target.checked,
-                  })
-                }
-                className="w-4 h-4"
-              />
-              <span className="text-sm">Level 2 ISN</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={coachFormData.course_level_3_isn}
-                onChange={e =>
-                  setCoachFormData({
-                    ...coachFormData,
-                    course_level_3_isn: e.target.checked,
-                  })
-                }
-                className="w-4 h-4"
-              />
-              <span className="text-sm">Level 3 ISN</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={coachFormData.seminar_oct_2024}
-                onChange={e =>
-                  setCoachFormData({
-                    ...coachFormData,
-                    seminar_oct_2024: e.target.checked,
-                  })
-                }
-                className="w-4 h-4"
-              />
-              <span className="text-sm">Seminar Oct 2024</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={coachFormData.state_coach}
-                onChange={e =>
-                  setCoachFormData({
-                    ...coachFormData,
-                    state_coach: e.target.checked,
-                  })
-                }
-                className="w-4 h-4"
-              />
-              <span className="text-sm">State Coach</span>
-            </label>
-          </div>
-
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Other Courses
-            </label>
-            <textarea
-              value={coachFormData.other_courses}
-              onChange={e =>
-                setCoachFormData({
-                  ...coachFormData,
-                  other_courses: e.target.value,
-                })
-              }
-              placeholder="List any other courses attended..."
-              rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600"
-            />
-          </div>
-        </div>
-
-        {/* Actions */}
-        <div className="flex gap-3">
-          <Button variant="primary" onClick={handleSaveCoach}>
-            {coachFormMode === 'add' ? 'Add Coach' : 'Update Coach'}
-          </Button>
-
-          {coachFormMode === 'edit' && (
-            <Button variant="secondary" onClick={handleResetForm}>
-              Cancel
-            </Button>
-          )}
-        </div>
-      </div>
     </div>
   );
 };

@@ -3331,6 +3331,82 @@ async def delete_club(club_name: str):
     finally:
         conn.close()
 
+@router.get("/admin/coaches/search")
+async def search_coaches(q: str = ""):
+    """Search coaches by name (word-based matching)"""
+    if len(q) < 2:
+        return {"coaches": []}
+
+    conn = get_database_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Split query into words for matching
+        words = q.upper().strip().split()
+
+        # Build query to find coaches matching any words
+        query = """
+            SELECT id, coach_name, birthdate, gender, nation, club_name, coach_role, state_coach, state_code, msn_program
+            FROM coaches
+            WHERE 1=1
+        """
+        params = []
+
+        for word in words:
+            query += " AND UPPER(coach_name) LIKE ?"
+            params.append(f"%{word}%")
+
+        query += " ORDER BY coach_name LIMIT 50"
+
+        cursor.execute(query, params)
+        coaches = []
+        for row in cursor.fetchall():
+            coaches.append({
+                "id": row[0],
+                "coach_name": row[1],
+                "birthdate": row[2],
+                "gender": row[3],
+                "nation": row[4],
+                "club_name": row[5],
+                "coach_role": row[6],
+                "state_coach": row[7],
+                "state_code": row[8],
+                "msn_program": row[9],
+            })
+
+        return {"coaches": coaches}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to search coaches: {str(e)}")
+    finally:
+        conn.close()
+
+
+@router.get("/admin/coaches/{coach_id}")
+async def get_coach(coach_id: int):
+    """Get a single coach by ID"""
+    conn = get_database_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT * FROM coaches WHERE id = ?", (coach_id,))
+        row = cursor.fetchone()
+
+        if not row:
+            raise HTTPException(status_code=404, detail="Coach not found")
+
+        # Get column names
+        columns = [description[0] for description in cursor.description]
+        coach = dict(zip(columns, row))
+
+        return {"coach": coach}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get coach: {str(e)}")
+    finally:
+        conn.close()
+
+
 @router.get("/admin/coaches")
 async def list_coaches(club_name: Optional[str] = None, name: Optional[str] = None):
     """List coaches, optionally filtered by club_name or name"""
@@ -3444,53 +3520,56 @@ async def create_coach(coach: CoachCreateRequest):
         conn.close()
 
 @router.put("/admin/coaches/{coach_id}")
-async def update_coach(coach_id: int, coach: CoachCreateRequest):
-    """Update an existing coach"""
+async def update_coach(coach_id: int, data: dict):
+    """Update an existing coach with flexible field mapping"""
     conn = get_database_connection()
     cursor = conn.cursor()
-    
+
     try:
         # Check if coach exists
         cursor.execute("SELECT id FROM coaches WHERE id = ?", (coach_id,))
         if not cursor.fetchone():
             raise HTTPException(status_code=404, detail=f"Coach with id {coach_id} not found")
-        
-        cursor.execute("""
-            UPDATE coaches SET
-                club_name = ?, name = ?, role = ?, email = ?, whatsapp = ?,
-                passport_photo = ?, passport_number = ?, ic = ?, shoe_size = ?, tshirt_size = ?, tracksuit_size = ?,
-                course_level_1_sport_specific = ?, course_level_2 = ?, course_level_3 = ?,
-                course_level_1_isn = ?, course_level_2_isn = ?, course_level_3_isn = ?,
-                seminar_oct_2024 = ?, other_courses = ?, state_coach = ?, logbook_file = ?,
-                updated_at = CURRENT_TIMESTAMP
-            WHERE id = ?
-        """, (
-            coach.club_name.strip(),
-            coach.name.strip(),
-            coach.role.strip(),
-            coach.email.strip() if coach.email else None,
-            coach.whatsapp.strip() if coach.whatsapp else None,
-            coach.passport_photo.strip() if coach.passport_photo else None,
-            coach.passport_number.strip() if coach.passport_number else None,
-            coach.ic.strip() if coach.ic else None,
-            coach.shoe_size.strip() if coach.shoe_size else None,
-            coach.tshirt_size.strip() if coach.tshirt_size else None,
-            coach.tracksuit_size.strip() if coach.tracksuit_size else None,
-            1 if coach.course_level_1_sport_specific else 0,
-            1 if coach.course_level_2 else 0,
-            1 if coach.course_level_3 else 0,
-            1 if coach.course_level_1_isn else 0,
-            1 if coach.course_level_2_isn else 0,
-            1 if coach.course_level_3_isn else 0,
-            1 if coach.seminar_oct_2024 else 0,
-            coach.other_courses.strip() if coach.other_courses else None,
-            1 if coach.state_coach else 0,
-            coach.logbook_file.strip() if coach.logbook_file else None,
-            coach_id
-        ))
-        
+
+        # Build dynamic update query based on provided fields
+        update_fields = []
+        params = []
+
+        # Map of frontend field names to database column names
+        field_map = {
+            'coach_name': 'coach_name',
+            'birthdate': 'birthdate',
+            'gender': 'gender',
+            'nation': 'nation',
+            'club_name': 'club_name',
+            'coach_role': 'coach_role',
+            'state_coach': 'state_coach',
+            'state_code': 'state_code',
+            'msn_program': 'msn_program',
+            'coach_passport_number': 'coach_passport_number',
+            'coach_email': 'coach_email',
+            'coach_phone': 'coach_phone',
+        }
+
+        for frontend_field, db_column in field_map.items():
+            if frontend_field in data:
+                update_fields.append(f"{db_column} = ?")
+                value = data[frontend_field]
+                # Handle string stripping
+                if isinstance(value, str):
+                    value = value.strip() if value else None
+                params.append(value)
+
+        if not update_fields:
+            return {"success": True, "message": "No fields to update"}
+
+        params.append(coach_id)
+        query = f"UPDATE coaches SET {', '.join(update_fields)} WHERE id = ?"
+
+        cursor.execute(query, params)
         conn.commit()
-        return {"success": True, "message": f"Coach '{coach.name}' updated successfully"}
+
+        return {"success": True, "message": "Coach updated successfully"}
     except HTTPException:
         raise
     except Exception as e:

@@ -1,6 +1,6 @@
 # Work In Progress
 
-**Last Updated:** 2025-12-02 (Session 28)
+**Last Updated:** 2025-12-02 (Session 28 - End of Day)
 
 ---
 
@@ -20,6 +20,39 @@
 - **Supabase:** Cloud database (PostgreSQL) - 341,054 rows migrated
 - **Local SQLite:** Still available as backup at `malaysia_swimming.db`
 - **Hosting:** Main site on Exabytes (WordPress), registration portal TBD (Vercel)
+
+---
+
+## NEXT SESSION: Migrate Backend to Supabase (PRIORITY)
+
+**WHY:** Backend currently reads from local SQLite, but data lives in Supabase cloud. This causes sync issues (e.g., coaches added to Supabase weren't visible in admin panel because backend reads SQLite).
+
+**THE PROBLEM:**
+- Supabase is the live database (341k rows, 4 coaches)
+- SQLite is local backup (was empty for coaches)
+- Backend uses `get_database_connection()` which returns SQLite
+- Any data added via scripts to Supabase won't show in admin panel
+
+**THE SOLUTION:** Migrate backend to read from Supabase directly.
+
+**TASKS FOR NEXT SESSION:**
+1. [ ] Add Supabase Python client to backend (`pip install supabase`)
+2. [ ] Create `get_supabase_client()` helper function in `src/web/main.py`
+3. [ ] Replace `get_database_connection()` calls with Supabase REST API calls
+   - Start with coach endpoints (4 endpoints, small test case)
+   - Then athletes, results, meets, clubs, events
+4. [ ] Update queries for PostgreSQL syntax (minor differences from SQLite)
+5. [ ] Test all admin panel tabs work with Supabase
+6. [ ] Keep SQLite as offline backup option
+
+**FILES TO MODIFY:**
+- `src/web/main.py` - Add Supabase client setup
+- `src/web/routers/admin.py` - Replace SQLite with Supabase calls
+- `src/web/routers/results.py` - Replace SQLite with Supabase calls
+
+**SUPABASE CREDENTIALS (in .env file):**
+- URL: `https://bvmqstoeahseklvmvdlx.supabase.co`
+- Key: `sb_publishable_-0n963Zy08gBMJPMse2V8A_xAyHgKZM`
 
 ---
 
@@ -111,6 +144,17 @@ Build online registration system where parents can:
 - [x] Isabelle Kam -> ID 3042
 - [x] Andrew Goh -> ID 2534
 - [x] Sophocles Ng -> ID 2372
+
+### Coach Management Tab Redesigned
+- [x] Rewrote coach-management.tsx to match athlete-management layout
+- [x] Single search input with auto-search as you type
+- [x] Results list with radio buttons (Name, ID, Birthdate, Gender, Role)
+- [x] Edit panel with Close button, 2-column grid layout
+- [x] Dropdowns for Gender, Nation, State Code, Coach Role
+- [x] Added backend endpoints: `/api/admin/coaches/search`, `/api/admin/coaches/{id}`
+- [x] Updated PUT endpoint to handle new fields (birthdate, gender, nation, state_code, msn_program)
+- [x] **ISSUE DISCOVERED:** Coaches added to Supabase weren't in SQLite - backend reads from SQLite
+- [x] **TEMPORARY FIX:** Manually added 4 coaches to SQLite
 
 ---
 
