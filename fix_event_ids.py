@@ -14,7 +14,7 @@ print("Fixing orphaned event_ids in results table")
 print("=" * 80)
 
 # First, get all valid events with their keys
-cursor.execute("SELECT id, distance, stroke, gender FROM events")
+cursor.execute("SELECT id, event_distance, event_stroke, gender FROM events")
 valid_events = {}
 event_key_to_id = {}
 for row in cursor.fetchall():
@@ -27,7 +27,7 @@ print(f"\nFound {len(valid_events)} valid events in events table")
 
 # Get all results with their current event_ids
 cursor.execute("""
-    SELECT r.id, r.event_id, e.distance, e.stroke, e.gender, a.gender as athlete_gender
+    SELECT r.id, r.event_id, e.event_distance, e.event_stroke, e.gender, a.gender as athlete_gender
     FROM results r
     LEFT JOIN events e ON r.event_id = e.id
     JOIN athletes a ON r.athlete_id = a.id
@@ -101,6 +101,13 @@ conn.close()
 print("\n" + "=" * 80)
 print("✅ Event ID fix complete!")
 print("=" * 80)
+
+
+
+
+
+
+
 
 
 

@@ -451,6 +451,45 @@ export const ClubManagement: React.FC<ClubManagementProps> = ({
               >
                 Cancel
               </button>
+              <button
+                onClick={async () => {
+                  if (!selectedClub) return;
+                  if (!window.confirm(`Are you sure you want to delete "${selectedClub.club_name}"? This cannot be undone.`)) {
+                    return;
+                  }
+                  try {
+                    await api.deleteClub(selectedClub.club_name);
+                    success(`Club "${selectedClub.club_name}" deleted successfully`);
+                    setSelectedClub(null);
+                    setClubFormMode('add');
+                    setClubFormData({
+                      club_name: '',
+                      club_code: '',
+                      state_code: selectedState || '',
+                      nation: 'MAS',
+                      alias: '',
+                    });
+                    if (selectedState) {
+                      await handleFetchClubsByState(selectedState);
+                    }
+                  } catch (err) {
+                    error(err instanceof Error ? err.message : 'Failed to delete club');
+                  }
+                }}
+                style={{
+                  padding: '6px 16px',
+                  backgroundColor: '#dc2626',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  fontSize: '0.9em',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  display: 'inline-block',
+                }}
+              >
+                Delete Club
+              </button>
             </div>
           </div>
         )}

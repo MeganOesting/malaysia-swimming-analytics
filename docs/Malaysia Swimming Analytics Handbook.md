@@ -1,6 +1,6 @@
 # Malaysia Swimming Analytics Handbook
 
-**Last Updated:** 2025-11-30 (Session 23)
+**Last Updated:** 2025-12-02 (Session 27)
 
 This handbook provides project context, architecture overview, and development history for stakeholder presentations and developer onboarding.
 
@@ -14,6 +14,7 @@ A web-based analytics platform for Malaysian swimming performance tracking, enab
 - Athlete development tracking across age groups
 - Meet results management and historical analysis
 - Podium target time calculations for international competition benchmarks
+- **Online athlete registration** (2026 and beyond)
 
 ### Key Metrics
 | Metric | Description |
@@ -22,9 +23,11 @@ A web-based analytics platform for Malaysian swimming performance tracking, enab
 | MAP Points | Malaysia Age Points - rewards improvement within age cohorts |
 | MOT (Malaysia On Track) | Development trajectory vs podium targets |
 
-### Current Database (as of Nov 2025)
-- **4,281 athletes** (Malaysian + foreign competitors)
-- **55,729 results** (competition times)
+### Current Database (as of Dec 2025)
+**Now hosted on Supabase (cloud PostgreSQL)** - migrated from local SQLite
+
+- **7,650 athletes** (7,449 MAS + 201 foreign competitors)
+- **55,703 results** (competition times)
 - **48 meets** (from 2025 SwimRankings data)
 - **193 clubs** (with state associations and aliases)
 - **151 MOT base times** (34 events, ages 15-23 for non-50m, 18+ for 50m)
@@ -32,6 +35,7 @@ A web-based analytics platform for Malaysian swimming performance tracking, enab
 - **221,321 USA period results** (2021-2025 rankings data)
 - **24,928 USA delta records** (improvement tracking 15→16, 16→17, 17→18)
 - **612 Canada On Track times** (Track 1/2/3 development benchmarks)
+- **93.5% email coverage** (7,156 athletes have AcctEmail for registration contact)
 
 ---
 
@@ -42,13 +46,41 @@ A web-based analytics platform for Malaysian swimming performance tracking, enab
 |-------|------------|
 | Frontend | Next.js + React + TypeScript |
 | Backend | FastAPI (Python) |
-| Database | SQLite (`malaysia_swimming.db` at project root) |
+| Database | **Supabase (PostgreSQL)** - cloud hosted |
+| Backup Database | SQLite (`malaysia_swimming.db` at project root) |
 | Authentication | Password-based (MAS2025), no OAuth/JWT yet |
+| Hosting (planned) | Vercel (registration portal), Exabytes (main WordPress site) |
+
+### Infrastructure Overview
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     ARCHITECTURE                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│   malaysiaaquatics.org (Exabytes/WordPress) - Main site     │
+│                                                              │
+│   register.malaysiaaquatics.org (Vercel) - Registration     │
+│           ↓                                                  │
+│   analytics.malaysiaaquatics.org (Vercel) - Results/Stats   │
+│           ↓                                                  │
+│   Supabase (Database + API) - Shared by both apps           │
+│           ↓                                                  │
+│   RevenueMonster (Payments - planned)                       │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Subdomains (to configure in Exabytes DNS)
+| Subdomain | Points To | Purpose |
+|-----------|-----------|---------|
+| register.malaysiaaquatics.org | Vercel | 2026 Registration portal |
+| analytics.malaysiaaquatics.org | Vercel | Results & analytics app |
 
 ### Key Directories
 ```
 project root/
-  malaysia_swimming.db     <- Single source of truth database
+  .env                     <- Credentials (DO NOT commit to git!)
+  malaysia_swimming.db     <- Local SQLite backup
   src/
     web/
       main.py              <- API entry point
@@ -67,6 +99,12 @@ project root/
       index.tsx            <- Main results page
       admin.tsx            <- Re-exports src/admin/admin.tsx
   scripts/                 <- Production-ready utilities
+    supabase_migration.sql <- Database schema for Supabase
+    import_to_supabase_api.py <- Data import script
+  data/
+    supabase_export/       <- CSV exports for Supabase import
+  docs/
+    2026_Registration_Strategy.md <- Registration system plan
 ```
 
 ### Admin Panel Tabs
@@ -88,7 +126,7 @@ project root/
 | `results` | Competition times | athlete_id, foreign_athlete_id, event_id, meet_id, time_seconds, aqua_points |
 | `events` | Event catalog (LCM/SCM) | event_id, course, stroke, distance, gender |
 | `meets` | Meet metadata | id, meet_type, meet_alias, meet_date, meet_year |
-| `clubs` | Club registry | club_code, club_name, state_code |
+| `clubs` | Club registry | club_code, club_name, state_code, club_email, club_admin_name |
 
 ### Foreign Athlete System
 Two-table system separates Malaysian athletes from foreign competitors:
@@ -410,6 +448,108 @@ All base time tables use `event_id` as the primary lookup key for consistency wi
   - All dropdowns use `fontSize: 'inherit'` for consistent styling
 - Added CLAUDE.md documentation for pool course types and 25m event tracking
 
+### Phase 17: Athlete Panel UI & Data Cleanup (Dec 1, 2025)
+- Athlete panel field enhancements:
+  - Field data now shows as grey text inside input boxes (removed separate spans)
+  - API call to fetch full athlete details on selection
+  - Loading indicator while fetching
+  - Clubs dropdown properly maps API response
+  - "Update All Changes" button to save all modified fields at once
+- IC Number field restructured to 5 boxes:
+  - YY dropdown (00-99), MM dropdown (01-12), DD dropdown (dynamic 01-31)
+  - PB dropdown (00-99) for place of birth code
+  - Last 4+ digits input
+  - Passport detection: shows "(Passport?)" for passport-like values
+- Phone number fields with country code dropdown:
+  - 28 country codes (MY, SG, US/CA, UK, AU, CN, KR, JP, etc.)
+  - Malaysian numbers auto-formatted: XX XXX XXXX (9 digits) or XX XXXX XXXX (10 digits)
+- Email validation: must contain @ and . with @ before last .
+- Address section restructured:
+  - Street, Line 2, City, Postal code (5 digits), State dropdown, Country dropdown
+  - Added `postal_code` column to athletes table
+- Passport/IC data migration:
+  - Script: `scripts/migrate_ic_to_passport.py`
+  - Migrated 208 athletes: passport numbers moved from IC to passport_number field
+  - Nation detection from passport format (CHN, KOR, JPN, USA, AUS, SGP, etc.)
+  - Updated 195 athletes with detected nation
+- IC/Nation data cleanup:
+  - Fixed 2 malformed ICs (transposed dates)
+  - Cleaned 9 garbage IC values (postcodes)
+  - Set all remaining athletes without nation to MAS
+  - Final: 4,078 MAS + 201 foreign athletes, 0 without nation
+- API fixes:
+  - Added lowercase aliases to AthleteUpdateRequest (nation, club_code, club_name, state_code)
+  - Added postal_code to model and field_name_map
+  - State, club, nation fields now save correctly
+
+### Phase 18: Supabase Migration & 2026 Registration Prep (Dec 1, 2025)
+
+**What is Supabase?**
+Supabase is a cloud-hosted PostgreSQL database with built-in REST API. It replaces our local SQLite database, allowing:
+- Access from anywhere (not just the local computer)
+- Multiple applications can share the same database (analytics + registration)
+- Automatic backups and scaling
+- No need to manage database servers
+
+**Registration Data Preparation:**
+- Audited contact data coverage:
+  - Before: Only 76 athletes (1.9%) had email addresses
+  - 29% of athletes had no contact information at all
+- Loaded registration export `customexport (9).xlsx`:
+  - Added new `AcctEmail` column to athletes table (parent/guardian email)
+  - 3,777 existing athletes updated with AcctEmail
+  - 3,393 new athletes inserted with full registration data
+  - Total athletes increased from 4,279 to 7,650
+- Merged 22 duplicate athlete pairs:
+  - Duplicates occurred when same athlete existed in SwimRankings AND registration
+  - Kept record with results, copied missing fields (email, IC, address, guardian info)
+  - 52 total fields merged across 22 athletes
+- Final result: **93.5% email coverage** (7,156 of 7,650 athletes have AcctEmail)
+
+**Supabase Setup:**
+- Created Supabase account at supabase.com
+- Project name: MalaysiaAquatics
+- Region: Singapore (closest to Malaysia)
+- Created full database schema with 22 tables:
+  - Schema file: `scripts/supabase_migration.sql`
+  - Standardized column names to snake_case (PostgreSQL convention)
+  - Added `registrations_2026` table for tracking registration status
+- Exported all SQLite data to CSV files (18 tables)
+  - Export location: `data/supabase_export/`
+- Imported all data via Supabase REST API:
+  - Import script: `scripts/import_to_supabase_api.py`
+  - **341,054 total rows imported successfully**
+  - Only `records` table (75 rows) failed due to foreign key constraint
+
+**2026 Registration Strategy:**
+- Created comprehensive strategy document: `docs/2026_Registration_Strategy.md`
+- Recommended approach: Email personalized registration links to parents
+- Email grouping analysis:
+  - 4,527 unique AcctEmail addresses covering 7,156 athletes
+  - 3,206 emails → 1 athlete (individual families)
+  - 1,057 emails → 2 athletes (siblings)
+  - Remaining emails → 3+ athletes (some are club emails)
+- Implementation phases planned:
+  1. Primary: Email campaign to 4,527 unique emails
+  2. Secondary: Phone/SMS for athletes without email
+  3. Catch-all: Public portal for new registrations
+
+**Credentials Management:**
+- Created `.env` file with all credentials (Supabase URL, API keys, passwords)
+- File NOT committed to git (contains sensitive data)
+- Credentials documented in `.env` with comments explaining each
+
+**What's Next:**
+- ~~Create Vercel account for hosting~~ (Done - Session 25)
+- Build registration portal frontend (Next.js)
+- Build analytics app frontend (migrate existing Next.js app)
+- Deploy both apps to Vercel
+- Configure subdomains in Exabytes DNS:
+  - register.malaysiaaquatics.org
+  - analytics.malaysiaaquatics.org
+- Set up email sending (Gmail batched or SendGrid)
+- Research RevenueMonster payment API
+
 ---
 
 ## 6. Key Design Decisions
@@ -474,6 +614,9 @@ Git commit if work accomplished.
 | `BLOCKERS.md` | Active issues blocking progress |
 | `CLAUDE.md` | Development protocols and coding standards |
 | `CODING_SESSION_START.md` | Startup/shutdown protocols |
+| `docs/Supabase_Guide.md` | How to use Supabase (cloud database) |
+| `docs/2026_Registration_Strategy.md` | Registration system implementation plan |
+| `.env` | Credentials file (DO NOT commit to git!) |
 | This Handbook | Project overview, architecture, history |
 
 ---
@@ -488,10 +631,133 @@ Git commit if work accomplished.
 | Foreign athlete confusion | Two-table system with manual review | Clean separation |
 | Duplicate results | Fixed key format, cleaned 8,011 rows | Accurate data |
 | Admin panel monolith | Modular 5-feature architecture | Maintainable code |
+| Only 1.9% email coverage | Loaded registration data, added AcctEmail | **93.5% email coverage** |
+| Local-only database | Migrated to Supabase (cloud PostgreSQL) | Accessible from anywhere |
 
 ---
 
-## 10. Contact & Governance
+## 10. Future Features (Planned)
+
+### Coach Certification Tracking
+Track coach certifications, renewals, and continuing education. Requirements documented for future implementation:
+
+**Certification Types:**
+- **Safety Certifications** (with renewal reminders):
+  - CPR certification (expiry date, renewal alerts)
+  - Athlete Protection certification
+  - International Games certifications
+- **Sport-Specific Levels** (1, 2, 3):
+  - Registration date
+  - Theory test completion date
+  - Log book completion date
+  - Time limits: L1 = 6 months (12-week log book), L2 = 9 months (6-month log book), L3 = TBD
+  - Status: Registered / Theory Passed / Log Book Complete / Certified
+- **ISN Certification** (International Swimming Network)
+- **Continuing Education**:
+  - Course name, date attended, hours
+  - Provider/organization
+  - Certificate upload (future)
+
+**Database Tables Needed:**
+```sql
+coach_certifications (
+    id, coach_id, cert_type, cert_name,
+    issued_date, expiry_date, status,
+    theory_passed_date, logbook_completed_date,
+    notes
+)
+
+coach_cpd (
+    id, coach_id, course_name, provider,
+    date_attended, hours, certificate_url
+)
+```
+
+**Alerts/Reminders:**
+- CPR expiring within 30/60/90 days
+- Athlete Protection renewal due
+- Log book deadline approaching
+
+*Status: Documented for future implementation. Not started.*
+
+---
+
+### National Team Selection Panel
+A timeline-driven admin panel for managing national team selections. The system ensures consistent processes regardless of who's leading, with the board approving final outputs rather than being involved in workflow details.
+
+**Core Philosophy:**
+- Enter key dates → System generates task timeline with deadlines
+- Check off tasks as completed → Track progress visually
+- Generate reports confirming completion → Board approves final output
+- Swimmers and coaches have secure, consistent management support
+
+**Timeline-Driven Workflow:**
+1. **Create Selection** - Enter key dates:
+   - Competition date (e.g., SEA Games Dec 15, 2025)
+   - Short List due date (final team submission deadline)
+   - Long List due date (initial selection deadline)
+   - System auto-generates all task deadlines working backwards
+
+2. **Selection Phase** - Choose athletes based on:
+   - Time standards / AQUA points threshold
+   - Qualifying times per event
+   - Rankings within selection criteria
+
+3. **Long List Phase** - Collect all required information:
+   - Passport expiration dates (must be valid 6+ months beyond competition)
+   - Uniform/equipment sizes (suit, jacket, shoes, etc.)
+   - School information (for age-group athletes)
+   - Travel documents
+   - Medical/dietary requirements
+   - Tasks auto-prompted based on timeline
+
+4. **Short List Phase** - Finalize team:
+   - Payment confirmation (team fees, travel costs)
+   - Participation confirmation from athlete/parent
+   - All documents collected and verified
+   - Final roster locked
+
+5. **Completion Reports** - Generate for board approval:
+   - All tasks completed checklist
+   - Payment summary
+   - Document verification status
+   - Final roster with all data
+
+**Key Features:**
+- Timeline visualization with task deadlines
+- Automatic reminders/prompts for upcoming tasks
+- Passport expiry alerts (flag if expires within 6 months of competition)
+- Progress tracking dashboard (X of Y tasks complete)
+- Report generation for board review
+- Email notifications to selected athletes/parents
+
+**Data Storage:**
+```sql
+team_selections (
+    id, competition_name, competition_date,
+    long_list_due, short_list_due,
+    status, created_at, created_by
+)
+
+selection_tasks (
+    id, selection_id, task_name, due_date,
+    completed_at, completed_by, notes
+)
+
+selection_athletes (
+    id, selection_id, athlete_id,
+    list_status,  -- 'long_list', 'short_list', 'removed'
+    passport_verified, passport_expiry,
+    sizes_collected, payment_status, confirmed,
+    notes
+)
+```
+
+*Status: Documented for future implementation. Not started.*
+
+---
+
+## 11. Contact & Governance
 
 - Database changes require validation against CLAUDE.md protocols
 - All date fields must use ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`

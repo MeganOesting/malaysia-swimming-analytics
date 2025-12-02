@@ -6,8 +6,8 @@ import sqlite3
 
 # Import date validation utility
 from ..utils.date_validator import parse_and_validate_date
-# Import MAP points calculation
-from ..utils.calculation_utils import calculate_map_points
+# Import MAP and MOT points calculation
+from ..utils.calculation_utils import calculate_map_points, calculate_mot_data
 
 router = APIRouter()
 
@@ -212,7 +212,8 @@ async def get_filtered_results(
     genders: str = None,
     events: str = None,
     age_groups: str = None,
-    include_foreign: bool = True
+    include_foreign: bool = True,
+    club_code: str = None
 ):
     """
     Get filtered results based on meet, gender, event, and age group filters.
@@ -248,7 +249,7 @@ async def get_filtered_results(
                 m.meet_name AS meet_name,
                 m.meet_alias AS meet_code,
                 COALESCE(a.nation, fa.nation, '') AS nation,
-                COALESCE(r.club_code, '') AS club_code,
+                COALESCE(a.club_code, fa.club_code, r.club_code, '') AS club_code,
                 COALESCE(r.club_name, '') AS club_name,
                 COALESCE(r.state_code, '') AS state_code,
                 r.result_status
@@ -395,9 +396,12 @@ async def get_filtered_results(
                                     params.append(max_age)
                                 except ValueError:
                                     pass
-                        elif age == '13&UNDER' or age == '13 & UNDER':
+                        elif age == '13&UNDER' or age == '13 & UNDER' or age == '13U':
                             # 13 and under
                             age_conditions.append("r.year_age <= 13")
+                        elif age == '17+' or age == '17&OVER':
+                            # 17 and over
+                            age_conditions.append("r.year_age >= 17")
                         else:
                             # Single age like "13"
                             try:
@@ -412,8 +416,13 @@ async def get_filtered_results(
         
         # Filter out foreign athletes if needed
         if not include_foreign:
-            where_conditions.append("UPPER(COALESCE(a.NATION, 'MAS')) = 'MAS'")
-        
+            where_conditions.append("UPPER(COALESCE(a.nation, 'MAS')) = 'MAS'")
+
+        # Filter by club code
+        if club_code:
+            where_conditions.append("COALESCE(a.club_code, fa.club_code, r.club_code, '') = ?")
+            params.append(club_code)
+
         # Combine WHERE conditions
         if where_conditions:
             query = base_query + " WHERE " + " AND ".join(where_conditions)
@@ -450,6 +459,19 @@ async def get_filtered_results(
                     age
                 )
 
+            # Calculate MOT data (time, AQUA points, gap) for ages 15-23
+            mot_data = {"mot_time": None, "mot_aqua": None, "mot_gap": None}
+            if age and row["distance"] and row["stroke"]:
+                event_gender = row["event_gender"] or row["gender"]
+                mot_data = calculate_mot_data(
+                    conn,
+                    event_gender,
+                    row["distance"],
+                    row["stroke"],
+                    row["aqua_points"],
+                    age
+                )
+
             # Show result_status (DQ, DNS, etc.) in place field if no comp_place and status isn't OK
             place_value = row["comp_place"]
             result_status = row["result_status"] or "OK"
@@ -482,6 +504,9 @@ async def get_filtered_results(
                 "place": place_value,
                 "aqua_points": row["aqua_points"],
                 "map_points": map_points,
+                "mot": mot_data["mot_time"],
+                "mot_aqua": mot_data["mot_aqua"],
+                "mot_gap": mot_data["mot_gap"],
                 "meet_id": str(row["meet_id"]) if row["meet_id"] else None,
                 "meet": row["meet_name"],
                 "meet_code": row["meet_code"],
@@ -554,6 +579,34 @@ async def get_meets():
             conn.close()
         return {"meets": [], "error": str(e)}
 
+@router.get("/clubs")
+async def get_clubs(state_code: str = None):
+    """Get list of clubs, optionally filtered by state."""
+    conn = get_db()
+    cursor = conn.cursor()
+
+    if state_code:
+        cursor.execute("""
+            SELECT club_code, club_name
+            FROM clubs
+            WHERE state_code = ?
+            ORDER BY club_code
+        """, (state_code.upper(),))
+    else:
+        cursor.execute("""
+            SELECT club_code, club_name
+            FROM clubs
+            ORDER BY club_code
+        """)
+
+    clubs = cursor.fetchall()
+    conn.close()
+
+    return {
+        "clubs": [{"code": row[0], "name": row[1]} for row in clubs]
+    }
+
+
 @router.get("/events")
 async def get_events():
     """Get list of available events."""
@@ -614,3 +667,226 @@ async def get_results_stats():
         "total_athletes": total_athletes,
         "total_meets": total_meets
     }
+
+
+@router.get("/results/export-sxl-gf")
+async def export_sxl_gf(
+    meet_ids: str = None,
+    genders: str = None,
+    age_groups: str = None,
+    include_foreign: bool = True,
+):
+    """
+    Export top 100 swimmers per event to Excel workbook.
+    Each sheet is a different event (M 50 Free, F 50 Free, etc.)
+    Only best time per athlete per event is included.
+    """
+    from fastapi.responses import StreamingResponse
+    import io
+
+    try:
+        import openpyxl
+        from openpyxl.styles import Font, Alignment
+    except ImportError:
+        return {"error": "openpyxl not installed"}
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Build query similar to filtered results
+    base_query = """
+        SELECT
+            COALESCE(a.fullname, fa.fullname, '') AS full_name,
+            COALESCE(a.Gender, fa.gender, '') AS gender,
+            r.year_age,
+            e.event_distance AS distance,
+            e.event_stroke AS stroke,
+            e.gender AS event_gender,
+            r.time_string,
+            r.time_seconds,
+            r.aqua_points,
+            m.meet_alias AS meet_code,
+            COALESCE(a.club_code, fa.club_code, r.club_code, '') AS club_code
+        FROM results r
+        LEFT JOIN athletes a ON r.athlete_id = a.id
+        LEFT JOIN foreign_athletes fa ON r.foreign_athlete_id = fa.id
+        LEFT JOIN events e ON r.event_id = e.id
+        LEFT JOIN meets m ON r.meet_id = m.id
+    """
+
+    where_conditions = []
+    params = []
+
+    # Filter by meets
+    if meet_ids:
+        meet_list = [m.strip() for m in meet_ids.split(',') if m.strip()]
+        if meet_list:
+            placeholders = ','.join(['?' for _ in meet_list])
+            where_conditions.append(f"r.meet_id IN ({placeholders})")
+            params.extend(meet_list)
+
+    # Filter by genders
+    if genders:
+        gender_list = [g.strip().upper() for g in genders.split(',') if g.strip()]
+        if gender_list:
+            placeholders = ','.join(['?' for _ in gender_list])
+            where_conditions.append(f"e.gender IN ({placeholders})")
+            params.extend(gender_list)
+
+    # Filter by age groups
+    if age_groups:
+        age_list = [a.strip().upper() for a in age_groups.split(',') if a.strip()]
+        if age_list:
+            age_conditions = []
+            for age in age_list:
+                if age == 'OPEN':
+                    continue
+                elif '-' in age:
+                    parts = age.split('-')
+                    if len(parts) == 2:
+                        try:
+                            min_age = int(parts[0])
+                            max_age = int(parts[1])
+                            age_conditions.append("r.year_age BETWEEN ? AND ?")
+                            params.append(min_age)
+                            params.append(max_age)
+                        except ValueError:
+                            pass
+                elif age == '13&UNDER' or age == '13 & UNDER' or age == '13U':
+                    age_conditions.append("r.year_age <= 13")
+                elif age == '17+' or age == '17&OVER':
+                    age_conditions.append("r.year_age >= 17")
+                else:
+                    try:
+                        age_num = int(age)
+                        age_conditions.append("r.year_age = ?")
+                        params.append(age_num)
+                    except ValueError:
+                        pass
+            if age_conditions:
+                where_conditions.append(f"({' OR '.join(age_conditions)})")
+
+    # Filter foreign athletes
+    if not include_foreign:
+        where_conditions.append("UPPER(COALESCE(a.nation, 'MAS')) = 'MAS'")
+
+    # Only include results with valid times
+    where_conditions.append("r.time_seconds IS NOT NULL")
+    where_conditions.append("r.time_seconds > 0")
+
+    # Build final query
+    query = base_query
+    if where_conditions:
+        query += " WHERE " + " AND ".join(where_conditions)
+    query += " ORDER BY e.gender, e.event_distance, e.event_stroke, r.time_seconds ASC"
+
+    cursor.execute(query, params)
+    results = cursor.fetchall()
+    conn.close()
+
+    # Group results by event and keep only best time per athlete
+    events_data = {}
+    for row in results:
+        full_name = row[0]
+        gender = row[1]
+        year_age = row[2]
+        distance = row[3]
+        stroke = row[4]
+        event_gender = row[5]
+        time_string = row[6]
+        time_seconds = row[7]
+        aqua_points = row[8]
+        meet_code = row[9]
+        club_code = row[10]
+
+        # Event key for sheet name
+        gender_label = "M" if event_gender == "M" else "F"
+        stroke_label = "IM" if stroke == "Medley" else stroke
+        event_key = f"{gender_label} {distance} {stroke_label}"
+
+        if event_key not in events_data:
+            events_data[event_key] = {}
+
+        # Only keep best time per athlete
+        if full_name not in events_data[event_key]:
+            events_data[event_key][full_name] = {
+                "name": full_name,
+                "age": year_age,
+                "club": club_code,
+                "time": time_string,
+                "time_seconds": time_seconds,
+                "aqua": aqua_points,
+                "meet": meet_code
+            }
+        elif time_seconds and time_seconds < events_data[event_key][full_name]["time_seconds"]:
+            events_data[event_key][full_name] = {
+                "name": full_name,
+                "age": year_age,
+                "club": club_code,
+                "time": time_string,
+                "time_seconds": time_seconds,
+                "aqua": aqua_points,
+                "meet": meet_code
+            }
+
+    # Create Excel workbook
+    wb = openpyxl.Workbook()
+    wb.remove(wb.active)  # Remove default sheet
+
+    # Sort events: M before F, then by distance, then by stroke
+    stroke_order = {"Free": 1, "Back": 2, "Breast": 3, "Fly": 4, "IM": 5, "Medley": 5}
+    sorted_events = sorted(events_data.keys(), key=lambda x: (
+        0 if x.startswith("M") else 1,
+        int(x.split()[1]),
+        stroke_order.get(x.split()[2], 99)
+    ))
+
+    for event_key in sorted_events:
+        athletes = events_data[event_key]
+
+        # Sort by time and take top 100
+        sorted_athletes = sorted(athletes.values(), key=lambda x: x["time_seconds"] or 9999)[:100]
+
+        # Create sheet (max 31 chars for sheet name)
+        sheet_name = event_key[:31]
+        ws = wb.create_sheet(title=sheet_name)
+
+        # Headers
+        headers = ["Rank", "Name", "Age", "Club", "Time", "AQUA", "Meet"]
+        for col, header in enumerate(headers, 1):
+            cell = ws.cell(row=1, column=col, value=header)
+            cell.font = Font(bold=True)
+            cell.alignment = Alignment(horizontal='center')
+
+        # Data rows
+        for rank, athlete in enumerate(sorted_athletes, 1):
+            ws.cell(row=rank+1, column=1, value=rank)
+            ws.cell(row=rank+1, column=2, value=athlete["name"])
+            ws.cell(row=rank+1, column=3, value=athlete["age"])
+            ws.cell(row=rank+1, column=4, value=athlete["club"])
+            ws.cell(row=rank+1, column=5, value=athlete["time"])
+            ws.cell(row=rank+1, column=6, value=athlete["aqua"])
+            ws.cell(row=rank+1, column=7, value=athlete["meet"])
+
+        # Auto-width columns
+        for col in ws.columns:
+            max_length = 0
+            column = col[0].column_letter
+            for cell in col:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(str(cell.value))
+                except:
+                    pass
+            ws.column_dimensions[column].width = min(max_length + 2, 40)
+
+    # Save to bytes
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+
+    return StreamingResponse(
+        output,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": "attachment; filename=SXL_GF_Top100.xlsx"}
+    )

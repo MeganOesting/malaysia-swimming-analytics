@@ -11,12 +11,14 @@ import { AlertBox, Button } from './shared/components';
 
 // Import all feature components
 import { AthleteManagement } from './features/athlete-management';
-import { MeetManagement } from './features/meet-management';
+import { MeetManagement, MEET_MANAGEMENT_TAB_CONFIG } from './features/meet-management';
 import { ManualEntry } from './features/manual-entry';
 import { ClubManagement } from './features/club-management';
 import { CoachManagement } from './features/coach-management';
+import { RegistrationManagement } from './features/registration-management';
+import { TeamSelection } from './features/team-selection';
 
-type TabType = 'manual' | 'manage' | 'athleteinfo' | 'clubinfo' | 'coachmanagement';
+type TabType = 'manual' | 'manage' | 'athleteinfo' | 'clubinfo' | 'coachmanagement' | 'registration' | 'teamselection';
 
 interface TabConfig {
   id: TabType;
@@ -51,8 +53,20 @@ const TABS: TabConfig[] = [
     component: CoachManagement,
   },
   {
+    id: 'registration',
+    label: 'Registration',
+    icon: '',
+    component: RegistrationManagement,
+  },
+  {
+    id: 'teamselection',
+    label: 'Team Selection',
+    icon: '',
+    component: TeamSelection,
+  },
+  {
     id: 'manual',
-    label: 'Manual Entry',
+    label: 'Base Table Management',
     icon: '',
     component: ManualEntry,
   },
@@ -274,7 +288,7 @@ export const Admin: React.FC<AdminProps> = ({ initialTab = 'manage' }) => {
       </div>
 
       {/* Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-gray-50">
         {/* Notifications */}
         {notifications.map(notification => (
           <AlertBox

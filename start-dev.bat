@@ -105,7 +105,7 @@ echo ========================================
 echo.
 echo Backend API: http://localhost:8000
 echo Backend Docs: http://localhost:8000/api/docs
-echo Frontend: http://localhost:3000 (or http://localhost:3001)
+echo Frontend: http://localhost:3000
 echo Admin Panel: http://localhost:3000/admin
 echo.
 echo Both servers are running in separate windows.
@@ -113,6 +113,13 @@ echo Close those windows to stop the servers.
 echo.
 echo Press any key to exit this startup script...
 pause >nul
+
+
+
+
+
+
+
 
 
 

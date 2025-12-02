@@ -2,7 +2,7 @@
 
 Issues that prevent progress. Document here, resolve ASAP.
 
-**Last Updated:** 2025-11-30 (Session 22 - Athlete panel enhancements, name matching refactor)
+**Last Updated:** 2025-12-02 (Session 27 - Registration portal flow, club data enrichment)
 
 ---
 

@@ -85,15 +85,55 @@ export async function uploadMultipleFiles(
       summary.message = result.message;
 
       if (result.success) {
-        summary.metrics = {
-          athletes: result.athletes || 0,
-          results: result.results || 0,
-          events: result.events || 0,
-          meets: result.meets || 0,
-        };
+        // For SEAG uploads, convert to metrics format if available
+        if (fileType === 'seag' && (result as any).results_inserted !== undefined) {
+          summary.metrics = {
+            athletes: 0,
+            results: (result as any).results_inserted || 0,
+            events: 0,
+            meets: 1,
+          };
+        } else {
+          summary.metrics = {
+            athletes: result.athletes || 0,
+            results: result.results || 0,
+            events: result.events || 0,
+            meets: result.meets || 0,
+          };
+        }
       }
 
-      if (result.issues) {
+      // Convert SEAG errors to issues format
+      if (fileType === 'seag' && (result as any).errors) {
+        const issues: Record<string, any[]> = {};
+
+        // Add parsing errors
+        if ((result as any).errors && (result as any).errors.length > 0) {
+          issues['parsing_errors'] = (result as any).errors.map((err: string) => ({
+            sheet: 'Sheet',
+            row: err,
+          }));
+        }
+
+        // Add unmatched athletes
+        if ((result as any).unmatched_athletes && (result as any).unmatched_athletes.length > 0) {
+          issues['unmatched_athletes'] = (result as any).unmatched_athletes.map((athlete: any) => ({
+            fullname: athlete.fullname || '',
+            gender: athlete.gender || '',
+            distance: String(athlete.distance || ''),
+            stroke: athlete.stroke || '',
+            time: athlete.time || '',
+          }));
+        }
+
+        summary.issues = issues;
+        // Override status if there are critical errors but results were inserted
+        if ((result as any).errors && (result as any).errors.length > 0 && (result as any).results_inserted === 0) {
+          summary.status = 'error';
+        }
+      }
+
+      if (result.issues && fileType !== 'seag') {
         summary.issues = result.issues;
       }
     } catch (error) {

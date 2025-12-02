@@ -22,6 +22,7 @@ export interface Athlete {
   name: string;
   gender: string;
   birth_date: string | null;
+  club_code: string | null;
   club_name: string | null;
   state_code: string | null;
   nation: string | null;

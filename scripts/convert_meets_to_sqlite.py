@@ -50,42 +50,42 @@ def extract_meet_info(filename):
         return {
             'name': 'SUKMA 2024',
             'meet_type': 'National Games',
-            'meet_date': '2024-08-18',
+            'meet_date': '2024-08-18T00:00:00Z',
             'location': 'Malaysia'
         }
     elif 'miag' in filename:
         return {
             'name': 'MIAG 2025',
             'meet_type': 'International Age Group',
-            'meet_date': '2025-01-15',
+            'meet_date': '2025-01-15T00:00:00Z',
             'location': 'Malaysia'
         }
     elif 'mo' in filename:
         return {
             'name': 'Malaysia Open 2025',
             'meet_type': 'National Open',
-            'meet_date': '2025-02-01',
+            'meet_date': '2025-02-01T00:00:00Z',
             'location': 'Malaysia'
         }
     elif 'seag' in filename:
         return {
             'name': 'SEA Age 2025',
             'meet_type': 'Regional Age Group',
-            'meet_date': '2025-06-25',
+            'meet_date': '2025-06-25T00:00:00Z',
             'location': 'Malaysia'
         }
     elif 'january' in filename or 'state' in filename:
         return {
             'name': 'State Championships 2024',
             'meet_type': 'State Championships',
-            'meet_date': '2024-01-15',
+            'meet_date': '2024-01-15T00:00:00Z',
             'location': 'Malaysia'
         }
     else:
         return {
             'name': 'Unknown Meet',
             'meet_type': 'Unknown',
-            'meet_date': '2024-01-01',
+            'meet_date': '2024-01-01T00:00:00Z',
             'location': 'Malaysia'
         }
 

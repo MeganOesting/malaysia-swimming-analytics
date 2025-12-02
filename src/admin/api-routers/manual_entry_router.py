@@ -49,16 +49,16 @@ async def submit_manual_results(submission: ManualResultsSubmission):
     try:
         # 1. Create or get meet
         cursor.execute(
-            "SELECT id FROM meets WHERE name = ?",
+            "SELECT id FROM meets WHERE meet_name = ?",
             (submission.meet_name,)
         )
         meet_row = cursor.fetchone()
-        
+
         if not meet_row:
             # Create new meet
             meet_id = f"manual_{datetime.now().timestamp()}"
             cursor.execute("""
-                INSERT INTO meets (id, name, meet_type, meet_date, city, course)
+                INSERT INTO meets (id, meet_name, meet_type, meet_date, meet_city, meet_course)
                 VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 meet_id,
@@ -89,22 +89,22 @@ async def submit_manual_results(submission: ManualResultsSubmission):
                 
                 # Find or create event
                 cursor.execute("""
-                    SELECT id FROM events 
-                    WHERE distance = ? AND stroke = ? AND gender = ?
+                    SELECT id FROM events
+                    WHERE event_distance = ? AND event_stroke = ? AND gender = ?
                 """, (result.distance, result.stroke.upper(), result.event_gender.upper()))
-                
+
                 event_row = cursor.fetchone()
                 if not event_row:
                     errors.append(f"Event {result.distance}{result.stroke} {result.event_gender} not found")
                     continue
-                
+
                 event_id = event_row[0]
-                
+
                 # Insert result
                 cursor.execute("""
                     INSERT INTO results (
-                        athlete_id, event_id, meet_id, time_string, place, 
-                        team_name, team_state_code
+                        athlete_id, event_id, meet_id, time_string, comp_place,
+                        club_name, state_code
                     ) VALUES (?, ?, ?, ?, ?, NULL, NULL)
                 """, (
                     result.athlete_id,

@@ -147,6 +147,31 @@ export const CoachManagement: React.FC<CoachManagementProps> = ({
   ]);
 
   /**
+   * Export coaches to Excel
+   */
+  const handleExportCoaches = async () => {
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/coaches/export-excel`);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to export coaches: ${response.status} ${errorText}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'coaches_export.xlsx';
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      error(err instanceof Error ? err.message : 'Export failed');
+    }
+  };
+
+  /**
    * Delete coach
    */
   const handleDeleteCoach = useCallback(
@@ -185,8 +210,25 @@ export const CoachManagement: React.FC<CoachManagementProps> = ({
         />
       ))}
 
-      {/* Header */}
-      <h2 className="text-2xl font-bold text-gray-900">Coach Management</h2>
+      {/* Export Button */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+        <button
+          onClick={handleExportCoaches}
+          style={{
+            padding: '2px 10px',
+            backgroundColor: '#cc0000',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            fontSize: '0.9em',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            display: 'inline-block',
+          }}
+        >
+          Export Coaches Table
+        </button>
+      </div>
 
       {/* Search Section */}
       <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
@@ -220,19 +262,41 @@ export const CoachManagement: React.FC<CoachManagementProps> = ({
             />
           </div>
 
-          <Button variant="primary" onClick={handleSearchCoaches}>
+          <button
+            onClick={handleSearchCoaches}
+            style={{
+              padding: '2px 10px',
+              backgroundColor: '#cc0000',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              fontSize: '0.9em',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              display: 'inline-block',
+            }}
+          >
             Search
-          </Button>
+          </button>
         </div>
 
-        <Button
-          variant="success"
+        <button
           onClick={handleResetForm}
-          size="sm"
-          className="mt-4"
+          style={{
+            marginTop: '1rem',
+            padding: '2px 10px',
+            backgroundColor: '#cc0000',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            fontSize: '0.9em',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            display: 'inline-block',
+          }}
         >
           Add New Coach
-        </Button>
+        </button>
       </div>
 
       {/* Search Results */}
@@ -261,13 +325,22 @@ export const CoachManagement: React.FC<CoachManagementProps> = ({
                     <td className="px-4 py-2">{coach.email || '-'}</td>
                     <td className="px-4 py-2">
                       <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="primary"
+                        <button
                           onClick={() => handleSelectCoach(coach)}
+                          style={{
+                            padding: '2px 10px',
+                            backgroundColor: '#cc0000',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '0.9em',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap',
+                            display: 'inline-block',
+                          }}
                         >
                           Edit
-                        </Button>
+                        </button>
                         <Button
                           size="sm"
                           variant="danger"

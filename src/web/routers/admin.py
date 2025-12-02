@@ -111,6 +111,7 @@ class AthleteUpdateRequest(BaseModel):
     SUFFIX: Optional[str] = None
     IC: Optional[str] = None
     NATION: Optional[str] = None
+    nation: Optional[str] = None  # lowercase alias
     MembEmail: Optional[str] = None
     PreferredName: Optional[str] = None
     Phone: Optional[str] = None
@@ -136,6 +137,9 @@ class AthleteUpdateRequest(BaseModel):
     Gender: Optional[str] = None
     ClubCode: Optional[str] = None
     ClubName: Optional[str] = None
+    club_code: Optional[str] = None  # lowercase alias
+    club_name: Optional[str] = None  # lowercase alias
+    state_code: Optional[str] = None  # state code field
     athlete_alias_1: Optional[str] = None
     athlete_alias_2: Optional[str] = None
     passport_number: Optional[str] = None
@@ -147,6 +151,8 @@ class AthleteUpdateRequest(BaseModel):
     School_University_Address: Optional[str] = None
     passport_expiry_date: Optional[str] = None
     BIRTHDATE: Optional[str] = None
+    postal_code: Optional[str] = None
+    address_state: Optional[str] = None
 
 class ClubCreateRequest(BaseModel):
     club_name: str
@@ -2388,37 +2394,22 @@ async def convert_clubs_excel(file: UploadFile = File(...)):
 
 @router.get("/admin/athletes/search")
 async def search_athletes(q: str = ""):
-    """Search athletes by name (case-insensitive)."""
+    """Search athletes by name and aliases (case-insensitive).
+    Uses core search function from global name matcher for consistency."""
     query = (q or "").strip()
     if not query:
         return {"athletes": []}
 
+    # Use the core search function from name_matcher - single source of truth
+    try:
+        from src.web.utils.name_matcher import search_athletes_by_name
+    except ImportError:
+        # Fallback if import fails
+        return {"athletes": [], "error": "Name matcher not available"}
+
     conn = get_database_connection()
     try:
-        cursor = conn.cursor()
-        pattern = f"%{query.upper()}%"
-        cursor.execute(
-            """
-            SELECT id, FULLNAME, Gender, BIRTHDATE, club_name, club_code, nation
-            FROM athletes
-            WHERE UPPER(FULLNAME) LIKE ?
-            ORDER BY FULLNAME
-            LIMIT 50
-            """,
-            (pattern,)
-        )
-        rows = cursor.fetchall()
-        athletes = []
-        for row in rows:
-            athletes.append({
-                "id": row[0],
-                "name": row[1] or "",
-                "gender": row[2] or "",
-                "birth_date": row[3] or None,
-                "club_name": row[4] or None,
-                "state_code": row[5] or None,
-                "nation": row[6] or None,
-            })
+        athletes = search_athletes_by_name(conn, query, limit=50, include_aliases=True)
         return {"athletes": athletes}
     finally:
         conn.close()
@@ -2426,7 +2417,7 @@ async def search_athletes(q: str = ""):
 
 @router.get("/admin/events/export-excel")
 async def export_events_excel():
-    """Export all events from the database with display-formatted stroke names."""
+    """Export ALL columns from events table as Excel file."""
     from fastapi.responses import StreamingResponse
     import openpyxl
     from openpyxl.styles import Font, PatternFill
@@ -2437,14 +2428,9 @@ async def export_events_excel():
         conn = get_database_connection()
         cursor = conn.cursor()
 
-        cursor.execute("""
-            SELECT id, event_distance, event_stroke, gender, event_course, event_type, created_at
-            FROM events
-            ORDER BY event_course, gender, event_stroke, event_distance
-        """)
-
-        events = cursor.fetchall()
-        cursor.close()
+        cursor.execute("SELECT * FROM events ORDER BY event_course, gender, event_stroke, event_distance")
+        rows = cursor.fetchall()
+        columns = [desc[0] for desc in cursor.description]
         conn.close()
 
         # Create Excel workbook
@@ -2452,32 +2438,26 @@ async def export_events_excel():
         ws = wb.active
         ws.title = "Events"
 
-        # Headers
-        headers = ["ID", "Distance", "Stroke", "Gender", "Course", "Event Type", "Created At"]
-        ws.append(headers)
+        # Add headers (actual column names from database)
+        ws.append(columns)
 
         # Style headers (red background, white text)
         header_font = Font(bold=True, color="FFFFFF")
-        header_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+        header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
 
         for cell in ws[1]:
             cell.font = header_font
             cell.fill = header_fill
 
-        # Add data with display-formatted strokes
-        for event in events:
-            event_id = event[0]
-            distance = event[1]
-            stroke_db = event[2]  # Database value (Fr, Bk, Br, Bu, Me)
-            gender = event[3]
-            course = event[4]
-            event_type = event[5]
-            created_at = event[6]
+        # Add data rows
+        for row in rows:
+            ws.append(list(row))
 
-            # Convert stroke to display format for output
-            stroke_display = display_stroke(stroke_db) or stroke_db
-
-            ws.append([event_id, distance, stroke_display, gender, course, event_type, created_at])
+        # Auto-adjust column widths
+        for col_idx, col_name in enumerate(columns, 1):
+            col_letter = openpyxl.utils.get_column_letter(col_idx)
+            max_width = min(max(len(str(col_name)) + 2, 10), 50)
+            ws.column_dimensions[col_letter].width = max_width
 
         # Save to BytesIO
         output = BytesIO()
@@ -2485,10 +2465,10 @@ async def export_events_excel():
         output.seek(0)
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"events_export_{timestamp}.xlsx"
+        filename = f"events_full_export_{timestamp}.xlsx"
 
         return StreamingResponse(
-            output,
+            iter([output.getvalue()]),
             media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             headers={"Content-Disposition": f"attachment; filename={filename}"}
         )
@@ -2771,28 +2751,20 @@ async def export_results_excel():
     
 @router.get("/admin/athletes/export-excel")
 async def export_athletes_excel():
-    """Export all athletes from database as Excel file"""
+    """Export ALL columns from athletes table as Excel file"""
     from fastapi.responses import StreamingResponse
     import openpyxl
     from openpyxl.styles import Font, PatternFill
     from io import BytesIO
-    import sys
+    from datetime import datetime
 
     try:
         conn = get_database_connection()
         cursor = conn.cursor()
 
-        # Fetch all athletes with FULLNAME, BIRTHDATE, and id
-        cursor.execute("""
-            SELECT
-                id,
-                FULLNAME,
-                BIRTHDATE
-            FROM athletes
-            ORDER BY FULLNAME ASC
-        """)
-
-        athletes = cursor.fetchall()
+        cursor.execute("SELECT * FROM athletes ORDER BY FULLNAME ASC")
+        rows = cursor.fetchall()
+        columns = [desc[0] for desc in cursor.description]
         conn.close()
 
         # Create workbook
@@ -2800,9 +2772,8 @@ async def export_athletes_excel():
         ws = wb.active
         ws.title = "Athletes"
 
-        # Add headers
-        headers = ["Athlete ID", "Full Name", "Birthdate"]
-        ws.append(headers)
+        # Add headers (actual column names from database)
+        ws.append(columns)
 
         # Style header row
         header_fill = PatternFill(start_color="CC0000", end_color="CC0000", fill_type="solid")
@@ -2813,28 +2784,14 @@ async def export_athletes_excel():
             cell.font = header_font
 
         # Add data rows
-        for athlete in athletes:
-            athlete_id, fullname, birthdate = athlete
-            # Format birthdate to dd.mm.yyyy
-            if birthdate:
-                try:
-                    from datetime import datetime
-                    # Handle ISO format (YYYY-MM-DDTHH:MM:SSZ or YYYY-MM-DD)
-                    if 'T' in str(birthdate):
-                        date_obj = datetime.fromisoformat(str(birthdate).replace('Z', '+00:00'))
-                    else:
-                        date_obj = datetime.strptime(str(birthdate), '%Y-%m-%d')
-                    formatted_date = date_obj.strftime('%d.%m.%Y')
-                except Exception:
-                    formatted_date = birthdate
-            else:
-                formatted_date = ""
-            ws.append([athlete_id, fullname, formatted_date])
+        for row in rows:
+            ws.append(list(row))
 
-        # Adjust column widths
-        ws.column_dimensions['A'].width = 12
-        ws.column_dimensions['B'].width = 30
-        ws.column_dimensions['C'].width = 15
+        # Auto-adjust column widths based on header
+        for col_idx, col_name in enumerate(columns, 1):
+            col_letter = openpyxl.utils.get_column_letter(col_idx)
+            max_width = min(max(len(str(col_name)) + 2, 10), 50)
+            ws.column_dimensions[col_letter].width = max_width
 
         # Write to BytesIO
         output = BytesIO()
@@ -2843,9 +2800,8 @@ async def export_athletes_excel():
 
         # Generate filename with timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"athletes_export_{timestamp}.xlsx"
+        filename = f"athletes_full_export_{timestamp}.xlsx"
 
-        # Return as StreamingResponse (no temp file needed)
         return StreamingResponse(
             iter([output.getvalue()]),
             media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -2853,10 +2809,6 @@ async def export_athletes_excel():
         )
 
     except Exception as e:
-        import traceback
-        print(f"DEBUG: Exception occurred: {str(e)}", flush=True)
-        traceback.print_exc(file=sys.stdout)
-        sys.stdout.flush()
         raise HTTPException(status_code=500, detail=f"Export failed: {str(e)}")
 
 
@@ -3009,29 +2961,35 @@ async def export_clubs_excel():
 
 @router.get("/admin/athletes/{athlete_id}")
 async def get_athlete_detail(athlete_id: str):
+    """Get full athlete details including all fields."""
     conn = get_database_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute(
-            """
-            SELECT id, name, gender, birth_date, club_name, state_code, nation
-            FROM athletes
-            WHERE id = ?
-            """,
-            (athlete_id,)
-        )
+        cursor.execute("SELECT * FROM athletes WHERE id = ?", (athlete_id,))
         row = cursor.fetchone()
         if not row:
             raise HTTPException(status_code=404, detail="Athlete not found")
-        athlete = {
-            "id": row[0],
-            "name": row[1] or "",
-            "gender": row[2] or "",
-            "birth_date": row[3] or None,
-            "club_name": row[4] or None,
-            "state_code": row[5] or None,
-            "nation": row[6] or None,
-        }
+
+        # Get column names
+        columns = [description[0] for description in cursor.description]
+
+        # Build athlete dict with all fields
+        athlete = {}
+        for i, col in enumerate(columns):
+            athlete[col] = row[i] if row[i] is not None else ""
+
+        # Also add mapped names for frontend compatibility
+        athlete["name"] = athlete.get("FULLNAME", "")
+        athlete["gender"] = athlete.get("Gender", "")
+        athlete["birth_date"] = athlete.get("BIRTHDATE", "")
+
+        # If athlete has club_code but no state_code, infer state from club
+        if athlete.get("club_code") and not athlete.get("state_code"):
+            cursor.execute("SELECT state_code FROM clubs WHERE club_code = ?", (athlete["club_code"],))
+            club_row = cursor.fetchone()
+            if club_row and club_row[0]:
+                athlete["state_code"] = club_row[0]
+
         return {"athlete": athlete}
     finally:
         conn.close()
@@ -3060,6 +3018,12 @@ async def update_athlete(athlete_id: str, payload: AthleteUpdateRequest):
             'ClubCode': 'club_code',
             'ClubName': 'club_name',
             'NATION': 'nation',
+            'nation': 'nation',  # lowercase alias
+            'club_code': 'club_code',  # lowercase alias
+            'club_name': 'club_name',  # lowercase alias
+            'state_code': 'state_code',  # state code
+            'postal_code': 'postal_code',  # postal code
+            'address_state': 'address_state',  # address state (separate from club state)
         }
 
         payload_dict = payload.model_dump(exclude_none=False)
@@ -3070,7 +3034,7 @@ async def update_athlete(athlete_id: str, payload: AthleteUpdateRequest):
                 if isinstance(field_value, str):
                     cleaned_value = field_value.strip()
                     # Uppercase specific fields
-                    if field_name in ['NATION', 'Gender']:
+                    if field_name in ['NATION', 'nation', 'Gender', 'state_code']:
                         cleaned_value = cleaned_value.upper() if cleaned_value else None
                 else:
                     cleaned_value = field_value
@@ -4165,7 +4129,7 @@ async def export_base_table(table_type: str):
     Export base time tables as Excel files.
 
     Args:
-        table_type: 'map', 'mot', or 'aqua'
+        table_type: 'map', 'mot', 'aqua', 'podium', or 'canada'
 
     Returns:
         Excel file download
@@ -4178,7 +4142,8 @@ async def export_base_table(table_type: str):
         'map': 'map_base_times',
         'mot': 'mot_base_times',
         'aqua': 'aqua_base_times',
-        'podium': 'podium_target_times'
+        'podium': 'podium_target_times',
+        'canada': 'canada_on_track'
     }
 
     if table_type not in table_map:
@@ -4722,6 +4687,134 @@ async def save_aqua_base_times(request: Request):
         conn.close()
 
 
+@router.get("/admin/mot-base-times")
+async def get_mot_base_times():
+    """
+    Get MOT base times for all events and ages.
+    Returns event details parsed from mot_event_id for display.
+    Ages 15-23 for 100m+ events, 18-23 for 50m events.
+    """
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT id, mot_event_id, mot_age, mot_time_seconds
+            FROM mot_base_times
+            ORDER BY mot_event_id, mot_age
+        """)
+
+        rows = cursor.fetchall()
+        results = []
+        for row in rows:
+            event_id = row[1]
+            parts = event_id.split('_') if event_id else []
+            if len(parts) >= 4:
+                stroke = parts[1]
+                distance = parts[2]
+                gender = parts[3]
+                event_display = f"{distance} {stroke}"
+                is_50m = (distance == '50')
+            else:
+                event_display = event_id or "Unknown"
+                gender = "?"
+                is_50m = False
+
+            # Convert seconds to time string
+            time_seconds = row[3]
+            if time_seconds:
+                minutes = int(time_seconds // 60)
+                secs = time_seconds % 60
+                if minutes > 0:
+                    time_string = f"{minutes}:{secs:05.2f}"
+                else:
+                    time_string = f"{secs:.2f}"
+            else:
+                time_string = ""
+
+            results.append({
+                "id": row[0],
+                "event_id": event_id,
+                "event_display": event_display,
+                "gender": gender,
+                "age": int(row[2]),
+                "time_seconds": time_seconds,
+                "time_string": time_string,
+                "is_50m": is_50m
+            })
+
+        return {"times": results}
+
+    finally:
+        conn.close()
+
+
+@router.post("/admin/mot-base-times")
+async def save_mot_base_times(request: Request):
+    """
+    Save/update MOT base times for specific ages.
+    Expects JSON body: { "times": [{"event_id": "LCM_Free_100_M", "age": 15, "time_string": "49.69"}, ...] }
+    """
+    conn = get_database_connection()
+    try:
+        data = await request.json()
+        times = data.get("times", [])
+
+        cursor = conn.cursor()
+        updated = 0
+        inserted = 0
+
+        for item in times:
+            event_id = item.get("event_id")
+            age = item.get("age")
+            time_str = item.get("time_string", "").strip()
+
+            if not event_id or age is None or not time_str:
+                continue
+
+            # Parse time string to seconds
+            try:
+                if ':' in time_str:
+                    parts = time_str.split(':')
+                    minutes = float(parts[0])
+                    seconds = float(parts[1])
+                    time_seconds = minutes * 60 + seconds
+                else:
+                    time_seconds = float(time_str)
+            except ValueError:
+                continue
+
+            # Check if exists for this event and age
+            cursor.execute("""
+                SELECT id FROM mot_base_times
+                WHERE mot_event_id = ? AND mot_age = ?
+            """, (event_id, age))
+
+            existing = cursor.fetchone()
+            if existing:
+                cursor.execute("""
+                    UPDATE mot_base_times
+                    SET mot_time_seconds = ?
+                    WHERE id = ?
+                """, (time_seconds, existing[0]))
+                updated += 1
+            else:
+                cursor.execute("""
+                    INSERT INTO mot_base_times (mot_event_id, mot_age, mot_time_seconds)
+                    VALUES (?, ?, ?)
+                """, (event_id, age, time_seconds))
+                inserted += 1
+
+        conn.commit()
+        return {"success": True, "updated": updated, "inserted": inserted}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        conn.close()
+
+
 @router.get("/admin/meet-results/{meet_id}")
 async def get_meet_results(meet_id: str):
     """
@@ -4848,6 +4941,140 @@ async def update_comp_place(request: Request):
 
         conn.commit()
         return {"success": True, "updated": updated}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        conn.close()
+
+
+@router.get("/admin/canada-on-track")
+async def get_canada_on_track(year: int = None):
+    """
+    Get Canada On Track times, optionally filtered by year.
+    Returns event details with track and time info.
+    """
+    conn = get_database_connection()
+    try:
+        cursor = conn.cursor()
+
+        if year:
+            cursor.execute("""
+                SELECT id, event_id, canada_track, canada_track_age, canada_track_time_seconds, canada_track_year
+                FROM canada_on_track
+                WHERE canada_track_year = ?
+                ORDER BY event_id, canada_track
+            """, (year,))
+        else:
+            cursor.execute("""
+                SELECT id, event_id, canada_track, canada_track_age, canada_track_time_seconds, canada_track_year
+                FROM canada_on_track
+                ORDER BY canada_track_year DESC, event_id, canada_track
+            """)
+
+        rows = cursor.fetchall()
+        results = []
+        for row in rows:
+            event_id = row[1]
+            time_seconds = row[4]
+
+            # Convert seconds to time string
+            if time_seconds >= 60:
+                minutes = int(time_seconds // 60)
+                secs = time_seconds % 60
+                time_string = f"{minutes}:{secs:05.2f}"
+            else:
+                time_string = f"{time_seconds:.2f}"
+
+            results.append({
+                "id": row[0],
+                "event_id": event_id,
+                "canada_track": row[2],
+                "canada_track_age": row[3],
+                "time_string": time_string,
+                "time_seconds": time_seconds,
+                "canada_track_year": row[5]
+            })
+
+        # Get available years
+        cursor.execute("SELECT DISTINCT canada_track_year FROM canada_on_track ORDER BY canada_track_year DESC")
+        available_years = [r[0] for r in cursor.fetchall()]
+
+        return {
+            "times": results,
+            "available_years": available_years
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        conn.close()
+
+
+@router.post("/admin/canada-on-track")
+async def save_canada_on_track(request: Request):
+    """
+    Save Canada On Track times.
+    Expects: { year: number, times: [{ event_id, track, age, time_string }] }
+    """
+    conn = get_database_connection()
+    try:
+        data = await request.json()
+        year = data.get('year', 2025)
+        times = data.get('times', [])
+
+        cursor = conn.cursor()
+        updated = 0
+        inserted = 0
+
+        for t in times:
+            event_id = t.get('event_id')
+            track = t.get('track')
+            age = t.get('age')
+            time_string = t.get('time_string', '').strip()
+
+            if not event_id or not time_string or track is None or age is None:
+                continue
+
+            # Parse time string to seconds
+            time_seconds = None
+            if ':' in time_string:
+                parts = time_string.split(':')
+                if len(parts) == 2:
+                    minutes = int(parts[0])
+                    secs = float(parts[1])
+                    time_seconds = minutes * 60 + secs
+            else:
+                time_seconds = float(time_string)
+
+            if time_seconds is None:
+                continue
+
+            # Check if exists for this event_id, track, age, and year
+            cursor.execute("""
+                SELECT id FROM canada_on_track
+                WHERE event_id = ? AND canada_track = ? AND canada_track_age = ? AND canada_track_year = ?
+            """, (event_id, track, age, year))
+            existing = cursor.fetchone()
+
+            if existing:
+                cursor.execute("""
+                    UPDATE canada_on_track
+                    SET canada_track_time_seconds = ?
+                    WHERE id = ?
+                """, (time_seconds, existing[0]))
+                updated += 1
+            else:
+                cursor.execute("""
+                    INSERT INTO canada_on_track (event_id, canada_track, canada_track_age, canada_track_time_seconds, canada_track_year)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (event_id, track, age, time_seconds, year))
+                inserted += 1
+
+        conn.commit()
+        return {"success": True, "updated": updated, "inserted": inserted}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
