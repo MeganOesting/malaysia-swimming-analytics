@@ -1,15 +1,16 @@
 # Work In Progress
 
-**Last Updated:** 2025-12-02 (Session 27)
+**Last Updated:** 2025-12-02 (Session 28)
 
 ---
 
 ## Current Status
 
 **DATABASE:** Now hosted on Supabase (cloud PostgreSQL)
-- **7,650 athletes** (7,449 MAS + 201 foreign)
+- **7,647 athletes** (7,446 MAS + 201 foreign) - 3 duplicates merged
 - **55,703 results** (competition times)
 - **48 meets**, **193 clubs**, **86 events**
+- **4 coaches** (Magnus, Clara, Mark, Albert)
 - **93.5% email coverage** (7,156 athletes have AcctEmail for 2026 registration contact)
 
 **USA Reference Data:** 30,027 athletes, 221,321 period results, 24,928 delta records
@@ -61,7 +62,59 @@ Build online registration system where parents can:
 
 ---
 
-## Completed This Session (2025-12-02 - Session 27)
+## Completed This Session (2025-12-02 - Session 28)
+
+### Games Info Excel Loaded (SEA Age/SEAG Team Data)
+- [x] Loaded `Additional Games Info (Passport,School, Sizes) (2).xlsx`
+- [x] 216 athletes updated with:
+  - Passport numbers
+  - School/university info
+  - Medical conditions and dietary restrictions
+  - Shirt and shoe sizes
+  - Supporter information
+  - Acceptance intention (YES)
+- [x] 4 coaches skipped (handled separately)
+- [x] 8 wrong name matches identified and manually fixed
+
+### New Database Columns Added
+**Athletes table:**
+- [x] role (Athlete/Coach/TO)
+- [x] sport (Swimming, Artistic Swimming, etc.)
+- [x] msn_program (Pelapis, etc.)
+- [x] medical_conditions
+- [x] dietary_restrictions
+- [x] supporters_info
+- [x] acceptance_intention
+
+**Coaches table:**
+- [x] msn_program
+- [x] birthdate
+- [x] gender
+- [x] nation
+- [x] state_code (for state coaches: SEL, PRK, PEN, etc.)
+
+### Coaches Table Populated
+- [x] Magnus Hoejby Andersen (ID 1) - Head Coach, NTC, Pelapis program
+- [x] Clara Chung Lai Sze (ID 2) - State Coach, Perak (PRK)
+- [x] Mark Chua Yu Foong (ID 3) - State Coach, Selangor (SEL), PADE
+- [x] Albert Yeap Jin Teik (ID 4) - State Coach, Penang (PEN), WAHOO
+
+### Duplicate Athletes Merged
+- [x] Jia Jia (TAN SHER LI): Kept ID 3471 (had results), deleted 7511, merged 14 fields
+- [x] Nishan (KESAVAN): Kept ID 3376 (had results), deleted 6072, merged 16 fields
+- [x] Deven (KESAVAN): Kept ID 3374 (had results), deleted 4707, merged 11 fields
+
+### Wrong Match Corrections
+- [x] Ho Wei Yan -> ID 1771 (was matching wrong athlete)
+- [x] Bryan Leong -> ID 2102, added alias "Bryan Leong Xin Ren", DOB 2003-02-25
+- [x] Elson Lee -> ID 940
+- [x] Isabelle Kam -> ID 3042
+- [x] Andrew Goh -> ID 2534
+- [x] Sophocles Ng -> ID 2372
+
+---
+
+## Completed Previous Session (2025-12-02 - Session 27)
 
 ### Registration Portal - Full Flow Implemented
 - [x] Moved Find My Account / Create New Account buttons to top (centered)

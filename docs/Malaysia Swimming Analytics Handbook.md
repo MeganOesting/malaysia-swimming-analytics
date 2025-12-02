@@ -1,6 +1,6 @@
 # Malaysia Swimming Analytics Handbook
 
-**Last Updated:** 2025-12-02 (Session 27)
+**Last Updated:** 2025-12-02 (Session 28)
 
 This handbook provides project context, architecture overview, and development history for stakeholder presentations and developer onboarding.
 
@@ -26,14 +26,15 @@ A web-based analytics platform for Malaysian swimming performance tracking, enab
 ### Current Database (as of Dec 2025)
 **Now hosted on Supabase (cloud PostgreSQL)** - migrated from local SQLite
 
-- **7,650 athletes** (7,449 MAS + 201 foreign competitors)
+- **7,647 athletes** (7,446 MAS + 201 foreign competitors) - 3 duplicates merged
 - **55,703 results** (competition times)
 - **48 meets** (from 2025 SwimRankings data)
 - **193 clubs** (with state associations and aliases)
+- **4 coaches** (Magnus, Clara, Mark, Albert with state assignments)
 - **151 MOT base times** (34 events, ages 15-23 for non-50m, 18+ for 50m)
 - **30,027 USA athletes** (reference data for MAP comparison)
 - **221,321 USA period results** (2021-2025 rankings data)
-- **24,928 USA delta records** (improvement tracking 15→16, 16→17, 17→18)
+- **24,928 USA delta records** (improvement tracking 15->16, 16->17, 17->18)
 - **612 Canada On Track times** (Track 1/2/3 development benchmarks)
 - **93.5% email coverage** (7,156 athletes have AcctEmail for registration contact)
 
@@ -121,12 +122,13 @@ project root/
 ### Core Tables
 | Table | Purpose | Key Fields |
 |-------|---------|------------|
-| `athletes` | Malaysian registered swimmers | id, fullname, BIRTHDATE, Gender, nation, club_name, state_code |
+| `athletes` | Malaysian registered swimmers | id, fullname, BIRTHDATE, Gender, nation, club_name, state_code, role, sport, msn_program |
 | `foreign_athletes` | Non-Malaysian competitors | id, fullname, birthdate, gender, nation, club_name |
 | `results` | Competition times | athlete_id, foreign_athlete_id, event_id, meet_id, time_seconds, aqua_points |
 | `events` | Event catalog (LCM/SCM) | event_id, course, stroke, distance, gender |
 | `meets` | Meet metadata | id, meet_type, meet_alias, meet_date, meet_year |
 | `clubs` | Club registry | club_code, club_name, state_code, club_email, club_admin_name |
+| `coaches` | Coaching staff | id, coach_name, birthdate, gender, nation, club_name, coach_role, state_code, msn_program |
 
 ### Foreign Athlete System
 Two-table system separates Malaysian athletes from foreign competitors:
@@ -549,6 +551,61 @@ Supabase is a cloud-hosted PostgreSQL database with built-in REST API. It replac
   - analytics.malaysiaaquatics.org
 - Set up email sending (Gmail batched or SendGrid)
 - Research RevenueMonster payment API
+
+### Phase 19: Games Info Data & Coach Management (Dec 2, 2025)
+
+**Games Info Excel Load:**
+- Loaded `Additional Games Info (Passport,School, Sizes) (2).xlsx` from national team data collection
+- 216 athletes updated via Supabase REST API:
+  - Passport numbers for travel verification
+  - School/university information
+  - Medical conditions and dietary restrictions
+  - Shirt and shoe sizes for team uniforms
+  - Supporter information (family attending)
+  - Acceptance intention (YES = confirmed for team)
+- Name matching used word-based algorithm (2+ common words = match)
+- 8 wrong matches identified and manually corrected
+
+**New Database Columns:**
+- Athletes table: role, sport, msn_program, medical_conditions, dietary_restrictions, supporters_info, acceptance_intention
+- Coaches table: msn_program, birthdate, gender, nation, state_code
+- SQL added via Supabase Dashboard (ALTER TABLE statements)
+
+**Coaches Table Populated:**
+| ID | Name | Role | Club | State | Program |
+|----|------|------|------|-------|---------|
+| 1 | Magnus Hoejby Andersen | Head Coach | NTC | - | Pelapis |
+| 2 | Clara Chung Lai Sze | State Coach | - | PRK | - |
+| 3 | Mark Chua Yu Foong | State Coach | PADE | SEL | - |
+| 4 | Albert Yeap Jin Teik | State Coach | WAHOO | PEN | - |
+
+**State Coach Tracking:**
+- Added `state_code` column (TEXT) to coaches table
+- State coaches have their state stored (PRK, SEL, PEN, etc.)
+- Head coaches have NULL state_code (national level)
+- Column `state_coach` uses integer (1 = yes) for compatibility
+
+**Duplicate Athletes Resolved:**
+- Jia Jia (TAN SHER LI): ID 3471 kept (had results), 7511 deleted, 14 fields merged
+- Nishan (KESAVAN): ID 3376 kept (had results), 6072 deleted, 16 fields merged
+- Deven (KESAVAN): ID 3374 kept (had results), 4707 deleted, 11 fields merged
+- Merge strategy: keep record linked to results, copy AcctEmail/IC/address/guardian from duplicate
+
+**Wrong Match Manual Corrections:**
+| Excel Name | Correct ID | Note |
+|------------|------------|------|
+| Ho Wei Yan | 1771 | Word match found wrong athlete |
+| Bryan Leong | 2102 | Added alias "Bryan Leong Xin Ren", DOB corrected |
+| Elson Lee | 940 | |
+| Isabelle Kam | 3042 | |
+| Andrew Goh | 2534 | |
+| Sophocles Ng | 2372 | |
+
+**Scripts Created:**
+- `scripts/match_games_info.py` - Name matching and DOB verification
+- `scripts/load_games_info.py` - Data loading to Supabase
+- `scripts/fix_wrong_matches.py` - Manual corrections for 6 athletes + 2 coaches
+- `scripts/supabase_add_columns.sql` - SQL for new columns
 
 ---
 
