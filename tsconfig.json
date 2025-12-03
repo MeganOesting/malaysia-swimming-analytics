@@ -23,11 +23,12 @@
       "@/*": ["./src/frontend/*"],
       "@/components/*": ["./src/frontend/components/*"],
       "@/pages/*": ["./src/frontend/pages/*"],
-      "@/utils/*": ["./src/frontend/utils/*"]
+      "@/utils/*": ["./src/frontend/utils/*"],
+      "@/admin/*": ["./src/admin/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "times_database", "registration-portal"]
 }
 
 
