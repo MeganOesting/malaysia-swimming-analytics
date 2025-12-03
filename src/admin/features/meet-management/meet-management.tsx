@@ -90,6 +90,61 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
   const [loadingResults, setLoadingResults] = useState(false);
   const [editingMeetName, setEditingMeetName] = useState('');
 
+  // Manual Entry State
+  const [showManualEntry, setShowManualEntry] = useState(false);
+  const [manualMeetName, setManualMeetName] = useState('');
+  const [manualMeetAlias, setManualMeetAlias] = useState('');
+  const [manualMeetDate, setManualMeetDate] = useState('');
+  const [manualMeetCourse, setManualMeetCourse] = useState<'LCM' | 'SCM'>('LCM');
+  const [manualMeetCity, setManualMeetCity] = useState('');
+  const [manualMeetId, setManualMeetId] = useState<string | null>(null);
+
+  // Roster state
+  const [rosterSearch, setRosterSearch] = useState('');
+  const [rosterSearchResults, setRosterSearchResults] = useState<Array<{
+    id: number;
+    fullname: string;
+    birthdate: string;
+    gender: string;
+  }>>([]);
+  const [roster, setRoster] = useState<Array<{
+    id: number;
+    fullname: string;
+    birthdate: string;
+    gender: string;
+  }>>([]);
+  const [selectedRosterAthlete, setSelectedRosterAthlete] = useState<number | null>(null);
+
+  // Event results entry state (for selected athlete)
+  const [athleteEventResults, setAthleteEventResults] = useState<Array<{
+    event_id: string;
+    event_display: string;
+    prelim_time: string;
+    prelim_place: string;
+    final_time: string;
+    final_place: string;
+  }>>([]);
+  const [availableEvents, setAvailableEvents] = useState<Array<{id: string; display: string}>>([]);
+  const [selectedEventToAdd, setSelectedEventToAdd] = useState('');
+
+  // Relay splits entry state
+  const [showRelayEntry, setShowRelayEntry] = useState(false);
+  const [relayEventId, setRelayEventId] = useState('');
+  const [relayRound, setRelayRound] = useState<'Prelim' | 'Final'>('Final');
+  const [relayPlace, setRelayPlace] = useState('');
+  const [relaySplits, setRelaySplits] = useState<Array<{
+    leg: number;
+    athlete_id: number | null;
+    athlete_name: string;
+    split_time: string;
+  }>>([
+    { leg: 1, athlete_id: null, athlete_name: '', split_time: '' },
+    { leg: 2, athlete_id: null, athlete_name: '', split_time: '' },
+    { leg: 3, athlete_id: null, athlete_name: '', split_time: '' },
+    { leg: 4, athlete_id: null, athlete_name: '', split_time: '' },
+  ]);
+  const [availableRelayEvents, setAvailableRelayEvents] = useState<Array<{id: string; display: string}>>([]);
+
   // Notifications
   const { notifications, success, error, clear } = useNotification();
 
@@ -519,6 +574,297 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
     },
     [compPlaceEdits, success, error]
   );
+
+  // ==================== MANUAL ENTRY HANDLERS ====================
+
+  /**
+   * Create meet for manual entry
+   */
+  const handleCreateManualMeet = useCallback(async () => {
+    if (!manualMeetName || !manualMeetAlias || !manualMeetDate) {
+      error('Meet name, alias, and date are required');
+      return;
+    }
+
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/meets/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          meet_name: manualMeetName,
+          meet_alias: manualMeetAlias,
+          meet_date: manualMeetDate,
+          meet_course: manualMeetCourse,
+          meet_city: manualMeetCity,
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setManualMeetId(result.meet_id);
+        success(`Meet "${manualMeetName}" created. Now add athletes to roster.`);
+        handleFetchMeets(); // Refresh meets list
+      } else {
+        error('Failed to create meet: ' + (result.detail || 'Unknown error'));
+      }
+    } catch (err) {
+      error(err instanceof Error ? err.message : 'Failed to create meet');
+    }
+  }, [manualMeetName, manualMeetAlias, manualMeetDate, manualMeetCourse, manualMeetCity, success, error, handleFetchMeets]);
+
+  /**
+   * Search athletes for roster
+   */
+  const handleRosterSearch = useCallback(async () => {
+    if (!rosterSearch || rosterSearch.length < 2) {
+      setRosterSearchResults([]);
+      return;
+    }
+
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/athletes/search?q=${encodeURIComponent(rosterSearch)}&limit=10`);
+      const data = await response.json();
+      setRosterSearchResults(data.athletes || []);
+    } catch (err) {
+      console.error('Search error:', err);
+    }
+  }, [rosterSearch]);
+
+  /**
+   * Add athlete to roster
+   */
+  const handleAddToRoster = useCallback((athlete: { id: number; fullname: string; birthdate: string; gender: string }) => {
+    if (roster.some(a => a.id === athlete.id)) {
+      error('Athlete already in roster');
+      return;
+    }
+    setRoster(prev => [...prev, athlete]);
+    setRosterSearch('');
+    setRosterSearchResults([]);
+  }, [roster, error]);
+
+  /**
+   * Remove athlete from roster
+   */
+  const handleRemoveFromRoster = useCallback((athleteId: number) => {
+    setRoster(prev => prev.filter(a => a.id !== athleteId));
+    if (selectedRosterAthlete === athleteId) {
+      setSelectedRosterAthlete(null);
+      setAthleteEventResults([]);
+    }
+  }, [selectedRosterAthlete]);
+
+  /**
+   * Select athlete for results entry
+   */
+  const handleSelectAthleteForResults = useCallback(async (athleteId: number) => {
+    setSelectedRosterAthlete(athleteId);
+    setAthleteEventResults([]);
+
+    // Fetch available events based on athlete's gender
+    const athlete = roster.find(a => a.id === athleteId);
+    if (!athlete) return;
+
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/events/filter?gender=${athlete.gender}&course=${manualMeetCourse}`);
+      const data = await response.json();
+      setAvailableEvents((data.events || []).map((e: any) => ({
+        id: e.id,
+        display: `${e.distance} ${e.stroke}`
+      })));
+    } catch (err) {
+      console.error('Failed to load events:', err);
+    }
+  }, [roster, manualMeetCourse]);
+
+  /**
+   * Add event to athlete's results
+   */
+  const handleAddEventToAthlete = useCallback(() => {
+    if (!selectedEventToAdd) return;
+
+    const event = availableEvents.find(e => e.id === selectedEventToAdd);
+    if (!event) return;
+
+    if (athleteEventResults.some(r => r.event_id === selectedEventToAdd)) {
+      error('Event already added');
+      return;
+    }
+
+    setAthleteEventResults(prev => [...prev, {
+      event_id: selectedEventToAdd,
+      event_display: event.display,
+      prelim_time: '',
+      prelim_place: '',
+      final_time: '',
+      final_place: '',
+    }]);
+    setSelectedEventToAdd('');
+  }, [selectedEventToAdd, availableEvents, athleteEventResults, error]);
+
+  /**
+   * Update event result field
+   */
+  const handleUpdateEventResult = useCallback((eventId: string, field: string, value: string) => {
+    setAthleteEventResults(prev => prev.map(r =>
+      r.event_id === eventId ? { ...r, [field]: value } : r
+    ));
+  }, []);
+
+  /**
+   * Remove event from athlete's results
+   */
+  const handleRemoveEventFromAthlete = useCallback((eventId: string) => {
+    setAthleteEventResults(prev => prev.filter(r => r.event_id !== eventId));
+  }, []);
+
+  /**
+   * Save results for current athlete
+   */
+  const handleSaveAthleteResults = useCallback(async () => {
+    if (!manualMeetId || !selectedRosterAthlete) {
+      error('No meet or athlete selected');
+      return;
+    }
+
+    const resultsToSave = athleteEventResults.filter(r =>
+      r.prelim_time || r.final_time
+    );
+
+    if (resultsToSave.length === 0) {
+      error('No results to save (enter at least one time)');
+      return;
+    }
+
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/manual-results/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          meet_id: manualMeetId,
+          athlete_id: selectedRosterAthlete,
+          results: resultsToSave.map(r => ({
+            event_id: r.event_id,
+            prelim_time: r.prelim_time || null,
+            prelim_place: r.prelim_place || null,
+            final_time: r.final_time || null,
+            final_place: r.final_place || null,
+          }))
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        success(`Saved ${result.saved} results for athlete`);
+        setAthleteEventResults([]);
+      } else {
+        error('Failed to save: ' + (result.detail || 'Unknown error'));
+      }
+    } catch (err) {
+      error(err instanceof Error ? err.message : 'Failed to save results');
+    }
+  }, [manualMeetId, selectedRosterAthlete, athleteEventResults, success, error]);
+
+  /**
+   * Load relay events
+   */
+  const handleLoadRelayEvents = useCallback(async () => {
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/events/filter?is_relay=1&course=${manualMeetCourse}`);
+      const data = await response.json();
+      setAvailableRelayEvents((data.events || []).map((e: any) => ({
+        id: e.id,
+        display: `${e.distance} ${e.stroke} ${e.gender === 'M' ? 'Men' : e.gender === 'F' ? 'Women' : 'Mixed'}`
+      })));
+    } catch (err) {
+      console.error('Failed to load relay events:', err);
+    }
+  }, [manualMeetCourse]);
+
+  /**
+   * Update relay split
+   */
+  const handleUpdateRelaySplit = useCallback((leg: number, field: string, value: any) => {
+    setRelaySplits(prev => prev.map(s =>
+      s.leg === leg ? { ...s, [field]: value } : s
+    ));
+  }, []);
+
+  /**
+   * Save relay splits
+   */
+  const handleSaveRelaySplits = useCallback(async () => {
+    if (!manualMeetId || !relayEventId) {
+      error('No meet or relay event selected');
+      return;
+    }
+
+    const validSplits = relaySplits.filter(s => s.athlete_id && s.split_time);
+    if (validSplits.length === 0) {
+      error('No valid splits to save');
+      return;
+    }
+
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+      const response = await fetch(`${apiBase}/api/admin/relay-splits/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          meet_id: manualMeetId,
+          event_id: relayEventId,
+          round: relayRound,
+          relay_place: relayPlace ? parseInt(relayPlace) : null,
+          splits: relaySplits.map(s => ({
+            leg_number: s.leg,
+            athlete_id: s.athlete_id,
+            split_time: s.split_time,
+            is_leadoff: s.leg === 1,
+          }))
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        success(`Saved relay splits. ${result.leadoff_copied ? 'Leadoff time copied to results.' : ''}`);
+        // Reset splits
+        setRelaySplits([
+          { leg: 1, athlete_id: null, athlete_name: '', split_time: '' },
+          { leg: 2, athlete_id: null, athlete_name: '', split_time: '' },
+          { leg: 3, athlete_id: null, athlete_name: '', split_time: '' },
+          { leg: 4, athlete_id: null, athlete_name: '', split_time: '' },
+        ]);
+        setRelayPlace('');
+      } else {
+        error('Failed to save: ' + (result.detail || 'Unknown error'));
+      }
+    } catch (err) {
+      error(err instanceof Error ? err.message : 'Failed to save relay splits');
+    }
+  }, [manualMeetId, relayEventId, relayRound, relayPlace, relaySplits, success, error]);
+
+  /**
+   * Reset manual entry form
+   */
+  const handleResetManualEntry = useCallback(() => {
+    setManualMeetName('');
+    setManualMeetAlias('');
+    setManualMeetDate('');
+    setManualMeetCourse('LCM');
+    setManualMeetCity('');
+    setManualMeetId(null);
+    setRoster([]);
+    setSelectedRosterAthlete(null);
+    setAthleteEventResults([]);
+    setShowRelayEntry(false);
+  }, []);
+
+  // ==================== END MANUAL ENTRY HANDLERS ====================
 
   /**
    * Delete meet
@@ -1098,6 +1444,480 @@ export const MeetManagement: React.FC<MeetManagementProps> = ({
           </div>
         </div>
       )}
+
+      {/* ==================== MANUAL ENTRY SECTION ==================== */}
+      <div className="bg-white p-6 rounded-lg">
+        {/* Collapsible Header */}
+        <div
+          onClick={() => setShowManualEntry(!showManualEntry)}
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            cursor: 'pointer',
+            padding: '0.5rem 0',
+          }}
+        >
+          <h3 className="text-xl font-bold text-gray-900">
+            Manual Meet Entry {manualMeetId && `- ${manualMeetName}`}
+          </h3>
+          <span style={{ fontSize: '1.25rem', color: '#666' }}>
+            {showManualEntry ? '[-]' : '[+]'}
+          </span>
+        </div>
+
+        {showManualEntry && (
+          <div style={{ marginTop: '1rem' }}>
+            {/* Step 1: Create Meet */}
+            {!manualMeetId ? (
+              <div style={{ backgroundColor: '#f9fafb', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
+                <h4 style={{ fontWeight: 'bold', marginBottom: '0.75rem' }}>Step 1: Create Meet</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', marginBottom: '1rem' }}>
+                  <div>
+                    <label style={{ fontSize: '0.875rem', fontWeight: '500', display: 'block', marginBottom: '0.25rem' }}>Meet Name *</label>
+                    <input
+                      type="text"
+                      value={manualMeetName}
+                      onChange={(e) => setManualMeetName(e.target.value)}
+                      placeholder="Asian Youth Games 2025"
+                      style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '0.875rem', fontWeight: '500', display: 'block', marginBottom: '0.25rem' }}>Meet Alias *</label>
+                    <input
+                      type="text"
+                      value={manualMeetAlias}
+                      onChange={(e) => setManualMeetAlias(e.target.value.toUpperCase())}
+                      placeholder="AYG25"
+                      style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '0.875rem', fontWeight: '500', display: 'block', marginBottom: '0.25rem' }}>Meet Date *</label>
+                    <input
+                      type="date"
+                      value={manualMeetDate}
+                      onChange={(e) => setManualMeetDate(e.target.value)}
+                      style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '0.875rem', fontWeight: '500', display: 'block', marginBottom: '0.25rem' }}>Course</label>
+                    <select
+                      value={manualMeetCourse}
+                      onChange={(e) => setManualMeetCourse(e.target.value as 'LCM' | 'SCM')}
+                      style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                    >
+                      <option value="LCM">LCM (50m)</option>
+                      <option value="SCM">SCM (25m)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '0.875rem', fontWeight: '500', display: 'block', marginBottom: '0.25rem' }}>City</label>
+                    <input
+                      type="text"
+                      value={manualMeetCity}
+                      onChange={(e) => setManualMeetCity(e.target.value)}
+                      placeholder="Harbin"
+                      style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                    />
+                  </div>
+                </div>
+                <button
+                  onClick={handleCreateManualMeet}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    backgroundColor: '#cc0000',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Create Meet
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Step 2: Build Roster */}
+                <div style={{ backgroundColor: '#f9fafb', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
+                  <h4 style={{ fontWeight: 'bold', marginBottom: '0.75rem' }}>Step 2: Build Roster ({roster.length} athletes)</h4>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                    <input
+                      type="text"
+                      value={rosterSearch}
+                      onChange={(e) => {
+                        setRosterSearch(e.target.value);
+                        if (e.target.value.length >= 2) {
+                          handleRosterSearch();
+                        }
+                      }}
+                      onKeyUp={handleRosterSearch}
+                      placeholder="Search athlete name..."
+                      style={{ flex: 1, padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                    />
+                  </div>
+
+                  {/* Search Results */}
+                  {rosterSearchResults.length > 0 && (
+                    <div style={{ border: '1px solid #ddd', borderRadius: '4px', marginBottom: '0.75rem', maxHeight: '150px', overflowY: 'auto' }}>
+                      {rosterSearchResults.map(athlete => (
+                        <div
+                          key={athlete.id}
+                          onClick={() => handleAddToRoster(athlete)}
+                          style={{
+                            padding: '0.5rem',
+                            borderBottom: '1px solid #eee',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
+                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
+                        >
+                          <span>{athlete.fullname}</span>
+                          <span style={{ color: '#666', fontSize: '0.875rem' }}>
+                            {athlete.gender} | {athlete.birthdate?.substring(0, 10) || 'No DOB'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Current Roster */}
+                  {roster.length > 0 && (
+                    <div style={{ border: '1px solid #ddd', borderRadius: '4px', maxHeight: '200px', overflowY: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                        <thead>
+                          <tr style={{ backgroundColor: '#f3f4f6' }}>
+                            <th style={{ padding: '0.5rem', textAlign: 'left' }}>Name</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center', width: '60px' }}>Gender</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center', width: '100px' }}>DOB</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center', width: '120px' }}>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {roster.map(athlete => (
+                            <tr
+                              key={athlete.id}
+                              style={{
+                                backgroundColor: selectedRosterAthlete === athlete.id ? '#fef3c7' : 'white',
+                                borderBottom: '1px solid #eee',
+                              }}
+                            >
+                              <td style={{ padding: '0.5rem' }}>{athlete.fullname}</td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>{athlete.gender}</td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>{athlete.birthdate?.substring(0, 10) || '-'}</td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                                <button
+                                  onClick={() => handleSelectAthleteForResults(athlete.id)}
+                                  style={{
+                                    padding: '2px 8px',
+                                    backgroundColor: selectedRosterAthlete === athlete.id ? '#16a34a' : '#cc0000',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    fontSize: '0.75rem',
+                                    cursor: 'pointer',
+                                    marginRight: '4px',
+                                  }}
+                                >
+                                  {selectedRosterAthlete === athlete.id ? 'Selected' : 'Enter Results'}
+                                </button>
+                                <button
+                                  onClick={() => handleRemoveFromRoster(athlete.id)}
+                                  style={{
+                                    padding: '2px 8px',
+                                    backgroundColor: '#dc2626',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    fontSize: '0.75rem',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  X
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+
+                {/* Step 3: Enter Results for Selected Athlete */}
+                {selectedRosterAthlete && (
+                  <div style={{ backgroundColor: '#fef3c7', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
+                    <h4 style={{ fontWeight: 'bold', marginBottom: '0.75rem' }}>
+                      Step 3: Enter Results for {roster.find(a => a.id === selectedRosterAthlete)?.fullname}
+                    </h4>
+
+                    {/* Add Event */}
+                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                      <select
+                        value={selectedEventToAdd}
+                        onChange={(e) => setSelectedEventToAdd(e.target.value)}
+                        style={{ flex: 1, padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                      >
+                        <option value="">-- Select Event --</option>
+                        {availableEvents.map(event => (
+                          <option key={event.id} value={event.id}>{event.display}</option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={handleAddEventToAthlete}
+                        disabled={!selectedEventToAdd}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          backgroundColor: selectedEventToAdd ? '#cc0000' : '#9ca3af',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: selectedEventToAdd ? 'pointer' : 'not-allowed',
+                        }}
+                      >
+                        Add Event
+                      </button>
+                    </div>
+
+                    {/* Event Results Table */}
+                    {athleteEventResults.length > 0 && (
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
+                        <thead>
+                          <tr style={{ backgroundColor: '#f3f4f6' }}>
+                            <th style={{ padding: '0.5rem', textAlign: 'left' }}>Event</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center' }}>Prelim Time</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center' }}>Prelim Place</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center' }}>Final Time</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center' }}>Final Place</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center', width: '50px' }}></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {athleteEventResults.map(result => (
+                            <tr key={result.event_id} style={{ borderBottom: '1px solid #eee' }}>
+                              <td style={{ padding: '0.5rem' }}>{result.event_display}</td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                                <input
+                                  type="text"
+                                  value={result.prelim_time}
+                                  onChange={(e) => handleUpdateEventResult(result.event_id, 'prelim_time', e.target.value)}
+                                  placeholder="00:00.00"
+                                  style={{ width: '80px', padding: '0.25rem', border: '1px solid #ccc', borderRadius: '2px', textAlign: 'center' }}
+                                />
+                              </td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                                <input
+                                  type="text"
+                                  value={result.prelim_place}
+                                  onChange={(e) => handleUpdateEventResult(result.event_id, 'prelim_place', e.target.value)}
+                                  placeholder=""
+                                  style={{ width: '50px', padding: '0.25rem', border: '1px solid #ccc', borderRadius: '2px', textAlign: 'center' }}
+                                />
+                              </td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                                <input
+                                  type="text"
+                                  value={result.final_time}
+                                  onChange={(e) => handleUpdateEventResult(result.event_id, 'final_time', e.target.value)}
+                                  placeholder="00:00.00"
+                                  style={{ width: '80px', padding: '0.25rem', border: '1px solid #ccc', borderRadius: '2px', textAlign: 'center' }}
+                                />
+                              </td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                                <input
+                                  type="text"
+                                  value={result.final_place}
+                                  onChange={(e) => handleUpdateEventResult(result.event_id, 'final_place', e.target.value)}
+                                  placeholder=""
+                                  style={{ width: '50px', padding: '0.25rem', border: '1px solid #ccc', borderRadius: '2px', textAlign: 'center' }}
+                                />
+                              </td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                                <button
+                                  onClick={() => handleRemoveEventFromAthlete(result.event_id)}
+                                  style={{ padding: '2px 6px', backgroundColor: '#dc2626', color: 'white', border: 'none', borderRadius: '2px', cursor: 'pointer' }}
+                                >
+                                  X
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <button
+                        onClick={handleSaveAthleteResults}
+                        disabled={athleteEventResults.length === 0}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          backgroundColor: athleteEventResults.length > 0 ? '#16a34a' : '#9ca3af',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: athleteEventResults.length > 0 ? 'pointer' : 'not-allowed',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        Save Results for This Athlete
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedRosterAthlete(null);
+                          setAthleteEventResults([]);
+                        }}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          backgroundColor: '#6b7280',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 4: Relay Splits (Optional) */}
+                <div style={{ backgroundColor: '#dbeafe', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
+                  <div
+                    onClick={() => {
+                      setShowRelayEntry(!showRelayEntry);
+                      if (!showRelayEntry) handleLoadRelayEvents();
+                    }}
+                    style={{ display: 'flex', justifyContent: 'space-between', cursor: 'pointer' }}
+                  >
+                    <h4 style={{ fontWeight: 'bold', margin: 0 }}>Step 4: Relay Splits (Optional)</h4>
+                    <span>{showRelayEntry ? '[-]' : '[+]'}</span>
+                  </div>
+
+                  {showRelayEntry && (
+                    <div style={{ marginTop: '0.75rem' }}>
+                      {/* Relay Event Selection */}
+                      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                        <select
+                          value={relayEventId}
+                          onChange={(e) => setRelayEventId(e.target.value)}
+                          style={{ flex: 1, padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                        >
+                          <option value="">-- Select Relay Event --</option>
+                          {availableRelayEvents.map(event => (
+                            <option key={event.id} value={event.id}>{event.display}</option>
+                          ))}
+                        </select>
+                        <select
+                          value={relayRound}
+                          onChange={(e) => setRelayRound(e.target.value as 'Prelim' | 'Final')}
+                          style={{ width: '100px', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+                        >
+                          <option value="Prelim">Prelim</option>
+                          <option value="Final">Final</option>
+                        </select>
+                        <input
+                          type="text"
+                          value={relayPlace}
+                          onChange={(e) => setRelayPlace(e.target.value)}
+                          placeholder="Place"
+                          style={{ width: '70px', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px', textAlign: 'center' }}
+                        />
+                      </div>
+
+                      {/* Relay Splits Table */}
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem', marginBottom: '0.75rem' }}>
+                        <thead>
+                          <tr style={{ backgroundColor: '#f3f4f6' }}>
+                            <th style={{ padding: '0.5rem', textAlign: 'center', width: '50px' }}>Leg</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'left' }}>Athlete</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center', width: '100px' }}>Split Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {relaySplits.map(split => (
+                            <tr key={split.leg} style={{ borderBottom: '1px solid #eee', backgroundColor: split.leg === 1 ? '#fef9c3' : 'white' }}>
+                              <td style={{ padding: '0.5rem', textAlign: 'center', fontWeight: 'bold' }}>
+                                {split.leg} {split.leg === 1 && '(Leadoff)'}
+                              </td>
+                              <td style={{ padding: '0.5rem' }}>
+                                <select
+                                  value={split.athlete_id || ''}
+                                  onChange={(e) => {
+                                    const athleteId = e.target.value ? parseInt(e.target.value) : null;
+                                    const athlete = roster.find(a => a.id === athleteId);
+                                    handleUpdateRelaySplit(split.leg, 'athlete_id', athleteId);
+                                    handleUpdateRelaySplit(split.leg, 'athlete_name', athlete?.fullname || '');
+                                  }}
+                                  style={{ width: '100%', padding: '0.25rem', border: '1px solid #ccc', borderRadius: '2px' }}
+                                >
+                                  <option value="">-- Select from Roster --</option>
+                                  {roster.map(athlete => (
+                                    <option key={athlete.id} value={athlete.id}>{athlete.fullname}</option>
+                                  ))}
+                                </select>
+                              </td>
+                              <td style={{ padding: '0.5rem', textAlign: 'center' }}>
+                                <input
+                                  type="text"
+                                  value={split.split_time}
+                                  onChange={(e) => handleUpdateRelaySplit(split.leg, 'split_time', e.target.value)}
+                                  placeholder="00:00.00"
+                                  style={{ width: '80px', padding: '0.25rem', border: '1px solid #ccc', borderRadius: '2px', textAlign: 'center' }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+
+                      <button
+                        onClick={handleSaveRelaySplits}
+                        disabled={!relayEventId}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          backgroundColor: relayEventId ? '#16a34a' : '#9ca3af',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: relayEventId ? 'pointer' : 'not-allowed',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        Save Relay Splits
+                      </button>
+                      <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+                        Note: Leadoff times (Leg 1) will be automatically copied to the results table as individual times.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Reset Button */}
+                <button
+                  onClick={handleResetManualEntry}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    backgroundColor: '#6b7280',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Start New Meet
+                </button>
+              </>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Meet Management Section - White Background */}
       <div className="bg-white p-6 rounded-lg w-full">
