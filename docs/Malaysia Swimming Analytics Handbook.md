@@ -1,6 +1,6 @@
 # Malaysia Swimming Analytics Handbook
 
-**Last Updated:** 2025-12-02 (Session 28)
+**Last Updated:** 2025-12-03 (Session 29)
 
 This handbook provides project context, architecture overview, and development history for stakeholder presentations and developer onboarding.
 
@@ -71,11 +71,27 @@ A web-based analytics platform for Malaysian swimming performance tracking, enab
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Subdomains (to configure in Exabytes DNS)
-| Subdomain | Points To | Purpose |
-|-----------|-----------|---------|
-| register.malaysiaaquatics.org | Vercel | 2026 Registration portal |
-| analytics.malaysiaaquatics.org | Vercel | Results & analytics app |
+### Vercel Deployment Configuration (Configured Dec 2025)
+
+| Vercel Project | GitHub Repo | Root Directory | Live URL |
+|----------------|-------------|----------------|----------|
+| `mas-registration` | malaysia-swimming-analytics | `registration-portal` | register.malaysiaaquatics.org |
+| `mas-analytics` | malaysia-swimming-analytics | (root) | analytics.malaysiaaquatics.org |
+
+**Environment Variables (set in Vercel dashboard):**
+- `NEXT_PUBLIC_SUPABASE_URL` = `https://bvmqstoeahseklvmvdlx.supabase.co`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` = `sb_publishable_-0n963Zy08gBMJPMse2V8A_xAyHgKZM`
+
+### DNS Configuration (Exabytes)
+
+**CNAME Records to add at Exabytes DNS for malaysiaaquatics.org:**
+
+| Type | Name | Value | Purpose |
+|------|------|-------|---------|
+| CNAME | `register` | `703340cc0a6babe6.vercel-dns-017.com` | Registration portal |
+| CNAME | `analytics` | `578dca52ee593a72.vercel-dns-017.com` | Analytics dashboard |
+
+**DNS Propagation:** After adding records, allow 5-30 minutes for propagation. Vercel will show green checkmark when complete.
 
 ### Key Directories
 ```
@@ -607,7 +623,7 @@ Supabase is a cloud-hosted PostgreSQL database with built-in REST API. It replac
 - `scripts/fix_wrong_matches.py` - Manual corrections for 6 athletes + 2 coaches
 - `scripts/supabase_add_columns.sql` - SQL for new columns
 
-### Phase 20: Backend Migration to Supabase (Planned - Next Session)
+### Phase 20: Backend Migration to Supabase (Planned)
 
 **Problem:** Backend reads from local SQLite while data lives in Supabase cloud. Causes sync issues.
 
@@ -619,6 +635,36 @@ Supabase is a cloud-hosted PostgreSQL database with built-in REST API. It replac
 3. Replace `get_database_connection()` calls with Supabase API
 4. Start with coaches (proof of concept), then athletes, results, etc.
 5. Keep SQLite as offline backup
+
+### Phase 21: MOT Enhancements & Printable PDF (Dec 3, 2025)
+
+**MOT Base Times - Age 23 Fix:**
+- Discovered `mot_base_times` table had no age 23 records (showing 00:00.00)
+- Root cause: Table was created without age 23 rows
+- Fix: Ran `create_mot_base_times.py` then `populate_mot_base_times.py`
+- Result: 42 age 23 records now populated (34 with calculated times)
+
+**MOT Landing Page Enhancements:**
+- Added "Malaysia On Track (MOT) Methodology" header at page top
+- Added overview paragraph explaining MOT methodology:
+  - Adapted from Swimming Canada's proven On Track Times system
+  - Two data sources: USA Swimming median deltas (ages 15-18) + Canada On Track three-track system (ages 18+)
+  - How MOT creates single unified development pathway
+- Professional styling: grey background with red left border
+- Added clickable link box to printable PDF
+
+**MOT Printable PDF:**
+- Created `/mot/MOT_On_Track_Times_2025.html` - 2-page landscape document
+- Each gender page includes:
+  - MAS logo in header
+  - Two sections: "FREESTYLE & BACKSTROKE" (9 events) + "BREASTSTROKE, BUTTERFLY & IM" (8 events)
+  - Ages 15-23 with grey cells for 50m events at ages 15-17
+  - Data source footer
+- **Dynamic generation from database:**
+  - Script: `scripts/generate_mot_pdf.py`
+  - Run after updating podium times: `python scripts/generate_mot_pdf.py`
+  - Reads directly from `mot_base_times` table
+  - No more hardcoded times
 
 ---
 
@@ -684,8 +730,10 @@ Git commit if work accomplished.
 | `BLOCKERS.md` | Active issues blocking progress |
 | `CLAUDE.md` | Development protocols and coding standards |
 | `CODING_SESSION_START.md` | Startup/shutdown protocols |
+| `MOT_methodology.md` | MOT calculation methodology (data sources, formulas) |
 | `docs/Supabase_Guide.md` | How to use Supabase (cloud database) |
 | `docs/2026_Registration_Strategy.md` | Registration system implementation plan |
+| `scripts/generate_mot_pdf.py` | Regenerate MOT printable PDF from database |
 | `.env` | Credentials file (DO NOT commit to git!) |
 | This Handbook | Project overview, architecture, history |
 
