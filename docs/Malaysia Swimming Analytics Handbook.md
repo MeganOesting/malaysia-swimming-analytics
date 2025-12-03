@@ -1,6 +1,6 @@
 # Malaysia Swimming Analytics Handbook
 
-**Last Updated:** 2025-12-03 (Session 29)
+**Last Updated:** 2025-12-03 (Session 30)
 
 This handbook provides project context, architecture overview, and development history for stakeholder presentations and developer onboarding.
 
@@ -665,6 +665,45 @@ Supabase is a cloud-hosted PostgreSQL database with built-in REST API. It replac
   - Run after updating podium times: `python scripts/generate_mot_pdf.py`
   - Reads directly from `mot_base_times` table
   - No more hardcoded times
+
+### Phase 22: Vercel Deployment & Bi-Directional Sync (Dec 3, 2025)
+
+**Vercel Deployment:**
+- Deployed both apps to Vercel with GitHub auto-deploy:
+  - `mas-registration` (from `registration-portal/` subdirectory)
+  - `mas-analytics` (from root directory)
+- Singapore region (sin1) for low latency
+- Environment variables configured in Vercel dashboard
+
+**Custom Domains Configured:**
+- `register.malaysiaaquatics.org` -> mas-registration
+- `analytics.malaysiaaquatics.org` -> mas-analytics
+- DNS CNAME records documented (see "DNS Configuration" section above)
+
+**Bi-Directional Database Sync:**
+- Problem: Admin panel reads SQLite, Registration portal writes Supabase
+- Solution: Created sync system to keep both in sync
+- Files created:
+  - `src/web/utils/supabase_sync.py` - Sync utility module
+  - `scripts/sync_databases.py` - CLI sync tool
+- Sync commands:
+  ```bash
+  python scripts/sync_databases.py status   # Check sync status
+  python scripts/sync_databases.py push     # SQLite -> Supabase
+  python scripts/sync_databases.py pull     # Supabase -> SQLite
+  python scripts/sync_databases.py backup   # Backup both
+  ```
+- Admin panel now auto-syncs athlete updates to Supabase
+- Added `updated_at` column to SQLite athletes table for tracking
+
+**Build Fixes:**
+- Updated `.gitignore` to exclude `.next/` build artifacts
+- Added `registration-portal` to root `tsconfig.json` exclude list
+- Committed missing source files (`src/pages/map.tsx`)
+
+**Pending:**
+- Add `updated_at` column to Supabase (run SQL in Supabase dashboard)
+- Configure DNS CNAME records at Exabytes
 
 ---
 
